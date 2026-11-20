@@ -20,6 +20,7 @@ import (
 	_ "time/tzdata" // the server may run in a minimal container without zoneinfo
 
 	"rychtacenkovice.cz/api/internal/auth"
+	"rychtacenkovice.cz/api/internal/captcha"
 	"rychtacenkovice.cz/api/internal/config"
 	"rychtacenkovice.cz/api/internal/mail"
 	"rychtacenkovice.cz/api/internal/media"
@@ -34,6 +35,9 @@ type Server struct {
 	tz    *time.Location
 	login *limiter // failed sign-in attempts
 	forms *limiter // public form submissions
+
+	captcha *captcha.Verifier // nil when hCaptcha is not configured
+	webCSP  string
 }
 
 func New(cfg *config.Config, st *store.Store, am *auth.Manager, ms *mail.Sender) *Server {
@@ -41,10 +45,13 @@ func New(cfg *config.Config, st *store.Store, am *auth.Manager, ms *mail.Sender)
 	if err != nil {
 		tz = time.UTC
 	}
+	cv := captcha.New(cfg.HCaptchaSiteKey, cfg.HCaptchaSecret, cfg.HCaptchaVerifyURL)
 	return &Server{
 		cfg: cfg, st: st, auth: am, mail: ms, tz: tz,
-		login: newLimiter(5, 15*time.Minute),
-		forms: newLimiter(8, 10*time.Minute),
+		login:   newLimiter(5, 15*time.Minute),
+		forms:   newLimiter(8, 10*time.Minute),
+		captcha: cv,
+		webCSP:  webCSP(cv.Enabled()),
 	}
 }
 
@@ -57,6 +64,7 @@ func (s *Server) Handler() http.Handler {
 
 	// Public
 	mux.HandleFunc("GET "+v1+"/health", s.handleHealth)
+	mux.HandleFunc("GET "+v1+"/config", s.handleConfig)
 	mux.HandleFunc("GET "+v1+"/apartments", s.handleApartments)
 	mux.HandleFunc("GET "+v1+"/apartments/{slug}", s.handleApartment)
 	mux.HandleFunc("GET "+v1+"/availability", s.handleAvailability)
@@ -206,8 +214,24 @@ func (s *Server) recoverer(next http.Handler) http.Handler {
 	})
 }
 
-const webCSP = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; " +
-	"font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+// webCSP is the content security policy of the website. With hCaptcha switched on, its
+// script, styles, frame and requests are allowed from hcaptcha.com and nowhere else.
+func webCSP(hcaptcha bool) string {
+	h := ""
+	if hcaptcha {
+		h = " https://hcaptcha.com https://*.hcaptcha.com"
+	}
+	return "default-src 'self'; script-src 'self'" + h + "; style-src 'self' 'unsafe-inline'" + h + "; img-src 'self' data:; " +
+		"font-src 'self'; media-src 'self'; connect-src 'self'" + h + "; frame-src" + orNone(h) + "; object-src 'none'; " +
+		"base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+}
+
+func orNone(s string) string {
+	if s == "" {
+		return " 'none'"
+	}
+	return s
+}
 
 // hashedFile matches build output whose name carries a content hash (main-PZMW6HP2.js).
 var hashedFile = regexp.MustCompile(`-[A-Z0-9]{8}\.(js|css)$`)
@@ -229,7 +253,7 @@ func (s *Server) securityHeaders(next http.Handler) http.Handler {
 		} else {
 			// The website loads everything from its own origin. Inline styles stay allowed
 			// because Angular injects component styles at runtime; scripts are never inline.
-			h.Set("Content-Security-Policy", webCSP)
+			h.Set("Content-Security-Policy", s.webCSP)
 			h.Set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()")
 		}
 		next.ServeHTTP(w, r)

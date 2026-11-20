@@ -13,13 +13,14 @@ import { checkedOf, fieldMessage, isEmail, isPhone, valueOf } from '../../core/f
 import { I18n } from '../../core/i18n/i18n';
 import { Links } from '../../core/links';
 import { Seo } from '../../core/seo';
+import { Captcha } from '../../ui/captcha';
 import { Field } from '../../ui/field';
 import { Icon } from '../../ui/icon';
 
 @Component({
   selector: 'rc-contact',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, Field],
+  imports: [RouterLink, Icon, Field, Captcha],
   template: `
     <header class="wrap page-head">
       <h1 class="h1">{{ t().contact.title }}</h1>
@@ -186,6 +187,8 @@ import { Icon } from '../../ui/icon';
               <p id="c-consent-msg" class="error">{{ errors()['consent'] }}</p>
             </div>
 
+            <rc-captcha key="c-captcha" [(token)]="captchaToken" [error]="errors()['captcha']" />
+
             @if (failure()) {
               <p class="notice is-error" role="alert">{{ failure() }}</p>
             }
@@ -318,6 +321,8 @@ export class ContactPage {
   protected readonly message = signal('');
   protected readonly consent = signal(false);
   protected readonly website = signal('');
+  protected readonly captchaToken = signal('');
+  private readonly captcha = viewChild(Captcha);
 
   protected readonly errors = signal<Record<string, string>>({});
   protected readonly failure = signal('');
@@ -341,6 +346,7 @@ export class ContactPage {
     if (this.phone().trim() && !isPhone(this.phone())) codes['phone'] = 'invalid';
     if (this.message().trim().length < 5) codes['message'] = 'required';
     if (!this.consent()) codes['consent'] = 'required';
+    if (this.captcha()?.needed() && !this.captchaToken()) codes['captcha'] = 'required';
     if (this.show(codes, event.target as HTMLFormElement)) return;
 
     this.sending.set(true);
@@ -354,11 +360,18 @@ export class ContactPage {
         consent: true,
         language: this.i18n.lang(),
         website: this.website(),
+        captcha_token: this.captchaToken() || undefined,
       });
       this.sent.set(true);
       setTimeout(() => this.done()?.nativeElement.focus());
     } catch (err) {
       const failure = toFailure(err);
+      // The server checks an answer once. Unless it stopped earlier, a new one is needed.
+      const spent =
+        failure.code === 'validation'
+          ? 'captcha' in failure.fields
+          : failure.status >= 400 && failure.status !== 429;
+      if (spent) this.captcha()?.reset();
       if (
         failure.code === 'validation' &&
         this.show(failure.fields, event.target as HTMLFormElement)
@@ -366,7 +379,13 @@ export class ContactPage {
         return;
       const e = this.t().errors;
       this.failure.set(
-        failure.status === 429 ? e.rate_limited : failure.status === 0 ? e.offline : e.generic,
+        failure.status === 429
+          ? e.rate_limited
+          : failure.status === 0
+            ? e.offline
+            : failure.code === 'captcha_unavailable'
+              ? e.captcha_unavailable
+              : e.generic,
       );
     } finally {
       this.sending.set(false);
@@ -382,11 +401,14 @@ export class ContactPage {
     const first = Object.keys(codes)[0];
     if (!first) return false;
     this.failure.set(this.t().booking.fixErrors);
-    setTimeout(() => form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus());
+    setTimeout(() =>
+      form.querySelector<HTMLElement>('[aria-invalid="true"], [data-invalid]')?.focus(),
+    );
     return true;
   }
 
   protected again(): void {
+    this.captchaToken.set('');
     this.message.set('');
     this.errors.set({});
     this.failure.set('');

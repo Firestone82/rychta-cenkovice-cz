@@ -105,6 +105,7 @@ address and list the website's origin in `RC_ALLOWED_ORIGINS`. Keep both on the 
 | `RC_ADMIN_EMAIL`, `RC_ADMIN_PASSWORD` | | first administrator, created if none exists |
 | `RC_MAIL_FROM`, `RC_MAIL_TO` | | sender, and the owner's address for notifications |
 | `RC_SMTP_HOST`, `RC_SMTP_PORT`, `RC_SMTP_USERNAME`, `RC_SMTP_PASSWORD`, `RC_SMTP_TLS` | | mail server; without a host, e-mails are written to `<data>/outbox` |
+| `RC_HCAPTCHA_SITEKEY`, `RC_HCAPTCHA_SECRET` | | hCaptcha keys; with both set, the booking request and the contact form need a solved hCaptcha. Leave both empty to switch it off |
 | `RC_PHOTO_SOURCE_URL` | the original site | where `import-photos` downloads from |
 
 `rychta-api create-admin -email you@example.com` creates an administrator or resets a
@@ -123,8 +124,29 @@ password. It takes the password from `RC_ADMIN_PASSWORD` or asks for it on the t
   the password signs out every other device.
 - Requests that change the session need the `X-Requested-With: rychta-web` header and an
   allowed `Origin`. The website is served with a Content-Security-Policy that allows
-  scripts from its own origin only.
+  scripts from its own origin only, plus `hcaptcha.com` when hCaptcha is switched on.
 - The public forms are rate limited and carry a honeypot field.
+
+## Cookies and hCaptcha
+
+- On a first visit the website shows a cookie bar with "Allow all", "Necessary only" and
+  "Settings". Nothing optional is stored or loaded before a choice. The choice can be
+  changed at any time with "Cookie settings" in the footer or on the privacy page.
+- Necessary: the choice itself (`rc-consent` in local storage), the administrator's
+  refresh cookie and the language of the administration. Preferences: the remembered
+  language of the website (`rc-lang`). Form protection: hCaptcha.
+- With `RC_HCAPTCHA_SITEKEY` and `RC_HCAPTCHA_SECRET` set, the booking request and the
+  contact form show an hCaptcha check and the API verifies every answer with
+  `https://api.hcaptcha.com/siteverify` before it stores anything. The hCaptcha script is
+  loaded only on those two forms and only after the visitor allowed it; a visitor who has
+  not is asked right at the form. If hCaptcha cannot be reached, the form is not accepted
+  and the visitor is asked to try again or call.
+- The server must be able to reach `api.hcaptcha.com`. If the website is served by
+  something other than the API (which sets the policy itself), allow
+  `https://hcaptcha.com https://*.hcaptcha.com` in `script-src`, `style-src`, `frame-src`
+  and `connect-src`.
+- Without the keys the forms work as before and the cookie settings and the privacy page
+  do not mention hCaptcha.
 
 ## How bookings work
 
@@ -149,8 +171,9 @@ All endpoints are under `/api/v1`.
 | `GET /apartments`, `GET /apartments/{slug}` | apartments with photos |
 | `GET /availability?from&to` | occupied ranges for the calendar |
 | `GET /availability/check?check_in&check_out` | apartments taken in those dates |
-| `POST /bookings` | booking request |
-| `POST /contact` | contact form |
+| `GET /config` | what the website needs to know up front: the hCaptcha site key |
+| `POST /bookings` | booking request (`captcha_token` when hCaptcha is on) |
+| `POST /contact` | contact form (`captcha_token` when hCaptcha is on) |
 | `GET /photos?category&apartment&offset&limit`, `GET /photos/covers` | gallery, paged |
 | `GET /news` | published news |
 | `POST /auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/change-password`, `GET /auth/me` | session |
@@ -163,6 +186,10 @@ All endpoints are under `/api/v1`.
   page texts in `web/src/app/core/i18n/cs.ts` and `en.ts`. The original site did not state it.
 - Enter nightly prices in the administration, or keep "price on request".
 - Configure SMTP so guests and the owner receive e-mails.
+- Create an hCaptcha site at dashboard.hcaptcha.com and set `RC_HCAPTCHA_SITEKEY` and
+  `RC_HCAPTCHA_SECRET`. Then send one booking request and one contact message on the live
+  site: the hCaptcha widget and the real verification call could not be run during
+  development, only the code around them (see `api/internal/captcha`).
 - The occupancy shown on the old site came from an embedded e-chalupy.cz calendar. Enter
   the existing bookings in the administration so the new calendar starts correct.
 

@@ -1,7 +1,9 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
+import { Consent } from '../consent';
 import type { Dict, Lang, Plural } from './types';
 
 const STORAGE_KEY = 'rc-lang';
+const ADMIN_KEY = 'rc-admin-lang';
 
 export function isLang(value: unknown): value is Lang {
   return value === 'cs' || value === 'en';
@@ -24,6 +26,25 @@ export class I18n {
   });
   readonly locale = computed(() => this.t().locale);
 
+  private readonly consent = inject(Consent);
+
+  constructor() {
+    // The language is remembered only with the visitor's consent and forgotten without it.
+    effect(() => {
+      const allowed = this.consent.preferences();
+      untracked(() => this.remember(allowed));
+    });
+  }
+
+  private remember(allowed: boolean): void {
+    try {
+      if (allowed && this.dict()) localStorage.setItem(STORAGE_KEY, this.lang());
+      else if (!allowed) localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* private mode: the preference just is not remembered */
+    }
+  }
+
   /** Loads (once) and activates a language. Used as a route resolver. */
   async use(lang: Lang): Promise<void> {
     if (!this.cache[lang]) {
@@ -32,23 +53,42 @@ export class I18n {
     this.dict.set(this.cache[lang]!);
     this.lang.set(lang);
     document.documentElement.lang = lang;
-    try {
-      localStorage.setItem(STORAGE_KEY, lang);
-    } catch {
-      /* private mode: the preference just is not remembered */
-    }
+    this.remember(this.consent.preferences());
   }
 
   /** The language to start with: the remembered one, else the browser's, else Czech. */
   preferred(): Lang {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = this.consent.preferences() ? localStorage.getItem(STORAGE_KEY) : null;
       if (isLang(saved)) return saved;
     } catch {
       /* ignore */
     }
     const browser = (navigator.languages?.[0] ?? navigator.language ?? 'cs').toLowerCase();
     return browser.startsWith('cs') || browser.startsWith('sk') ? 'cs' : 'en';
+  }
+
+  /**
+   * The language of the administration. The administrator sets it with the switch in the
+   * sidebar; it belongs to the signed-in tool, so it is kept without the cookie settings.
+   */
+  adminPreferred(): Lang {
+    try {
+      const saved = localStorage.getItem(ADMIN_KEY);
+      if (isLang(saved)) return saved;
+    } catch {
+      /* ignore */
+    }
+    return this.preferred();
+  }
+
+  async useInAdmin(lang: Lang): Promise<void> {
+    await this.use(lang);
+    try {
+      localStorage.setItem(ADMIN_KEY, lang);
+    } catch {
+      /* ignore */
+    }
   }
 
   /** Picks the current language from a bilingual API value, falling back to Czech. */

@@ -16,6 +16,7 @@ import { I18n } from '../../core/i18n/i18n';
 import { Links } from '../../core/links';
 import type { Apartment } from '../../core/models';
 import { Seo } from '../../core/seo';
+import { Captcha } from '../../ui/captcha';
 import { Field } from '../../ui/field';
 import { Spinner } from '../../ui/spinner';
 
@@ -27,7 +28,7 @@ import { Spinner } from '../../ui/spinner';
 @Component({
   selector: 'rc-booking',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Field, Spinner],
+  imports: [RouterLink, Field, Spinner, Captcha],
   templateUrl: './booking.html',
   styleUrl: './booking.scss',
 })
@@ -48,6 +49,8 @@ export class BookingPage {
   protected readonly note = signal('');
   protected readonly consent = signal(false);
   protected readonly website = signal('');
+  protected readonly captchaToken = signal('');
+  private readonly captcha = viewChild(Captcha);
 
   protected readonly apartments = signal<Apartment[] | null>(null);
   /** Apartments taken in the chosen dates; null while unknown. */
@@ -201,6 +204,7 @@ export class BookingPage {
     if (!isPhone(this.phone())) codes['phone'] = 'invalid';
     if (this.note().length > 2000) codes['note'] = 'too_long';
     if (!this.consent()) codes['consent'] = 'required';
+    if (this.captcha()?.needed() && !this.captchaToken()) codes['captcha'] = 'required';
     if (this.show(codes)) return;
 
     this.sending.set(true);
@@ -218,6 +222,7 @@ export class BookingPage {
         consent: true,
         language: this.i18n.lang(),
         website: this.website(),
+        captcha_token: this.captchaToken() || undefined,
       });
       this.sentTo.set(this.email().trim());
       this.receipt.set(receipt);
@@ -228,6 +233,12 @@ export class BookingPage {
     } catch (err) {
       const failure = toFailure(err);
       const e = this.t().errors;
+      // The server checks an answer once. Unless it stopped earlier, a new one is needed.
+      const spent =
+        failure.code === 'validation'
+          ? 'captcha' in failure.fields
+          : failure.status >= 400 && failure.status !== 429;
+      if (spent) this.captcha()?.reset();
       if (failure.status === 409) {
         this.taken.update((ids) => [...new Set([...(ids ?? []), ...failure.apartmentIds])]);
         this.selected.update((list) => list.filter((id) => !failure.apartmentIds.includes(id)));
@@ -240,7 +251,13 @@ export class BookingPage {
         if (!this.show(fields)) this.failure.set(e.generic);
       } else {
         this.failure.set(
-          failure.status === 429 ? e.rate_limited : failure.status === 0 ? e.offline : e.generic,
+          failure.status === 429
+            ? e.rate_limited
+            : failure.status === 0
+              ? e.offline
+              : failure.code === 'captcha_unavailable'
+                ? e.captcha_unavailable
+                : e.generic,
         );
       }
     } finally {
@@ -275,7 +292,7 @@ export class BookingPage {
         ? '#b-in'
         : first === 'apartment_ids' || first === 'guests'
           ? '#units input:not(:disabled)'
-          : '[aria-invalid="true"]',
+          : '[aria-invalid="true"], [data-invalid]',
     );
     return true;
   }
@@ -285,6 +302,7 @@ export class BookingPage {
   }
 
   protected again(): void {
+    this.captchaToken.set('');
     this.receipt.set(null);
     this.selected.set([]);
     this.note.set('');

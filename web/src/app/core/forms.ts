@@ -15,6 +15,7 @@ export function isPhone(value: string): boolean {
 export function fieldMessage(t: Dict, field: string, code: string): string {
   const e = t.errors;
   if (field === 'consent') return e.consent;
+  if (field === 'captcha') return code === 'invalid' ? e.captcha_invalid : e.captcha_required;
   if (code === 'invalid' && field === 'email') return e.invalid_email;
   if (code === 'invalid' && field === 'phone') return e.invalid_phone;
   if (code === 'too_long') return e.too_long;

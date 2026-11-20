@@ -24,15 +24,18 @@ import { Links, PageKey, apartmentNumber, apartmentSlug } from '../core/links';
 import { Seo } from '../core/seo';
 import { Icon } from '../ui/icon';
 import { Logo } from '../ui/logo';
+import { Consent } from '../core/consent';
+import { CookieConsent } from './cookie-consent';
 
 /** Header, footer and the outlet of every public page. */
 @Component({
   selector: 'rc-site-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo, Icon],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Logo, Icon, CookieConsent],
   host: { '(window:scroll)': 'onScroll()', '(document:keydown.escape)': 'menuOpen.set(false)' },
   template: `
     <a class="skip" href="#main" (click)="skip($event)">{{ t().common.skip }}</a>
+    <rc-cookie-consent />
 
     <header class="header" [class.is-scrolled]="scrolled()" [class.is-open]="menuOpen()">
       <div class="wrap bar">
@@ -189,8 +192,17 @@ import { Logo } from '../ui/logo';
         </div>
 
         <div class="legal">
-          <span>© {{ year }} {{ t().footer.rights }}. {{ t().footer.noCookies }}</span>
-          <a routerLink="/admin">{{ t().footer.admin }}</a>
+          <span>© {{ year }} {{ t().footer.rights }}</span>
+          <span class="legal-links">
+            <button
+              type="button"
+              id="open-cookie-settings"
+              (click)="consent.settingsOpen.set(true)"
+            >
+              {{ t().cookies.footerLink }}
+            </button>
+            <a routerLink="/admin">{{ t().footer.admin }}</a>
+          </span>
         </div>
       </div>
     </footer>
@@ -200,6 +212,7 @@ import { Logo } from '../ui/logo';
 export class SiteShell {
   protected readonly i18n = inject(I18n);
   protected readonly links = inject(Links);
+  protected readonly consent = inject(Consent);
   protected readonly t = this.i18n.t;
   protected readonly contact = CONTACT;
   protected readonly year = new Date().getFullYear();

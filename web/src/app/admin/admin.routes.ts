@@ -6,7 +6,7 @@ import { I18n } from '../core/i18n/i18n';
 /** The administration has no language in its URL; it uses the one the administrator used last. */
 const adminLang: ResolveFn<void> = () => {
   const i18n = inject(I18n);
-  return i18n.use(i18n.preferred());
+  return i18n.use(i18n.adminPreferred());
 };
 
 export const adminRoutes: Routes = [

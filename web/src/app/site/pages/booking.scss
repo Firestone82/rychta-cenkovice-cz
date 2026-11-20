@@ -156,9 +156,12 @@
   text-decoration: none;
 }
 
-.consent {
+.consent,
+rc-captcha {
   margin-top: 20px;
+}
 
+.consent {
   .error {
     margin-top: 6px;
     font-size: 0.9rem;

@@ -25,6 +25,11 @@ export interface BookingRequest {
   consent: boolean;
   language: string;
   website: string;
+  captcha_token?: string;
+}
+
+export interface SiteConfig {
+  hcaptcha_sitekey: string;
 }
 
 export interface BookingReceipt {
@@ -137,6 +142,10 @@ export class Api {
   }
 
   // ----- public -----
+  /** Settings the website needs from the API: the hCaptcha site key ('' when switched off). */
+  config(): Promise<SiteConfig> {
+    return this.cached('config', () => this.get<SiteConfig>('/config'));
+  }
   apartments(): Promise<Apartment[]> {
     return this.cached('apartments', () =>
       this.get<{ items: Apartment[] }>('/apartments').then((r) => r.items),
@@ -167,6 +176,7 @@ export class Api {
     consent: boolean;
     language: string;
     website: string;
+    captcha_token?: string;
   }): Promise<void> {
     return this.send<void>('POST', '/contact', body);
   }

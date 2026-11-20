@@ -51,6 +51,12 @@ type Config struct {
 
 	// Where the import-photos command downloads the original photos from.
 	PhotoSourceURL string
+
+	// hCaptcha on the public forms. Both keys set: the booking request and the contact
+	// form must carry a solved captcha. Both empty: the forms work without one.
+	HCaptchaSiteKey   string
+	HCaptchaSecret    string
+	HCaptchaVerifyURL string // only for tests; empty means the hCaptcha service
 }
 
 func env(key, def string) string {
@@ -140,6 +146,16 @@ func Load() (*Config, error) {
 			return nil, err
 		}
 		slog.Warn("RC_JWT_SECRET not set, using a random development secret")
+	}
+
+	c.HCaptchaSiteKey = env("RC_HCAPTCHA_SITEKEY", "")
+	c.HCaptchaSecret = env("RC_HCAPTCHA_SECRET", "")
+	c.HCaptchaVerifyURL = env("RC_HCAPTCHA_VERIFY_URL", "")
+	if (c.HCaptchaSiteKey == "") != (c.HCaptchaSecret == "") {
+		return nil, errors.New("RC_HCAPTCHA_SITEKEY and RC_HCAPTCHA_SECRET must be set together (or both left empty)")
+	}
+	if c.HCaptchaSecret == "" && prod {
+		slog.Warn("hCaptcha keys not set: the public forms are protected only by the rate limit and the honeypot")
 	}
 
 	port, _ := strconv.Atoi(env("RC_SMTP_PORT", "587"))

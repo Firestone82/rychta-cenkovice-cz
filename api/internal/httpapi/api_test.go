@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
+	"net/url"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -28,7 +30,10 @@ type testEnv struct {
 	token  string
 }
 
-func newEnv(t *testing.T) *testEnv {
+func newEnv(t *testing.T) *testEnv { t.Helper(); return newEnvWith(t, nil) }
+
+// newEnvWith starts a test server; adjust may change the configuration first.
+func newEnvWith(t *testing.T, adjust func(*config.Config)) *testEnv {
 	t.Helper()
 	dir := t.TempDir()
 	conn, err := db.Open(filepath.Join(dir, "test.db"))
@@ -46,6 +51,9 @@ func newEnv(t *testing.T) *testEnv {
 	}
 	cfg := &config.Config{Env: "development", MediaDir: filepath.Join(dir, "media"), AllowedOrigins: []string{"http://localhost:4200"},
 		MailTo: "owner@example.com", MailFrom: "Rychta <noreply@example.com>", PublicURL: "http://localhost:4200"}
+	if adjust != nil {
+		adjust(cfg)
+	}
 	am := auth.NewManager(conn, []byte("0123456789abcdef0123456789abcdef"), "test", 10*time.Minute, time.Hour, 24*time.Hour)
 	srv := httptest.NewServer(New(cfg, st, am, mail.NewSender(config.SMTP{}, cfg.MailFrom, "")).Handler())
 	t.Cleanup(srv.Close)
@@ -315,5 +323,100 @@ func TestApartmentOptions(t *testing.T) {
 	var public store.Apartment
 	if got := e.do("GET", "/apartments/apartman-1", nil, &public); got != http.StatusOK || public.FlatType != "2+kk" || len(public.Labels) != 2 {
 		t.Fatalf("public apartment: %d %+v", got, public)
+	}
+}
+
+// With hCaptcha keys set, both public forms need an answer that the hCaptcha service accepts.
+func TestFormsNeedCaptcha(t *testing.T) {
+	down := false
+	var seen url.Values
+	verify := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if down {
+			w.WriteHeader(http.StatusBadGateway)
+			return
+		}
+		_ = r.ParseForm()
+		seen = r.PostForm
+		ok := r.PostForm.Get("secret") == "test-secret" && r.PostForm.Get("response") == "good-answer"
+		_ = json.NewEncoder(w).Encode(map[string]any{"success": ok})
+	}))
+	defer verify.Close()
+	e := newEnvWith(t, func(c *config.Config) {
+		c.HCaptchaSiteKey, c.HCaptchaSecret, c.HCaptchaVerifyURL = "test-sitekey", "test-secret", verify.URL
+	})
+
+	var conf struct {
+		Key string `json:"hcaptcha_sitekey"`
+	}
+	if code := e.do("GET", "/config", nil, &conf); code != 200 || conf.Key != "test-sitekey" {
+		t.Fatalf("config: %d %+v", code, conf)
+	}
+
+	type verr struct {
+		Error struct {
+			Code   string
+			Fields map[string]string
+		}
+	}
+	msg := map[string]any{"name": "Eva", "email": "eva@example.com", "message": "Dobrý den, máte volno?", "consent": true}
+	var got verr
+	if code := e.do("POST", "/contact", msg, &got); code != 422 || got.Error.Fields["captcha"] != "required" {
+		t.Fatalf("contact without an answer: %d %+v", code, got)
+	}
+	msg["captcha_token"] = "wrong-answer"
+	got = verr{}
+	if code := e.do("POST", "/contact", msg, &got); code != 422 || got.Error.Fields["captcha"] != "invalid" {
+		t.Fatalf("contact with a wrong answer: %d %+v", code, got)
+	}
+	// Other mistakes are reported first, without spending the answer.
+	seen = nil
+	msg["captcha_token"], msg["email"] = "good-answer", "nope"
+	got = verr{}
+	if code := e.do("POST", "/contact", msg, &got); code != 422 || got.Error.Fields["email"] == "" || seen != nil {
+		t.Fatalf("contact with a bad e-mail: %d %+v, hCaptcha asked: %v", code, got, seen != nil)
+	}
+	msg["email"] = "eva@example.com"
+	if code := e.do("POST", "/contact", msg, nil); code != 204 {
+		t.Fatalf("contact with a good answer: %d", code)
+	}
+	if seen.Get("sitekey") != "test-sitekey" || seen.Get("remoteip") == "" {
+		t.Errorf("verify request: %v", seen)
+	}
+
+	var apts struct{ Items []store.Apartment }
+	e.do("GET", "/apartments", nil, &apts)
+	req := map[string]any{"apartment_ids": []int64{apts.Items[0].ID}, "check_in": day(10), "check_out": day(13), "guests": 2,
+		"name": "Jan Test", "email": "jan@example.com", "phone": "+420 600 000 000", "consent": true}
+	got = verr{}
+	if code := e.do("POST", "/bookings", req, &got); code != 422 || got.Error.Fields["captcha"] != "required" {
+		t.Fatalf("booking without an answer: %d %+v", code, got)
+	}
+	// hCaptcha out of reach: nothing is stored and the visitor is asked to try again.
+	down = true
+	req["captcha_token"] = "good-answer"
+	got = verr{}
+	if code := e.do("POST", "/bookings", req, &got); code != 503 || got.Error.Code != "captcha_unavailable" {
+		t.Fatalf("booking while hCaptcha is down: %d %+v", code, got)
+	}
+	down = false
+	if code := e.do("POST", "/bookings", req, nil); code != 201 {
+		t.Fatalf("booking with a good answer: %d", code)
+	}
+	e.login()
+	var list struct{ Items []store.Booking }
+	if code := e.do("GET", "/admin/bookings", nil, &list); code != 200 || len(list.Items) != 1 {
+		t.Fatalf("bookings stored: %d, %d items", code, len(list.Items))
+	}
+}
+
+func TestWebCSP(t *testing.T) {
+	if off := webCSP(false); strings.Contains(off, "hcaptcha") || !strings.Contains(off, "frame-src 'none'") {
+		t.Errorf("policy without hCaptcha: %s", off)
+	}
+	on := webCSP(true)
+	for _, part := range []string{"script-src 'self' https://hcaptcha.com https://*.hcaptcha.com;", "frame-src https://hcaptcha.com https://*.hcaptcha.com;", "connect-src 'self' https://hcaptcha.com"} {
+		if !strings.Contains(on, part) {
+			t.Errorf("policy with hCaptcha misses %q: %s", part, on)
+		}
 	}
 }

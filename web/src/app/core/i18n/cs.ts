@@ -534,6 +534,7 @@ export const cs = {
     updated: 'Platné od 20. 11. 2026',
     sections: [
       {
+        id: 'controller',
         title: 'Kdo vaše údaje zpracovává',
         text: [
           'Správcem osobních údajů je provozovatel ubytování Rychta Čenkovice, Čenkovice 106, 561 64 Čenkovice. Kontakt: rychtacenkovice@seznam.cz, +420 606 734 911.',
@@ -541,6 +542,7 @@ export const cs = {
         ],
       },
       {
+        id: 'data',
         title: 'Jaké údaje sbíráme a proč',
         text: [
           'Když nám pošlete zprávu nebo poptávku rezervace, zpracováváme jméno, e-mail, telefon, termín pobytu, počet osob a text vaší zprávy. Údaje potřebujeme k tomu, abychom vám odpověděli, potvrdili rezervaci a zajistili pobyt.',
@@ -548,22 +550,76 @@ export const cs = {
         ],
       },
       {
+        id: 'sharing',
         title: 'Komu údaje předáváme',
-        text: ['Shromážděné osobní údaje nepředáváme třetím stranám.'],
-      },
-      {
-        title: 'Cookies',
         text: [
-          'Web nepoužívá reklamní ani analytické cookies a nesleduje vás. Do vašeho prohlížeče si ukládáme jen zvolený jazyk. Přihlášení do administrace používá jednu technickou cookie nutnou k bezpečnému přihlášení správce.',
+          'Údaje, které nám pošlete formulářem (jméno, kontakt, termín pobytu a text zprávy), nepředáváme třetím stranám.',
         ],
       },
       {
+        id: 'cookies',
+        title: 'Cookies',
+        text: [
+          'Web nepoužívá reklamní ani analytické cookies a nesleduje vás. Bez vašeho souhlasu si do prohlížeče uložíme jen vaši volbu v nastavení cookies. Pokud to dovolíte, zapamatujeme si i zvolený jazyk.',
+          'Administrace používá jednu technickou cookie nutnou k bezpečnému přihlášení správce a pamatuje si jazyk, který si správce zvolil.',
+        ],
+      },
+      {
+        id: 'rights',
         title: 'Vaše práva',
         text: [
           'Máte právo na přístup ke svým údajům, jejich opravu nebo výmaz, na omezení zpracování a na přenositelnost údajů. Stačí nám napsat na rychtacenkovice@seznam.cz. Se stížností se můžete obrátit na Úřad pro ochranu osobních údajů (uoou.gov.cz).',
         ],
       },
     ],
+    /** Paragraphs added to the sections above when the forms are protected by hCaptcha. */
+    withCaptcha: {
+      sharing:
+        'Formuláře chrání před roboty služba hCaptcha společnosti Intuition Machines, Inc. (USA). Načte se, až když ji povolíte. Zpracovává technické údaje o vašem zařízení a prohlížeči, například IP adresu, a to, jak s ověřením pracujete. Obsah formuláře jí neposíláme. Podrobnosti najdete na hcaptcha.com/privacy.',
+      cookies:
+        'Služba hCaptcha si po povolení ukládá vlastní cookies, které jí pomáhají rozpoznat roboty.',
+    },
+    changeChoice: 'Svou volbu můžete kdykoli změnit.',
+    openSettings: 'Otevřít nastavení cookies',
+  },
+  cookies: {
+    title: 'Nastavení cookies',
+    barText:
+      'Do vašeho prohlížeče ukládáme jen to, co web potřebuje k provozu. Pokud to dovolíte, zapamatujeme si váš jazyk a formuláře ochrání před roboty služba hCaptcha.',
+    barTextPlain:
+      'Do vašeho prohlížeče ukládáme jen to, co web potřebuje k provozu. Pokud to dovolíte, zapamatujeme si váš jazyk.',
+    more: 'Zásady ochrany osobních údajů',
+    acceptAll: 'Povolit vše',
+    onlyNecessary: 'Jen nezbytné',
+    settings: 'Nastavení',
+    footerLink: 'Nastavení cookies',
+    intro:
+      'Vyberte, co si web smí uložit do vašeho prohlížeče. Volbu můžete kdykoli změnit odkazem v patičce.',
+    necessary: {
+      name: 'Nezbytné',
+      always: 'Vždy zapnuto',
+      text: 'Uložení této volby a bezpečné přihlášení správce. Web bez nich nefunguje.',
+    },
+    preferences: {
+      name: 'Předvolby',
+      text: 'Zapamatujeme si zvolený jazyk, abyste ho příště nemuseli přepínat.',
+    },
+    external: {
+      name: 'Ochrana formulářů',
+      text: 'Služba hCaptcha ověří, že formulář neodesílá robot. Načte se ze serverů společnosti Intuition Machines až u formuláře a ukládá si vlastní cookies. Bez ní formulář neodešlete, zavolat nebo napsat e-mail ale můžete vždy.',
+    },
+    save: 'Uložit výběr',
+    saved: 'Nastavení cookies je uložené.',
+  },
+  captcha: {
+    label: 'Ověření proti robotům',
+    askText:
+      'Před odesláním ověříme, že nejste robot. Slouží k tomu služba hCaptcha, která se načte ze svých serverů a uloží si vlastní cookies.',
+    allow: 'Povolit hCaptcha',
+    loading: 'Načítáme ověření',
+    loadFailed:
+      'Ověření se nepodařilo načíst. Zkontrolujte připojení a blokování obsahu v prohlížeči.',
+    retry: 'Zkusit znovu',
   },
   notFound: {
     title: 'Tady cesta končí',
@@ -578,7 +634,6 @@ export const cs = {
     apartments: 'Apartmány',
     admin: 'Přihlášení správce',
     rights: 'Rychta Čenkovice',
-    noCookies: 'Bez sledovacích cookies.',
     lightOn: 'V okně se svítí. Jste vítáni.',
   },
   errors: {
@@ -592,6 +647,10 @@ export const cs = {
     generic: 'Něco se pokazilo. Zkuste to prosím znovu, nebo nám zavolejte na +420 606 734 911.',
     rate_limited: 'Příliš mnoho pokusů. Zkuste to prosím za chvíli znovu.',
     offline: 'Server neodpovídá. Zkontrolujte připojení a zkuste to znovu.',
+    captcha_required: 'Potvrďte prosím, že nejste robot.',
+    captcha_invalid: 'Ověření se nepodařilo. Zkuste ho prosím znovu.',
+    captcha_unavailable:
+      'Ověření proti robotům teď neodpovídá. Zkuste to prosím za chvíli, nebo nám zavolejte na +420 606 734 911.',
   },
   trips,
   resorts,

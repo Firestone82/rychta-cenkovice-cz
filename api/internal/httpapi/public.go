@@ -1,6 +1,7 @@
 package httpapi
 
 import (
+	"log/slog"
 	"net/http"
 	"net/mail"
 	"regexp"
@@ -107,6 +108,7 @@ type bookingRequest struct {
 	Consent      bool    `json:"consent"`
 	Language     string  `json:"language"`
 	Website      string  `json:"website"` // honeypot: real visitors never fill this in
+	CaptchaToken string  `json:"captcha_token"`
 }
 
 // validateStay checks dates, apartments and guest count shared by public and admin bookings.
@@ -175,6 +177,36 @@ func (s *Server) validateStay(r *http.Request, ids []int64, checkIn, checkOut st
 	return selected, &total
 }
 
+// handleConfig tells the website what it needs to know before showing a form.
+func (s *Server) handleConfig(w http.ResponseWriter, r *http.Request) {
+	key := ""
+	if s.captcha.Enabled() {
+		key = s.captcha.SiteKey
+	}
+	w.Header().Set("Cache-Control", "public, max-age=300")
+	writeJSON(w, http.StatusOK, map[string]any{"hcaptcha_sitekey": key})
+}
+
+// captchaPassed checks the hCaptcha answer of a public form and writes the error response
+// when it does not hold. An answer can be checked only once, so this runs after every other
+// field is known to be valid.
+func (s *Server) captchaPassed(w http.ResponseWriter, r *http.Request, token string) bool {
+	if !s.captcha.Enabled() {
+		return true
+	}
+	ok, err := s.captcha.Verify(r.Context(), token, s.clientIP(r))
+	if err != nil {
+		slog.Error("hCaptcha verification failed", "err", err)
+		writeError(w, http.StatusServiceUnavailable, "captcha_unavailable", "The form protection could not be reached. Please try again in a moment.")
+		return false
+	}
+	if !ok {
+		writeValidation(w, map[string]string{"captcha": "invalid"})
+		return false
+	}
+	return true
+}
+
 func (s *Server) formLimited(w http.ResponseWriter, r *http.Request) bool {
 	key := "form:" + s.clientIP(r)
 	if blocked, wait := s.forms.blocked(key); blocked {
@@ -217,8 +249,14 @@ func (s *Server) handleCreateBookingRequest(w http.ResponseWriter, r *http.Reque
 		fields["consent"] = "required"
 	}
 	selected, total := s.validateStay(r, in.ApartmentIDs, in.CheckIn, in.CheckOut, in.Guests, true, fields)
+	if s.captcha.Enabled() && strings.TrimSpace(in.CaptchaToken) == "" {
+		fields["captcha"] = "required"
+	}
 	if len(fields) > 0 {
 		writeValidation(w, fields)
+		return
+	}
+	if !s.captchaPassed(w, r, in.CaptchaToken) {
 		return
 	}
 	b := &store.Booking{
@@ -251,6 +289,7 @@ func (s *Server) handleContact(w http.ResponseWriter, r *http.Request) {
 		Consent  bool   `json:"consent"`
 		Language string `json:"language"`
 		Website  string `json:"website"`
+		Captcha  string `json:"captcha_token"`
 	}
 	if !decode(w, r, &in) {
 		return
@@ -281,8 +320,14 @@ func (s *Server) handleContact(w http.ResponseWriter, r *http.Request) {
 	if !in.Consent {
 		fields["consent"] = "required"
 	}
+	if s.captcha.Enabled() && strings.TrimSpace(in.Captcha) == "" {
+		fields["captcha"] = "required"
+	}
 	if len(fields) > 0 {
 		writeValidation(w, fields)
+		return
+	}
+	if !s.captchaPassed(w, r, in.Captcha) {
 		return
 	}
 	m := &store.Message{Name: in.Name, Email: in.Email, Phone: in.Phone, Body: in.Message, Language: lang(in.Language)}

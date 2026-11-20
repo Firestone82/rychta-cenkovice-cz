@@ -1,8 +1,9 @@
-// Browser smoke test of the main flows: hero search, booking request, availability,
+// Browser smoke test of the main flows: cookie settings, hero search, booking request, availability,
 // contact form, sign-in, confirming a request, booking from a message, conflicts, sign-out.
 // Needs Playwright (npm i playwright) and a running site with a known administrator:
 //   BASE=http://localhost:8080 ADMIN=you@example.com PASS=... node tools/e2e-smoke.js
-// It creates test bookings and messages, so run it against a development database.
+// It creates test bookings and messages, so run it against a development database
+// without hCaptcha keys (a robot cannot solve the captcha).
 const { chromium } = require('playwright');
 const assert = require('assert');
 const BASE = process.env.BASE || 'http://localhost:4200';
@@ -21,6 +22,21 @@ const PASS = process.env.PASS;
   const day = (offset) => new Date(Date.UTC(2027, 4, 1 + (stamp % 40) * 7 + offset)).toISOString().slice(0, 10);
   const [D0, D1, D2, D3, D4] = [0, 1, 2, 3, 4].map(day);
   const [M0, M1, M3] = [40, 41, 43].map(day);
+
+  // 0. cookie bar: nothing is stored before a choice, refusing takes one click
+  await page.goto(BASE + '/cs', { waitUntil: 'networkidle' });
+  await page.waitForSelector('rc-cookie-consent .bar');
+  assert.equal(await page.evaluate(() => localStorage.length), 0);
+  await page.click('#cookies-necessary');
+  await page.waitForSelector('rc-cookie-consent .bar', { state: 'detached' });
+  assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), ['rc-consent']);
+  await page.click('#open-cookie-settings');
+  await page.waitForSelector('dialog.settings[open]');
+  await page.check('#ck-preferences-box');
+  await page.click('#cookies-save');
+  await page.waitForSelector('dialog.settings[open]', { state: 'detached' });
+  assert.equal(await page.evaluate(() => localStorage.getItem('rc-lang')), 'cs');
+  console.log('0 ok: cookie bar and settings');
 
   // 1. hero search carries dates to the booking page
   await page.goto(BASE + '/cs', { waitUntil: 'networkidle' });
@@ -77,7 +93,7 @@ const PASS = process.env.PASS;
   await page.fill('#c-email', 'host@example.com');
   await page.fill('#c-message', 'Hello, we would like apartment 4 from 20 to 23 March 2027 for two people.');
   await page.check('.consent input[type=checkbox]');
-  await page.click('form button[type=submit]');
+  await page.click('main form button[type=submit]');
   await page.waitForSelector('.done');
   console.log('5 ok: contact sent:', (await page.textContent('.done h2')).trim());
 

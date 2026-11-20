@@ -537,6 +537,7 @@ export const en: Dict = {
     updated: 'Effective from 20 November 2026',
     sections: [
       {
+        id: 'controller',
         title: 'Who processes your data',
         text: [
           'The data controller is the operator of the Rychta Čenkovice accommodation, Čenkovice 106, 561 64 Čenkovice, Czechia. Contact: rychtacenkovice@seznam.cz, +420 606 734 911.',
@@ -544,6 +545,7 @@ export const en: Dict = {
         ],
       },
       {
+        id: 'data',
         title: 'What we collect and why',
         text: [
           'When you send us a message or a booking request, we process your name, e-mail, phone number, dates of stay, number of guests and the text of your message. We need them to reply to you, confirm the booking and arrange your stay.',
@@ -551,22 +553,75 @@ export const en: Dict = {
         ],
       },
       {
+        id: 'sharing',
         title: 'Who we share data with',
-        text: ['We do not pass the personal data we collect on to third parties.'],
-      },
-      {
-        title: 'Cookies',
         text: [
-          'This website uses no advertising or analytics cookies and does not track you. We only store your chosen language in your browser. Signing in to the administration uses one technical cookie needed to keep the administrator signed in securely.',
+          'We do not pass the data you send us in a form (name, contact details, dates of stay and the text of your message) on to third parties.',
         ],
       },
       {
+        id: 'cookies',
+        title: 'Cookies',
+        text: [
+          'This website uses no advertising or analytics cookies and does not track you. Without your consent we only store your choice from the cookie settings in your browser. If you allow it, we also remember your chosen language.',
+          'The administration uses one technical cookie needed to keep the administrator signed in securely and remembers the language the administrator chose.',
+        ],
+      },
+      {
+        id: 'rights',
         title: 'Your rights',
         text: [
           'You have the right to access your data, to have it corrected or erased, to restrict its processing and to data portability. Just write to rychtacenkovice@seznam.cz. You can lodge a complaint with the Czech Office for Personal Data Protection (uoou.gov.cz).',
         ],
       },
     ],
+    withCaptcha: {
+      sharing:
+        'The forms are protected against bots by hCaptcha, a service of Intuition Machines, Inc. (USA). It is loaded only after you allow it. It processes technical data about your device and browser, such as the IP address, and how you interact with the check. We do not send it the content of the form. Details are at hcaptcha.com/privacy.',
+      cookies:
+        'Once allowed, hCaptcha stores its own cookies, which help it tell bots from people.',
+    },
+    changeChoice: 'You can change your choice at any time.',
+    openSettings: 'Open cookie settings',
+  },
+  cookies: {
+    title: 'Cookie settings',
+    barText:
+      'We store in your browser only what the website needs to work. If you allow it, we remember your language and hCaptcha protects the forms against bots.',
+    barTextPlain:
+      'We store in your browser only what the website needs to work. If you allow it, we remember your language.',
+    more: 'Privacy policy',
+    acceptAll: 'Allow all',
+    onlyNecessary: 'Necessary only',
+    settings: 'Settings',
+    footerLink: 'Cookie settings',
+    intro:
+      'Choose what the website may store in your browser. You can change this at any time with the link in the footer.',
+    necessary: {
+      name: 'Necessary',
+      always: 'Always on',
+      text: 'Saving this choice and keeping the administrator signed in securely. The website does not work without them.',
+    },
+    preferences: {
+      name: 'Preferences',
+      text: 'We remember your chosen language, so you do not have to switch it next time.',
+    },
+    external: {
+      name: 'Form protection',
+      text: 'hCaptcha checks that a form is not sent by a bot. It is loaded from the servers of Intuition Machines only at a form and stores its own cookies. You cannot send a form without it, but you can always call or e-mail us.',
+    },
+    save: 'Save selection',
+    saved: 'Your cookie settings are saved.',
+  },
+  captcha: {
+    label: 'Check against bots',
+    askText:
+      'Before sending, we check that you are not a bot. This is done by hCaptcha, which is loaded from its own servers and stores its own cookies.',
+    allow: 'Allow hCaptcha',
+    loading: 'Loading the check',
+    loadFailed:
+      'The check could not be loaded. Check your connection and any content blocking in your browser.',
+    retry: 'Try again',
   },
   notFound: {
     title: 'The trail ends here',
@@ -581,7 +636,6 @@ export const en: Dict = {
     apartments: 'Apartments',
     admin: 'Administrator sign-in',
     rights: 'Rychta Čenkovice',
-    noCookies: 'No tracking cookies.',
     lightOn: 'The light is on. You are welcome.',
   },
   errors: {
@@ -595,6 +649,10 @@ export const en: Dict = {
     generic: 'Something went wrong. Please try again, or call us on +420 606 734 911.',
     rate_limited: 'Too many attempts. Please try again in a moment.',
     offline: 'The server is not responding. Check your connection and try again.',
+    captcha_required: 'Please confirm that you are not a bot.',
+    captcha_invalid: 'The check did not pass. Please try it again.',
+    captcha_unavailable:
+      'The check against bots is not responding. Please try again in a moment, or call us on +420 606 734 911.',
   },
   trips,
   resorts,

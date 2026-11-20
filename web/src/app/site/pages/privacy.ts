@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Api } from '../../core/api';
+import { Consent } from '../../core/consent';
 import { I18n } from '../../core/i18n/i18n';
 import { Seo } from '../../core/seo';
 
@@ -17,6 +19,19 @@ import { Seo } from '../../core/seo';
           <div class="prose">
             @for (p of section.text; track p) {
               <p>{{ p }}</p>
+            }
+            @if (captcha() && extra(section.id); as more) {
+              <p>{{ more }}</p>
+            }
+            @if (section.id === 'cookies') {
+              <p>{{ t().privacy.changeChoice }}</p>
+              <button
+                type="button"
+                class="btn btn-ghost btn-small"
+                (click)="consent.settingsOpen.set(true)"
+              >
+                {{ t().privacy.openSettings }}
+              </button>
             }
           </div>
         </section>
@@ -48,8 +63,19 @@ import { Seo } from '../../core/seo';
 })
 export class PrivacyPage {
   protected readonly t = inject(I18n).t;
+  protected readonly consent = inject(Consent);
+  /** Whether the forms use hCaptcha: only then the page mentions it. */
+  protected readonly captcha = signal(false);
 
   constructor() {
     inject(Seo).page(this.t().privacy.title);
+    inject(Api)
+      .config()
+      .then((c) => this.captcha.set(!!c.hcaptcha_sitekey))
+      .catch(() => undefined);
+  }
+
+  protected extra(id: string): string {
+    return (this.t().privacy.withCaptcha as Record<string, string | undefined>)[id] ?? '';
   }
 }

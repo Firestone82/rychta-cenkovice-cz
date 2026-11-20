@@ -290,6 +290,8 @@
           </label>
           <p id="b-consent-msg" class="error">{{ errors()['consent'] }}</p>
         </div>
+
+        <rc-captcha key="b-captcha" [(token)]="captchaToken" [error]="errors()['captcha']" />
       </fieldset>
     </div>
 

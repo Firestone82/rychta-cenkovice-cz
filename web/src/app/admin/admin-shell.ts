@@ -77,7 +77,11 @@ import { Logo } from '../ui/logo';
         </button>
         <div class="a-langs" role="group" [attr.aria-label]="t().common.language">
           @for (l of langs; track l) {
-            <button type="button" [attr.aria-pressed]="i18n.lang() === l" (click)="i18n.use(l)">
+            <button
+              type="button"
+              [attr.aria-pressed]="i18n.lang() === l"
+              (click)="i18n.useInAdmin(l)"
+            >
               {{ l.toUpperCase() }}
             </button>
           }
