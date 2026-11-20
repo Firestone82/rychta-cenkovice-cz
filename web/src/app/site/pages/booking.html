@@ -1,0 +1,349 @@
+@if (receipt(); as r) {
+  <div class="wrap done" role="status" tabindex="-1" #done>
+    <svg viewBox="0 0 64 48" aria-hidden="true" focusable="false">
+      <path d="M6 44V22L32 4l26 18v22" />
+      <path class="tick" d="m22 30 8 8 14-16" />
+    </svg>
+    <h1 class="h1">{{ t().booking.doneTitle }}</h1>
+    <p class="lead">{{ i18n.fill(t().booking.doneText, { email: sentTo() }) }}</p>
+    <dl class="receipt">
+      <div>
+        <dt>{{ t().booking.doneCode }}</dt>
+        <dd class="num code">{{ r.code }}</dd>
+      </div>
+      <div>
+        <dt>{{ t().booking.stepDates }}</dt>
+        <dd>
+          {{ i18n.range(r.check_in, r.check_out) }}, {{ i18n.count(r.nights, t().plural.nights) }}
+        </dd>
+      </div>
+      @if (r.total_price !== null) {
+        <div>
+          <dt>{{ t().booking.priceEstimate }}</dt>
+          <dd>{{ i18n.money(r.total_price) }}</dd>
+        </div>
+      }
+    </dl>
+    <p class="actions">
+      <a class="btn" [routerLink]="links.to('home')">{{ t().booking.doneHome }}</a>
+      <button type="button" class="btn btn-ghost" (click)="again()">
+        {{ t().booking.doneAgain }}
+      </button>
+    </p>
+  </div>
+} @else {
+  <header class="wrap page-head">
+    <h1 class="h1">{{ t().booking.title }}</h1>
+    <p class="lead">{{ t().booking.lead }}</p>
+  </header>
+
+  <form class="wrap layout" (submit)="submit($event)" novalidate #form>
+    <div class="steps">
+      <!-- 1: dates -->
+      <fieldset class="step">
+        <legend><span class="n num" aria-hidden="true">1</span> {{ t().booking.stepDates }}</legend>
+        <div class="dates">
+          <div class="field">
+            <label for="b-in">{{ t().booking.checkIn }}</label>
+            <input
+              id="b-in"
+              class="input"
+              type="date"
+              required
+              [min]="today"
+              [value]="checkIn()"
+              (change)="setCheckIn(value($event))"
+              [attr.aria-invalid]="errors()['dates'] ? 'true' : null"
+              aria-describedby="b-dates-msg"
+            />
+          </div>
+          <div class="field">
+            <label for="b-out">{{ t().booking.checkOut }}</label>
+            <input
+              id="b-out"
+              class="input"
+              type="date"
+              required
+              [min]="minCheckOut()"
+              [value]="checkOut()"
+              (change)="checkOut.set(value($event))"
+              [attr.aria-invalid]="errors()['dates'] ? 'true' : null"
+              aria-describedby="b-dates-msg"
+            />
+          </div>
+          <div class="field">
+            <label for="b-guests">{{ t().booking.guests }}</label>
+            <input
+              id="b-guests"
+              class="input"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="40"
+              required
+              [value]="guests()"
+              (change)="setGuests($event)"
+            />
+          </div>
+        </div>
+        <p
+          id="b-dates-msg"
+          class="status"
+          aria-live="polite"
+          [class.is-error]="errors()['dates'] || (datesProblem() && checkIn() && checkOut())"
+        >
+          @if (errors()['dates']) {
+            {{ errors()['dates'] }}
+          } @else if (datesProblem()) {
+            {{ datesProblem() }}
+          } @else if (minNightsProblem()) {
+            {{ minNightsProblem() }}
+          } @else {
+            {{ i18n.range(checkIn(), checkOut()) }}, {{ i18n.count(nights(), t().plural.nights) }}
+          }
+        </p>
+      </fieldset>
+
+      <!-- 2: apartments -->
+      <fieldset class="step" id="units">
+        <legend><span class="n num" aria-hidden="true">2</span> {{ t().booking.stepUnits }}</legend>
+        <p class="muted hint">{{ t().booking.selectHint }} {{ t().booking.connect }}</p>
+
+        @if (checking()) {
+          <rc-spinner [label]="t().booking.checking" />
+        }
+        @if (checkFailed()) {
+          <p class="notice is-error" role="alert">{{ t().errors.offline }}</p>
+        }
+        @if (noneFree()) {
+          <p class="notice is-error" role="alert">
+            {{ t().booking.noneFree }}
+            <a [routerLink]="links.to('availability')">{{ t().availability.title }}</a>
+          </p>
+        }
+
+        @if (apartments(); as list) {
+          @if (list.length) {
+            <ul class="units" [class.is-checking]="checking()">
+              @for (a of list; track a.id) {
+                <li>
+                  <label
+                    class="unit"
+                    [class.is-taken]="isTaken(a)"
+                    [class.is-on]="selected().includes(a.id)"
+                  >
+                    <input
+                      type="checkbox"
+                      [checked]="selected().includes(a.id)"
+                      [disabled]="isTaken(a)"
+                      (change)="toggle(a, checked($event))"
+                    />
+                    <span class="no num" aria-hidden="true">{{ a.number }}</span>
+                    <span class="unit-text">
+                      <strong>{{ t().common.apartment }} {{ a.number }}</strong>
+                      <span class="muted">
+                        @if (i18n.pick(a.type); as type) {
+                          {{ type }},
+                        }
+                        {{ a.area }} {{ t().common.areaUnit }},
+                        {{ i18n.count(a.beds, t().plural.beds) }}
+                        @if (a.extra_beds) {
+                          + {{ a.extra_beds }} {{ t().common.extraBeds }}
+                        }
+                      </span>
+                    </span>
+                    <span class="unit-side">
+                      @if (taken() !== null) {
+                        <span
+                          class="tag"
+                          [class.tag-confirmed]="!isTaken(a)"
+                          [class.tag-cancelled]="isTaken(a)"
+                          >{{ isTaken(a) ? t().booking.taken : t().booking.free }}</span
+                        >
+                      }
+                      <span class="unit-price">
+                        @if (a.price_per_night !== null) {
+                          {{ i18n.money(a.price_per_night) }} {{ t().common.perNight }}
+                        } @else {
+                          {{ t().common.priceOnRequest }}
+                        }
+                      </span>
+                    </span>
+                  </label>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+          }
+        } @else {
+          <rc-spinner [label]="t().common.loading" />
+        }
+
+        <p
+          class="status"
+          aria-live="polite"
+          [class.is-error]="errors()['apartment_ids'] || capacityLow()"
+        >
+          @if (errors()['apartment_ids'] && !chosen().length) {
+            {{ errors()['apartment_ids'] }}
+          } @else if (capacityLow()) {
+            {{ i18n.fill(t().booking.capacityLow, { n: i18n.count(capacity(), t().plural.beds) }) }}
+          } @else if (chosen().length) {
+            {{ i18n.fill(t().booking.capacity, { n: i18n.count(capacity(), t().plural.beds) }) }}
+          }
+        </p>
+      </fieldset>
+
+      <!-- 3: contact -->
+      <fieldset class="step">
+        <legend>
+          <span class="n num" aria-hidden="true">3</span> {{ t().booking.stepContact }}
+        </legend>
+        <div class="form-grid">
+          <rc-field for="b-name" [label]="t().booking.name" [error]="errors()['name']" class="wide">
+            <input
+              id="b-name"
+              class="input"
+              type="text"
+              autocomplete="name"
+              required
+              [value]="name()"
+              (input)="name.set(value($event))"
+              [attr.aria-invalid]="errors()['name'] ? 'true' : null"
+              aria-describedby="b-name-msg"
+            />
+          </rc-field>
+          <rc-field for="b-email" [label]="t().booking.email" [error]="errors()['email']">
+            <input
+              id="b-email"
+              class="input"
+              type="email"
+              autocomplete="email"
+              required
+              [value]="email()"
+              (input)="email.set(value($event))"
+              [attr.aria-invalid]="errors()['email'] ? 'true' : null"
+              aria-describedby="b-email-msg"
+            />
+          </rc-field>
+          <rc-field for="b-phone" [label]="t().booking.phone" [error]="errors()['phone']">
+            <input
+              id="b-phone"
+              class="input"
+              type="tel"
+              autocomplete="tel"
+              required
+              [value]="phone()"
+              (input)="phone.set(value($event))"
+              [attr.aria-invalid]="errors()['phone'] ? 'true' : null"
+              aria-describedby="b-phone-msg"
+            />
+          </rc-field>
+          <rc-field
+            for="b-note"
+            [label]="t().booking.note"
+            [optional]="t().common.optional"
+            [error]="errors()['note']"
+            class="wide"
+          >
+            <textarea
+              id="b-note"
+              class="input"
+              rows="4"
+              [placeholder]="t().booking.notePlaceholder"
+              [value]="note()"
+              (input)="note.set(value($event))"
+              [attr.aria-invalid]="errors()['note'] ? 'true' : null"
+              aria-describedby="b-note-msg"
+            ></textarea>
+          </rc-field>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label for="b-website">Website</label>
+          <input
+            id="b-website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+            [value]="website()"
+            (input)="website.set(value($event))"
+          />
+        </div>
+
+        <div class="consent">
+          <label class="check">
+            <input
+              type="checkbox"
+              [checked]="consent()"
+              (change)="consent.set(checked($event))"
+              [attr.aria-invalid]="errors()['consent'] ? 'true' : null"
+              aria-describedby="b-consent-msg"
+            />
+            <span>
+              {{ t().booking.consent }}
+              <a [routerLink]="links.to('privacy')" target="_blank">{{
+                t().booking.consentLink
+              }}</a>
+            </span>
+          </label>
+          <p id="b-consent-msg" class="error">{{ errors()['consent'] }}</p>
+        </div>
+      </fieldset>
+    </div>
+
+    <aside class="summary" [attr.aria-label]="t().booking.summary">
+      <h2 class="h3">{{ t().booking.summary }}</h2>
+      <dl>
+        <div>
+          <dt>{{ t().booking.stepDates }}</dt>
+          <dd>
+            @if (datesOk()) {
+              {{ i18n.range(checkIn(), checkOut()) }}<br />{{
+                i18n.count(nights(), t().plural.nights)
+              }}, {{ i18n.count(guests(), t().plural.guests) }}
+            } @else {
+              <span class="muted">{{ t().booking.pickDates }}</span>
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>{{ t().booking.stepUnits }}</dt>
+          <dd>
+            @if (chosen().length) {
+              <ul>
+                @for (a of chosen(); track a.id) {
+                  <li>
+                    {{ t().common.apartment }} {{ a.number }}
+                    <span class="muted">({{ i18n.count(a.beds, t().plural.beds) }})</span>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <span class="muted">{{ t().booking.summaryEmpty }}</span>
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>{{ t().booking.priceEstimate }}</dt>
+          <dd>
+            @if (estimate(); as price) {
+              <strong class="num price">{{ i18n.money(price) }}</strong>
+            } @else {
+              {{ t().booking.priceLater }}
+            }
+          </dd>
+        </div>
+      </dl>
+
+      @if (failure()) {
+        <p class="notice is-error" role="alert">{{ failure() }}</p>
+      }
+
+      <button class="btn submit" type="submit" [disabled]="sending()">
+        {{ sending() ? t().booking.submitting : t().booking.submit }}
+      </button>
+    </aside>
+  </form>
+}

@@ -1,0 +1,248 @@
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="copy">
+      <h1 class="display">{{ t().home.title }}</h1>
+      <p class="lead">{{ t().home.lead }}</p>
+
+      <form class="search" (submit)="search($event)" [attr.aria-label]="t().home.search.title">
+        <div class="field">
+          <label for="hero-in">{{ t().home.search.checkIn }}</label>
+          <input
+            id="hero-in"
+            class="input"
+            type="date"
+            [min]="today"
+            [value]="checkIn()"
+            (change)="setCheckIn(value($event))"
+          />
+        </div>
+        <div class="field">
+          <label for="hero-out">{{ t().home.search.checkOut }}</label>
+          <input
+            id="hero-out"
+            class="input"
+            type="date"
+            [min]="minCheckOut()"
+            [value]="checkOut()"
+            (change)="checkOut.set(value($event))"
+          />
+        </div>
+        <div class="field guests">
+          <label for="hero-guests">{{ t().home.search.guests }}</label>
+          <input
+            id="hero-guests"
+            class="input"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            max="40"
+            [value]="guests()"
+            (change)="guests.set(number($event))"
+          />
+        </div>
+        <button class="btn" type="submit">{{ t().home.search.submit }}</button>
+      </form>
+    </div>
+
+    <div class="view">
+      <div class="window-wrap">
+        <div class="window-shadow" aria-hidden="true"></div>
+        <div class="window">
+          @for (s of seasons; track s) {
+            @if (seen().includes(s)) {
+              <img
+                [class.is-on]="season() === s"
+                [src]="hero[s].src"
+                [attr.srcset]="hero[s].srcset"
+                sizes="(max-width: 900px) 86vw, 520px"
+                width="640"
+                height="800"
+                [alt]="season() === s ? t().home.heroAlt[s] : ''"
+                [attr.aria-hidden]="season() === s ? null : 'true'"
+                fetchpriority="high"
+                decoding="async"
+              />
+            }
+          }
+          <svg
+            class="chevrons"
+            viewBox="0 0 100 125"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M18 43 50 12.5 82 43" />
+            <path d="M34 43 50 27.5 66 43" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="season" role="group" [attr.aria-label]="t().seasons.label">
+        @for (s of seasons; track s) {
+          <button
+            type="button"
+            [attr.data-season]="s"
+            [attr.aria-pressed]="season() === s"
+            (click)="pick(s)"
+          >
+            {{ t().seasons[s].name }}
+          </button>
+        }
+      </div>
+      <p class="season-line" aria-live="polite">
+        <a [routerLink]="links.to('leisure')" [fragment]="season()">{{
+          t().seasons[season()].line
+        }}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white welcome">
+  <div class="wrap welcome-grid">
+    <h2 class="h1" rcReveal>{{ t().home.welcome.title }}</h2>
+    <div class="prose" rcReveal="120">
+      @for (p of t().home.welcome.text; track p) {
+        <p>{{ p }}</p>
+      }
+      <p class="more">
+        <a class="link" [routerLink]="links.to('accommodation')">{{ t().home.house.all }}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section diagram" aria-labelledby="house-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="house-title" class="h1">{{ t().home.house.title }}</h2>
+      <p class="lead muted">{{ t().home.house.lead }}</p>
+    </div>
+    @if (apartments(); as list) {
+      @if (list.length) {
+        <rc-house-diagram [apartments]="list" />
+      } @else {
+        <p class="notice is-error">{{ t().common.loadFailed }}</p>
+      }
+    } @else {
+      <rc-spinner [label]="t().common.loading" />
+    }
+  </div>
+</section>
+
+<section class="section section-white shared" aria-labelledby="shared-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="shared-title" class="h1">{{ t().home.spaces.title }}</h2>
+      <p class="lead muted">{{ t().home.spaces.lead }}</p>
+    </div>
+    <ul class="spaces">
+      @for (space of spaces(); track space.page; let i = $index) {
+        <li [rcReveal]="i * 90">
+          <a class="space" [routerLink]="links.to(space.page)">
+            @if (space.photo; as photo) {
+              <rc-pic
+                [photo]="photo"
+                [ratio]="i === 0 ? '16/10' : '4/3'"
+                [decorative]="true"
+                [sizes]="
+                  i === 0 ? '(max-width: 900px) 100vw, 60vw' : '(max-width: 900px) 100vw, 30vw'
+                "
+              />
+            } @else {
+              <div class="ph" [style.aspect-ratio]="i === 0 ? '16/10' : '4/3'"></div>
+            }
+            <div class="space-text">
+              <p class="fact">
+                <span class="num">{{ space.content.fact }}</span> {{ space.content.factLabel }}
+              </p>
+              <h3 class="h2">{{ space.content.title }}</h3>
+              <p class="muted">{{ space.content.intro }}</p>
+            </div>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="aerial section-dark" aria-labelledby="aerial-title">
+  <div class="wrap aerial-grid">
+    <div class="aerial-text">
+      <h2 id="aerial-title" class="h1">{{ t().home.aerial.title }}</h2>
+      <p class="lead muted">{{ t().home.aerial.text }}</p>
+      <button type="button" class="btn btn-ghost" (click)="toggleVideo()">
+        <rc-icon [name]="playing() ? 'pause' : 'play'" />
+        {{ playing() ? t().home.aerial.pause : t().home.aerial.play }}
+      </button>
+    </div>
+    <div class="aerial-video">
+      <video
+        #video
+        muted
+        loop
+        playsinline
+        preload="none"
+        [poster]="poster"
+        [attr.aria-label]="t().home.aerial.alt"
+        (play)="playing.set(true)"
+        (pause)="playing.set(false)"
+        (click)="toggleVideo()"
+      >
+        <source src="/video/rychta-z-vysky.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</section>
+
+<section class="section around" aria-labelledby="around-title">
+  <div class="wrap around-grid">
+    <div>
+      <h2 id="around-title" class="h1">{{ t().home.seasons.title }}</h2>
+      <p class="lead muted">{{ t().leisure.lead }}</p>
+      <p class="more">
+        <a class="link" [routerLink]="links.to('leisure')">{{ t().home.seasons.all }}</a>
+      </p>
+      @if (photos().length) {
+        <ul class="strip">
+          @for (photo of photos(); track photo.id; let i = $index) {
+            <li>
+              <button
+                type="button"
+                (click)="lightbox.set(i)"
+                [attr.aria-label]="t().gallery.open + ': ' + i18n.pick(photo.alt)"
+              >
+                <rc-pic [photo]="photo" ratio="1/1" sizes="160px" [decorative]="true" />
+              </button>
+            </li>
+          }
+        </ul>
+        <p class="more">
+          <a class="link" [routerLink]="links.to('gallery')">{{ t().home.gallery.all }}</a>
+        </p>
+      }
+    </div>
+    <rc-signpost [trips]="nearest()" rcReveal />
+  </div>
+</section>
+
+<section class="section section-white" aria-labelledby="steps-title">
+  <div class="wrap">
+    <h2 id="steps-title" class="h1 steps-title">{{ t().home.steps.title }}</h2>
+    <rc-steps />
+    <div class="cta">
+      <div>
+        <h2 class="h2">{{ t().home.cta.title }}</h2>
+        <p class="muted">{{ t().home.cta.text }}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn" [routerLink]="links.to('booking')">{{ t().availability.book }}</a>
+        <a class="btn btn-ghost" [routerLink]="links.to('availability')">{{
+          t().availability.title
+        }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<rc-lightbox [photos]="photos()" [(index)]="lightbox" />

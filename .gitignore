@@ -1,0 +1,20 @@
+# dependencies and build output
+node_modules/
+web/dist/
+web/.angular/
+api/rychta-api
+api/bin/
+
+# local data: database, processed photos, e-mail outbox
+api/data/
+data/
+
+# secrets
+.env
+*.local
+
+# editors and OS
+.idea/
+.vscode/
+.DS_Store
+*.log

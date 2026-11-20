@@ -1,0 +1,626 @@
+@use './styles/fonts';
+
+/* ------------------------------------------------------------------
+   Design tokens. The palette is taken from the house itself:
+   oxblood timber cladding, slate roof, lime-washed plinth, spruce forest.
+   ------------------------------------------------------------------ */
+:root {
+  --timber: #8c2a1d;
+  --timber-deep: #6d1f14;
+  --timber-soft: #f4e4e0;
+  --slate: #232a30;
+  --slate-2: #55606a;
+  --slate-3: #7b858d;
+  --snow: #f3f5f4;
+  --white: #ffffff;
+  --line: #d5dbda;
+  --line-strong: #aab4b3;
+  /* Boundary of inputs and outlined buttons: 3:1 against white and snow. */
+  --edge: #707b83;
+  --spruce: #2b5a3a;
+  --spruce-soft: #e1ede3;
+  --larch: #d8a23c;
+  --larch-soft: #f9eed3;
+  --ice: #dde8ee;
+
+  /* Seasons (also the colours of Czech hiking trail marks) */
+  --winter: #3a6fa3;
+  --spring: #4a8a3b;
+  --summer: #b88213;
+  --autumn: #b04d1e;
+
+  --font-display: 'Sofia Sans Extra Condensed', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --font-body: 'Sofia Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --wrap: 1240px;
+  --gutter: clamp(20px, 4.5vw, 56px);
+  --section: clamp(64px, 9vw, 128px);
+  --radius: 3px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --header-h: 72px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  margin: 0;
+  background: var(--snow);
+  color: var(--slate);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--winter);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* On dark surfaces the focus ring switches to a light colour. */
+.section-dark :focus-visible,
+.on-dark :focus-visible {
+  outline-color: var(--larch);
+}
+
+::selection {
+  background: var(--timber);
+  color: var(--white);
+}
+
+/* ---------- typography ---------- */
+
+.display,
+.h1,
+.h2,
+.h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.display {
+  font-size: clamp(3.6rem, 9.2vw, 8.6rem);
+  line-height: 0.86;
+}
+
+.h1 {
+  font-size: clamp(3rem, 6.4vw, 5.6rem);
+  line-height: 0.9;
+}
+
+.h2 {
+  font-size: clamp(2.3rem, 4.4vw, 3.75rem);
+  line-height: 0.95;
+}
+
+.h3 {
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.lead {
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  line-height: 1.5;
+  max-width: 34em;
+}
+
+.muted {
+  color: var(--slate-2);
+}
+
+.prose {
+  max-width: 40em;
+
+  p + p {
+    margin-top: 1em;
+  }
+}
+
+.num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- layout ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section);
+}
+
+.section-white {
+  background: var(--white);
+}
+
+.section-dark {
+  background: var(--slate);
+  color: var(--snow);
+
+  .muted {
+    color: #b4bec4;
+  }
+}
+
+.stack > * + * {
+  margin-top: var(--stack, 1rem);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- buttons and links ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  min-height: 48px;
+  padding: 0.6em 1.35em;
+  border: 2px solid var(--timber);
+  border-radius: var(--radius);
+  background: var(--timber);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    color 0.18s,
+    transform 0.18s var(--ease);
+
+  &:hover {
+    background: var(--timber-deep);
+    border-color: var(--timber-deep);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &[disabled],
+  &[aria-disabled='true'] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--slate);
+  border-color: var(--slate);
+
+  &:hover {
+    background: var(--slate);
+    border-color: var(--slate);
+    color: var(--white);
+  }
+}
+
+.section-dark .btn-ghost {
+  color: var(--snow);
+  border-color: var(--snow);
+
+  &:hover {
+    background: var(--snow);
+    color: var(--slate);
+  }
+}
+
+.btn-small {
+  min-height: 38px;
+  padding: 0.35em 0.9em;
+  font-size: 0.95rem;
+}
+
+.btn-quiet {
+  background: transparent;
+  border-color: var(--edge);
+  color: var(--slate);
+
+  &:hover {
+    background: var(--white);
+    border-color: var(--slate);
+    color: var(--slate);
+  }
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: var(--timber);
+  color: var(--timber);
+
+  &:hover {
+    background: var(--timber);
+    color: var(--white);
+  }
+}
+
+/* Text link with a roof-angle underline that grows on hover. */
+.link {
+  font-weight: 700;
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 2px no-repeat;
+  padding-bottom: 3px;
+  transition: background-size 0.25s var(--ease);
+
+  &:hover {
+    background-size: 35% 2px;
+  }
+}
+
+/* ---------- forms ---------- */
+
+.field {
+  display: grid;
+  gap: 6px;
+
+  label,
+  .label {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .hint {
+    font-size: 0.9rem;
+    color: var(--slate-2);
+  }
+
+  .error {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--timber);
+  }
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.55em 0.8em;
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius);
+  background: var(--white);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+
+  &:hover {
+    border-color: var(--slate-2);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--slate);
+    box-shadow: 0 0 0 3px rgba(58, 111, 163, 0.35);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--timber);
+  }
+}
+
+textarea.input {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.check {
+  display: flex;
+  gap: 0.7em;
+  align-items: flex-start;
+  font-size: 0.98rem;
+
+  input {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    margin: 2px 0 0;
+    accent-color: var(--timber);
+  }
+}
+
+/* ---------- small shared pieces ---------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.15em 0.6em;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.5;
+  background: var(--white);
+  border: 1px solid var(--line-strong);
+  white-space: nowrap;
+}
+
+.tag-pending {
+  background: var(--larch-soft);
+  border-color: var(--larch);
+  color: #6b4a05;
+}
+
+.tag-confirmed {
+  background: var(--spruce-soft);
+  border-color: #8fb79a;
+  color: #1d4229;
+}
+
+.tag-cancelled {
+  background: var(--snow);
+  border-color: var(--line-strong);
+  color: var(--slate-2);
+  text-decoration: line-through;
+}
+
+.tag-block {
+  background: var(--slate);
+  border-color: var(--slate);
+  color: var(--white);
+}
+
+.tag-new {
+  background: var(--timber);
+  border-color: var(--timber);
+  color: var(--white);
+}
+
+.notice {
+  padding: 0.9em 1.1em;
+  border-left: 4px solid var(--slate);
+  background: var(--white);
+
+  &.is-error {
+    border-color: var(--timber);
+    background: var(--timber-soft);
+  }
+
+  &.is-ok {
+    border-color: var(--spruce);
+    background: var(--spruce-soft);
+  }
+}
+
+/* The chevron boarding of the gable, used as the one decorative pattern. */
+.boards {
+  background-image:
+    linear-gradient(55deg, transparent 46%, currentColor 46%, currentColor 54%, transparent 54%),
+    linear-gradient(-55deg, transparent 46%, currentColor 46%, currentColor 54%, transparent 54%);
+  background-size: 28px 20px;
+  background-position:
+    0 0,
+    14px 0;
+}
+
+/* Scroll reveal (rcReveal directive). Kept subtle; disabled for reduced motion. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Route change cross-fade (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+  animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ---------- page furniture shared by the inner pages ---------- */
+
+.page-head {
+  display: grid;
+  gap: 18px;
+  padding-block: clamp(28px, 5vw, 64px) clamp(36px, 5vw, 72px);
+
+  .lead {
+    max-width: 38em;
+  }
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  font-weight: 700;
+  color: var(--slate-2);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--timber);
+  }
+}
+
+/* List whose markers are small roof pitches. */
+.roofs {
+  display: grid;
+  gap: 0.55em;
+
+  li {
+    position: relative;
+    padding-left: 1.6em;
+  }
+
+  li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 0.85em;
+    height: 0.5em;
+    background: var(--timber);
+    clip-path: polygon(50% 0, 100% 100%, 82% 100%, 50% 36%, 18% 100%, 0 100%);
+  }
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  color: var(--slate-2);
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+  }
+}
+
+.table-scroll {
+  position: relative;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th,
+  td {
+    padding: 0.8em 1em 0.8em 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: 0.92rem;
+    color: var(--slate-2);
+    border-bottom: 2px solid var(--slate);
+    white-space: nowrap;
+  }
+
+  tbody th {
+    white-space: nowrap;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+
+  .wide {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Honeypot field for bots, kept away from people and assistive technology. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

@@ -1,0 +1,13 @@
+# Runs the website and the API as one service. Put it behind a reverse proxy that
+# terminates HTTPS (Caddy, nginx, Traefik) and forwards to port 8080.
+services:
+  rychta:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    env_file: .env
+    volumes:
+      - ./data:/data
+      # Optional: the folder with the original photos, used once by `import-photos`.
+      # - ./photos:/photos:ro

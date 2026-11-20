@@ -1,0 +1,862 @@
+[
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "galerie/001.jpg"
+ },
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "galerie/002.jpg"
+ },
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "galerie/003.jpg"
+ },
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "galerie/004.jpg"
+ },
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "galerie/005.jpg"
+ },
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "img/i3.jpg"
+ },
+ {
+  "category": "house",
+  "apartment": null,
+  "path": "img/i2.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/jaro-pod-skalou.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20211010_091006.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20211010_091121.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20211010_100519.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20211010_103622.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20211010_103851.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20220115_111405.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20220115_111416.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20220122_160024.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20220129_091218.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20220923_175105.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20220923_175544.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20221009_111750.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20250323_081856.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20250323_082002.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20250927_172415.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/20260503_094526.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/kravy-podzim.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "fotky-okoli-rychty/bledule-2.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "galerie/g11.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "galerie/g12.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "galerie/g13.jpg"
+ },
+ {
+  "category": "surroundings",
+  "apartment": null,
+  "path": "galerie/g14.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/uvodni.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/chodba.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/kuchyn.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/spani.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/1000054003.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/1000054004.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/1000054005.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/1000054006.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 1,
+  "path": "apartman-1/1000054007.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/celkovy-pohled.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/jidelna.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/spani.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/1000054021.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/1000054022.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/1000054024.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/1000054023.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/1000054026.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 2,
+  "path": "apartman-2/1000054028.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/pohled-do-kuchyne.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/detsky-2.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/detsky.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/jidelna.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/loznice-1.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/loznice-2.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/obyvak-a-spani.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/obyvak.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/spani-obyvak.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/koupelna.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 3,
+  "path": "apartman-3/umyvadla.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053994.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/kuchyn.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053992.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053990.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/koupelna.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053991.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053993.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053995.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 4,
+  "path": "apartman-4-garsonka/1000053996.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/kuchyn-a-jidelna.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/20180602_1647070.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000054050.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/obyvak-1.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/obyvak.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/sedacka.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/loznice.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/detsky.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000054047.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000054051.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/chodba.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000054000.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000053998.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000054049.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/1000053999.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 5,
+  "path": "apartman-5/koupelna.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "galerie/obyvak-velky.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054035.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054080.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054079.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054037.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054077.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054076.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054038.jpg"
+ },
+ {
+  "category": "apartment",
+  "apartment": 6,
+  "path": "apartman-6/1000054034.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/stoly.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053976.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/stoly-1.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/kulabr.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053969.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053975.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053978.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053979.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053980.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000053981.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000054045.jpg"
+ },
+ {
+  "category": "common-room",
+  "apartment": null,
+  "path": "spolecenska/1000054001.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "garazove-stani.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "20211023_170643.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "pergola.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "20260502_161949.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "garazove-stani-1.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "garazove-stani-2.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "terasa-1.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "terasa.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "sud-zima-rychta.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "sud.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "lyzarna-1.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/garazove-stani.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/tereasa-.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/1000054155.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/trampolina.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/1000054052.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/1000054053.jpg"
+ },
+ {
+  "category": "facilities",
+  "apartment": null,
+  "path": "zazemi/1000054054.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/1000053944.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/budova.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/1000053943.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/sauna.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/sauna-2.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/sauna-3.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/1000053945.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/1000053946.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/1000053948.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/1000053950.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/sud.jpg"
+ },
+ {
+  "category": "wellness",
+  "apartment": null,
+  "path": "sauna/20180602_165308.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/cenkovice-pohled-jizni-svahy.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/louka.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/neratov-2.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/zemska-brana.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/dolni-morava.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/socha.jpeg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/zamberk-park.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/krizova-hora.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/jablonne.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/castalovice-2.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/castalovice.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/jizni-poprasek.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/leto.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/litomysl.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/muchomurky.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/neratov-strecha.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/neratov.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/podzim-suchac.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/dolni-morava-stezka.jpeg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "vylety/bouda.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "hedec.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "bukovka.jpg"
+ },
+ {
+  "category": "trips",
+  "apartment": null,
+  "path": "hurka.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/zima-bukovka7.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250215_092045.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250215_092058.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250215_092106.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250215_092127.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250215_134900.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250216_093551.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20250216_094613.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/20251123_123541.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/svitava.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/zima-sjezdovky-2.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/zima-sjezdovky.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/zima-suchac.jpg"
+ },
+ {
+  "category": "winter",
+  "apartment": null,
+  "path": "zima/zima.jpg"
+ }
+]
