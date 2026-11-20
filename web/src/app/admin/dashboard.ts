@@ -156,19 +156,19 @@ import { unitNumbers } from './util';
   styles: `
     .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
     }
     .stats a,
     .stats div {
       display: grid;
       gap: 2px;
       height: 100%;
-      padding: 18px 20px;
+      padding: 10px 14px 12px;
       background: var(--white);
       border: 1px solid var(--line);
-      border-top: 5px solid var(--slate);
+      border-top: 3px solid var(--slate);
       border-radius: var(--radius);
       text-decoration: none;
       color: var(--slate-2);
@@ -180,35 +180,35 @@ import { unitNumbers } from './util';
       border-top-color: var(--timber);
     }
     .stats .num {
-      font-size: 3.6rem;
-      line-height: 0.95;
+      font-size: 2.1rem;
+      line-height: 1;
       color: var(--slate);
     }
     .stats a.is-hot .num {
       color: var(--timber);
     }
     .stats small {
-      font-size: 0.45em;
+      font-size: 0.5em;
       color: var(--slate-2);
     }
     .block {
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
     .two {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-      gap: 20px;
+      gap: 14px;
     }
     .rows li {
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
       align-items: center;
-      gap: 8px 20px;
-      padding: 12px 0;
+      gap: 4px 16px;
+      padding: 7px 0;
       border-top: 1px solid var(--line);
     }
     .rows.compact li {
-      grid-template-columns: 96px minmax(0, 1fr);
+      grid-template-columns: 76px minmax(0, 1fr);
     }
     .who {
       display: grid;
@@ -219,11 +219,11 @@ import { unitNumbers } from './util';
     }
     .sub {
       display: block;
-      font-size: 0.92rem;
+      font-size: 0.8125rem;
       color: var(--slate-2);
     }
     .day {
-      font-size: 1.5rem;
+      font-size: 1.15rem;
       line-height: 1;
       color: var(--timber);
     }

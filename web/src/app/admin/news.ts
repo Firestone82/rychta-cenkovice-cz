@@ -161,13 +161,13 @@ type Draft = Omit<NewsItem, 'id'> & { id?: number };
   styles: `
     .editor {
       display: grid;
-      gap: 18px;
-      margin-bottom: 20px;
-      border-top: 5px solid var(--timber);
+      gap: 14px;
+      margin-bottom: 14px;
+      border-top: 3px solid var(--timber);
     }
     .publish {
       align-self: end;
-      padding-bottom: 12px;
+      padding-bottom: 8px;
     }
   `,
 })

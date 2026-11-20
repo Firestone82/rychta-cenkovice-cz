@@ -2,9 +2,70 @@
 
 .a-shell {
   display: grid;
-  grid-template-columns: 248px minmax(0, 1fr);
+  grid-template-columns: 208px minmax(0, 1fr);
   min-height: 100dvh;
   background: var(--snow);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* The administration is a working tool: controls are denser than on the public site. */
+.a-main {
+  .btn {
+    min-height: 34px;
+    padding: 0.3em 0.9em;
+    border-width: 1.5px;
+    font-size: 0.875rem;
+  }
+
+  .btn-small {
+    min-height: 28px;
+    padding: 0.2em 0.7em;
+    font-size: 0.8125rem;
+  }
+
+  .input {
+    min-height: 34px;
+    padding: 0.3em 0.6em;
+  }
+
+  textarea.input {
+    min-height: 84px;
+  }
+
+  .field {
+    gap: 4px;
+
+    label,
+    .label,
+    .hint,
+    .error {
+      font-size: 0.8125rem;
+    }
+  }
+
+  .check {
+    gap: 0.6em;
+    font-size: inherit;
+
+    input {
+      width: 17px;
+      height: 17px;
+    }
+  }
+
+  .tag {
+    font-size: 0.75rem;
+  }
+
+  .notice {
+    padding: 8px 12px;
+    font-size: inherit;
+  }
+
+  .form-grid {
+    gap: 12px;
+  }
 }
 
 .a-skip {
@@ -32,10 +93,10 @@
   gap: 10px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.7rem;
+  font-size: 1.35rem;
   line-height: 1;
   text-decoration: none;
-  --logo-size: 34px;
+  --logo-size: 26px;
   --logo-board: var(--snow);
 }
 
@@ -44,9 +105,9 @@
   top: 0;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 18px;
   height: 100dvh;
-  padding: 24px 16px 20px;
+  padding: 16px 10px 14px;
   background: var(--slate);
   color: var(--snow);
   overflow-y: auto;
@@ -62,14 +123,14 @@
 
 .a-nav {
   display: grid;
-  gap: 2px;
+  gap: 1px;
 
   a {
     display: flex;
     align-items: center;
-    gap: 12px;
-    min-height: 44px;
-    padding: 0 12px;
+    gap: 10px;
+    min-height: 34px;
+    padding: 0 10px;
     border-radius: var(--radius);
     color: #cfd6da;
     font-weight: 500;
@@ -93,27 +154,27 @@
 
 .a-badge {
   margin-left: auto;
-  min-width: 24px;
-  padding: 0 7px;
+  min-width: 20px;
+  padding: 0 6px;
   border-radius: 999px;
   background: var(--larch);
   color: var(--slate);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 20px;
   text-align: center;
 }
 
 .a-side-foot {
   display: grid;
-  gap: 6px;
+  gap: 2px;
   margin-top: auto;
-  padding: 16px 8px 0;
+  padding: 12px 8px 0;
   border-top: 1px solid rgba(243, 245, 244, 0.18);
 }
 
 .a-user {
-  font-size: 0.9rem;
+  font-size: 0.8125rem;
   color: #b4bec4;
   overflow-wrap: anywhere;
 }
@@ -127,12 +188,12 @@
   overflow: hidden;
 
   button {
-    min-width: 42px;
-    height: 34px;
+    min-width: 36px;
+    height: 28px;
     border: 0;
     background: transparent;
     color: #cfd6da;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
 
     &[aria-pressed='true'] {
@@ -149,8 +210,8 @@
 .a-foot-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-height: 40px;
+  gap: 8px;
+  min-height: 30px;
   padding: 0;
   border: 0;
   background: none;
@@ -167,7 +228,7 @@
 
 .a-main {
   min-width: 0;
-  padding: clamp(20px, 3vw, 44px) clamp(16px, 3.5vw, 52px) 80px;
+  padding: clamp(16px, 2vw, 24px) clamp(16px, 2.4vw, 32px) 56px;
   outline: none;
 }
 
@@ -178,18 +239,18 @@
   flex-wrap: wrap;
   align-items: end;
   justify-content: space-between;
-  gap: 14px 24px;
-  margin-bottom: clamp(20px, 3vw, 36px);
+  gap: 10px 20px;
+  margin-bottom: 16px;
 
   h1 {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(2.6rem, 4.6vw, 3.8rem);
-    line-height: 0.95;
+    font-size: 1.9rem;
+    line-height: 1;
   }
 
   p {
-    margin-top: 8px;
+    margin-top: 4px;
     color: var(--slate-2);
     max-width: 44em;
   }
@@ -202,7 +263,7 @@
 }
 
 .a-card {
-  padding: clamp(16px, 2.2vw, 28px);
+  padding: 14px 16px;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -210,10 +271,10 @@
 
 .a-card > h2,
 .a-h2 {
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 
@@ -221,8 +282,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: end;
-  gap: 10px 14px;
-  margin-bottom: 18px;
+  gap: 8px 10px;
+  margin-bottom: 12px;
 }
 
 .a-seg {
@@ -234,13 +295,13 @@
   background: var(--white);
 
   button {
-    min-height: 42px;
-    padding: 0 14px;
+    min-height: 31px;
+    padding: 0 11px;
     border: 0;
     border-right: 1px solid var(--line);
     background: transparent;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.8125rem;
 
     &:last-child {
       border-right: 0;
@@ -273,17 +334,17 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.98rem;
+  font-size: inherit;
 
   th,
   td {
-    padding: 12px 14px;
+    padding: 7px 12px;
     border-bottom: 1px solid var(--line);
     vertical-align: middle;
   }
 
   thead th {
-    font-size: 0.88rem;
+    font-size: 0.8125rem;
     color: var(--slate-2);
     white-space: nowrap;
     border-bottom: 2px solid var(--slate);
@@ -303,7 +364,7 @@
 
   .sub {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.8125rem;
     color: var(--slate-2);
   }
 
@@ -313,7 +374,7 @@
 }
 
 .a-empty {
-  padding: 28px;
+  padding: 18px;
   background: var(--white);
   border: 1px dashed var(--line-strong);
   border-radius: var(--radius);
@@ -330,8 +391,8 @@
 .a-icon-btn {
   display: inline-grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 30px;
+  height: 30px;
   padding: 0;
   border: 1.5px solid var(--edge);
   border-radius: var(--radius);
@@ -403,5 +464,53 @@
 
   .a-brand-side {
     display: none;
+  }
+
+  /* Touch screens keep finger-sized controls. */
+  .a-shell {
+    font-size: 0.9375rem;
+  }
+
+  .a-main {
+    .btn {
+      min-height: 42px;
+      font-size: 0.9375rem;
+    }
+
+    .btn-small {
+      min-height: 36px;
+    }
+
+    .input {
+      min-height: 42px;
+      font-size: 1rem;
+    }
+
+    .check input {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .a-nav a {
+    min-height: 44px;
+  }
+
+  .a-seg button {
+    min-height: 40px;
+  }
+
+  .a-icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .a-langs button {
+    min-width: 44px;
+    height: 40px;
+  }
+
+  .a-foot-link {
+    min-height: 44px;
   }
 }

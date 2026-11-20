@@ -149,11 +149,8 @@ type Filter = 'active' | 'pending' | 'confirmed' | 'cancelled' | '';
   `,
   styles: `
     .search {
-      flex: 1 1 260px;
-      max-width: 420px;
-    }
-    .search .input {
-      min-height: 44px;
+      flex: 1 1 220px;
+      max-width: 340px;
     }
     th a {
       font-weight: 700;

@@ -35,6 +35,7 @@ export interface Apartment {
   layout: L10n;
   features: L10nList;
   note: L10n;
+  description: L10n;
   price_per_night: number | null;
   min_nights: number;
   active: boolean;

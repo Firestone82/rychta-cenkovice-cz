@@ -155,13 +155,13 @@ interface Bar {
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
     .month {
-      margin-left: 10px;
+      margin-left: 8px;
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 2rem;
+      font-size: 1.45rem;
       line-height: 1;
       text-transform: capitalize;
     }
@@ -177,11 +177,11 @@ interface Bar {
       opacity: 0.6;
     }
     .cal {
-      min-width: 980px;
+      min-width: 900px;
     }
     .row {
       display: grid;
-      grid-template-columns: 96px minmax(0, 1fr);
+      grid-template-columns: 78px minmax(0, 1fr);
       border-bottom: 1px solid var(--line);
     }
     .row:last-child {
@@ -190,9 +190,9 @@ interface Bar {
     .name {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 0 10px;
-      font-size: 0.85rem;
+      gap: 6px;
+      padding: 0 8px;
+      font-size: 0.75rem;
       color: var(--slate-2);
       border-right: 1px solid var(--line);
       position: sticky;
@@ -201,7 +201,7 @@ interface Bar {
       background: var(--white);
     }
     .name .num {
-      font-size: 2rem;
+      font-size: 1.45rem;
       line-height: 1;
       color: var(--timber);
     }
@@ -209,22 +209,22 @@ interface Bar {
       position: relative;
       display: grid;
       grid-template-columns: repeat(calc(var(--days) * 2), minmax(0, 1fr));
-      grid-auto-rows: 52px;
+      grid-auto-rows: 38px;
     }
     .head .track {
-      grid-auto-rows: 44px;
+      grid-auto-rows: 36px;
     }
     .day {
       display: grid;
       place-content: center;
       justify-items: center;
-      font-size: 0.78rem;
+      font-size: 0.6875rem;
       line-height: 1.15;
       color: var(--slate-2);
       border-right: 1px solid var(--line);
     }
     .day strong {
-      font-size: 0.95rem;
+      font-size: 0.8125rem;
       color: var(--slate);
     }
     .day.weekend,
@@ -251,20 +251,20 @@ interface Bar {
       grid-row: 1;
       z-index: 2;
       align-self: center;
-      height: 34px;
+      height: 26px;
       margin-inline: 2px;
-      padding: 0 8px;
+      padding: 0 6px;
       display: flex;
       align-items: center;
       border-radius: 3px;
       background: var(--timber);
       color: var(--white);
-      font-size: 0.88rem;
+      font-size: 0.8125rem;
       font-weight: 700;
       text-decoration: none;
       overflow: hidden;
       /* slanted ends: arrival in the afternoon, departure in the morning */
-      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
     }
     .bar-item span:first-child {
       overflow: hidden;
@@ -286,8 +286,8 @@ interface Bar {
       display: flex;
       flex-wrap: wrap;
       gap: 6px 22px;
-      margin-top: 14px;
-      font-size: 0.92rem;
+      margin-top: 10px;
+      font-size: 0.8125rem;
       color: var(--slate-2);
     }
     .legend li {
@@ -296,8 +296,8 @@ interface Bar {
       gap: 8px;
     }
     .legend i {
-      width: 22px;
-      height: 14px;
+      width: 18px;
+      height: 11px;
       background: var(--timber);
     }
     .legend i[data-status='pending'] {

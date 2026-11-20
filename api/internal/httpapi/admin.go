@@ -316,6 +316,7 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 		Layout        *store.L10n     `json:"layout"`
 		Features      *store.L10nList `json:"features"`
 		Note          *store.L10n     `json:"note"`
+		Description   *store.L10n     `json:"description"`
 		PricePerNight *int            `json:"price_per_night"`
 		ClearPrice    bool            `json:"clear_price"`
 		MinNights     *int            `json:"min_nights"`
@@ -349,6 +350,9 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 	if in.Note != nil {
 		a.Note = *in.Note
 	}
+	if in.Description != nil {
+		a.Description = store.L10n{Cs: strings.TrimSpace(in.Description.Cs), En: strings.TrimSpace(in.Description.En)}
+	}
 	if in.PricePerNight != nil {
 		a.PricePerNight = in.PricePerNight
 	}
@@ -372,6 +376,13 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 	}
 	if a.MinNights < 1 || a.MinNights > 30 {
 		fields["min_nights"] = "invalid"
+	}
+	if len(a.Description.Cs) > 4000 || len(a.Description.En) > 4000 {
+		fields["description"] = "too_long"
+	}
+	if len(a.Type.Cs) > 200 || len(a.Type.En) > 200 || len(a.Layout.Cs) > 1000 || len(a.Layout.En) > 1000 ||
+		len(a.Note.Cs) > 1000 || len(a.Note.En) > 1000 || len(a.Features.Cs) > 60 || len(a.Features.En) > 60 {
+		fields["texts"] = "too_long"
 	}
 	if a.PricePerNight != nil && (*a.PricePerNight < 0 || *a.PricePerNight > 1_000_000) {
 		fields["price_per_night"] = "invalid"

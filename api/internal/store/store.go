@@ -280,6 +280,7 @@ type Apartment struct {
 	Layout        L10n     `json:"layout"`
 	Features      L10nList `json:"features"`
 	Note          L10n     `json:"note"`
+	Description   L10n     `json:"description"`
 	PricePerNight *int     `json:"price_per_night"`
 	MinNights     int      `json:"min_nights"`
 	Active        bool     `json:"active"`
@@ -287,14 +288,14 @@ type Apartment struct {
 	Photos        []*Photo `json:"photos,omitempty"`
 }
 
-const apartmentCols = `id, slug, number, floor, area, beds, extra_beds, accessible, type_cs, type_en, layout_cs, layout_en, features_cs, features_en, note_cs, note_en, price_per_night, min_nights, active`
+const apartmentCols = `id, slug, number, floor, area, beds, extra_beds, accessible, type_cs, type_en, layout_cs, layout_en, features_cs, features_en, note_cs, note_en, description_cs, description_en, price_per_night, min_nights, active`
 
 func scanApartment(row scanner) (*Apartment, error) {
 	a := &Apartment{}
 	var fcs, fen string
 	var price sql.NullInt64
 	if err := row.Scan(&a.ID, &a.Slug, &a.Number, &a.Floor, &a.Area, &a.Beds, &a.ExtraBeds, &a.Accessible, &a.Type.Cs, &a.Type.En,
-		&a.Layout.Cs, &a.Layout.En, &fcs, &fen, &a.Note.Cs, &a.Note.En, &price, &a.MinNights, &a.Active); err != nil {
+		&a.Layout.Cs, &a.Layout.En, &fcs, &fen, &a.Note.Cs, &a.Note.En, &a.Description.Cs, &a.Description.En, &price, &a.MinNights, &a.Active); err != nil {
 		return nil, err
 	}
 	_ = json.Unmarshal([]byte(fcs), &a.Features.Cs)
@@ -377,9 +378,9 @@ func (s *Store) SaveApartment(ctx context.Context, a *Apartment) error {
 	fcs, _ := json.Marshal(a.Features.Cs)
 	fen, _ := json.Marshal(a.Features.En)
 	_, err := s.DB.ExecContext(ctx, `UPDATE apartments SET floor=?, area=?, beds=?, extra_beds=?, accessible=?, type_cs=?, type_en=?, layout_cs=?, layout_en=?,
-		features_cs=?, features_en=?, note_cs=?, note_en=?, price_per_night=?, min_nights=?, active=? WHERE id=?`,
+		features_cs=?, features_en=?, note_cs=?, note_en=?, description_cs=?, description_en=?, price_per_night=?, min_nights=?, active=? WHERE id=?`,
 		a.Floor, a.Area, a.Beds, a.ExtraBeds, a.Accessible, a.Type.Cs, a.Type.En, a.Layout.Cs, a.Layout.En, string(fcs), string(fen),
-		a.Note.Cs, a.Note.En, a.PricePerNight, a.MinNights, a.Active, a.ID)
+		a.Note.Cs, a.Note.En, a.Description.Cs, a.Description.En, a.PricePerNight, a.MinNights, a.Active, a.ID)
 	return err
 }
 

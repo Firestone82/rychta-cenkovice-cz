@@ -136,6 +136,10 @@ CREATE TABLE news (
   created_at TEXT NOT NULL
 );
 `,
+	`
+ALTER TABLE apartments ADD COLUMN description_cs TEXT NOT NULL DEFAULT '';
+ALTER TABLE apartments ADD COLUMN description_en TEXT NOT NULL DEFAULT '';
+`,
 }
 
 // Open opens (and creates if needed) the database at path and migrates it.

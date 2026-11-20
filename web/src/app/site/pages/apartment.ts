@@ -59,6 +59,9 @@ import { OccupancyPager } from '../occupancy-pager';
         }
         <div class="summary">
           <rc-apt-facts [apartment]="a" />
+          @if (i18n.pick(a.description); as about) {
+            <p class="about">{{ about }}</p>
+          }
           <div>
             <h2 class="label">{{ t().apartment.layoutTitle }}</h2>
             <p>{{ i18n.pick(a.layout) }}</p>
@@ -186,6 +189,10 @@ import { OccupancyPager } from '../occupancy-pager';
     .summary {
       display: grid;
       gap: 22px;
+    }
+    .about {
+      white-space: pre-line;
+      overflow-wrap: anywhere;
     }
     .label {
       font-size: 0.95rem;

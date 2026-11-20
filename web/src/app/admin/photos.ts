@@ -182,14 +182,14 @@ type Category = (typeof CATEGORIES)[number];
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
     }
     li.a-card {
       display: grid;
-      gap: 10px;
+      gap: 8px;
       align-content: start;
-      padding: 10px;
+      padding: 8px;
     }
     img {
       width: 100%;
@@ -198,7 +198,7 @@ type Category = (typeof CATEGORIES)[number];
       object-fit: cover;
     }
     .alt {
-      font-size: 0.92rem;
+      font-size: 0.8125rem;
       color: var(--slate-2);
       min-height: 2.8em;
     }

@@ -98,13 +98,13 @@ import { Toasts } from '../ui/toast';
     .cols {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-      gap: 20px;
+      gap: 14px;
       align-items: start;
-      max-width: 980px;
+      max-width: 860px;
     }
     form {
       display: grid;
-      gap: 16px;
+      gap: 12px;
       justify-items: start;
     }
     form rc-field {
@@ -112,7 +112,7 @@ import { Toasts } from '../ui/toast';
     }
     .who {
       display: grid;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
     .who span {
       color: var(--slate-2);

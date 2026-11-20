@@ -118,18 +118,19 @@ import { Toasts } from '../ui/toast';
   styles: `
     .list {
       display: grid;
-      gap: 12px;
+      gap: 8px;
     }
     li.is-new {
-      border-left: 5px solid var(--timber);
+      border-left: 3px solid var(--timber);
     }
     h2 {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
-      font-size: 1.2rem;
+      gap: 8px;
+      margin-bottom: 2px;
+      font-family: var(--font-body);
+      font-size: 1rem;
       font-weight: 700;
     }
     h2 .tag {
@@ -138,12 +139,12 @@ import { Toasts } from '../ui/toast';
     .meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 18px;
-      font-size: 0.95rem;
+      gap: 2px 16px;
+      font-size: 0.8125rem;
       color: var(--slate-2);
     }
     .body {
-      margin: 14px 0 16px;
+      margin: 10px 0 12px;
       max-width: 64em;
       white-space: pre-wrap;
       overflow-wrap: anywhere;

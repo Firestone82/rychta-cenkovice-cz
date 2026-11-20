@@ -138,10 +138,31 @@ import { Toasts } from '../ui/toast';
           >
         </div>
 
+        <div class="texts">
+          <h3>{{ t().admin.apartments.texts }}</h3>
+          <p>{{ t().admin.apartments.textsHint }}</p>
+        </div>
         <div class="langs">
           @for (l of langs; track l) {
             <fieldset>
               <legend>{{ l === 'cs' ? 'Česky' : 'English' }}</legend>
+              <rc-field
+                [for]="id('about-' + l)"
+                [label]="t().admin.apartments.description"
+                [hint]="t().admin.apartments.descriptionHint"
+                [error]="errors()['description']"
+              >
+                <textarea
+                  [id]="id('about-' + l)"
+                  class="input"
+                  rows="4"
+                  maxlength="2000"
+                  [attr.lang]="l"
+                  [value]="description()[l]"
+                  (input)="patch(description, l, value($event))"
+                  [attr.aria-describedby]="id('about-' + l) + '-msg'"
+                ></textarea>
+              </rc-field>
               <rc-field [for]="id('type-' + l)" [label]="t().admin.apartments.type">
                 <input
                   [id]="id('type-' + l)"
@@ -209,8 +230,8 @@ import { Toasts } from '../ui/toast';
     summary {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 14px 20px;
+      gap: 12px;
+      padding: 8px 14px;
       cursor: pointer;
       list-style: none;
     }
@@ -231,16 +252,18 @@ import { Toasts } from '../ui/toast';
       rotate: -135deg;
     }
     summary .num {
-      font-size: 3rem;
+      font-size: 1.9rem;
       line-height: 0.8;
       color: var(--timber);
     }
     .sum-text {
       display: grid;
       line-height: 1.3;
+      font-size: 0.8125rem;
       color: var(--slate-2);
     }
     .sum-text strong {
+      font-size: 0.875rem;
       color: var(--slate);
     }
     .sum-price {
@@ -249,34 +272,46 @@ import { Toasts } from '../ui/toast';
     }
     form {
       display: grid;
-      gap: 20px;
+      gap: 14px;
       justify-items: start;
-      padding: 8px 20px 24px;
+      padding: 4px 14px 16px;
       border-top: 1px solid var(--line);
     }
     .row4 {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      align-items: start;
       width: 100%;
-      margin-top: 14px;
+      margin-top: 10px;
     }
     .checks {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 28px;
+      gap: 6px 24px;
+    }
+    .texts {
+      width: 100%;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--slate-2);
+    }
+    .texts h3 {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--slate);
     }
     .langs {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-      gap: 20px;
+      gap: 14px;
       width: 100%;
     }
     fieldset {
       display: grid;
-      gap: 14px;
+      gap: 10px;
       margin: 0;
-      padding: 14px 16px 16px;
+      padding: 8px 12px 12px;
       border: 1px solid var(--line-strong);
       border-radius: var(--radius);
       min-width: 0;
@@ -311,6 +346,7 @@ export class ApartmentEditor {
   protected readonly layout = signal({ cs: '', en: '' });
   protected readonly features = signal({ cs: '', en: '' });
   protected readonly note = signal({ cs: '', en: '' });
+  protected readonly description = signal({ cs: '', en: '' });
   protected readonly errors = signal<Record<string, string>>({});
   protected readonly failure = signal('');
   protected readonly busy = signal(false);
@@ -330,6 +366,7 @@ export class ApartmentEditor {
     this.layout.set({ ...a.layout });
     this.features.set({ cs: a.features.cs.join('\n'), en: a.features.en.join('\n') });
     this.note.set({ ...a.note });
+    this.description.set({ cs: a.description?.cs ?? '', en: a.description?.en ?? '' });
   }
 
   protected id(name: string): string {
@@ -363,6 +400,7 @@ export class ApartmentEditor {
       layout: this.layout(),
       features: { cs: lines(this.features().cs), en: lines(this.features().en) },
       note: this.note(),
+      description: this.description(),
     };
     if (this.price().trim() === '') body['clear_price'] = true;
     else body['price_per_night'] = Math.max(0, Math.round(Number(this.price())));

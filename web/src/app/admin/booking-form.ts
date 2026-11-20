@@ -382,36 +382,36 @@ import { unitNumbers } from './util';
     }
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
-      gap: 20px;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+      gap: 14px;
       align-items: start;
     }
     .main {
       display: grid;
-      gap: 20px;
+      gap: 14px;
     }
     .units {
-      margin: 22px 0 0;
+      margin: 16px 0 0;
       padding: 0;
       border: 0;
     }
     .units legend {
       padding: 0;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.8125rem;
     }
     .units ul {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 6px;
     }
     .unit {
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-height: 62px;
-      padding: 8px 12px;
+      gap: 8px;
+      min-height: 46px;
+      padding: 5px 10px;
       border: 1.5px solid var(--edge);
       border-radius: var(--radius);
       cursor: pointer;
@@ -428,20 +428,20 @@ import { unitNumbers } from './util';
       background: var(--larch-soft);
     }
     .unit input {
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       margin: 0;
       accent-color: var(--timber);
       outline: none;
     }
     .unit .num {
-      font-size: 2.2rem;
+      font-size: 1.6rem;
       line-height: 0.8;
       color: var(--timber);
     }
     .unit-text {
       display: grid;
-      font-size: 0.92rem;
+      font-size: 0.8125rem;
       line-height: 1.25;
       color: var(--slate-2);
     }
@@ -455,17 +455,17 @@ import { unitNumbers } from './util';
     }
     .side {
       position: sticky;
-      top: 20px;
+      top: 16px;
       display: grid;
-      gap: 16px;
+      gap: 12px;
     }
     .side .btn {
       width: 100%;
     }
     .more {
       display: grid;
-      gap: 8px;
-      padding-top: 16px;
+      gap: 6px;
+      padding-top: 12px;
       border-top: 1px solid var(--line);
     }
     .orig {

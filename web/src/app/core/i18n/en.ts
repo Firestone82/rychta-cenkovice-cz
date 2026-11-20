@@ -671,7 +671,7 @@ export const en: Dict = {
     },
     apartments: {
       title: 'Apartments',
-      lead: 'Prices, capacity and descriptions. Changes show on the website straight away.',
+      lead: 'Prices, capacity and the texts of each apartment. Changes show on the website straight away.',
       price: 'Price per night (CZK)',
       priceHint: 'An empty field means "price on request".',
       minNights: 'Minimum nights',
@@ -684,6 +684,12 @@ export const en: Dict = {
       layout: 'Bed layout',
       features: 'Equipment (one item per line)',
       note: 'Note',
+      texts: 'Texts on the website',
+      textsHint:
+        'All texts are optional. Where the English text is missing, the Czech one is shown.',
+      description: 'Apartment description',
+      descriptionHint:
+        'Free text above the bed layout. An empty field is not shown on the website.',
       save: 'Save',
       saved: 'The apartment has been saved.',
       hidden: 'hidden',
