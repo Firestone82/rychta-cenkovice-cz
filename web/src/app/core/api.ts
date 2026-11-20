@@ -65,6 +65,7 @@ export type AdminBookingInput = Partial<
   auto_price?: boolean;
   message_id?: number;
   notify?: boolean;
+  guest_message?: string;
 };
 
 /** What went wrong with an API call, in a form the UI can act on. */

@@ -306,6 +306,25 @@ import { unitNumbers } from './util';
                 booking() ? t().admin.bookings.notify : t().admin.bookings.notifyCreate
               }}</span>
             </label>
+            @if (email().trim()) {
+              <rc-field
+                for="f-guest-message"
+                [label]="t().admin.bookings.guestMessage"
+                [hint]="t().admin.bookings.guestMessageHint"
+                [optional]="t().common.optional"
+                [error]="errors()['guest_message']"
+              >
+                <textarea
+                  id="f-guest-message"
+                  class="input"
+                  rows="4"
+                  maxlength="2000"
+                  [value]="guestMessage()"
+                  (input)="guestMessage.set(value($event))"
+                  aria-describedby="f-guest-message-msg"
+                ></textarea>
+              </rc-field>
+            }
           }
 
           @if (failure()) {
@@ -514,6 +533,7 @@ export class BookingFormPage {
   protected readonly price = signal('');
   protected readonly autoPrice = signal(false);
   protected readonly notify = signal(false);
+  protected readonly guestMessage = signal('');
 
   /** Other active bookings in the chosen dates, by apartment id: who has it. */
   protected readonly taken = signal(new Map<number, string>());
@@ -633,6 +653,7 @@ export class BookingFormPage {
     this.price.set(b.total_price !== null ? String(b.total_price) : '');
     this.autoPrice.set(false);
     this.notify.set(false);
+    this.guestMessage.set('');
   }
 
   protected setStatus(value: string): void {
@@ -676,6 +697,7 @@ export class BookingFormPage {
         language: this.language(),
         note: this.note().trim(),
         notify: this.notify(),
+        guest_message: this.notify() ? this.guestMessage().trim() : '',
       });
       if (this.autoPrice()) body.auto_price = true;
       else if (this.price().trim() === '') body.clear_price = true;
@@ -709,7 +731,11 @@ export class BookingFormPage {
 
   /** Confirms, declines, cancels or reopens the stored booking without touching other fields. */
   protected async quick(status: BookingStatus): Promise<void> {
-    await this.send({ status, notify: this.booking()?.kind === 'guest' }, false);
+    const guest = this.booking()?.kind === 'guest';
+    await this.send(
+      { status, notify: guest, guest_message: guest ? this.guestMessage().trim() : '' },
+      false,
+    );
   }
 
   private async send(body: AdminBookingInput, leave: boolean): Promise<void> {

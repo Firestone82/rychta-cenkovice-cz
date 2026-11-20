@@ -2,6 +2,7 @@ package httpapi
 
 import (
 	"net/http"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -69,6 +70,8 @@ type adminBookingInput struct {
 	MessageID  *int64  `json:"message_id"`
 	// Notify sends the guest an e-mail about the confirmation or cancellation.
 	Notify bool `json:"notify"`
+	// GuestMessage is the owner's own words, added to that e-mail.
+	GuestMessage string `json:"guest_message"`
 }
 
 func (in *adminBookingInput) apply(b *store.Booking) {
@@ -167,6 +170,9 @@ func (s *Server) handleAdminCreateBooking(w http.ResponseWriter, r *http.Request
 		b.MessageID = in.MessageID
 	}
 	fields, selected := s.validateAdminBooking(r, b, in.AutoPrice || (in.TotalPrice == nil && !in.ClearPrice))
+	if utf8.RuneCountInString(in.GuestMessage) > 2000 {
+		fields["guest_message"] = "too_long"
+	}
 	if len(fields) > 0 {
 		writeValidation(w, fields)
 		return
@@ -179,7 +185,7 @@ func (s *Server) handleAdminCreateBooking(w http.ResponseWriter, r *http.Request
 		_ = s.st.SetMessageStatus(r.Context(), *b.MessageID, "read")
 	}
 	if in.Notify && b.Kind == "guest" && b.Email != "" && b.Status == "confirmed" {
-		s.mail.SendAsync(s.mailGuestBooking(b, selected, "confirmed"))
+		s.mail.SendAsync(s.mailGuestBooking(b, selected, "confirmed", in.GuestMessage))
 	}
 	writeJSON(w, http.StatusCreated, b)
 }
@@ -202,6 +208,9 @@ func (s *Server) handleAdminUpdateBooking(w http.ResponseWriter, r *http.Request
 	before := b.Status
 	in.apply(b)
 	fields, selected := s.validateAdminBooking(r, b, in.AutoPrice)
+	if utf8.RuneCountInString(in.GuestMessage) > 2000 {
+		fields["guest_message"] = "too_long"
+	}
 	if len(fields) > 0 {
 		writeValidation(w, fields)
 		return
@@ -213,9 +222,9 @@ func (s *Server) handleAdminUpdateBooking(w http.ResponseWriter, r *http.Request
 	if in.Notify && b.Kind == "guest" && b.Email != "" && b.Status != before {
 		switch b.Status {
 		case "confirmed":
-			s.mail.SendAsync(s.mailGuestBooking(b, selected, "confirmed"))
+			s.mail.SendAsync(s.mailGuestBooking(b, selected, "confirmed", in.GuestMessage))
 		case "cancelled":
-			s.mail.SendAsync(s.mailGuestBooking(b, selected, "cancelled"))
+			s.mail.SendAsync(s.mailGuestBooking(b, selected, "cancelled", in.GuestMessage))
 		}
 	}
 	writeJSON(w, http.StatusOK, b)
@@ -312,7 +321,10 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 		Beds          *int            `json:"beds"`
 		ExtraBeds     *int            `json:"extra_beds"`
 		Accessible    *bool           `json:"accessible"`
-		Type          *store.L10n     `json:"type"`
+		Floor         *int            `json:"floor"`
+		FlatType      *string         `json:"flat_type"`
+		Amenities     *[]string       `json:"amenities"`
+		Labels        *[]store.L10n   `json:"labels"`
 		Layout        *store.L10n     `json:"layout"`
 		Features      *store.L10nList `json:"features"`
 		Note          *store.L10n     `json:"note"`
@@ -338,8 +350,46 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 	if in.Accessible != nil {
 		a.Accessible = *in.Accessible
 	}
-	if in.Type != nil {
-		a.Type = *in.Type
+	if in.Floor != nil {
+		a.Floor = *in.Floor
+	}
+	if in.FlatType != nil {
+		a.FlatType = *in.FlatType
+	}
+	if in.Amenities != nil {
+		// Keep the order of the fixed list and drop repeats.
+		chosen := map[string]bool{}
+		for _, key := range *in.Amenities {
+			if !slices.Contains(store.Amenities, key) {
+				fields["amenities"] = "invalid"
+			}
+			chosen[key] = true
+		}
+		a.Amenities = []string{}
+		for _, key := range store.Amenities {
+			if chosen[key] {
+				a.Amenities = append(a.Amenities, key)
+			}
+		}
+	}
+	if in.Labels != nil {
+		a.Labels = []store.L10n{}
+		for _, l := range *in.Labels {
+			l.Cs, l.En = strings.TrimSpace(l.Cs), strings.TrimSpace(l.En)
+			if l.Cs == "" {
+				l.Cs = l.En
+			}
+			if l.Cs == "" {
+				continue
+			}
+			if utf8.RuneCountInString(l.Cs) > 40 || utf8.RuneCountInString(l.En) > 40 {
+				fields["labels"] = "too_long"
+			}
+			a.Labels = append(a.Labels, l)
+		}
+		if len(a.Labels) > 8 {
+			fields["labels"] = "too_many"
+		}
 	}
 	if in.Layout != nil {
 		a.Layout = *in.Layout
@@ -365,6 +415,12 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 	if in.Active != nil {
 		a.Active = *in.Active
 	}
+	if a.Floor < 1 || a.Floor > 3 {
+		fields["floor"] = "invalid"
+	}
+	if a.FlatType != "" && !slices.Contains(store.FlatTypes, a.FlatType) {
+		fields["flat_type"] = "invalid"
+	}
 	if a.Area < 1 || a.Area > 1000 {
 		fields["area"] = "invalid"
 	}
@@ -380,7 +436,7 @@ func (s *Server) handleAdminUpdateApartment(w http.ResponseWriter, r *http.Reque
 	if len(a.Description.Cs) > 4000 || len(a.Description.En) > 4000 {
 		fields["description"] = "too_long"
 	}
-	if len(a.Type.Cs) > 200 || len(a.Type.En) > 200 || len(a.Layout.Cs) > 1000 || len(a.Layout.En) > 1000 ||
+	if len(a.Layout.Cs) > 1000 || len(a.Layout.En) > 1000 ||
 		len(a.Note.Cs) > 1000 || len(a.Note.En) > 1000 || len(a.Features.Cs) > 60 || len(a.Features.En) > 60 {
 		fields["texts"] = "too_long"
 	}

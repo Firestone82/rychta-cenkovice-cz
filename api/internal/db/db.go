@@ -140,6 +140,25 @@ CREATE TABLE news (
 ALTER TABLE apartments ADD COLUMN description_cs TEXT NOT NULL DEFAULT '';
 ALTER TABLE apartments ADD COLUMN description_en TEXT NOT NULL DEFAULT '';
 `,
+	// The flat type becomes a fixed list, equipment a pick list, and apartments get labels.
+	`
+ALTER TABLE apartments ADD COLUMN flat_type TEXT NOT NULL DEFAULT '';
+ALTER TABLE apartments ADD COLUMN amenities TEXT NOT NULL DEFAULT '[]';
+ALTER TABLE apartments ADD COLUMN labels TEXT NOT NULL DEFAULT '[]';
+UPDATE apartments SET flat_type = CASE
+  WHEN type_cs LIKE '%4+kk%' THEN '4+kk'
+  WHEN type_cs LIKE '%4+1%' THEN '4+1'
+  WHEN type_cs LIKE '%3+kk%' THEN '3+kk'
+  WHEN type_cs LIKE '%3+1%' THEN '3+1'
+  WHEN type_cs LIKE '%2+kk%' THEN '2+kk'
+  WHEN type_cs LIKE '%2+1%' THEN '2+1'
+  WHEN type_cs LIKE '%1+kk%' THEN '1+kk'
+  WHEN type_cs LIKE '%1+1%' THEN '1+1'
+  WHEN type_cs LIKE '%garson%' THEN 'studio'
+  ELSE '' END;
+ALTER TABLE apartments DROP COLUMN type_cs;
+ALTER TABLE apartments DROP COLUMN type_en;
+`,
 }
 
 // Open opens (and creates if needed) the database at path and migrates it.

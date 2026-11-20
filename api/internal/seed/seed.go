@@ -23,18 +23,25 @@ type manifestPhoto struct {
 }
 
 const (
-	kitchenCs = "plně vybavený kuchyňský kout: lednička, myčka, mikrovlnná trouba, sklokeramická varná deska, horkovzdušná trouba, varná konvice"
-	kitchenEn = "fully equipped kitchenette: fridge, dishwasher, microwave, ceramic hob, fan oven, kettle"
+	kitchenCs = "plně vybavený kuchyňský kout"
+	kitchenEn = "fully equipped kitchenette"
 	bathCs    = "samostatná koupelna se dvěma umyvadly, sprchovým koutem a WC"
 	bathEn    = "separate bathroom with two washbasins, a shower and a toilet"
 	connectCs = "Apartmány 4 a 5 lze propojit. Každý má ve své části dveře, které si host může odemknout."
 	connectEn = "Apartments 4 and 5 can be connected. Each has a door on its own side that guests can unlock."
 )
 
+// What the original site lists for every kitchenette and bathroom.
+var (
+	baseAmenities = []string{"kitchenette", "fridge", "dishwasher", "microwave", "hob", "oven", "kettle", "bathroom", "shower", "dining-area"}
+	fullAmenities = append(append([]string{}, baseAmenities...), "tv", "sofa", "entrance-hall")
+	connectLabel  = []store.L10n{{Cs: "Lze propojit", En: "Can be connected"}}
+)
+
 func apartments() []*store.Apartment {
 	return []*store.Apartment{
 		{
-			Slug: "apartman-1", Number: 1, Floor: 3, Area: 40, Beds: 4,
+			Slug: "apartman-1", Number: 1, Floor: 3, Area: 40, Beds: 4, Amenities: fullAmenities,
 			Layout: store.L10n{Cs: "dvoulůžko + dvoulůžko", En: "two double beds"},
 			Features: store.L10nList{
 				Cs: []string{"vstupní chodbička", bathCs, "obývací pokoj se dvěma dvoulůžky, sedačkou a TV", kitchenCs, "jídelní kout"},
@@ -42,7 +49,7 @@ func apartments() []*store.Apartment {
 			},
 		},
 		{
-			Slug: "apartman-2", Number: 2, Floor: 3, Area: 50, Beds: 6,
+			Slug: "apartman-2", Number: 2, Floor: 3, Area: 50, Beds: 6, Amenities: fullAmenities,
 			Layout: store.L10n{Cs: "dvoulůžko + dvě samostatná lůžka + samostatné lůžko rozložitelné na dvoulůžko", En: "a double bed + two single beds + a single bed that folds out into a double"},
 			Features: store.L10nList{
 				Cs: []string{"vstupní chodbička", bathCs, "obývací pokoj se sedačkou a TV", kitchenCs, "jídelní kout"},
@@ -50,8 +57,7 @@ func apartments() []*store.Apartment {
 			},
 		},
 		{
-			Slug: "apartman-3", Number: 3, Floor: 2, Area: 92, Beds: 9,
-			Type:   store.L10n{Cs: "velký byt 3+1", En: "large three-room flat"},
+			Slug: "apartman-3", Number: 3, Floor: 2, Area: 92, Beds: 9, FlatType: "3+1", Amenities: fullAmenities,
 			Layout: store.L10n{Cs: "dvoulůžko v samostatné ložnici + dvoulůžko v obývacím pokoji + dětský pokoj se dvěma patrovými postelemi a jedním samostatným lůžkem", En: "a double bed in a separate bedroom + a double bed in the living room + a children's room with two bunk beds and one single bed"},
 			Features: store.L10nList{
 				Cs: []string{"vstupní chodbička", bathCs, "obývací pokoj se dvěma sedacími soupravami a TV", kitchenCs, "jídelní kout"},
@@ -59,8 +65,7 @@ func apartments() []*store.Apartment {
 			},
 		},
 		{
-			Slug: "apartman-4", Number: 4, Floor: 2, Area: 30, Beds: 3,
-			Type:   store.L10n{Cs: "malý byt 1+1, garsonka", En: "small one-room flat"},
+			Slug: "apartman-4", Number: 4, Floor: 2, Area: 30, Beds: 3, FlatType: "1+1", Amenities: baseAmenities, Labels: connectLabel,
 			Layout: store.L10n{Cs: "dvoulůžko + jednolůžko", En: "a double bed + a single bed"},
 			Features: store.L10nList{
 				Cs: []string{"samostatná ložnice se třemi lůžky", "samostatná koupelna s umyvadlem, sprchovým koutem a WC", kitchenCs, "jídelní kout"},
@@ -69,8 +74,7 @@ func apartments() []*store.Apartment {
 			Note: store.L10n{Cs: connectCs, En: connectEn},
 		},
 		{
-			Slug: "apartman-5", Number: 5, Floor: 2, Area: 72, Beds: 6, ExtraBeds: 3,
-			Type:   store.L10n{Cs: "velký byt 3+1", En: "large three-room flat"},
+			Slug: "apartman-5", Number: 5, Floor: 2, Area: 72, Beds: 6, ExtraBeds: 3, FlatType: "3+1", Amenities: fullAmenities, Labels: connectLabel,
 			Layout: store.L10n{Cs: "dvoulůžko v samostatné ložnici + dvoulůžko a dvě rozkládací sedací soupravy v obývacím pokoji + dětský pokoj s patrovou postelí a rozkládacím futonem", En: "a double bed in a separate bedroom + a double bed and two sofa beds in the living room + a children's room with a bunk bed and a fold-out futon"},
 			Features: store.L10nList{
 				Cs: []string{"vstupní chodbička", bathCs, "obývací pokoj se dvěma dvoulůžky, sedačkou a TV", kitchenCs, "jídelní kout"},
@@ -79,8 +83,7 @@ func apartments() []*store.Apartment {
 			Note: store.L10n{Cs: connectCs, En: connectEn},
 		},
 		{
-			Slug: "apartman-6", Number: 6, Floor: 1, Area: 55, Beds: 6, Accessible: true,
-			Type:   store.L10n{Cs: "bezbariérový byt 2+1", En: "step-free two-room flat"},
+			Slug: "apartman-6", Number: 6, Floor: 1, Area: 55, Beds: 6, Accessible: true, FlatType: "2+1", Amenities: fullAmenities,
 			Layout: store.L10n{Cs: "dvoulůžko + samostatné lůžko + patrová postel + samostatné lůžko v obývacím pokoji", En: "a double bed + a single bed + a bunk bed + a single bed in the living room"},
 			Features: store.L10nList{
 				Cs: []string{"vstupní chodbička", bathCs, "obývací pokoj se dvěma dvoulůžky, sedačkou a TV", kitchenCs, "jídelní kout"},

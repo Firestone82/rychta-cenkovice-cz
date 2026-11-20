@@ -87,8 +87,16 @@ func orDash(v string) string {
 }
 
 // mailGuestBooking writes to the guest in their language. kind: received | confirmed | cancelled.
-func (s *Server) mailGuestBooking(b *store.Booking, apts []*store.Apartment, kind string) mail.Message {
+// message is the owner's own note to the guest; it goes right after the opening paragraph.
+func (s *Server) mailGuestBooking(b *store.Booking, apts []*store.Apartment, kind, message string) mail.Message {
 	l := b.Language
+	if message = strings.TrimSpace(message); message != "" {
+		if l == "en" {
+			message = "A message from us:\n" + message + "\n\n"
+		} else {
+			message = "Zpráva od nás:\n" + message + "\n\n"
+		}
+	}
 	summaryCs := fmt.Sprintf("Kód rezervace: %s\nTermín: %s – %s (%d nocí)\nApartmány: %s\nPočet osob: %d\nCena: %s\n",
 		b.Code, fmtDate(b.CheckIn, "cs"), fmtDate(b.CheckOut, "cs"), b.Nights, apartmentNames(apts, "cs"), b.Guests, fmtPrice(b.TotalPrice, "cs"))
 	summaryEn := fmt.Sprintf("Booking code: %s\nDates: %s – %s (%d nights)\nApartments: %s\nGuests: %d\nPrice: %s\n",
@@ -106,16 +114,16 @@ func (s *Server) mailGuestBooking(b *store.Booking, apts []*store.Apartment, kin
 		body = "Dobrý den,\n\nděkujeme za vaši poptávku. Termín pro vás držíme a co nejdříve vám potvrdíme volno a cenu. Zatím nic neplatíte.\n\n" + summaryCs + "\nKdyby se cokoli změnilo, stačí odpovědět na tento e-mail.\n" + signCs
 	case kind == "confirmed" && l == "en":
 		subject = "Your booking " + b.Code + " is confirmed"
-		body = "Hello " + b.Name + ",\n\nyour stay at Rychta Čenkovice is confirmed. You will pick up the keys on the day of arrival; we will send the details before your stay.\n\n" + summaryEn + signEn
+		body = "Hello " + b.Name + ",\n\nyour stay at Rychta Čenkovice is confirmed. You will pick up the keys on the day of arrival; we will send the details before your stay.\n\n" + message + summaryEn + signEn
 	case kind == "confirmed":
 		subject = "Vaše rezervace " + b.Code + " je potvrzena"
-		body = "Dobrý den,\n\nváš pobyt na Rychtě Čenkovice je potvrzen. Klíče si převezmete v den příjezdu, podrobnosti vám pošleme před pobytem.\n\n" + summaryCs + signCs
+		body = "Dobrý den,\n\nváš pobyt na Rychtě Čenkovice je potvrzen. Klíče si převezmete v den příjezdu, podrobnosti vám pošleme před pobytem.\n\n" + message + summaryCs + signCs
 	case l == "en":
 		subject = "Your booking " + b.Code + " was cancelled"
-		body = "Hello " + b.Name + ",\n\nyour booking request below was cancelled. If this is a mistake or you would like other dates, reply to this e-mail or call us.\n\n" + summaryEn + signEn
+		body = "Hello " + b.Name + ",\n\nyour booking request below was cancelled. If this is a mistake or you would like other dates, reply to this e-mail or call us.\n\n" + message + summaryEn + signEn
 	default:
 		subject = "Vaše rezervace " + b.Code + " byla zrušena"
-		body = "Dobrý den,\n\nníže uvedená rezervace byla zrušena. Pokud jde o omyl nebo byste chtěli jiný termín, odpovězte na tento e-mail nebo nám zavolejte.\n\n" + summaryCs + signCs
+		body = "Dobrý den,\n\nníže uvedená rezervace byla zrušena. Pokud jde o omyl nebo byste chtěli jiný termín, odpovězte na tento e-mail nebo nám zavolejte.\n\n" + message + summaryCs + signCs
 	}
 	return mail.Message{To: b.Email, ReplyTo: s.cfg.MailTo, Subject: subject, Body: body}
 }

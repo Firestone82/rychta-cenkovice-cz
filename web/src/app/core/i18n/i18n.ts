@@ -57,6 +57,11 @@ export class I18n {
     return this.lang() === 'en' && value.en ? value.en : value.cs;
   }
 
+  /** The name of a flat type from the fixed list, or nothing when it is not stated. */
+  flatType(key: string | null | undefined): string {
+    return key ? ((this.t().flatTypes as Record<string, string>)[key] ?? '') : '';
+  }
+
   pickList(value: { cs: string[]; en: string[] } | null | undefined): string[] {
     if (!value) return [];
     return this.lang() === 'en' && value.en?.length ? value.en : value.cs;

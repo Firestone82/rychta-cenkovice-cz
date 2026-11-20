@@ -1,10 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { Api, toFailure } from '../core/api';
+import {
+  AMENITIES,
+  FLAT_TYPES,
+  FLOORS,
+  LABEL_PRESETS,
+  type Amenity,
+} from '../core/apartment-options';
 import { checkedOf, valueOf } from '../core/forms';
 import { I18n } from '../core/i18n/i18n';
-import type { Apartment } from '../core/models';
+import type { Apartment, L10n } from '../core/models';
 import { Seo } from '../core/seo';
 import { Field } from '../ui/field';
+import { Icon } from '../ui/icon';
 import { Spinner } from '../ui/spinner';
 import { Toasts } from '../ui/toast';
 
@@ -12,7 +20,7 @@ import { Toasts } from '../ui/toast';
 @Component({
   selector: 'rc-apartment-editor',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Field],
+  imports: [Field, Icon],
   template: `
     <details class="a-card">
       <summary>
@@ -104,6 +112,45 @@ import { Toasts } from '../ui/toast';
             />
           </rc-field>
           <rc-field
+            [for]="id('flat')"
+            [label]="t().admin.apartments.type"
+            [error]="errors()['flat_type']"
+          >
+            <select
+              [id]="id('flat')"
+              class="input"
+              (change)="flatType.set(value($event))"
+              [attr.aria-describedby]="id('flat') + '-msg'"
+            >
+              <option value="" [selected]="flatType() === ''">
+                {{ t().admin.apartments.typeNone }}
+              </option>
+              @for (key of flatTypes; track key) {
+                <option [value]="key" [selected]="flatType() === key">
+                  {{ key === 'studio' ? t().flatTypes[key] : key }}
+                </option>
+              }
+            </select>
+          </rc-field>
+          <rc-field
+            [for]="id('floor')"
+            [label]="t().admin.apartments.floor"
+            [error]="errors()['floor']"
+          >
+            <select
+              [id]="id('floor')"
+              class="input"
+              (change)="floor.set(value($event))"
+              [attr.aria-describedby]="id('floor') + '-msg'"
+            >
+              @for (level of floors; track level) {
+                <option [value]="level" [selected]="floor() === '' + level">
+                  {{ t().common.floor[level - 1] }}
+                </option>
+              }
+            </select>
+          </rc-field>
+          <rc-field
             [for]="id('area')"
             [label]="t().admin.apartments.area"
             [error]="errors()['area']"
@@ -138,6 +185,87 @@ import { Toasts } from '../ui/toast';
           >
         </div>
 
+        <fieldset class="group">
+          <legend>{{ t().admin.apartments.amenities }}</legend>
+          <p class="group-hint">{{ t().admin.apartments.amenitiesHint }}</p>
+          <ul class="amenities">
+            @for (key of amenityKeys; track key) {
+              <li>
+                <label class="check"
+                  ><input
+                    type="checkbox"
+                    [checked]="amenities().includes(key)"
+                    (change)="toggleAmenity(key, checked($event))"
+                  /><span>{{ t().amenities[key] }}</span></label
+                >
+              </li>
+            }
+          </ul>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend>{{ t().admin.apartments.labels }}</legend>
+          <p class="group-hint">{{ t().admin.apartments.labelsHint }}</p>
+          @if (errors()['labels']) {
+            <p class="error" role="alert">{{ errors()['labels'] }}</p>
+          }
+          <ul class="labels">
+            @for (label of labels(); track $index; let i = $index) {
+              <li>
+                <input
+                  class="input"
+                  type="text"
+                  lang="cs"
+                  maxlength="40"
+                  [attr.aria-label]="t().admin.apartments.labelCs + ' ' + (i + 1)"
+                  [placeholder]="t().admin.apartments.labelCs"
+                  [value]="label.cs"
+                  (input)="setLabel(i, 'cs', value($event))"
+                />
+                <input
+                  class="input"
+                  type="text"
+                  lang="en"
+                  maxlength="40"
+                  [attr.aria-label]="t().admin.apartments.labelEn + ' ' + (i + 1)"
+                  [placeholder]="t().admin.apartments.labelEn"
+                  [value]="label.en"
+                  (input)="setLabel(i, 'en', value($event))"
+                />
+                <button
+                  type="button"
+                  class="a-icon-btn is-danger"
+                  [attr.aria-label]="t().admin.apartments.labelRemove + ' ' + (i + 1)"
+                  (click)="removeLabel(i)"
+                >
+                  <rc-icon name="close" />
+                </button>
+              </li>
+            }
+          </ul>
+          <div class="presets">
+            <span>{{ t().admin.apartments.labelPresets }}:</span>
+            @for (preset of presets; track preset.cs) {
+              <button
+                type="button"
+                class="chip"
+                [disabled]="hasLabel(preset.cs) || labels().length >= 8"
+                (click)="addLabel(preset)"
+              >
+                + {{ i18n.pick(preset) }}
+              </button>
+            }
+            <button
+              type="button"
+              class="btn btn-quiet btn-small"
+              [disabled]="labels().length >= 8"
+              (click)="addLabel({ cs: '', en: '' })"
+            >
+              {{ t().admin.apartments.labelAdd }}
+            </button>
+          </div>
+        </fieldset>
+
         <div class="texts">
           <h3>{{ t().admin.apartments.texts }}</h3>
           <p>{{ t().admin.apartments.textsHint }}</p>
@@ -162,17 +290,6 @@ import { Toasts } from '../ui/toast';
                   (input)="patch(description, l, value($event))"
                   [attr.aria-describedby]="id('about-' + l) + '-msg'"
                 ></textarea>
-              </rc-field>
-              <rc-field [for]="id('type-' + l)" [label]="t().admin.apartments.type">
-                <input
-                  [id]="id('type-' + l)"
-                  class="input"
-                  type="text"
-                  [attr.lang]="l"
-                  [value]="type()[l]"
-                  (input)="patch(type, l, value($event))"
-                  [attr.aria-describedby]="id('type-' + l) + '-msg'"
-                />
               </rc-field>
               <rc-field [for]="id('layout-' + l)" [label]="t().admin.apartments.layout">
                 <textarea
@@ -290,6 +407,61 @@ import { Toasts } from '../ui/toast';
       flex-wrap: wrap;
       gap: 6px 24px;
     }
+    .group {
+      width: 100%;
+    }
+    .group-hint {
+      color: var(--slate-2);
+      font-size: 0.8125rem;
+    }
+    .amenities {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 4px 16px;
+    }
+    .labels {
+      display: grid;
+      gap: 6px;
+      max-width: 620px;
+    }
+    .labels:empty {
+      display: none;
+    }
+    .labels li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+      gap: 6px;
+      align-items: center;
+    }
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      color: var(--slate-2);
+      font-size: 0.8125rem;
+    }
+    .chip {
+      min-height: 26px;
+      padding: 0 10px;
+      border: 1.5px solid var(--edge);
+      border-radius: 999px;
+      background: var(--white);
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+    .chip:hover:not([disabled]) {
+      border-color: var(--timber);
+      color: var(--timber);
+    }
+    .chip[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .error {
+      font-weight: 700;
+      color: var(--timber);
+    }
     .texts {
       width: 100%;
       padding-top: 12px;
@@ -342,7 +514,14 @@ export class ApartmentEditor {
   protected readonly area = signal('');
   protected readonly active = signal(true);
   protected readonly accessible = signal(false);
-  protected readonly type = signal({ cs: '', en: '' });
+  protected readonly flatTypes = FLAT_TYPES;
+  protected readonly floors = FLOORS;
+  protected readonly amenityKeys = AMENITIES;
+  protected readonly presets = LABEL_PRESETS;
+  protected readonly flatType = signal('');
+  protected readonly floor = signal('1');
+  protected readonly amenities = signal<Amenity[]>([]);
+  protected readonly labels = signal<L10n[]>([]);
   protected readonly layout = signal({ cs: '', en: '' });
   protected readonly features = signal({ cs: '', en: '' });
   protected readonly note = signal({ cs: '', en: '' });
@@ -362,7 +541,10 @@ export class ApartmentEditor {
     this.area.set(String(a.area));
     this.active.set(a.active);
     this.accessible.set(a.accessible);
-    this.type.set({ ...a.type });
+    this.flatType.set(a.flat_type ?? '');
+    this.floor.set(String(a.floor));
+    this.amenities.set([...(a.amenities ?? [])]);
+    this.labels.set((a.labels ?? []).map((l) => ({ ...l })));
     this.layout.set({ ...a.layout });
     this.features.set({ cs: a.features.cs.join('\n'), en: a.features.en.join('\n') });
     this.note.set({ ...a.note });
@@ -381,6 +563,26 @@ export class ApartmentEditor {
     target.update((v) => ({ ...v, [lang]: text }));
   }
 
+  protected toggleAmenity(key: Amenity, on: boolean): void {
+    this.amenities.update((list) => (on ? [...list, key] : list.filter((k) => k !== key)));
+  }
+
+  protected hasLabel(cs: string): boolean {
+    return this.labels().some((l) => l.cs.trim().toLowerCase() === cs.toLowerCase());
+  }
+
+  protected addLabel(label: L10n): void {
+    if (this.labels().length < 8) this.labels.update((list) => [...list, { ...label }]);
+  }
+
+  protected setLabel(index: number, lang: 'cs' | 'en', text: string): void {
+    this.labels.update((list) => list.map((l, i) => (i === index ? { ...l, [lang]: text } : l)));
+  }
+
+  protected removeLabel(index: number): void {
+    this.labels.update((list) => list.filter((_, i) => i !== index));
+  }
+
   protected async save(event: Event): Promise<void> {
     event.preventDefault();
     if (this.busy()) return;
@@ -396,7 +598,10 @@ export class ApartmentEditor {
       area: Number(this.area()),
       active: this.active(),
       accessible: this.accessible(),
-      type: this.type(),
+      flat_type: this.flatType(),
+      floor: Number(this.floor()),
+      amenities: this.amenities(),
+      labels: this.labels().filter((l) => l.cs.trim() || l.en.trim()),
       layout: this.layout(),
       features: { cs: lines(this.features().cs), en: lines(this.features().en) },
       note: this.note(),
@@ -411,6 +616,7 @@ export class ApartmentEditor {
     try {
       const saved = await this.api.updateApartment(this.apartment().id, body);
       this.toasts.show(this.t().admin.apartments.saved);
+      this.labels.set(saved.labels.map((l) => ({ ...l })));
       this.saved.emit(saved);
     } catch (err) {
       const failure = toFailure(err);

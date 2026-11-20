@@ -270,3 +270,50 @@ func TestContactAndLogout(t *testing.T) {
 		t.Fatalf("refresh after logout: want 401, got %d", code)
 	}
 }
+
+func TestApartmentOptions(t *testing.T) {
+	e := newEnv(t)
+	e.login()
+	const path = "/admin/apartments/1"
+
+	if got := e.do("PATCH", path, map[string]any{"flat_type": "castle"}, nil); got != http.StatusUnprocessableEntity {
+		t.Fatalf("unknown flat type: got %d", got)
+	}
+	if got := e.do("PATCH", path, map[string]any{"amenities": []string{"wifi", "helipad"}}, nil); got != http.StatusUnprocessableEntity {
+		t.Fatalf("unknown amenity: got %d", got)
+	}
+	if got := e.do("PATCH", path, map[string]any{"floor": 7}, nil); got != http.StatusUnprocessableEntity {
+		t.Fatalf("unknown floor: got %d", got)
+	}
+
+	var a store.Apartment
+	body := map[string]any{
+		"flat_type": "2+kk",
+		"floor":     2,
+		"amenities": []string{"wifi", "fridge", "wifi"},
+		"labels": []map[string]string{
+			{"cs": " Pro rodiny ", "en": "Good for families"},
+			{"cs": "", "en": "Attic"},
+			{"cs": "", "en": ""},
+		},
+	}
+	if got := e.do("PATCH", path, body, &a); got != http.StatusOK {
+		t.Fatalf("valid options: got %d", got)
+	}
+	if a.FlatType != "2+kk" || a.Floor != 2 {
+		t.Fatalf("flat type or floor not saved: %+v", a)
+	}
+	// Amenities come back once each, in the order of the fixed list.
+	if len(a.Amenities) != 2 || a.Amenities[0] != "fridge" || a.Amenities[1] != "wifi" {
+		t.Fatalf("amenities: %v", a.Amenities)
+	}
+	// Labels are trimmed, an English-only label is used for Czech too, empty ones are dropped.
+	if len(a.Labels) != 2 || a.Labels[0].Cs != "Pro rodiny" || a.Labels[1].Cs != "Attic" {
+		t.Fatalf("labels: %+v", a.Labels)
+	}
+
+	var public store.Apartment
+	if got := e.do("GET", "/apartments/apartman-1", nil, &public); got != http.StatusOK || public.FlatType != "2+kk" || len(public.Labels) != 2 {
+		t.Fatalf("public apartment: %d %+v", got, public)
+	}
+}

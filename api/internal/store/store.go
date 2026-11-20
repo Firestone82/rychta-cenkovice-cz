@@ -267,6 +267,32 @@ func (s *Store) NextPhotoSort(ctx context.Context) (int, error) {
 
 // ---------- apartments ----------
 
+// FlatTypes and Amenities are the fixed lists an apartment chooses from. The website keeps
+// the same keys with their Czech and English names in web/src/app/core/apartment-options.ts.
+var FlatTypes = []string{"studio", "1+kk", "1+1", "2+kk", "2+1", "3+kk", "3+1", "4+kk", "4+1"}
+
+var Amenities = []string{
+	"kitchenette", "kitchen", "fridge", "dishwasher", "microwave", "hob", "oven", "kettle", "coffee-maker",
+	"bathroom", "shower", "bathtub", "washing-machine", "hairdryer",
+	"tv", "wifi", "sofa", "dining-area", "entrance-hall", "wardrobe", "balcony", "cot",
+}
+
+func listJSON(v []string) string {
+	if v == nil {
+		v = []string{}
+	}
+	out, _ := json.Marshal(v)
+	return string(out)
+}
+
+func labelsJSON(v []L10n) string {
+	if v == nil {
+		v = []L10n{}
+	}
+	out, _ := json.Marshal(v)
+	return string(out)
+}
+
 type Apartment struct {
 	ID            int64    `json:"id"`
 	Slug          string   `json:"slug"`
@@ -276,7 +302,9 @@ type Apartment struct {
 	Beds          int      `json:"beds"`
 	ExtraBeds     int      `json:"extra_beds"`
 	Accessible    bool     `json:"accessible"`
-	Type          L10n     `json:"type"`
+	FlatType      string   `json:"flat_type"`
+	Amenities     []string `json:"amenities"`
+	Labels        []L10n   `json:"labels"`
 	Layout        L10n     `json:"layout"`
 	Features      L10nList `json:"features"`
 	Note          L10n     `json:"note"`
@@ -288,18 +316,26 @@ type Apartment struct {
 	Photos        []*Photo `json:"photos,omitempty"`
 }
 
-const apartmentCols = `id, slug, number, floor, area, beds, extra_beds, accessible, type_cs, type_en, layout_cs, layout_en, features_cs, features_en, note_cs, note_en, description_cs, description_en, price_per_night, min_nights, active`
+const apartmentCols = `id, slug, number, floor, area, beds, extra_beds, accessible, flat_type, amenities, labels, layout_cs, layout_en, features_cs, features_en, note_cs, note_en, description_cs, description_en, price_per_night, min_nights, active`
 
 func scanApartment(row scanner) (*Apartment, error) {
 	a := &Apartment{}
-	var fcs, fen string
+	var fcs, fen, amenities, labels string
 	var price sql.NullInt64
-	if err := row.Scan(&a.ID, &a.Slug, &a.Number, &a.Floor, &a.Area, &a.Beds, &a.ExtraBeds, &a.Accessible, &a.Type.Cs, &a.Type.En,
+	if err := row.Scan(&a.ID, &a.Slug, &a.Number, &a.Floor, &a.Area, &a.Beds, &a.ExtraBeds, &a.Accessible, &a.FlatType, &amenities, &labels,
 		&a.Layout.Cs, &a.Layout.En, &fcs, &fen, &a.Note.Cs, &a.Note.En, &a.Description.Cs, &a.Description.En, &price, &a.MinNights, &a.Active); err != nil {
 		return nil, err
 	}
 	_ = json.Unmarshal([]byte(fcs), &a.Features.Cs)
 	_ = json.Unmarshal([]byte(fen), &a.Features.En)
+	_ = json.Unmarshal([]byte(amenities), &a.Amenities)
+	_ = json.Unmarshal([]byte(labels), &a.Labels)
+	if a.Amenities == nil {
+		a.Amenities = []string{}
+	}
+	if a.Labels == nil {
+		a.Labels = []L10n{}
+	}
 	if a.Features.Cs == nil {
 		a.Features.Cs = []string{}
 	}
@@ -377,9 +413,10 @@ func (s *Store) ApartmentByID(ctx context.Context, id int64) (*Apartment, error)
 func (s *Store) SaveApartment(ctx context.Context, a *Apartment) error {
 	fcs, _ := json.Marshal(a.Features.Cs)
 	fen, _ := json.Marshal(a.Features.En)
-	_, err := s.DB.ExecContext(ctx, `UPDATE apartments SET floor=?, area=?, beds=?, extra_beds=?, accessible=?, type_cs=?, type_en=?, layout_cs=?, layout_en=?,
+	amenities, labels := listJSON(a.Amenities), labelsJSON(a.Labels)
+	_, err := s.DB.ExecContext(ctx, `UPDATE apartments SET floor=?, area=?, beds=?, extra_beds=?, accessible=?, flat_type=?, amenities=?, labels=?, layout_cs=?, layout_en=?,
 		features_cs=?, features_en=?, note_cs=?, note_en=?, description_cs=?, description_en=?, price_per_night=?, min_nights=?, active=? WHERE id=?`,
-		a.Floor, a.Area, a.Beds, a.ExtraBeds, a.Accessible, a.Type.Cs, a.Type.En, a.Layout.Cs, a.Layout.En, string(fcs), string(fen),
+		a.Floor, a.Area, a.Beds, a.ExtraBeds, a.Accessible, a.FlatType, amenities, labels, a.Layout.Cs, a.Layout.En, string(fcs), string(fen),
 		a.Note.Cs, a.Note.En, a.Description.Cs, a.Description.En, a.PricePerNight, a.MinNights, a.Active, a.ID)
 	return err
 }
@@ -387,10 +424,10 @@ func (s *Store) SaveApartment(ctx context.Context, a *Apartment) error {
 func (s *Store) InsertApartment(ctx context.Context, a *Apartment) (int64, error) {
 	fcs, _ := json.Marshal(a.Features.Cs)
 	fen, _ := json.Marshal(a.Features.En)
-	res, err := s.DB.ExecContext(ctx, `INSERT INTO apartments (slug, number, floor, area, beds, extra_beds, accessible, type_cs, type_en, layout_cs, layout_en,
-		features_cs, features_en, note_cs, note_en, price_per_night, min_nights, active, sort) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-		a.Slug, a.Number, a.Floor, a.Area, a.Beds, a.ExtraBeds, a.Accessible, a.Type.Cs, a.Type.En, a.Layout.Cs, a.Layout.En, string(fcs), string(fen),
-		a.Note.Cs, a.Note.En, a.PricePerNight, a.MinNights, a.Active, a.Number)
+	res, err := s.DB.ExecContext(ctx, `INSERT INTO apartments (slug, number, floor, area, beds, extra_beds, accessible, flat_type, amenities, labels, layout_cs, layout_en,
+		features_cs, features_en, note_cs, note_en, description_cs, description_en, price_per_night, min_nights, active, sort) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+		a.Slug, a.Number, a.Floor, a.Area, a.Beds, a.ExtraBeds, a.Accessible, a.FlatType, listJSON(a.Amenities), labelsJSON(a.Labels), a.Layout.Cs, a.Layout.En, string(fcs), string(fen),
+		a.Note.Cs, a.Note.En, a.Description.Cs, a.Description.En, a.PricePerNight, a.MinNights, a.Active, a.Number)
 	if err != nil {
 		return 0, err
 	}

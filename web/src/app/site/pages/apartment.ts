@@ -19,12 +19,23 @@ import { PhotoGrid } from '../../ui/photo-grid';
 import { Pic } from '../../ui/pic';
 import { Spinner } from '../../ui/spinner';
 import { AptFacts } from '../apt-facts';
+import { AptLabels } from '../apt-labels';
 import { OccupancyPager } from '../occupancy-pager';
 
 @Component({
   selector: 'rc-apartment',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Pic, PhotoGrid, Lightbox, Spinner, Icon, AptFacts, OccupancyPager],
+  imports: [
+    RouterLink,
+    Pic,
+    PhotoGrid,
+    Lightbox,
+    Spinner,
+    Icon,
+    AptFacts,
+    AptLabels,
+    OccupancyPager,
+  ],
   template: `
     @if (apartment(); as a) {
       <header class="wrap page-head">
@@ -35,7 +46,8 @@ import { OccupancyPager } from '../occupancy-pager';
           <span class="no num" aria-hidden="true">{{ a.number }}</span>
           <div>
             <h1 class="h1">{{ t().common.apartment }} {{ a.number }}</h1>
-            <p class="type">{{ i18n.pick(a.type) }}</p>
+            <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
+            <rc-apt-labels [labels]="a.labels" />
           </div>
         </div>
       </header>
@@ -85,12 +97,24 @@ import { OccupancyPager } from '../occupancy-pager';
       <section class="section section-white">
         <div class="wrap detail">
           <div>
-            <h2 class="h2 sub">{{ t().apartment.featuresTitle }}</h2>
-            <ul class="roofs">
-              @for (f of i18n.pickList(a.features); track f) {
-                <li>{{ f }}</li>
+            @if (a.amenities.length) {
+              <h2 class="h2 sub">{{ t().apartment.featuresTitle }}</h2>
+              <ul class="amenities">
+                @for (key of a.amenities; track key) {
+                  <li><rc-icon name="check" /> {{ t().amenities[key] }}</li>
+                }
+              </ul>
+            }
+            @if (i18n.pickList(a.features); as rooms) {
+              @if (rooms.length) {
+                <h2 class="h2 sub">{{ t().apartment.roomsTitle }}</h2>
+                <ul class="roofs">
+                  @for (f of rooms; track f) {
+                    <li>{{ f }}</li>
+                  }
+                </ul>
               }
-            </ul>
+            }
             @if (i18n.pick(a.note); as note) {
               <p class="notice note">{{ note }}</p>
             }
@@ -189,6 +213,24 @@ import { OccupancyPager } from '../occupancy-pager';
     .summary {
       display: grid;
       gap: 22px;
+    }
+    .amenities {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 8px 24px;
+      margin-bottom: clamp(28px, 4vw, 44px);
+    }
+    .amenities li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .amenities rc-icon {
+      flex: none;
+      color: var(--timber);
+    }
+    rc-apt-labels {
+      margin-top: 12px;
     }
     .about {
       white-space: pre-line;

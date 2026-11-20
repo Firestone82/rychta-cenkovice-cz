@@ -235,7 +235,7 @@ func (s *Server) handleCreateBookingRequest(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	s.mail.SendAsync(s.mailAdminBookingRequest(b, selected))
-	s.mail.SendAsync(s.mailGuestBooking(b, selected, "received"))
+	s.mail.SendAsync(s.mailGuestBooking(b, selected, "received", ""))
 	writeJSON(w, http.StatusCreated, map[string]any{
 		"code": b.Code, "status": b.Status, "check_in": b.CheckIn, "check_out": b.CheckOut,
 		"nights": b.Nights, "total_price": b.TotalPrice,

@@ -134,6 +134,9 @@ password. It takes the password from `RC_ADMIN_PASSWORD` or asks for it on the t
   declines it; the guest is told by e-mail in their language.
 - The availability check and the insert run in one database transaction, so two people
   cannot book the same apartment for overlapping dates.
+- Flat type, floor and equipment come from fixed lists (`api/internal/store/store.go` and
+  `web/src/app/core/apartment-options.ts`, kept in step). Labels, the description and the
+  other texts are free and bilingual.
 - Prices are optional. An apartment without a nightly price shows "price on request", and
   the owner sets the total when confirming.
 

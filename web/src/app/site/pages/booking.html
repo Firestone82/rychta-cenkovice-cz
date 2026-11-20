@@ -142,7 +142,7 @@
                     <span class="unit-text">
                       <strong>{{ t().common.apartment }} {{ a.number }}</strong>
                       <span class="muted">
-                        @if (i18n.pick(a.type); as type) {
+                        @if (i18n.flatType(a.flat_type); as type) {
                           {{ type }},
                         }
                         {{ a.area }} {{ t().common.areaUnit }},

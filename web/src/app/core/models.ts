@@ -1,3 +1,4 @@
+import type { Amenity, FlatType } from './apartment-options';
 export interface L10n {
   cs: string;
   en: string;
@@ -31,7 +32,9 @@ export interface Apartment {
   beds: number;
   extra_beds: number;
   accessible: boolean;
-  type: L10n;
+  flat_type: FlatType | '';
+  amenities: Amenity[];
+  labels: L10n[];
   layout: L10n;
   features: L10nList;
   note: L10n;

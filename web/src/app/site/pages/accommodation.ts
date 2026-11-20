@@ -9,12 +9,13 @@ import { Pic } from '../../ui/pic';
 import { Reveal } from '../../ui/reveal';
 import { Spinner } from '../../ui/spinner';
 import { AptFacts } from '../apt-facts';
+import { AptLabels } from '../apt-labels';
 import { SpaceLinks } from '../space-links';
 
 @Component({
   selector: 'rc-accommodation',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Pic, Reveal, Spinner, AptFacts, SpaceLinks],
+  imports: [RouterLink, Pic, Reveal, Spinner, AptFacts, AptLabels, SpaceLinks],
   template: `
     <header class="wrap page-head">
       <h1 class="h1">{{ t().accommodation.title }}</h1>
@@ -43,9 +44,10 @@ import { SpaceLinks } from '../space-links';
                     <span class="no num" aria-hidden="true">{{ a.number }}</span>
                     <div>
                       <h3 class="h3">{{ t().common.apartment }} {{ a.number }}</h3>
-                      <p class="type">{{ i18n.pick(a.type) }}</p>
+                      <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
                     </div>
                   </div>
+                  <rc-apt-labels [labels]="a.labels" />
                   <rc-apt-facts [apartment]="a" />
                   <p class="price">
                     @if (a.price_per_night !== null) {

@@ -5,6 +5,7 @@ import { Links } from '../core/links';
 import type { Apartment } from '../core/models';
 import { Icon } from '../ui/icon';
 import { Pic } from '../ui/pic';
+import { AptLabels } from './apt-labels';
 
 /**
  * The house in section: the gable split into its three floors, each apartment a cell
@@ -13,7 +14,7 @@ import { Pic } from '../ui/pic';
 @Component({
   selector: 'rc-house-diagram',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Pic, Icon],
+  imports: [RouterLink, Pic, Icon, AptLabels],
   template: `
     <div class="layout">
       <div class="house" role="group" [attr.aria-label]="t().home.house.title">
@@ -81,7 +82,7 @@ import { Pic } from '../ui/pic';
               <div class="text">
                 <h3 class="h3">
                   {{ t().common.apartment }} {{ item.number }}
-                  @if (i18n.pick(item.type); as type) {
+                  @if (i18n.flatType(item.flat_type); as type) {
                     <span class="type">{{ type }}</span>
                   }
                 </h3>
@@ -98,6 +99,7 @@ import { Pic } from '../ui/pic';
                     <li><rc-icon name="access" /> {{ t().common.stepFree }}</li>
                   }
                 </ul>
+                <rc-apt-labels [labels]="item.labels" />
                 <p class="layout-text">{{ i18n.pick(item.layout) }}</p>
                 <p class="price">
                   @if (item.price_per_night !== null) {
