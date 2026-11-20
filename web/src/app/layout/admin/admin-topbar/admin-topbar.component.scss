@@ -1,0 +1,36 @@
+:host {
+  display: contents;
+}
+
+.a-top {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .a-top {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px;
+    padding: 0 16px;
+    background: var(--slate);
+    color: var(--snow);
+  }
+
+  .a-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1.5px solid rgba(243, 245, 244, 0.6);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--snow);
+    font-weight: 700;
+  }
+}

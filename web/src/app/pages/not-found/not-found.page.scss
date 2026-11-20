@@ -1,0 +1,32 @@
+.box {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+  padding-block: clamp(40px, 8vw, 110px) var(--section);
+}
+svg {
+  width: clamp(150px, 20vw, 220px);
+}
+.post {
+  fill: var(--slate);
+}
+.board {
+  fill: var(--white);
+  stroke: var(--slate);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+.stripe {
+  fill: var(--timber);
+}
+.ground {
+  stroke: var(--line-strong);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}

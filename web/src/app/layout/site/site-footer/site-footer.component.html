@@ -1,0 +1,58 @@
+<footer class="footer on-dark">
+  <svg
+    class="ridge"
+    viewBox="0 0 1440 150"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      class="far"
+      d="M0 150V96l120-52 96 40 150-78 132 70 84-30 168 74 110-58 130 40 150-66 140 62 160-50v102z"
+    />
+    <path
+      class="near"
+      d="M0 150v-30l210-58 120 34 96-22 150 46 174-70 130 52 190-40 150 50 220-34v72z"
+    />
+  </svg>
+  <svg class="house" viewBox="0 0 120 96" aria-hidden="true" focusable="false">
+    <path class="smoke" d="M82 20c-4-6 5-9 1-15" />
+    <path class="chimney" d="M78 22h8v18h-8z" />
+    <path class="roof" d="M60 6 110 72H10z" />
+    <path class="boards" d="M30 72 60 30l30 42M45 72l15-21 15 21" />
+    <path class="plinth" d="M16 72h88v24H16z" />
+    <path class="lit" d="M28 79h12v10H28zM54 79h12v10H54zM80 79h12v10H80zM54 52h12v10H54z" />
+  </svg>
+
+  <div class="wrap">
+    <div class="top">
+      <div class="reach">
+        <rc-logo class="flogo" />
+        <p class="tagline">{{ t().footer.tagline }}</p>
+        <a class="phone num" [href]="contact.phoneHref">{{ contact.phone }}</a>
+        <a class="mail" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+        <address>
+          @for (line of t().contact.address; track line) {
+            <span>{{ line }}</span>
+          }
+        </address>
+        <a class="fb" [href]="contact.facebook" target="_blank" rel="noopener">
+          <rc-icon name="facebook" /> {{ t().contact.facebook }}
+          <span class="sr-only">({{ t().common.newTab }})</span>
+        </a>
+      </div>
+
+      <rc-footer-nav />
+    </div>
+
+    <div class="legal">
+      <span>© {{ year }} {{ t().footer.rights }}</span>
+      <span class="legal-links">
+        <button type="button" id="open-cookie-settings" (click)="consent.settingsOpen.set(true)">
+          {{ t().cookies.footerLink }}
+        </button>
+        <a routerLink="/admin">{{ t().footer.admin }}</a>
+      </span>
+    </div>
+  </div>
+</footer>

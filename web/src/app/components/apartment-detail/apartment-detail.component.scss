@@ -1,0 +1,41 @@
+:host {
+  display: contents;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 48px clamp(32px, 6vw, 88px);
+  align-items: start;
+}
+.detail:empty {
+  display: none;
+}
+.amenities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px 24px;
+}
+.amenities li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.amenities rc-icon {
+  flex: none;
+  color: var(--timber);
+}
+.photos {
+  margin-top: clamp(48px, 7vw, 88px);
+}
+.detail:empty + .photos {
+  margin-top: 0;
+}
+.sub {
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+.note {
+  margin-top: 32px;
+  max-width: 46rem;
+  background: var(--snow);
+}

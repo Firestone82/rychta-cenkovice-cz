@@ -1,0 +1,17 @@
+@if (failed()) {
+  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+  <button type="button" class="btn btn-ghost" (click)="more.emit()">
+    {{ t().common.retry }}
+  </button>
+} @else if (loading()) {
+  <rc-spinner [label]="shown() ? t().gallery.loadingMore : t().common.loading" />
+} @else if (hasMore()) {
+  <button type="button" class="btn btn-ghost" (click)="more.emit()">
+    {{ t().gallery.loadMore }}
+  </button>
+}
+@if (total() > 0) {
+  <p class="shown muted" aria-live="polite">
+    {{ i18n.fill(t().gallery.shown, { n: shown(), total: total() }) }}
+  </p>
+}

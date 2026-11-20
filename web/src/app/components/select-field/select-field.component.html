@@ -1,0 +1,19 @@
+<label [for]="key()">{{ label() }}</label>
+<select
+  [id]="key()"
+  class="input"
+  (change)="value.set(valueOf($event))"
+  [attr.aria-invalid]="error() ? 'true' : null"
+  [attr.aria-describedby]="key() + '-msg'"
+>
+  @for (option of options(); track option.value) {
+    <option [value]="option.value" [selected]="value() === option.value">{{ option.label }}</option>
+  }
+</select>
+<div [id]="key() + '-msg'" class="msg">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (hint()) {
+    <p class="hint">{{ hint() }}</p>
+  }
+</div>

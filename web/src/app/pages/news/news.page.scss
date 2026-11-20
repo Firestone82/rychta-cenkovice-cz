@@ -1,0 +1,25 @@
+.body {
+  padding-bottom: var(--section);
+}
+.list {
+  border-top: 2px solid var(--slate);
+}
+article {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 12px clamp(24px, 5vw, 72px);
+  padding: clamp(28px, 4vw, 48px) 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+time {
+  color: var(--slate-2);
+  font-weight: 700;
+}
+.text {
+  margin-top: 14px;
+}
+@media (max-width: 720px) {
+  article {
+    grid-template-columns: 1fr;
+  }
+}

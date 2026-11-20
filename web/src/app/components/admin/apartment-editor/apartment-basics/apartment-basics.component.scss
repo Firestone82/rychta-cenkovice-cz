@@ -1,0 +1,17 @@
+:host {
+  display: contents;
+}
+
+.row4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  margin-top: 10px;
+}
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+}

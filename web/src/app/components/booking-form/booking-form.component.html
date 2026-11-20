@@ -1,0 +1,8 @@
+<form class="wrap layout" (submit)="submit($event)" novalidate #form>
+  <div class="steps">
+    <rc-booking-dates />
+    <rc-booking-units />
+    <rc-booking-contact />
+  </div>
+  <rc-booking-summary [failure]="failure()" [sending]="sending()" />
+</form>

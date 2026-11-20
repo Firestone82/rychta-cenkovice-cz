@@ -1,0 +1,16 @@
+:host {
+  display: contents;
+}
+
+.more {
+  display: grid;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.btn {
+  width: 100%;
+}
+.orig {
+  font-weight: 700;
+}

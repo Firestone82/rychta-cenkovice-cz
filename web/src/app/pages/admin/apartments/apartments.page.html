@@ -1,0 +1,19 @@
+<div class="a-head">
+  <div>
+    <h1>{{ t().admin.apartments.title }}</h1>
+    <p>{{ t().admin.apartments.lead }}</p>
+  </div>
+</div>
+@if (items(); as list) {
+  @if (list.length) {
+    <div class="list">
+      @for (a of list; track a.id) {
+        <rc-apartment-editor [apartment]="a" (saved)="replace($event)" />
+      }
+    </div>
+  } @else {
+    <p class="a-empty">{{ t().common.loadFailed }}</p>
+  }
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}

@@ -1,0 +1,39 @@
+:host {
+  display: contents;
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.filter button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1.5px solid var(--edge);
+  border-radius: 999px;
+  background: transparent;
+  font-weight: 700;
+  font-size: 0.97rem;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+.filter button:hover {
+  border-color: var(--slate);
+}
+.filter button[aria-pressed='true'] {
+  background: var(--slate);
+  border-color: var(--slate);
+  color: var(--white);
+}
+.count {
+  font-weight: 500;
+  font-size: 0.88rem;
+  opacity: 0.72;
+}

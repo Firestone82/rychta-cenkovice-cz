@@ -1,0 +1,48 @@
+.jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.jump a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1.5px solid var(--edge);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.jump a::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tone);
+}
+.jump a:hover {
+  border-color: var(--slate);
+}
+[data-season='winter'] {
+  --tone: var(--winter);
+}
+[data-season='spring'] {
+  --tone: var(--spring);
+}
+[data-season='summer'] {
+  --tone: var(--larch);
+}
+[data-season='autumn'] {
+  --tone: var(--autumn);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(40px, 5vw, 64px);
+}

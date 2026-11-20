@@ -1,0 +1,26 @@
+<header class="wrap page-head">
+  <h1 class="h1">{{ t().availability.title }}</h1>
+  <p class="lead">{{ t().availability.lead }}</p>
+</header>
+
+<section class="wrap calendar">
+  @if (apartments(); as list) {
+    @if (list.length) {
+      <rc-occupancy-pager [apartments]="list" [level]="2" />
+    } @else {
+      <p class="notice is-error">{{ t().common.loadFailed }}</p>
+    }
+  } @else {
+    <rc-spinner [label]="t().common.loading" />
+  }
+  <p class="book">
+    <a class="btn" [routerLink]="links.to('booking')">{{ t().availability.book }}</a>
+  </p>
+</section>
+
+<section class="section section-white" aria-labelledby="av-steps">
+  <div class="wrap">
+    <h2 id="av-steps" class="h1 steps-title">{{ t().home.steps.title }}</h2>
+    <rc-steps />
+  </div>
+</section>

@@ -1,0 +1,36 @@
+<div class="a-head">
+  <div>
+    <h1>{{ t().admin.dashboard.title }}</h1>
+    @if (today()) {
+      <p>{{ i18n.date(today(), 'long') }}</p>
+    }
+  </div>
+  <div class="a-actions">
+    <a class="btn" routerLink="/admin/bookings/new"
+      ><rc-icon name="plus" /> {{ t().admin.dashboard.newBooking }}</a
+    >
+  </div>
+</div>
+
+@if (data(); as d) {
+  <rc-dashboard-stats [data]="d" />
+  <rc-dashboard-pending
+    [bookings]="d.pending"
+    [apartments]="apartments()"
+    [busyId]="busy()"
+    (decide)="decide($event)"
+  />
+
+  <div class="two">
+    <rc-dashboard-movements kind="arrivals" [bookings]="d.arrivals" [apartments]="apartments()" />
+    <rc-dashboard-movements
+      kind="departures"
+      [bookings]="d.departures"
+      [apartments]="apartments()"
+    />
+  </div>
+} @else if (failed()) {
+  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}

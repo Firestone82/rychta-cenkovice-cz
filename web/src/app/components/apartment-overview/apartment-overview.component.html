@@ -1,0 +1,17 @@
+<section class="section section-white every">
+  <div class="wrap every-grid">
+    <div>
+      <ul class="roofs points">
+        @for (p of t().accommodation.points; track p) {
+          <li>{{ p }}</li>
+        }
+      </ul>
+      <p class="note muted">{{ t().accommodation.note }}</p>
+    </div>
+
+    <div>
+      <rc-apartment-table [apartments]="apartments()" />
+      <p class="total">{{ t().accommodation.totalBeds }}</p>
+    </div>
+  </div>
+</section>

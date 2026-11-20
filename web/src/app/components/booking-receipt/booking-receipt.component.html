@@ -1,0 +1,33 @@
+@let r = receipt();
+<div class="wrap done" role="status" tabindex="-1">
+  <svg viewBox="0 0 64 48" aria-hidden="true" focusable="false">
+    <path d="M6 44V22L32 4l26 18v22" />
+    <path class="tick" d="m22 30 8 8 14-16" />
+  </svg>
+  <h1 class="h1">{{ t().booking.doneTitle }}</h1>
+  <p class="lead">{{ i18n.fill(t().booking.doneText, { email: email() }) }}</p>
+  <dl class="receipt">
+    <div>
+      <dt>{{ t().booking.doneCode }}</dt>
+      <dd class="num code">{{ r.code }}</dd>
+    </div>
+    <div>
+      <dt>{{ t().booking.stepDates }}</dt>
+      <dd>
+        {{ i18n.range(r.check_in, r.check_out) }}, {{ i18n.count(r.nights, t().plural.nights) }}
+      </dd>
+    </div>
+    @if (r.total_price !== null) {
+      <div>
+        <dt>{{ t().booking.priceEstimate }}</dt>
+        <dd>{{ i18n.money(r.total_price) }}</dd>
+      </div>
+    }
+  </dl>
+  <p class="actions">
+    <a class="btn" [routerLink]="links.to('home')">{{ t().booking.doneHome }}</a>
+    <button type="button" class="btn btn-ghost" (click)="again.emit()">
+      {{ t().booking.doneAgain }}
+    </button>
+  </p>
+</div>

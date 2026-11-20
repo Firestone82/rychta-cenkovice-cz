@@ -1,0 +1,45 @@
+:host {
+  display: contents;
+}
+
+.summary {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 2.5vw, 30px);
+  background: var(--white);
+  border-top: 6px solid var(--timber);
+
+  dl {
+    display: grid;
+    gap: 14px;
+  }
+
+  dt {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--slate-2);
+  }
+
+  .price {
+    font-size: 2.2rem;
+    line-height: 1;
+  }
+
+  .notice {
+    margin: 0;
+  }
+
+  .submit {
+    width: 100%;
+    min-height: 54px;
+    font-size: 1.08rem;
+  }
+}
+
+@media (max-width: 960px) {
+  .summary {
+    position: static;
+  }
+}

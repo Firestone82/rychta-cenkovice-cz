@@ -1,0 +1,21 @@
+@let arriving = kind() === 'arrivals';
+<section class="a-card">
+  <h2>{{ t().admin.dashboard[kind()] }}</h2>
+  @if (bookings().length) {
+    <ul class="rows compact">
+      @for (b of bookings(); track b.id) {
+        <li>
+          <span class="day num">{{
+            i18n.date(arriving ? b.check_in : b.check_out, 'weekday')
+          }}</span>
+          <a class="who" [routerLink]="['/admin/bookings', b.id]">
+            <strong>{{ b.name }}</strong>
+            <span class="sub">{{ detail(b) }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="muted">{{ t().admin.dashboard.none }}</p>
+  }
+</section>

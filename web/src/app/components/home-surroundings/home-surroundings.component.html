@@ -1,0 +1,32 @@
+<section class="section around" aria-labelledby="around-title">
+  <div class="wrap around-grid">
+    <div>
+      <h2 id="around-title" class="h1">{{ t().home.seasons.title }}</h2>
+      <p class="lead muted">{{ t().leisure.lead }}</p>
+      <p class="more">
+        <a class="link" [routerLink]="links.to('leisure')">{{ t().home.seasons.all }}</a>
+      </p>
+      @if (photos().length) {
+        <ul class="strip">
+          @for (photo of photos(); track photo.id; let i = $index) {
+            <li>
+              <button
+                type="button"
+                (click)="lightbox.set(i)"
+                [attr.aria-label]="t().gallery.open + ': ' + i18n.pick(photo.alt)"
+              >
+                <rc-pic [photo]="photo" ratio="1/1" sizes="160px" [decorative]="true" />
+              </button>
+            </li>
+          }
+        </ul>
+        <p class="more">
+          <a class="link" [routerLink]="links.to('gallery')">{{ t().home.gallery.all }}</a>
+        </p>
+      }
+    </div>
+    <rc-signpost [trips]="nearest()" rcReveal />
+  </div>
+</section>
+
+<rc-lightbox [photos]="photos()" [(index)]="lightbox" />

@@ -1,0 +1,8 @@
+<a class="a-skip" href="#admin-main" (click)="skip($event)">{{ t().common.skip }}</a>
+
+<rc-admin-topbar [(open)]="open" />
+<rc-admin-sidebar [open]="open()" [pending]="pending()" [unread]="unread()" />
+
+<main id="admin-main" class="a-main" tabindex="-1">
+  <router-outlet />
+</main>

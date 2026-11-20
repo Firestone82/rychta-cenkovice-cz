@@ -1,0 +1,47 @@
+@let p = photo();
+<img
+  [src]="media.photoUrl(p, p.widths[0])"
+  [alt]="p.alt.cs"
+  [width]="p.width"
+  [height]="p.height"
+  loading="lazy"
+  decoding="async"
+  [style.background-color]="p.color"
+/>
+@if (editing()) {
+  <form (submit)="save($event)">
+    <rc-text-field
+      [key]="'alt-cs-' + p.id"
+      lang="cs"
+      [label]="t().admin.photos.altCs"
+      [(value)]="altCs"
+    />
+    <rc-text-field
+      [key]="'alt-en-' + p.id"
+      lang="en"
+      [label]="t().admin.photos.altEn"
+      [(value)]="altEn"
+    />
+    <div class="a-actions">
+      <button class="btn btn-small" type="submit">{{ t().admin.photos.save }}</button>
+      <button class="btn btn-small btn-quiet" type="button" (click)="editing.set(false)">
+        {{ t().admin.common.cancel }}
+      </button>
+    </div>
+  </form>
+} @else {
+  <p class="alt">{{ p.alt.cs }}</p>
+  <div class="a-actions">
+    <button type="button" class="btn btn-small btn-quiet" (click)="edit()">
+      <rc-icon name="edit" /> {{ t().admin.photos.edit }}
+    </button>
+    <button
+      type="button"
+      class="a-icon-btn is-danger"
+      (click)="remove()"
+      [attr.aria-label]="t().admin.photos.delete + ': ' + p.alt.cs"
+    >
+      <rc-icon name="trash" />
+    </button>
+  </div>
+}

@@ -1,0 +1,17 @@
+<section class="section diagram" aria-labelledby="house-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="house-title" class="h1">{{ t().home.house.title }}</h2>
+      <p class="lead muted">{{ t().home.house.lead }}</p>
+    </div>
+    @if (apartments(); as list) {
+      @if (list.length) {
+        <rc-house-diagram [apartments]="list" />
+      } @else {
+        <p class="notice is-error">{{ t().common.loadFailed }}</p>
+      }
+    } @else {
+      <rc-spinner [label]="t().common.loading" />
+    }
+  </div>
+</section>

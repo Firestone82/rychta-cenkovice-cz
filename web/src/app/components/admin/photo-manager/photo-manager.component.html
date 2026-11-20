@@ -1,0 +1,31 @@
+<rc-photo-target
+  [(category)]="category"
+  [(apartmentId)]="apartmentId"
+  [apartments]="apartments()"
+  [progress]="progress()"
+  (files)="upload($event)"
+/>
+
+@if (problems().length) {
+  <ul class="notice is-error problems" role="alert">
+    @for (p of problems(); track p) {
+      <li>{{ p }}</li>
+    }
+  </ul>
+}
+
+@if (items(); as list) {
+  @if (list.length) {
+    <ul class="grid">
+      @for (p of list; track p.id) {
+        <li class="a-card">
+          <rc-photo-card [photo]="p" (saved)="replace($event)" (removed)="drop(p.id)" />
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="a-empty">{{ failed() ? t().common.loadFailed : t().admin.photos.empty }}</p>
+  }
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}

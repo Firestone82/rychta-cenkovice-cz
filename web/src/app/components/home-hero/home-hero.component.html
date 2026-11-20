@@ -1,0 +1,62 @@
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="copy">
+      <h1 class="display">{{ t().home.title }}</h1>
+      <p class="lead">{{ t().home.lead }}</p>
+
+      <rc-stay-search />
+    </div>
+
+    <div class="view">
+      <div class="window-wrap">
+        <div class="window-shadow" aria-hidden="true"></div>
+        <div class="window">
+          @for (s of seasons; track s) {
+            @if (seen().includes(s)) {
+              <img
+                [class.is-on]="season() === s"
+                [src]="photos[s]?.src"
+                [attr.srcset]="photos[s]?.srcset"
+                sizes="(max-width: 900px) 86vw, 520px"
+                width="640"
+                height="800"
+                [alt]="season() === s ? t().home.heroAlt[s] : ''"
+                [attr.aria-hidden]="season() === s ? null : 'true'"
+                fetchpriority="high"
+                decoding="async"
+              />
+            }
+          }
+          <svg
+            class="chevrons"
+            viewBox="0 0 100 125"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M18 43 50 12.5 82 43" />
+            <path d="M34 43 50 27.5 66 43" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="season" role="group" [attr.aria-label]="t().seasons.label">
+        @for (s of seasons; track s) {
+          <button
+            type="button"
+            [attr.data-season]="s"
+            [attr.aria-pressed]="season() === s"
+            (click)="pick(s)"
+          >
+            {{ t().seasons[s].name }}
+          </button>
+        }
+      </div>
+      <p class="season-line" aria-live="polite">
+        <a [routerLink]="links.to('leisure')" [fragment]="season()">{{
+          t().seasons[season()].line
+        }}</a>
+      </p>
+    </div>
+  </div>
+</section>

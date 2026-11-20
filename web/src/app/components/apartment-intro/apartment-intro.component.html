@@ -1,0 +1,42 @@
+@let a = apartment();
+<section class="wrap top">
+  @if (cover(); as cover) {
+    <button
+      type="button"
+      class="cover"
+      (click)="openCover.emit()"
+      [attr.aria-label]="t().gallery.open"
+    >
+      <rc-pic
+        [photo]="cover"
+        ratio="3/2"
+        [eager]="true"
+        [decorative]="true"
+        sizes="(max-width: 900px) 100vw, 700px"
+      />
+    </button>
+  }
+  <div class="summary">
+    <rc-apartment-facts [apartment]="a" />
+    @if (i18n.pick(a.description); as about) {
+      <p class="about">{{ about }}</p>
+    }
+    <div>
+      <h2 class="label">{{ t().apartment.layoutTitle }}</h2>
+      <p>{{ i18n.pick(a.layout) }}</p>
+    </div>
+    <p class="price">
+      @if (a.price_per_night !== null) {
+        <strong class="num">{{ i18n.money(a.price_per_night) }}</strong>
+        {{ t().common.perNight }}
+      } @else {
+        <strong>{{ t().common.priceOnRequest }}</strong>
+      }
+    </p>
+    <div class="actions">
+      <a class="btn" [routerLink]="links.to('booking')" [queryParams]="{ a: a.number }">{{
+        t().apartment.book
+      }}</a>
+    </div>
+  </div>
+</section>

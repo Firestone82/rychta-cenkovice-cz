@@ -1,0 +1,52 @@
+<article class="panel" aria-live="polite">
+  <!-- A one-item loop keyed by id recreates the block, which replays the swap animation. -->
+  @for (item of [apartment()]; track item.id) {
+    <div class="swap">
+      @if (item.cover; as cover) {
+        <rc-pic [photo]="cover" ratio="4/3" sizes="(max-width: 900px) 100vw, 480px" />
+      }
+      <div class="text">
+        <h3 class="h3">
+          {{ t().common.apartment }} {{ item.number }}
+          @if (i18n.flatType(item.flat_type); as type) {
+            <span class="type">{{ type }}</span>
+          }
+        </h3>
+        <ul class="facts">
+          <li><rc-icon name="area" /> {{ item.area }} m²</li>
+          <li>
+            <rc-icon name="bed" /> {{ i18n.count(item.beds, t().plural.beds) }}
+            @if (item.extra_beds) {
+              + {{ item.extra_beds }} {{ t().common.extraBeds }}
+            }
+          </li>
+          <li><rc-icon name="stairs" /> {{ t().common.floor[item.floor - 1] }}</li>
+          @if (item.accessible) {
+            <li><rc-icon name="access" /> {{ t().common.stepFree }}</li>
+          }
+        </ul>
+        <rc-apartment-labels [labels]="item.labels" />
+        <p class="layout-text">{{ i18n.pick(item.layout) }}</p>
+        <p class="price">
+          @if (item.price_per_night !== null) {
+            <strong>{{ i18n.money(item.price_per_night) }}</strong>
+            {{ t().common.perNight }}
+          } @else {
+            {{ t().common.priceOnRequest }}
+          }
+        </p>
+        <div class="actions">
+          <a class="btn" [routerLink]="links.apartment(item.number)">{{
+            t().accommodation.detail
+          }}</a>
+          <a
+            class="btn btn-ghost"
+            [routerLink]="links.to('booking')"
+            [queryParams]="{ a: item.number }"
+            >{{ t().nav.book }}</a
+          >
+        </div>
+      </div>
+    </div>
+  }
+</article>

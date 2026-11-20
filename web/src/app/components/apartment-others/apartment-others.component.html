@@ -1,0 +1,23 @@
+@if (apartments().length) {
+  <section class="section section-white" aria-labelledby="apt-others">
+    <div class="wrap">
+      <h2 id="apt-others" class="h2 sub">{{ t().apartment.others }}</h2>
+      <ul class="others">
+        @for (o of apartments(); track o.id) {
+          <li>
+            <a [routerLink]="links.apartment(o.number)">
+              <span class="num">{{ o.number }}</span>
+              <span>
+                <strong>{{ t().common.apartment }} {{ o.number }}</strong>
+                <span class="muted"
+                  >{{ o.area }} {{ t().common.areaUnit }},
+                  {{ i18n.count(o.beds, t().plural.beds) }}</span
+                >
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+}

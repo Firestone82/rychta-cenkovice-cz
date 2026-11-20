@@ -1,0 +1,29 @@
+<div class="wrap body">
+  <rc-gallery-filter
+    [counts]="counts()"
+    [selected]="category()"
+    (selectedChange)="choose($event)"
+  />
+
+  @if (photos().length) {
+    <rc-photo-grid
+      [photos]="photos()"
+      [rhythm]="true"
+      [eagerCount]="4"
+      (open)="lightbox.set($event)"
+    />
+  } @else if (!loading() && !failed()) {
+    <p class="notice">{{ t().gallery.empty }}</p>
+  }
+
+  <rc-gallery-more
+    (rcNearView)="load()"
+    [shown]="photos().length"
+    [total]="total()"
+    [loading]="loading()"
+    [failed]="failed()"
+    (more)="load()"
+  />
+</div>
+
+<rc-lightbox [photos]="photos()" [total]="total()" [(index)]="lightbox" (nearEnd)="load()" />

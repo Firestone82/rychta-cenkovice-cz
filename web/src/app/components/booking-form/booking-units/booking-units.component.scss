@@ -1,0 +1,35 @@
+:host {
+  display: contents;
+}
+
+.status {
+  min-height: 1.6em;
+  margin-top: 12px;
+  font-weight: 700;
+
+  &.is-error {
+    color: var(--timber);
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+.hint {
+  margin: -6px 0 16px;
+}
+
+.notice {
+  margin-bottom: 16px;
+}
+
+.units {
+  display: grid;
+  gap: 8px;
+  transition: opacity 0.2s;
+
+  &.is-checking {
+    opacity: 0.6;
+  }
+}

@@ -1,0 +1,46 @@
+@let text = t().admin.apartments;
+@let v = texts();
+<fieldset>
+  <legend>{{ lang() === 'cs' ? 'Česky' : 'English' }}</legend>
+  <rc-text-field
+    [key]="prefix() + 'about-' + lang()"
+    type="textarea"
+    [rows]="4"
+    [maxlength]="2000"
+    [lang]="lang()"
+    [label]="text.description"
+    [hint]="text.descriptionHint"
+    [error]="descriptionError()"
+    [value]="v.description"
+    (valueChange)="set({ description: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'layout-' + lang()"
+    type="textarea"
+    [rows]="3"
+    [compact]="true"
+    [lang]="lang()"
+    [label]="text.layout"
+    [value]="v.layout"
+    (valueChange)="set({ layout: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'features-' + lang()"
+    type="textarea"
+    [rows]="7"
+    [lang]="lang()"
+    [label]="text.features"
+    [value]="v.features"
+    (valueChange)="set({ features: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'note-' + lang()"
+    type="textarea"
+    [rows]="2"
+    [compact]="true"
+    [lang]="lang()"
+    [label]="text.note"
+    [value]="v.note"
+    (valueChange)="set({ note: $event })"
+  />
+</fieldset>

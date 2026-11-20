@@ -1,0 +1,58 @@
+<div class="layout">
+  <div class="house" role="group" [attr.aria-label]="t().home.house.title">
+    <div class="row">
+      <span class="level" aria-hidden="true"></span>
+      <div class="band peak" aria-hidden="true"><div class="boards"></div></div>
+    </div>
+    @for (floor of upper(); track floor.level) {
+      <div class="row">
+        <span class="level">{{ t().common.floor[floor.level - 1] }}</span>
+        <div class="band" [class.f3]="floor.level === 3" [class.f2]="floor.level === 2">
+          @for (a of floor.apartments; track a.id) {
+            <button
+              type="button"
+              class="cell"
+              rcHouseCell
+              [apartment]="a"
+              [style.flex-grow]="a.area"
+              [attr.aria-pressed]="selectedId() === a.id"
+              (click)="select(a)"
+              (mouseenter)="select(a)"
+              (focus)="select(a)"
+            >
+              >
+            </button>
+          }
+        </div>
+      </div>
+    }
+    <div class="row">
+      <span class="level">{{ t().common.floor[0] }}</span>
+      <div class="band plinth">
+        @for (a of ground(); track a.id) {
+          <button
+            type="button"
+            class="cell"
+            rcHouseCell
+            [apartment]="a"
+            [style.flex-grow]="a.area"
+            [attr.aria-pressed]="selectedId() === a.id"
+            (click)="select(a)"
+            (mouseenter)="select(a)"
+            (focus)="select(a)"
+          >
+            >
+          </button>
+        }
+        <div class="shared">
+          <span>{{ t().home.house.shared }}</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">{{ t().home.house.note }}</p>
+  </div>
+
+  @if (selected(); as a) {
+    <rc-house-panel [apartment]="a" />
+  }
+</div>

@@ -1,0 +1,38 @@
+:host {
+  display: contents;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 32px clamp(32px, 6vw, 88px);
+  align-items: end;
+  padding-bottom: var(--section);
+}
+.fact {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 24px;
+  color: var(--slate-2);
+}
+.fact .num {
+  font-size: clamp(3.4rem, 7vw, 6rem);
+  line-height: 0.85;
+  color: var(--timber);
+}
+.cover {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--line);
+  clip-path: polygon(0 9%, 50% 0, 100% 9%, 100% 100%, 0 100%);
+}
+.cover.ph {
+  aspect-ratio: 3 / 2;
+}
+@media (max-width: 900px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+}

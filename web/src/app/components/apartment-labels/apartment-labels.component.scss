@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+li {
+  padding: 0.1em 0.7em;
+  border: 1.5px solid var(--timber);
+  border-radius: 999px;
+  color: var(--timber);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.6;
+}

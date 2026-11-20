@@ -1,0 +1,30 @@
+@if (siteKey()) {
+  <div
+    class="box"
+    role="group"
+    tabindex="-1"
+    [attr.aria-label]="t().captcha.label"
+    [attr.aria-describedby]="key() + '-msg'"
+    [attr.data-invalid]="error() ? '' : null"
+    [id]="key()"
+  >
+    @if (!consent.external()) {
+      <p class="ask">{{ t().captcha.askText }}</p>
+      <button type="button" class="btn btn-ghost btn-small" (click)="consent.allowExternal()">
+        {{ t().captcha.allow }}
+      </button>
+    } @else {
+      @if (state() === 'loading') {
+        <rc-spinner class="wait" [label]="t().captcha.loading" />
+      }
+      @if (state() === 'failed') {
+        <p class="ask">{{ t().captcha.loadFailed }}</p>
+        <button type="button" class="btn btn-ghost btn-small" (click)="start()">
+          {{ t().captcha.retry }}
+        </button>
+      }
+      <div class="widget" #widget [hidden]="state() !== 'ready'"></div>
+    }
+  </div>
+  <p [id]="key() + '-msg'" class="error">{{ error() }}</p>
+}

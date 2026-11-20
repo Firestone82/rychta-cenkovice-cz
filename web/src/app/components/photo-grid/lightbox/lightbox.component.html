@@ -1,0 +1,58 @@
+<dialog
+  #dialog
+  (close)="index.set(null)"
+  (click)="backdrop($event)"
+  (keydown)="key($event)"
+  [attr.aria-label]="counter()"
+>
+  @if (current(); as photo) {
+    <figure (touchstart)="touchStart($event)" (touchend)="touchEnd($event)">
+      <div
+        class="frame"
+        [style.aspect-ratio]="photo.width + ' / ' + photo.height"
+        [style.background-image]="'url(' + photo.placeholder + ')'"
+      >
+        @for (p of [photo]; track p.id) {
+          <img
+            [src]="url(p)"
+            [attr.srcset]="api.srcset(p)"
+            sizes="100vw"
+            [alt]="i18n.pick(p.alt)"
+            [attr.width]="p.width"
+            [attr.height]="p.height"
+          />
+        }
+      </div>
+      <figcaption>
+        <span>{{ i18n.pick(photo.alt) }}</span>
+        <span class="count" aria-live="polite">{{ counter() }}</span>
+      </figcaption>
+    </figure>
+    <button
+      type="button"
+      class="ctl close"
+      (click)="close()"
+      [attr.aria-label]="i18n.t().common.close"
+    >
+      <rc-icon name="close" />
+    </button>
+    @if (photos().length > 1) {
+      <button
+        type="button"
+        class="ctl prev"
+        (click)="step(-1)"
+        [attr.aria-label]="i18n.t().common.previous"
+      >
+        <rc-icon name="left" />
+      </button>
+      <button
+        type="button"
+        class="ctl next"
+        (click)="step(1)"
+        [attr.aria-label]="i18n.t().common.next"
+      >
+        <rc-icon name="right" />
+      </button>
+    }
+  }
+</dialog>

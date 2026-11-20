@@ -1,0 +1,25 @@
+@if (apartment(); as a) {
+  <rc-apartment-head [apartment]="a" />
+  <rc-apartment-intro [apartment]="a" [cover]="photos()[0]" (openCover)="lightbox.set(0)" />
+  <rc-apartment-detail [apartment]="a" [photos]="photos()" (openPhoto)="lightbox.set($event)" />
+
+  <section class="section" aria-labelledby="apt-occupancy">
+    <div class="wrap">
+      <h2 id="apt-occupancy" class="h2">{{ t().apartment.availabilityTitle }}</h2>
+      <p class="lead muted occ-lead">{{ t().apartment.availabilityLead }}</p>
+      <rc-occupancy-pager [apartments]="[a]" [linked]="false" />
+    </div>
+  </section>
+
+  <rc-apartment-others [apartments]="others()" />
+  <rc-lightbox [photos]="photos()" [(index)]="lightbox" />
+} @else if (missing()) {
+  <div class="wrap page-head">
+    <h1 class="h1">{{ t().apartment.notFound }}</h1>
+    <p>
+      <a class="btn" [routerLink]="links.to('accommodation')">{{ t().apartment.backToList }}</a>
+    </p>
+  </div>
+} @else {
+  <div class="wrap page-head"><rc-spinner [label]="t().common.loading" /></div>
+}

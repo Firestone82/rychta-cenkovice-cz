@@ -1,0 +1,64 @@
+:host {
+  display: contents;
+}
+
+.done {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+  padding-block: clamp(40px, 7vw, 96px) var(--section);
+  outline: none;
+
+  svg {
+    width: 96px;
+    fill: none;
+    stroke: var(--timber);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tick {
+    stroke: var(--spruce);
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: tick 0.6s var(--ease) 0.3s forwards;
+  }
+}
+
+@keyframes tick {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.receipt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 56px;
+  padding: 24px 0;
+  border-block: 1px solid var(--line-strong);
+  width: 100%;
+
+  dt {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--slate-2);
+  }
+
+  dd {
+    font-size: 1.15rem;
+  }
+
+  .code {
+    font-size: 2.6rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

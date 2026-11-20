@@ -1,0 +1,39 @@
+<div class="reach">
+  <section>
+    <h2 class="label">{{ t().contact.call }}</h2>
+    <a class="phone num" [href]="contact.phoneHref">{{ contact.phone }}</a>
+  </section>
+  <section>
+    <h2 class="label">{{ t().contact.write }}</h2>
+    <a class="mail" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+  </section>
+  <section>
+    <h2 class="label">{{ t().contact.visit }}</h2>
+    <address>
+      <strong>{{ t().meta.site }}</strong>
+      @for (line of t().contact.address; track line) {
+        <span>{{ line }}</span>
+      }
+    </address>
+    <ul class="maps">
+      <li>
+        <a class="ext" [href]="contact.mapSeznam" target="_blank" rel="noopener">
+          <rc-icon name="pin" /> {{ t().contact.mapSeznam }}
+          <span class="sr-only">({{ t().common.newTab }})</span>
+        </a>
+      </li>
+      <li>
+        <a class="ext" [href]="contact.mapGoogle" target="_blank" rel="noopener">
+          <rc-icon name="pin" /> {{ t().contact.mapGoogle }}
+          <span class="sr-only">({{ t().common.newTab }})</span>
+        </a>
+      </li>
+      <li>
+        <a class="ext" [href]="contact.facebook" target="_blank" rel="noopener">
+          <rc-icon name="facebook" /> {{ t().contact.facebook }}
+          <span class="sr-only">({{ t().common.newTab }})</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</div>

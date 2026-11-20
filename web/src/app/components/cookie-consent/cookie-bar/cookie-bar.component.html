@@ -1,0 +1,23 @@
+@let c = t().cookies;
+<section class="bar" [attr.aria-label]="c.title">
+  <p>
+    {{ external() ? c.barText : c.barTextPlain }}
+    <a [routerLink]="links.to('privacy')">{{ c.more }}</a>
+  </p>
+  <div class="actions">
+    <button type="button" class="btn btn-small" id="cookies-accept" (click)="accept.emit()">
+      {{ c.acceptAll }}
+    </button>
+    <button type="button" class="btn btn-small" id="cookies-necessary" (click)="necessary.emit()">
+      {{ c.onlyNecessary }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-small btn-quiet"
+      id="cookies-settings"
+      (click)="settings.emit()"
+    >
+      {{ c.settings }}
+    </button>
+  </div>
+</section>

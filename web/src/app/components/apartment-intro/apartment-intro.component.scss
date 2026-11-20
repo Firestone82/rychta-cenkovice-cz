@@ -1,0 +1,46 @@
+:host {
+  display: contents;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 32px clamp(32px, 5vw, 72px);
+  align-items: end;
+  padding-bottom: var(--section);
+}
+.cover {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--line);
+  clip-path: polygon(0 9%, 50% 0, 100% 9%, 100% 100%, 0 100%);
+}
+.summary {
+  display: grid;
+  gap: 22px;
+}
+.about {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--slate-2);
+  margin-bottom: 4px;
+}
+.price .num {
+  font-size: 2.4rem;
+  line-height: 1;
+  margin-right: 4px;
+}
+.price strong:not(.num) {
+  font-size: 1.2rem;
+}
+@media (max-width: 900px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+}

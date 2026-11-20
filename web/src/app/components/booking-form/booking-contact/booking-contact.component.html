@@ -1,0 +1,52 @@
+<rc-booking-step [number]="3" [title]="t().booking.stepContact">
+  <div class="form-grid">
+    <rc-text-field
+      class="wide"
+      key="b-name"
+      autocomplete="name"
+      [required]="true"
+      [label]="t().booking.name"
+      [error]="store.errors()['name']"
+      [(value)]="store.name"
+    />
+    <rc-text-field
+      key="b-email"
+      type="email"
+      autocomplete="email"
+      [required]="true"
+      [label]="t().booking.email"
+      [error]="store.errors()['email']"
+      [(value)]="store.email"
+    />
+    <rc-text-field
+      key="b-phone"
+      type="tel"
+      autocomplete="tel"
+      [required]="true"
+      [label]="t().booking.phone"
+      [error]="store.errors()['phone']"
+      [(value)]="store.phone"
+    />
+    <rc-text-field
+      class="wide"
+      key="b-note"
+      type="textarea"
+      [label]="t().booking.note"
+      [optional]="t().common.optional"
+      [placeholder]="t().booking.notePlaceholder"
+      [error]="store.errors()['note']"
+      [(value)]="store.note"
+    />
+  </div>
+
+  <rc-honeypot key="b-website" [(value)]="store.website" />
+
+  <rc-privacy-consent
+    key="b-consent"
+    [label]="t().booking.consent"
+    [error]="store.errors()['consent']"
+    [(checked)]="store.consent"
+  />
+
+  <rc-captcha key="b-captcha" [(token)]="store.captchaToken" [error]="store.errors()['captcha']" />
+</rc-booking-step>

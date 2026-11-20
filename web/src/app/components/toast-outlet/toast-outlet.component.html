@@ -1,0 +1,7 @@
+<div class="stack" aria-live="polite" aria-atomic="false">
+  @for (toast of toasts.items(); track toast.id) {
+    <div class="toast" [class.is-error]="toast.kind === 'error'" role="status">
+      {{ toast.text }}
+    </div>
+  }
+</div>

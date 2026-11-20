@@ -1,0 +1,17 @@
+<label class="check">
+  <input
+    type="checkbox"
+    [id]="'ck-' + key() + '-box'"
+    [checked]="always() ? true : checked()"
+    [disabled]="!!always()"
+    (change)="checked.set(checkedOf($event))"
+    [attr.aria-describedby]="'ck-' + key()"
+  />
+  <span>
+    <strong>{{ name() }}</strong>
+    @if (always(); as note) {
+      <em>{{ note }}</em>
+    }
+    <span [id]="'ck-' + key()">{{ text() }}</span>
+  </span>
+</label>

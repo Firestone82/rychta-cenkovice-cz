@@ -1,0 +1,14 @@
+<header class="wrap page-head">
+  <h1 class="h1">{{ t().accommodation.title }}</h1>
+  <p class="lead">{{ t().accommodation.lead }}</p>
+</header>
+
+<rc-apartment-list [apartments]="apartments()" />
+<rc-apartment-overview [apartments]="apartments() ?? []" />
+
+<section class="section" aria-labelledby="shared-title">
+  <div class="wrap">
+    <h2 id="shared-title" class="h1 shared-title">{{ t().accommodation.sharedTitle }}</h2>
+    <rc-space-links />
+  </div>
+</section>

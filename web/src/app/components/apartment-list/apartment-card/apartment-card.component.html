@@ -1,0 +1,59 @@
+@let a = apartment();
+<a class="card" [class.is-taken]="state() === 'taken'" [routerLink]="links.apartment(a.number)">
+  @if (a.cover; as cover) {
+    <rc-pic
+      [photo]="cover"
+      ratio="4/3"
+      [decorative]="true"
+      sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 400px"
+    />
+  } @else {
+    <div class="ph"></div>
+  }
+  <div class="body">
+    <span class="no num" aria-hidden="true">{{ a.number }}</span>
+    <div>
+      <h3 class="h3">{{ t().common.apartment }} {{ a.number }}</h3>
+      <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
+    </div>
+  </div>
+  <rc-apartment-labels [labels]="a.labels" />
+  <rc-apartment-facts [apartment]="a" />
+  @switch (state()) {
+    @case ('free') {
+      <p class="state">
+        <span class="tag tag-confirmed">{{ t().accommodation.dates.free }}</span>
+      </p>
+    }
+    @case ('taken') {
+      <p class="state">
+        <span class="tag tag-taken">{{ t().accommodation.dates.taken }}</span>
+      </p>
+    }
+    @case ('short') {
+      <p class="state">
+        <span class="tag tag-pending">{{ minNightsText(a) }}</span>
+      </p>
+    }
+  }
+  <p class="price">
+    @if (a.price_per_night === null) {
+      {{ t().common.priceOnRequest }}
+    } @else if (nights() > 0) {
+      <strong>{{ i18n.money(a.price_per_night * nights()) }}</strong>
+      {{ forStayText() }}
+      <span class="per muted">{{ perNightText(a.price_per_night) }}</span>
+    } @else {
+      <strong>{{ i18n.money(a.price_per_night) }}</strong> {{ t().common.perNight }}
+    }
+  </p>
+</a>
+@if (state() === 'free') {
+  <a
+    class="btn btn-small book"
+    [routerLink]="links.to('booking')"
+    [queryParams]="{ from: from(), to: to(), a: a.number }"
+    >{{ t().accommodation.dates.book
+    }}<span class="sr-only">: {{ t().common.apartment }} {{ a.number }}</span></a
+  >
+}

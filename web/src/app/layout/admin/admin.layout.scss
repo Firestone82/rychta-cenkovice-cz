@@ -1,0 +1,322 @@
+/* Shared look of the administration. Loaded with the admin shell, not scoped. */
+
+.a-shell {
+  display: grid;
+  grid-template-columns: 208px minmax(0, 1fr);
+  min-height: 100dvh;
+  background: var(--snow);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* The administration is a working tool: controls are denser than on the public site. */
+.a-main {
+  .btn {
+    min-height: 34px;
+    padding: 0.3em 0.9em;
+    border-width: 1.5px;
+    font-size: 0.875rem;
+  }
+
+  .btn-small {
+    min-height: 28px;
+    padding: 0.2em 0.7em;
+    font-size: 0.8125rem;
+  }
+
+  .input {
+    min-height: 34px;
+    padding: 0.3em 0.6em;
+  }
+
+  textarea.input {
+    min-height: 84px;
+  }
+
+  .field {
+    gap: 4px;
+
+    label,
+    .label,
+    .hint,
+    .error {
+      font-size: 0.8125rem;
+    }
+  }
+
+  .check {
+    gap: 0.6em;
+    font-size: inherit;
+
+    input {
+      width: 17px;
+      height: 17px;
+    }
+  }
+
+  .tag {
+    font-size: 0.75rem;
+  }
+
+  .notice {
+    padding: 8px 12px;
+    font-size: inherit;
+  }
+
+  .form-grid {
+    gap: 12px;
+  }
+}
+
+.a-skip {
+  position: absolute;
+  left: 12px;
+  top: -80px;
+  z-index: 120;
+  padding: 0.7em 1em;
+  background: var(--timber);
+  color: var(--white);
+  font-weight: 700;
+
+  &:focus {
+    top: 12px;
+  }
+}
+
+.a-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-decoration: none;
+  --logo-size: 26px;
+  --logo-board: var(--snow);
+}
+
+.a-main {
+  min-width: 0;
+  padding: clamp(16px, 2vw, 24px) clamp(16px, 2.4vw, 32px) 56px;
+  outline: none;
+}
+
+/* ---------- page pieces ---------- */
+
+.a-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin-bottom: 16px;
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.9rem;
+    line-height: 1;
+  }
+
+  p {
+    margin-top: 4px;
+    color: var(--slate-2);
+    max-width: 44em;
+  }
+}
+
+.a-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.a-card {
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.a-card > h2,
+.a-h2 {
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.a-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 10px;
+  margin-bottom: 12px;
+}
+
+.a-seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--white);
+
+  button {
+    min-height: 31px;
+    padding: 0 11px;
+    border: 0;
+    border-right: 1px solid var(--line);
+    background: transparent;
+    font-weight: 700;
+    font-size: 0.8125rem;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    &:hover {
+      background: var(--snow);
+    }
+
+    &[aria-pressed='true'] {
+      background: var(--slate);
+      color: var(--white);
+    }
+
+    &:focus-visible {
+      outline-offset: -3px;
+    }
+  }
+}
+
+.a-table-wrap {
+  position: relative;
+  overflow-x: auto;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.a-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: inherit;
+
+  th,
+  td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+
+  thead th {
+    font-size: 0.8125rem;
+    color: var(--slate-2);
+    white-space: nowrap;
+    border-bottom: 2px solid var(--slate);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tbody tr:hover {
+    background: #fafbfb;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .sub {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--slate-2);
+  }
+
+  .right {
+    text-align: right;
+  }
+}
+
+.a-empty {
+  padding: 18px;
+  background: var(--white);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--slate-2);
+}
+
+.a-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.a-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--slate);
+
+  &:hover {
+    border-color: var(--slate);
+  }
+
+  &.is-danger:hover {
+    border-color: var(--timber);
+    color: var(--timber);
+  }
+}
+
+@media (max-width: 900px) {
+  .a-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  /* Touch screens keep finger-sized controls. */
+  .a-shell {
+    font-size: 0.9375rem;
+  }
+
+  .a-main {
+    .btn {
+      min-height: 42px;
+      font-size: 0.9375rem;
+    }
+
+    .btn-small {
+      min-height: 36px;
+    }
+
+    .input {
+      min-height: 42px;
+      font-size: 1rem;
+    }
+
+    .check input {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .a-seg button {
+    min-height: 40px;
+  }
+
+  .a-icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+}

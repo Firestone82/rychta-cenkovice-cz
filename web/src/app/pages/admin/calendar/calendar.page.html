@@ -1,0 +1,26 @@
+<div class="a-head">
+  <div>
+    <h1>{{ t().admin.calendar.title }}</h1>
+    <p>{{ t().admin.calendar.hint }}</p>
+  </div>
+  <div class="a-actions">
+    <a class="btn" routerLink="/admin/bookings/new"
+      ><rc-icon name="plus" /> {{ t().admin.bookings.new }}</a
+    >
+  </div>
+</div>
+
+<rc-month-switch [(month)]="month" />
+
+@if (apartments().length) {
+  <rc-booking-timeline
+    [month]="month()"
+    [apartments]="apartments()"
+    [bookings]="bookings()"
+    [loading]="loading()"
+  />
+} @else if (failed()) {
+  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}

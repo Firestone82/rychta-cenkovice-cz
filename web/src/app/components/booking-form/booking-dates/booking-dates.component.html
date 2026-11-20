@@ -1,0 +1,65 @@
+<rc-booking-step [number]="1" [title]="t().booking.stepDates">
+  <div class="dates">
+    <div class="field">
+      <label for="b-in">{{ t().booking.checkIn }}</label>
+      <input
+        id="b-in"
+        class="input"
+        type="date"
+        required
+        [min]="store.today"
+        [value]="store.checkIn()"
+        (change)="store.setCheckIn(value($event))"
+        [attr.aria-invalid]="store.errors()['dates'] ? 'true' : null"
+        aria-describedby="b-dates-msg"
+      />
+    </div>
+    <div class="field">
+      <label for="b-out">{{ t().booking.checkOut }}</label>
+      <input
+        id="b-out"
+        class="input"
+        type="date"
+        required
+        [min]="store.minCheckOut()"
+        [value]="store.checkOut()"
+        (change)="store.checkOut.set(value($event))"
+        [attr.aria-invalid]="store.errors()['dates'] ? 'true' : null"
+        aria-describedby="b-dates-msg"
+      />
+    </div>
+    <div class="field">
+      <label for="b-guests">{{ t().booking.guests }}</label>
+      <input
+        id="b-guests"
+        class="input"
+        type="number"
+        inputmode="numeric"
+        min="1"
+        max="40"
+        required
+        [value]="store.guests()"
+        (change)="store.setGuests(value($event))"
+      />
+    </div>
+  </div>
+  <p
+    id="b-dates-msg"
+    class="status"
+    aria-live="polite"
+    [class.is-error]="
+      store.errors()['dates'] || (store.datesProblem() && store.checkIn() && store.checkOut())
+    "
+  >
+    @if (store.errors()['dates']) {
+      {{ store.errors()['dates'] }}
+    } @else if (store.datesProblem()) {
+      {{ store.datesProblem() }}
+    } @else if (store.minNightsProblem()) {
+      {{ store.minNightsProblem() }}
+    } @else {
+      {{ i18n.range(store.checkIn(), store.checkOut()) }},
+      {{ i18n.count(store.nights(), t().plural.nights) }}
+    }
+  </p>
+</rc-booking-step>

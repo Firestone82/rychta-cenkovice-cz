@@ -1,0 +1,9 @@
+<div class="head">
+  <h2 [id]="headingId()" class="h1">{{ title() }}</h2>
+  <p class="lead muted">{{ lead() }}</p>
+</div>
+<ul class="trips">
+  @for (trip of trips(); track trip.name) {
+    <li><rc-trip-row [trip]="trip" /></li>
+  }
+</ul>

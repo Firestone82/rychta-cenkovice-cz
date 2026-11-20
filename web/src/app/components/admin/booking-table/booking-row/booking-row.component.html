@@ -1,0 +1,49 @@
+@let b = booking();
+@let text = t().admin.bookings;
+<th scope="row">
+  <a [routerLink]="['/admin/bookings', b.id]">{{ b.name || text.kind.block }}</a>
+  <span class="sub">{{ b.code }}, {{ text.source[b.source] }}</span>
+</th>
+<td class="nowrap">
+  {{ i18n.range(b.check_in, b.check_out) }}
+  <span class="sub">{{ i18n.count(b.nights, t().plural.nights) }}</span>
+</td>
+<td class="nowrap">{{ units() }}</td>
+<td>{{ b.kind === 'guest' ? b.guests : '' }}</td>
+<td>
+  <span class="tag" [class]="'tag ' + tagClass(b)">{{
+    b.kind === 'block' && b.status !== 'cancelled' ? text.kind.block : text.status[b.status]
+  }}</span>
+</td>
+<td class="right nowrap">
+  {{ b.total_price !== null ? i18n.money(b.total_price) : '' }}
+</td>
+<td>
+  <span class="a-row-actions">
+    @if (b.status === 'pending') {
+      <button
+        type="button"
+        class="btn btn-small"
+        [disabled]="busy()"
+        (click)="decide.emit('confirmed')"
+      >
+        {{ text.confirm }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-small btn-quiet"
+        [disabled]="busy()"
+        (click)="decide.emit('cancelled')"
+      >
+        {{ text.decline }}
+      </button>
+    } @else {
+      <a
+        class="a-icon-btn"
+        [routerLink]="['/admin/bookings', b.id]"
+        [attr.aria-label]="text.edit + ': ' + (b.name || b.code)"
+        ><rc-icon name="edit"
+      /></a>
+    }
+  </span>
+</td>

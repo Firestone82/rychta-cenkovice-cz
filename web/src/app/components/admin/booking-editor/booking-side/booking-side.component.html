@@ -1,0 +1,62 @@
+@let text = t().admin.bookings;
+<aside class="side a-card">
+  @if (store.kind() === 'guest') {
+    <rc-text-field
+      key="bf-price"
+      type="number"
+      min="0"
+      step="1"
+      [label]="text.price"
+      [hint]="text.priceHint"
+      [error]="store.errors()['total_price']"
+      [disabled]="store.autoPrice()"
+      [(value)]="store.price"
+    />
+    <label class="check">
+      <input
+        type="checkbox"
+        [checked]="store.autoPrice()"
+        (change)="store.autoPrice.set(checked($event))"
+      />
+      <span>{{ text.priceAuto }}</span>
+    </label>
+    <label class="check">
+      <input
+        type="checkbox"
+        [checked]="store.notify()"
+        (change)="store.notify.set(checked($event))"
+      />
+      <span>{{ store.booking() ? text.notify : text.notifyCreate }}</span>
+    </label>
+    @if (store.email().trim()) {
+      <rc-text-field
+        key="f-guest-message"
+        type="textarea"
+        [rows]="4"
+        [maxlength]="2000"
+        [label]="text.guestMessage"
+        [hint]="text.guestMessageHint"
+        [optional]="t().common.optional"
+        [error]="store.errors()['guest_message']"
+        [(value)]="store.guestMessage"
+      />
+    }
+  }
+
+  @if (store.failure()) {
+    <p class="notice is-error" role="alert">{{ store.failure() }}</p>
+  }
+
+  <button class="btn" type="submit" [disabled]="store.busy()">
+    {{ store.busy() ? text.saving : text.save }}
+  </button>
+
+  @if (store.booking(); as b) {
+    <rc-booking-actions
+      [booking]="b"
+      [busy]="store.busy()"
+      (status)="store.quick($event)"
+      (remove)="store.remove()"
+    />
+  }
+</aside>

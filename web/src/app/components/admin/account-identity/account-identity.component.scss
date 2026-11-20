@@ -1,0 +1,14 @@
+:host {
+  display: contents;
+}
+
+.who {
+  display: grid;
+  font-size: 1rem;
+}
+.who span {
+  color: var(--slate-2);
+}
+.session {
+  margin-top: 16px;
+}

@@ -1,0 +1,62 @@
+:host {
+  display: contents;
+}
+
+[data-season='winter'] {
+  --tone: var(--winter);
+}
+[data-season='spring'] {
+  --tone: var(--spring);
+}
+[data-season='summer'] {
+  --tone: var(--larch);
+}
+[data-season='autumn'] {
+  --tone: var(--autumn);
+}
+
+.seasons {
+  display: grid;
+  gap: clamp(48px, 7vw, 104px);
+  padding-bottom: var(--section);
+}
+.season {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px clamp(32px, 6vw, 88px);
+  align-items: center;
+}
+.season img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: var(--line);
+}
+.season.flip img {
+  order: 2;
+}
+.season-text {
+  display: grid;
+  gap: 18px;
+  max-width: 34em;
+}
+/* A hiking trail mark in the colour of the season. */
+.mark {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.22em;
+  vertical-align: 0.08em;
+  background: linear-gradient(var(--white) 0 30%, var(--tone) 30% 70%, var(--white) 70%);
+  outline: 1px solid var(--line-strong);
+}
+
+@media (max-width: 900px) {
+  .season {
+    grid-template-columns: 1fr;
+  }
+  .season.flip img {
+    order: 0;
+  }
+}

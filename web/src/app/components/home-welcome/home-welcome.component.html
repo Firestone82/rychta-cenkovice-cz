@@ -1,0 +1,13 @@
+<section class="section section-white welcome">
+  <div class="wrap welcome-grid">
+    <h2 class="h1" rcReveal>{{ t().home.welcome.title }}</h2>
+    <div class="prose" rcReveal="120">
+      @for (p of t().home.welcome.text; track p) {
+        <p>{{ p }}</p>
+      }
+      <p class="more">
+        <a class="link" [routerLink]="links.to('accommodation')">{{ t().home.house.all }}</a>
+      </p>
+    </div>
+  </div>
+</section>

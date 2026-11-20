@@ -1,0 +1,14 @@
+<section class="section section-white">
+  <div class="wrap groups">
+    @for (group of groups(); track group.title) {
+      <div>
+        <h2 class="h3">{{ group.title }}</h2>
+        <ul class="roofs">
+          @for (item of group.items; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</section>

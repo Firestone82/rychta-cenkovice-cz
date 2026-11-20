@@ -1,0 +1,52 @@
+<aside class="summary" [attr.aria-label]="t().booking.summary">
+  <h2 class="h3">{{ t().booking.summary }}</h2>
+  <dl>
+    <div>
+      <dt>{{ t().booking.stepDates }}</dt>
+      <dd>
+        @if (store.datesOk()) {
+          {{ i18n.range(store.checkIn(), store.checkOut()) }}<br />{{
+            i18n.count(store.nights(), t().plural.nights)
+          }}, {{ i18n.count(store.guests(), t().plural.guests) }}
+        } @else {
+          <span class="muted">{{ t().booking.pickDates }}</span>
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{{ t().booking.stepUnits }}</dt>
+      <dd>
+        @if (store.chosen().length) {
+          <ul>
+            @for (a of store.chosen(); track a.id) {
+              <li>
+                {{ t().common.apartment }} {{ a.number }}
+                <span class="muted">({{ i18n.count(a.beds, t().plural.beds) }})</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <span class="muted">{{ t().booking.summaryEmpty }}</span>
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{{ t().booking.priceEstimate }}</dt>
+      <dd>
+        @if (store.estimate(); as price) {
+          <strong class="num price">{{ i18n.money(price) }}</strong>
+        } @else {
+          {{ t().booking.priceLater }}
+        }
+      </dd>
+    </div>
+  </dl>
+
+  @if (failure()) {
+    <p class="notice is-error" role="alert">{{ failure() }}</p>
+  }
+
+  <button class="btn submit" type="submit" [disabled]="sending()">
+    {{ sending() ? t().booking.submitting : t().booking.submit }}
+  </button>
+</aside>

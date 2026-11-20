@@ -1,0 +1,12 @@
+.opt {
+  font-weight: 500;
+  color: var(--slate-2);
+}
+
+.msg:empty {
+  display: none;
+}
+
+textarea.input.compact {
+  min-height: 0;
+}

@@ -1,0 +1,14 @@
+<label class="check">
+  <input
+    type="checkbox"
+    [checked]="checked()"
+    (change)="checked.set(checkedOf($event))"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-describedby]="key() + '-msg'"
+  />
+  <span>
+    {{ label() }}
+    <a [routerLink]="links.to('privacy')" target="_blank">{{ t().booking.consentLink }}</a>
+  </span>
+</label>
+<p [id]="key() + '-msg'" class="error">{{ error() }}</p>

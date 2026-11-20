@@ -1,0 +1,15 @@
+<header class="a-top">
+  <a class="a-brand" routerLink="/admin" [attr.aria-label]="t().admin.title">
+    <rc-logo [markOnly]="true" />
+    <span>{{ t().admin.title }}</span>
+  </a>
+  <button
+    type="button"
+    class="a-toggle"
+    [attr.aria-expanded]="open()"
+    aria-controls="admin-nav"
+    (click)="open.set(!open())"
+  >
+    <rc-icon [name]="open() ? 'close' : 'menu'" /> {{ t().common.menu }}
+  </button>
+</header>

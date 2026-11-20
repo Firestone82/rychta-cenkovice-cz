@@ -1,0 +1,33 @@
+:host {
+  display: contents;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 130px;
+  gap: 14px;
+}
+
+.status {
+  min-height: 1.6em;
+  margin-top: 12px;
+  font-weight: 700;
+
+  &.is-error {
+    color: var(--timber);
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .dates {
+    grid-template-columns: 1fr 1fr;
+
+    .field:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+}

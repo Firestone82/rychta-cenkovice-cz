@@ -1,0 +1,56 @@
+:host {
+  display: contents;
+}
+
+.panel {
+  min-width: 0;
+}
+.swap {
+  animation: swap 0.35s var(--ease);
+}
+@keyframes swap {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.text {
+  padding-top: 20px;
+}
+.type {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--slate-2);
+}
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 14px;
+  font-weight: 500;
+}
+.facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.facts rc-icon {
+  color: var(--timber);
+}
+.layout-text {
+  margin-top: 12px;
+  color: var(--slate-2);
+  min-height: 3.2em;
+}
+.price {
+  margin-top: 10px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}

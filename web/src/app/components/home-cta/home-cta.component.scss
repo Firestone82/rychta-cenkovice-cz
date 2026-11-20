@@ -1,0 +1,30 @@
+:host {
+  display: contents;
+}
+
+.steps-title {
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 48px;
+  margin-top: clamp(48px, 7vw, 88px);
+  padding: clamp(24px, 4vw, 44px);
+  background: var(--snow);
+  border-left: 6px solid var(--timber);
+
+  p {
+    margin-top: 8px;
+    max-width: 34em;
+  }
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

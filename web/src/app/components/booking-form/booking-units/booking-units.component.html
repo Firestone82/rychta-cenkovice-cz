@@ -1,0 +1,51 @@
+<rc-booking-step [number]="2" [title]="t().booking.stepUnits" anchor="units">
+  <p class="muted hint">{{ t().booking.selectHint }} {{ t().booking.connect }}</p>
+
+  @if (store.checking()) {
+    <rc-spinner [label]="t().booking.checking" />
+  }
+  @if (store.checkFailed()) {
+    <p class="notice is-error" role="alert">{{ t().errors.offline }}</p>
+  }
+  @if (store.noneFree()) {
+    <p class="notice is-error" role="alert">
+      {{ t().booking.noneFree }}
+      <a [routerLink]="links.to('availability')">{{ t().availability.title }}</a>
+    </p>
+  }
+
+  @if (store.apartments(); as list) {
+    @if (list.length) {
+      <ul class="units" [class.is-checking]="store.checking()">
+        @for (a of list; track a.id) {
+          <li>
+            <rc-unit-option
+              [apartment]="a"
+              [selected]="store.selected().includes(a.id)"
+              [taken]="store.taken() === null ? null : store.isTaken(a)"
+              (selectedChange)="store.toggle(a, $event)"
+            />
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+    }
+  } @else {
+    <rc-spinner [label]="t().common.loading" />
+  }
+
+  <p
+    class="status"
+    aria-live="polite"
+    [class.is-error]="store.errors()['apartment_ids'] || store.capacityLow()"
+  >
+    @if (store.errors()['apartment_ids'] && !store.chosen().length) {
+      {{ store.errors()['apartment_ids'] }}
+    } @else if (store.capacityLow()) {
+      {{ i18n.fill(t().booking.capacityLow, { n: i18n.count(store.capacity(), t().plural.beds) }) }}
+    } @else if (store.chosen().length) {
+      {{ i18n.fill(t().booking.capacity, { n: i18n.count(store.capacity(), t().plural.beds) }) }}
+    }
+  </p>
+</rc-booking-step>

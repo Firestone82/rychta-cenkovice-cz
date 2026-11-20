@@ -1,0 +1,37 @@
+<header class="wrap page-head">
+  <h1 class="h1">{{ t().leisure.title }}</h1>
+  <p class="lead">{{ t().leisure.lead }}</p>
+  <nav class="jump" [attr.aria-label]="t().seasons.label">
+    @for (s of seasons; track s) {
+      <a [routerLink]="[]" [fragment]="s" [attr.data-season]="s">{{ t().seasons[s].name }}</a>
+    }
+  </nav>
+</header>
+
+<rc-season-list />
+
+<section class="section section-white" aria-labelledby="trips-title">
+  <div class="wrap">
+    <rc-trip-list
+      headingId="trips-title"
+      [title]="t().leisure.tripsTitle"
+      [lead]="t().leisure.tripsLead"
+      [trips]="t().trips"
+    />
+  </div>
+</section>
+
+<section class="section" aria-labelledby="resorts-title">
+  <div class="wrap">
+    <rc-trip-list
+      headingId="resorts-title"
+      [title]="t().leisure.resortsTitle"
+      [lead]="t().leisure.resortsLead"
+      [trips]="t().resorts"
+    />
+    <p class="cta">
+      <a class="btn" [routerLink]="links.to('booking')">{{ t().availability.book }}</a>
+      <a class="btn btn-ghost" [routerLink]="links.to('gallery')">{{ t().home.gallery.all }}</a>
+    </p>
+  </div>
+</section>

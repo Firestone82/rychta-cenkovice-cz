@@ -1,0 +1,35 @@
+:host {
+  display: contents;
+}
+
+.block {
+  margin-bottom: 14px;
+}
+.rows li {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+}
+.who {
+  display: grid;
+  text-decoration: none;
+}
+.who:hover strong {
+  text-decoration: underline;
+}
+.sub {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--slate-2);
+}
+@media (max-width: 700px) {
+  .rows li {
+    grid-template-columns: 1fr;
+  }
+  .a-row-actions {
+    justify-content: flex-start;
+  }
+}

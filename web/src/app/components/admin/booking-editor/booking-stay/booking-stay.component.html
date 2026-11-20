@@ -1,0 +1,60 @@
+@let text = t().admin.bookings;
+<section class="a-card">
+  <div class="form-grid">
+    <div class="field">
+      <span class="label" id="bf-kind">{{ text.kindLabel }}</span>
+      <div class="a-seg" role="group" aria-labelledby="bf-kind">
+        <button
+          type="button"
+          [attr.aria-pressed]="store.kind() === 'guest'"
+          (click)="store.kind.set('guest')"
+        >
+          {{ text.kind.guest }}
+        </button>
+        <button
+          type="button"
+          [attr.aria-pressed]="store.kind() === 'block'"
+          (click)="store.kind.set('block')"
+        >
+          {{ text.kind.block }}
+        </button>
+      </div>
+    </div>
+    @if (store.kind() === 'guest') {
+      <rc-select-field
+        key="bf-status"
+        [label]="text.statusLabel"
+        [options]="statuses()"
+        [value]="store.status()"
+        (valueChange)="setStatus($event)"
+      />
+    }
+    <rc-text-field
+      key="bf-in"
+      type="date"
+      [required]="true"
+      [label]="text.checkIn"
+      [error]="store.errors()['check_in']"
+      [value]="store.checkIn()"
+      (valueChange)="store.setCheckIn($event)"
+    />
+    <rc-text-field
+      key="bf-out"
+      type="date"
+      [required]="true"
+      [min]="store.minOut()"
+      [label]="text.checkOut"
+      [error]="store.errors()['check_out']"
+      [hint]="store.nights() > 0 ? i18n.count(store.nights(), t().plural.nights) : null"
+      [(value)]="store.checkOut"
+    />
+  </div>
+
+  <rc-unit-picker
+    [apartments]="store.apartments()"
+    [selected]="store.selected()"
+    [taken]="store.taken()"
+    [error]="store.errors()['apartment_ids']"
+    (toggled)="store.toggle($event.id, $event.on)"
+  />
+</section>

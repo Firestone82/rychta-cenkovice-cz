@@ -1,0 +1,18 @@
+<div class="post">
+  <p class="head">
+    <span class="mark" aria-hidden="true"></span>
+    {{ t().leisure.signpost }}
+  </p>
+  <ul>
+    @for (trip of trips(); track trip.name) {
+      <li>
+        <span class="name">{{ trip.name }}</span>
+        @if (trip.km !== null) {
+          <span class="km"
+            ><span class="num">{{ i18n.number(trip.km) }}</span> km</span
+          >
+        }
+      </li>
+    }
+  </ul>
+</div>

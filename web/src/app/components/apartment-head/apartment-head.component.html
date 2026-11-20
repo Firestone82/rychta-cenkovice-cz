@@ -1,0 +1,14 @@
+@let a = apartment();
+<header class="wrap page-head">
+  <a class="back" [routerLink]="links.to('accommodation')"
+    ><rc-icon name="back" /> {{ t().apartment.backToList }}</a
+  >
+  <div class="title">
+    <span class="no num" aria-hidden="true">{{ a.number }}</span>
+    <div>
+      <h1 class="h1">{{ t().common.apartment }} {{ a.number }}</h1>
+      <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
+      <rc-apartment-labels [labels]="a.labels" />
+    </div>
+  </div>
+</header>

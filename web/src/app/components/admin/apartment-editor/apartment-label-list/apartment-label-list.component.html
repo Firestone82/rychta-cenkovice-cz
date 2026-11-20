@@ -1,0 +1,63 @@
+@let text = t().admin.apartments;
+<fieldset class="group">
+  <legend>{{ text.labels }}</legend>
+  <p class="group-hint">{{ text.labelsHint }}</p>
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  <ul class="labels">
+    @for (label of labels(); track $index; let i = $index) {
+      <li>
+        <input
+          class="input"
+          type="text"
+          lang="cs"
+          maxlength="40"
+          [attr.aria-label]="text.labelCs + ' ' + (i + 1)"
+          [placeholder]="text.labelCs"
+          [value]="label.cs"
+          (input)="edit(i, 'cs', value($event))"
+        />
+        <input
+          class="input"
+          type="text"
+          lang="en"
+          maxlength="40"
+          [attr.aria-label]="text.labelEn + ' ' + (i + 1)"
+          [placeholder]="text.labelEn"
+          [value]="label.en"
+          (input)="edit(i, 'en', value($event))"
+        />
+        <button
+          type="button"
+          class="a-icon-btn is-danger"
+          [attr.aria-label]="text.labelRemove + ' ' + (i + 1)"
+          (click)="remove(i)"
+        >
+          <rc-icon name="close" />
+        </button>
+      </li>
+    }
+  </ul>
+  <div class="presets">
+    <span>{{ text.labelPresets }}:</span>
+    @for (preset of presets; track preset.cs) {
+      <button
+        type="button"
+        class="chip"
+        [disabled]="has(preset.cs) || labels().length >= max"
+        (click)="add(preset)"
+      >
+        + {{ i18n.pick(preset) }}
+      </button>
+    }
+    <button
+      type="button"
+      class="btn btn-quiet btn-small"
+      [disabled]="labels().length >= max"
+      (click)="add({ cs: '', en: '' })"
+    >
+      {{ text.labelAdd }}
+    </button>
+  </div>
+</fieldset>

@@ -1,0 +1,88 @@
+@let d = draft();
+@let labels = t().admin.apartments;
+<div class="row4">
+  <rc-text-field
+    [key]="prefix() + 'price'"
+    type="number"
+    min="0"
+    step="1"
+    [label]="labels.price"
+    [hint]="labels.priceHint"
+    [error]="errors()['price_per_night']"
+    [value]="d.price"
+    (valueChange)="set({ price: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'min'"
+    type="number"
+    min="1"
+    max="30"
+    [label]="labels.minNights"
+    [error]="errors()['min_nights']"
+    [value]="d.minNights"
+    (valueChange)="set({ minNights: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'beds'"
+    type="number"
+    min="1"
+    max="40"
+    [label]="labels.beds"
+    [error]="errors()['beds']"
+    [value]="d.beds"
+    (valueChange)="set({ beds: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'extra'"
+    type="number"
+    min="0"
+    max="20"
+    [label]="labels.extraBeds"
+    [error]="errors()['extra_beds']"
+    [value]="d.extraBeds"
+    (valueChange)="set({ extraBeds: $event })"
+  />
+  <rc-select-field
+    [key]="prefix() + 'flat'"
+    [label]="labels.type"
+    [error]="errors()['flat_type']"
+    [options]="flatTypes()"
+    [value]="d.flatType"
+    (valueChange)="set({ flatType: $event })"
+  />
+  <rc-select-field
+    [key]="prefix() + 'floor'"
+    [label]="labels.floor"
+    [error]="errors()['floor']"
+    [options]="floors()"
+    [value]="d.floor"
+    (valueChange)="set({ floor: $event })"
+  />
+  <rc-text-field
+    [key]="prefix() + 'area'"
+    type="number"
+    min="1"
+    max="1000"
+    [label]="labels.area"
+    [error]="errors()['area']"
+    [value]="d.area"
+    (valueChange)="set({ area: $event })"
+  />
+</div>
+
+<div class="checks">
+  <label class="check"
+    ><input
+      type="checkbox"
+      [checked]="d.active"
+      (change)="set({ active: checked($event) })"
+    /><span>{{ labels.active }}</span></label
+  >
+  <label class="check"
+    ><input
+      type="checkbox"
+      [checked]="d.accessible"
+      (change)="set({ accessible: checked($event) })"
+    /><span>{{ labels.accessible }}</span></label
+  >
+</div>

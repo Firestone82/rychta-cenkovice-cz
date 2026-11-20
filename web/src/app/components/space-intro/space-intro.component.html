@@ -1,0 +1,27 @@
+<section class="wrap top">
+  <div class="intro">
+    <p class="fact">
+      <span class="num">{{ content().fact }}</span>
+      <span>{{ content().factLabel }}</span>
+    </p>
+    <p class="lead">{{ content().intro }}</p>
+  </div>
+  @if (cover(); as cover) {
+    <button
+      type="button"
+      class="cover"
+      (click)="openCover.emit()"
+      [attr.aria-label]="t().gallery.open"
+    >
+      <rc-pic
+        [photo]="cover"
+        ratio="3/2"
+        [eager]="true"
+        [decorative]="true"
+        sizes="(max-width: 900px) 100vw, 640px"
+      />
+    </button>
+  } @else {
+    <div class="cover ph"></div>
+  }
+</section>

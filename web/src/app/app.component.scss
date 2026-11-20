@@ -1,0 +1,20 @@
+/* Route loading bar: a roof-red line that only shows when a page takes a moment to load. */
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  height: 3px;
+  background: var(--timber);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+}
+.progress.is-active {
+  opacity: 1;
+  animation: load 2.4s cubic-bezier(0.1, 0.6, 0.2, 1) forwards;
+}
+@keyframes load {
+  to {
+    transform: scaleX(0.92);
+  }
+}

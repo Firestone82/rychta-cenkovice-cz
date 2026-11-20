@@ -1,0 +1,28 @@
+<section class="aerial section-dark" aria-labelledby="aerial-title">
+  <div class="wrap aerial-grid">
+    <div class="aerial-text">
+      <h2 id="aerial-title" class="h1">{{ t().home.aerial.title }}</h2>
+      <p class="lead muted">{{ t().home.aerial.text }}</p>
+      <button type="button" class="btn btn-ghost" (click)="toggleVideo()">
+        <rc-icon [name]="playing() ? 'pause' : 'play'" />
+        {{ playing() ? t().home.aerial.pause : t().home.aerial.play }}
+      </button>
+    </div>
+    <div class="aerial-video">
+      <video
+        #player
+        muted
+        loop
+        playsinline
+        preload="none"
+        [poster]="poster"
+        [attr.aria-label]="t().home.aerial.alt"
+        (play)="playing.set(true)"
+        (pause)="playing.set(false)"
+        (click)="toggleVideo()"
+      >
+        <source [src]="video.src" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+</section>

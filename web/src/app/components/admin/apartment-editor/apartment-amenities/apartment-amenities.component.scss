@@ -1,0 +1,29 @@
+:host {
+  display: contents;
+}
+
+fieldset {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 12px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  min-width: 0;
+}
+legend {
+  padding: 0 6px;
+  font-weight: 700;
+}
+.group {
+  width: 100%;
+}
+.group-hint {
+  color: var(--slate-2);
+  font-size: 0.8125rem;
+}
+.amenities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 4px 16px;
+}

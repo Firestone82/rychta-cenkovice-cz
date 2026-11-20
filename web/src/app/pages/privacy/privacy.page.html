@@ -1,0 +1,29 @@
+<header class="wrap page-head">
+  <h1 class="h1">{{ t().privacy.title }}</h1>
+  <p class="muted">{{ t().privacy.updated }}</p>
+</header>
+<div class="wrap body">
+  @for (section of t().privacy.sections; track section.title) {
+    <section>
+      <h2 class="h3">{{ section.title }}</h2>
+      <div class="prose">
+        @for (p of section.text; track p) {
+          <p>{{ p }}</p>
+        }
+        @if (captcha() && extra(section.id); as more) {
+          <p>{{ more }}</p>
+        }
+        @if (section.id === 'cookies') {
+          <p>{{ t().privacy.changeChoice }}</p>
+          <button
+            type="button"
+            class="btn btn-ghost btn-small"
+            (click)="consent.settingsOpen.set(true)"
+          >
+            {{ t().privacy.openSettings }}
+          </button>
+        }
+      </div>
+    </section>
+  }
+</div>

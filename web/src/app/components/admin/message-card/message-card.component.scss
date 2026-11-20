@@ -1,0 +1,30 @@
+:host {
+  display: contents;
+}
+
+h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+}
+h2 .tag {
+  font-family: var(--font-body);
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+  font-size: 0.8125rem;
+  color: var(--slate-2);
+}
+.body {
+  margin: 10px 0 12px;
+  max-width: 64em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

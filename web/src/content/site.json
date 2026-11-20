@@ -1,0 +1,122 @@
+{
+  "languages": [
+    {
+      "code": "cs",
+      "short": "CS",
+      "name": "Česky",
+      "browser": [
+        "cs",
+        "sk"
+      ]
+    },
+    {
+      "code": "en",
+      "short": "EN",
+      "name": "English",
+      "browser": []
+    }
+  ],
+  "defaultLanguage": "cs",
+  "fallbackLanguage": "en",
+  "contact": {
+    "phone": "+420 606 734 911",
+    "phoneHref": "tel:+420606734911",
+    "email": "rychtacenkovice@seznam.cz",
+    "facebook": "https://www.facebook.com/apartmanycenkovice/",
+    "mapGoogle": "https://maps.app.goo.gl/JWp5b1ZGPRZ7RkUR8",
+    "mapSeznam": "https://mapy.cz/zakladni?q=%C4%8Cenkovice%20106"
+  },
+  "media": {
+    "hero": {
+      "winter": "hero-winter",
+      "spring": "hero-spring",
+      "summer": "hero-summer",
+      "autumn": "hero-autumn"
+    },
+    "seasons": {
+      "winter": "season-winter",
+      "spring": "season-spring",
+      "summer": "season-summer",
+      "autumn": "season-autumn"
+    },
+    "aerialVideo": {
+      "src": "/video/rychta-z-vysky.mp4",
+      "poster": "house-aerial"
+    }
+  },
+  "routes": {
+    "home": {
+      "cs": "",
+      "en": ""
+    },
+    "accommodation": {
+      "cs": "ubytovani",
+      "en": "accommodation"
+    },
+    "commonRoom": {
+      "cs": "ubytovani/spolecenska-mistnost",
+      "en": "accommodation/common-room"
+    },
+    "facilities": {
+      "cs": "ubytovani/zazemi-objektu",
+      "en": "accommodation/facilities"
+    },
+    "wellness": {
+      "cs": "ubytovani/domaci-wellness",
+      "en": "accommodation/wellness"
+    },
+    "apartment": {
+      "cs": "ubytovani/:slug",
+      "en": "accommodation/:slug"
+    },
+    "leisure": {
+      "cs": "volny-cas",
+      "en": "things-to-do"
+    },
+    "gallery": {
+      "cs": "fotogalerie",
+      "en": "gallery"
+    },
+    "availability": {
+      "cs": "obsazenost",
+      "en": "availability"
+    },
+    "booking": {
+      "cs": "rezervace",
+      "en": "booking"
+    },
+    "contact": {
+      "cs": "kontakt",
+      "en": "contact"
+    },
+    "news": {
+      "cs": "novinky",
+      "en": "news"
+    },
+    "privacy": {
+      "cs": "ochrana-osobnich-udaju",
+      "en": "privacy"
+    }
+  },
+  "apartmentSlug": {
+    "cs": "apartman",
+    "en": "apartment"
+  },
+  "legacyRedirects": {
+    "ubytovani/apartmany/:slug": "cs/ubytovani/:slug",
+    "ubytovani/apartmany": "cs/ubytovani",
+    "ubytovani/spolecenska-mistnost": "cs/ubytovani/spolecenska-mistnost",
+    "ubytovani/zazemi-objektu": "cs/ubytovani/zazemi-objektu",
+    "ubytovani/domaci-wellness": "cs/ubytovani/domaci-wellness",
+    "ubytovani": "cs/ubytovani",
+    "volny-cas/vylety-v-okoli": "cs/volny-cas",
+    "volny-cas/resorty-pro-sporty-a-zabavu": "cs/volny-cas",
+    "volny-cas": "cs/volny-cas",
+    "fotogalerie-": "cs/fotogalerie",
+    "fotogalerie": "cs/fotogalerie",
+    "kalendar-obsazenosti": "cs/obsazenost",
+    "kontakt": "cs/kontakt",
+    "novinky": "cs/novinky",
+    "zasady-ochrany-osobnich-udaju": "cs/ochrana-osobnich-udaju"
+  }
+}

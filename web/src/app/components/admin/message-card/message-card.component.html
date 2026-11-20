@@ -1,0 +1,53 @@
+@let m = message();
+<header>
+  <div>
+    <h2>
+      {{ m.name }}
+      @if (m.status === 'new') {
+        <span class="tag tag-new">{{ t().admin.messages.status.new }}</span>
+      }
+      @if (m.booking_id) {
+        <a class="tag tag-confirmed" [routerLink]="['/admin/bookings', m.booking_id]">{{
+          t().admin.messages.bookingCreated
+        }}</a>
+      }
+    </h2>
+    <p class="meta">
+      <a [href]="'mailto:' + m.email">{{ m.email }}</a>
+      @if (m.phone) {
+        <a [href]="'tel:' + m.phone.replaceAll(' ', '')">{{ m.phone }}</a>
+      }
+      <time [attr.datetime]="m.created_at">{{ i18n.dateTime(m.created_at) }}</time>
+    </p>
+  </div>
+</header>
+<p class="body">{{ m.body }}</p>
+<div class="a-actions">
+  <a class="btn btn-small" routerLink="/admin/bookings/new" [queryParams]="{ message: m.id }"
+    ><rc-icon name="plus" /> {{ t().admin.messages.createBooking }}</a
+  >
+  <a class="btn btn-small btn-quiet" [href]="'mailto:' + m.email"
+    ><rc-icon name="mail" /> {{ t().admin.messages.reply }}</a
+  >
+  @if (m.status === 'new') {
+    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('read')">
+      {{ t().admin.messages.markRead }}
+    </button>
+  } @else if (m.status === 'read') {
+    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('new')">
+      {{ t().admin.messages.markNew }}
+    </button>
+  }
+  @if (m.status === 'archived') {
+    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('read')">
+      {{ t().admin.messages.unarchive }}
+    </button>
+  } @else {
+    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('archived')">
+      {{ t().admin.messages.archive }}
+    </button>
+  }
+  <button type="button" class="btn btn-small btn-danger" (click)="remove.emit()">
+    <rc-icon name="trash" /> {{ t().admin.messages.delete }}
+  </button>
+</div>

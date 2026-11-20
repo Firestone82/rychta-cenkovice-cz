@@ -1,0 +1,24 @@
+<div class="a-filters">
+  <div class="a-seg" role="group" [attr.aria-label]="t().admin.bookings.statusLabel">
+    @for (f of filters; track f.value) {
+      <button
+        type="button"
+        [attr.aria-pressed]="filter() === f.value"
+        (click)="filter.set(f.value)"
+      >
+        {{ t().admin.bookings[f.label] }}
+      </button>
+    }
+  </div>
+  <div class="field search">
+    <label class="sr-only" for="bk-q">{{ t().admin.bookings.search }}</label>
+    <input
+      id="bk-q"
+      class="input"
+      type="search"
+      [placeholder]="t().admin.bookings.search"
+      [value]="query()"
+      (input)="type(value($event))"
+    />
+  </div>
+</div>

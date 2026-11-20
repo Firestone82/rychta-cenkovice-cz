@@ -1,0 +1,31 @@
+@let a = apartment();
+<div class="name">
+  <span class="num">{{ a.number }}</span>
+  <span>{{ i18n.count(a.beds, t().plural.beds) }}</span>
+</div>
+<div class="track">
+  @for (d of days(); track d.iso; let i = $index) {
+    <a
+      class="cell"
+      [style.grid-column]="2 * i + 1 + ' / span 2'"
+      [class.weekend]="d.weekend"
+      [class.today]="d.iso === today()"
+      routerLink="/admin/bookings/new"
+      [queryParams]="{ from: d.iso, a: a.number }"
+      [attr.aria-label]="newLabel(d.iso)"
+    ></a>
+  }
+  @for (bar of bars(); track bar.booking.id) {
+    @let caption = label(bar.booking);
+    <a
+      class="bar-item"
+      [attr.data-status]="bar.booking.kind === 'block' ? 'block' : bar.booking.status"
+      [style.grid-column]="bar.start + ' / ' + bar.end"
+      [routerLink]="['/admin/bookings', bar.booking.id]"
+      [title]="caption"
+    >
+      <span>{{ bar.booking.name || t().admin.bookings.kind.block }}</span>
+      <span class="sr-only">, {{ caption }}</span>
+    </a>
+  }
+</div>

@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  width: 100%;
+}
+:host:empty {
+  display: none;
+}
+.box {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  outline-offset: 4px;
+}
+.box:has(.ask),
+.box:has(.wait) {
+  padding: 14px 16px;
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  background: var(--snow);
+}
+.box[data-invalid]:has(.ask) {
+  border-color: var(--timber);
+  box-shadow: inset 4px 0 0 var(--timber);
+}
+.ask,
+.wait {
+  font-size: 0.95rem;
+  max-width: 62ch;
+}
+.wait {
+  --spinner: 30px;
+}
+.widget {
+  min-height: 78px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.error {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--timber);
+}
+.error:empty {
+  display: none;
+}

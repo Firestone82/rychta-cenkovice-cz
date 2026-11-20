@@ -1,126 +1,78 @@
-import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
-import { I18n } from './core/i18n/i18n';
-import type { Lang } from './core/i18n/types';
-import { PAGES, PageKey } from './core/links';
+import { inject, Type } from '@angular/core';
+import { ResolveFn, Route, Routes } from '@angular/router';
+import { SITE } from './config/site.config';
+import type { Lang } from './models/i18n.model';
+import type { PageKey } from './models/site.model';
+import { I18nService } from './services/i18n.service';
+
+const PAGE_COMPONENTS: Record<PageKey, () => Promise<Type<unknown>>> = {
+  home: () => import('./pages/home/home.page').then((m) => m.HomePage),
+  accommodation: () =>
+    import('./pages/accommodation/accommodation.page').then((m) => m.AccommodationPage),
+  commonRoom: () => import('./pages/space/space.page').then((m) => m.SpacePage),
+  facilities: () => import('./pages/space/space.page').then((m) => m.SpacePage),
+  wellness: () => import('./pages/space/space.page').then((m) => m.SpacePage),
+  apartment: () => import('./pages/apartment/apartment.page').then((m) => m.ApartmentPage),
+  leisure: () => import('./pages/leisure/leisure.page').then((m) => m.LeisurePage),
+  gallery: () => import('./pages/gallery/gallery.page').then((m) => m.GalleryPage),
+  availability: () =>
+    import('./pages/availability/availability.page').then((m) => m.AvailabilityPage),
+  booking: () => import('./pages/booking/booking.page').then((m) => m.BookingPage),
+  contact: () => import('./pages/contact/contact.page').then((m) => m.ContactPage),
+  news: () => import('./pages/news/news.page').then((m) => m.NewsPage),
+  privacy: () => import('./pages/privacy/privacy.page').then((m) => m.PrivacyPage),
+};
 
 const useLang =
   (lang: Lang): ResolveFn<void> =>
   () =>
-    inject(I18n).use(lang);
+    inject(I18nService).use(lang);
 
-/** The public pages, with localized URL segments. `data.page` lets the language switch find the twin page. */
-function siteRoutes(lang: Lang): Routes {
-  const path = (page: PageKey) => PAGES[page][lang];
+const SPACE_PAGES: PageKey[] = ['commonRoom', 'facilities', 'wellness'];
+
+/**
+ * `data.page` lets the language switch find the same page in another language;
+ * `data.space` is bound to the input of the space page, which serves three routes.
+ */
+function pageRoutes(lang: Lang): Routes {
+  const pages = (Object.keys(PAGE_COMPONENTS) as PageKey[]).map((page): Route => {
+    const path = SITE.routes[page][lang];
+    return {
+      path,
+      ...(path === '' ? { pathMatch: 'full' as const } : {}),
+      data: SPACE_PAGES.includes(page) ? { page, space: page } : { page },
+      loadComponent: PAGE_COMPONENTS[page],
+    };
+  });
   return [
-    {
-      path: '',
-      pathMatch: 'full',
-      data: { page: 'home' },
-      loadComponent: () => import('./site/pages/home').then((m) => m.HomePage),
-    },
-    {
-      path: path('accommodation'),
-      data: { page: 'accommodation' },
-      loadComponent: () => import('./site/pages/accommodation').then((m) => m.AccommodationPage),
-    },
-    {
-      path: path('commonRoom'),
-      data: { page: 'commonRoom', space: 'commonRoom' },
-      loadComponent: () => import('./site/pages/space').then((m) => m.SpacePage),
-    },
-    {
-      path: path('facilities'),
-      data: { page: 'facilities', space: 'facilities' },
-      loadComponent: () => import('./site/pages/space').then((m) => m.SpacePage),
-    },
-    {
-      path: path('wellness'),
-      data: { page: 'wellness', space: 'wellness' },
-      loadComponent: () => import('./site/pages/space').then((m) => m.SpacePage),
-    },
-    {
-      path: path('apartment'),
-      data: { page: 'apartment' },
-      loadComponent: () => import('./site/pages/apartment').then((m) => m.ApartmentPage),
-    },
-    {
-      path: path('leisure'),
-      data: { page: 'leisure' },
-      loadComponent: () => import('./site/pages/leisure').then((m) => m.LeisurePage),
-    },
-    {
-      path: path('gallery'),
-      data: { page: 'gallery' },
-      loadComponent: () => import('./site/pages/gallery').then((m) => m.GalleryPage),
-    },
-    {
-      path: path('availability'),
-      data: { page: 'availability' },
-      loadComponent: () => import('./site/pages/availability').then((m) => m.AvailabilityPage),
-    },
-    {
-      path: path('booking'),
-      data: { page: 'booking' },
-      loadComponent: () => import('./site/pages/booking').then((m) => m.BookingPage),
-    },
-    {
-      path: path('contact'),
-      data: { page: 'contact' },
-      loadComponent: () => import('./site/pages/contact').then((m) => m.ContactPage),
-    },
-    {
-      path: path('news'),
-      data: { page: 'news' },
-      loadComponent: () => import('./site/pages/news').then((m) => m.NewsPage),
-    },
-    {
-      path: path('privacy'),
-      data: { page: 'privacy' },
-      loadComponent: () => import('./site/pages/privacy').then((m) => m.PrivacyPage),
-    },
+    ...pages,
     {
       path: '**',
       data: { page: 'home' },
-      loadComponent: () => import('./site/pages/not-found').then((m) => m.NotFoundPage),
+      loadComponent: () => import('./pages/not-found/not-found.page').then((m) => m.NotFoundPage),
     },
   ];
 }
 
-const shell = () => import('./site/shell').then((m) => m.SiteShell);
+const languageRoutes: Routes = SITE.languages.map(({ code }) => ({
+  path: code,
+  loadComponent: () => import('./layout/site/site.layout').then((m) => m.SiteLayout),
+  resolve: { lang: useLang(code) },
+  children: pageRoutes(code),
+}));
+
+const legacyRedirects: Routes = Object.entries(SITE.legacyRedirects).map(([path, redirectTo]) => ({
+  path,
+  redirectTo,
+}));
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: () => '/' + inject(I18n).preferred() },
+  { path: '', pathMatch: 'full', redirectTo: () => '/' + inject(I18nService).preferred() },
+  ...languageRoutes,
   {
-    path: 'cs',
-    loadComponent: shell,
-    resolve: { lang: useLang('cs') },
-    children: siteRoutes('cs'),
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.routes').then((m) => m.adminRoutes),
   },
-  {
-    path: 'en',
-    loadComponent: shell,
-    resolve: { lang: useLang('en') },
-    children: siteRoutes('en'),
-  },
-  { path: 'admin', loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes) },
-
-  // Addresses of the previous website keep working.
-  { path: 'ubytovani/apartmany/:slug', redirectTo: 'cs/ubytovani/:slug' },
-  { path: 'ubytovani/apartmany', redirectTo: 'cs/ubytovani' },
-  { path: 'ubytovani/spolecenska-mistnost', redirectTo: 'cs/ubytovani/spolecenska-mistnost' },
-  { path: 'ubytovani/zazemi-objektu', redirectTo: 'cs/ubytovani/zazemi-objektu' },
-  { path: 'ubytovani/domaci-wellness', redirectTo: 'cs/ubytovani/domaci-wellness' },
-  { path: 'ubytovani', redirectTo: 'cs/ubytovani' },
-  { path: 'volny-cas/vylety-v-okoli', redirectTo: 'cs/volny-cas' },
-  { path: 'volny-cas/resorty-pro-sporty-a-zabavu', redirectTo: 'cs/volny-cas' },
-  { path: 'volny-cas', redirectTo: 'cs/volny-cas' },
-  { path: 'fotogalerie-', redirectTo: 'cs/fotogalerie' },
-  { path: 'fotogalerie', redirectTo: 'cs/fotogalerie' },
-  { path: 'kalendar-obsazenosti', redirectTo: 'cs/obsazenost' },
-  { path: 'kontakt', redirectTo: 'cs/kontakt' },
-  { path: 'novinky', redirectTo: 'cs/novinky' },
-  { path: 'zasady-ochrany-osobnich-udaju', redirectTo: 'cs/ochrana-osobnich-udaju' },
-
-  { path: '**', redirectTo: () => '/' + inject(I18n).preferred() + '/404' },
+  ...legacyRedirects,
+  { path: '**', redirectTo: () => '/' + inject(I18nService).preferred() + '/404' },
 ];

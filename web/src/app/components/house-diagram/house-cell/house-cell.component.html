@@ -1,0 +1,5 @@
+@let a = apartment();
+<span class="sr-only">{{ t().common.apartment }}</span>
+<span class="no num">{{ a.number }}</span>
+<span class="meta">{{ a.area }} m²</span>
+<span class="sr-only">, {{ i18n.count(a.beds, t().plural.beds) }}</span>

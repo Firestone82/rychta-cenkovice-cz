@@ -1,0 +1,26 @@
+:host {
+  display: contents;
+}
+
+.every-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 40px clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+.points {
+  font-size: 1.1rem;
+}
+.note {
+  margin-top: 24px;
+  max-width: 34em;
+}
+.total {
+  margin-top: 16px;
+  font-weight: 700;
+}
+@media (max-width: 900px) {
+  .every-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

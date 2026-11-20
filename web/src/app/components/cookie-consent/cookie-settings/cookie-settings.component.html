@@ -1,0 +1,54 @@
+@let c = t().cookies;
+<dialog
+  #dialog
+  class="settings"
+  aria-labelledby="cookie-settings-title"
+  (close)="closed.emit()"
+  (click)="backdrop($event)"
+>
+  <form method="dialog" (submit)="submit($event)">
+    <header>
+      <h2 id="cookie-settings-title" class="h3">{{ c.title }}</h2>
+      <button type="button" class="x" (click)="closed.emit()">
+        <rc-icon name="close" /><span class="sr-only">{{ t().common.close }}</span>
+      </button>
+    </header>
+    <p class="intro">{{ c.intro }}</p>
+
+    <ul class="kinds">
+      <li
+        rcCookieKind="necessary"
+        [name]="c.necessary.name"
+        [text]="c.necessary.text"
+        [always]="c.necessary.always"
+      ></li>
+      <li
+        rcCookieKind="preferences"
+        [name]="c.preferences.name"
+        [text]="c.preferences.text"
+        [(checked)]="preferences"
+      ></li>
+      @if (hasExternal()) {
+        <li
+          rcCookieKind="external"
+          [name]="c.external.name"
+          [text]="c.external.text"
+          [(checked)]="external"
+        ></li>
+      }
+    </ul>
+
+    <footer>
+      <button type="submit" class="btn" id="cookies-save">{{ c.save }}</button>
+      <button type="button" class="btn btn-ghost" (click)="accept.emit()">
+        {{ c.acceptAll }}
+      </button>
+      <button type="button" class="btn btn-ghost" (click)="necessary.emit()">
+        {{ c.onlyNecessary }}
+      </button>
+    </footer>
+    <p class="more">
+      <a [routerLink]="links.to('privacy')" (click)="closed.emit()">{{ c.more }}</a>
+    </p>
+  </form>
+</dialog>

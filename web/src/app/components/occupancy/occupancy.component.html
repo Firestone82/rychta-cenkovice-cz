@@ -1,0 +1,53 @@
+<div class="scroll" tabindex="0" role="region" [attr.aria-label]="caption()">
+  <table>
+    <caption class="sr-only">
+      {{
+        caption()
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col" class="corner">
+          <span class="sr-only">{{ t().common.apartment }}</span>
+        </th>
+        @for (d of days(); track d.iso) {
+          <th scope="col" [class.weekend]="d.weekend" [class.today]="d.iso === today()">
+            <span class="dow" aria-hidden="true">{{ d.dow }}</span>
+            <span class="dom">{{ d.day }}</span>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.apartment.id) {
+        <tr>
+          <th scope="row">
+            @if (linked()) {
+              <a [routerLink]="links.apartment(row.apartment.number)"
+                >{{ t().common.apartment }} {{ row.apartment.number }}</a
+              >
+            } @else {
+              {{ t().common.apartment }} {{ row.apartment.number }}
+            }
+            <span class="beds">{{ i18n.count(row.apartment.beds, t().plural.beds) }}</span>
+          </th>
+          @for (c of row.cells; track c.iso) {
+            <td
+              [attr.data-am]="c.am"
+              [attr.data-pm]="c.pm"
+              [class.past]="c.past"
+              [class.selected]="c.selected"
+            >
+              <span class="sr-only">{{ c.label }}</span>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<ul class="legend" aria-hidden="true">
+  <li><i data-k="free"></i>{{ t().availability.free }}</li>
+  <li><i data-k="booked"></i>{{ t().availability.booked }}</li>
+  <li><i data-k="pending"></i>{{ t().availability.pending }}</li>
+</ul>

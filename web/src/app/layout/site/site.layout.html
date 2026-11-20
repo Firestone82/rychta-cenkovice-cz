@@ -1,0 +1,10 @@
+<a class="skip" href="#main" (click)="skip($event)">{{ t().common.skip }}</a>
+<rc-cookie-consent />
+
+<rc-site-header [alternates]="alternates()" />
+
+<main id="main" tabindex="-1">
+  <router-outlet />
+</main>
+
+<rc-site-footer />

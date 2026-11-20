@@ -1,0 +1,58 @@
+<header class="header" [class.is-scrolled]="scrolled()" [class.is-open]="menuOpen()">
+  <div class="wrap bar">
+    <a class="brand" [routerLink]="links.to('home')">
+      <rc-logo />
+      <span class="sr-only">, {{ t().nav.home }}</span>
+    </a>
+
+    <nav class="nav" [attr.aria-label]="t().common.menu" id="site-nav">
+      <ul>
+        @for (item of nav(); track item.page) {
+          <li>
+            <a
+              [routerLink]="links.to(item.page)"
+              routerLinkActive="is-active"
+              ariaCurrentWhenActive="page"
+              (click)="menuOpen.set(false)"
+              >{{ item.label }}</a
+            >
+          </li>
+        }
+      </ul>
+      <div class="tools">
+        <ul class="langs" [attr.aria-label]="t().common.language">
+          @for (l of languages; track l.code) {
+            <li>
+              <a
+                [routerLink]="alternates()[l.code]"
+                queryParamsHandling="preserve"
+                [attr.lang]="l.code"
+                [attr.hreflang]="l.code"
+                [attr.aria-current]="i18n.lang() === l.code ? 'true' : null"
+                (click)="menuOpen.set(false)"
+                >{{ l.short }}<span class="sr-only"> {{ l.name }}</span></a
+              >
+            </li>
+          }
+        </ul>
+        <a
+          class="btn btn-small book"
+          [routerLink]="links.to('booking')"
+          (click)="menuOpen.set(false)"
+          >{{ t().nav.book }}</a
+        >
+      </div>
+    </nav>
+
+    <button
+      type="button"
+      class="toggle"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="site-nav"
+      (click)="menuOpen.set(!menuOpen())"
+    >
+      <rc-icon [name]="menuOpen() ? 'close' : 'menu'" />
+      <span>{{ menuOpen() ? t().common.close : t().common.menu }}</span>
+    </button>
+  </div>
+</header>

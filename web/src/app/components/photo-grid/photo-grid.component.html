@@ -1,0 +1,19 @@
+<ul class="grid" [class.lead]="lead()">
+  @for (photo of photos(); track photo.id; let i = $index) {
+    <li [class.wide]="rhythm() && i % 10 === 0" [class.tall]="rhythm() && i % 10 === 6">
+      <button
+        type="button"
+        (click)="open.emit(i)"
+        [attr.aria-label]="t().gallery.open + ': ' + (i18n.pick(photo.alt) || i + 1)"
+      >
+        <rc-pic
+          [photo]="photo"
+          [ratio]="null"
+          [decorative]="true"
+          [eager]="i < eagerCount()"
+          [sizes]="sizes()"
+        />
+      </button>
+    </li>
+  }
+</ul>

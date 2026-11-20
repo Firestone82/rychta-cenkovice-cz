@@ -1,0 +1,37 @@
+@let a = apartment();
+<label class="unit" [class.is-taken]="taken()" [class.is-on]="selected()">
+  <input
+    type="checkbox"
+    [checked]="selected()"
+    [disabled]="taken() === true"
+    (change)="selectedChange.emit(checked($event))"
+  />
+  <span class="no num" aria-hidden="true">{{ a.number }}</span>
+  <span class="unit-text">
+    <strong>{{ t().common.apartment }} {{ a.number }}</strong>
+    <span class="muted">
+      @if (i18n.flatType(a.flat_type); as type) {
+        {{ type }},
+      }
+      {{ a.area }} {{ t().common.areaUnit }},
+      {{ i18n.count(a.beds, t().plural.beds) }}
+      @if (a.extra_beds) {
+        + {{ a.extra_beds }} {{ t().common.extraBeds }}
+      }
+    </span>
+  </span>
+  <span class="unit-side">
+    @if (taken() !== null) {
+      <span class="tag" [class.tag-confirmed]="!taken()" [class.tag-cancelled]="taken()">{{
+        taken() ? t().booking.taken : t().booking.free
+      }}</span>
+    }
+    <span class="unit-price">
+      @if (a.price_per_night !== null) {
+        {{ i18n.money(a.price_per_night) }} {{ t().common.perNight }}
+      } @else {
+        {{ t().common.priceOnRequest }}
+      }
+    </span>
+  </span>
+</label>

@@ -1,0 +1,13 @@
+<ul class="facts">
+  <li><rc-icon name="area" /> {{ apartment().area }} {{ t().common.areaUnit }}</li>
+  <li>
+    <rc-icon name="bed" /> {{ i18n.count(apartment().beds, t().plural.beds) }}
+    @if (apartment().extra_beds) {
+      + {{ apartment().extra_beds }} {{ t().common.extraBeds }}
+    }
+  </li>
+  <li><rc-icon name="stairs" /> {{ t().common.floor[apartment().floor - 1] }}</li>
+  @if (apartment().accessible) {
+    <li><rc-icon name="access" /> {{ t().common.stepFree }}</li>
+  }
+</ul>

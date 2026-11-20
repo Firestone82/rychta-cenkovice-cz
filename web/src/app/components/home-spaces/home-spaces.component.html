@@ -1,0 +1,35 @@
+<section class="section section-white shared" aria-labelledby="shared-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="shared-title" class="h1">{{ t().home.spaces.title }}</h2>
+      <p class="lead muted">{{ t().home.spaces.lead }}</p>
+    </div>
+    <ul class="spaces">
+      @for (space of spaces(); track space.page; let i = $index) {
+        <li [rcReveal]="i * 90">
+          <a class="space" [routerLink]="links.to(space.page)">
+            @if (space.photo; as photo) {
+              <rc-pic
+                [photo]="photo"
+                [ratio]="i === 0 ? '16/10' : '4/3'"
+                [decorative]="true"
+                [sizes]="
+                  i === 0 ? '(max-width: 900px) 100vw, 60vw' : '(max-width: 900px) 100vw, 30vw'
+                "
+              />
+            } @else {
+              <div class="ph" [style.aspect-ratio]="i === 0 ? '16/10' : '4/3'"></div>
+            }
+            <div class="space-text">
+              <p class="fact">
+                <span class="num">{{ space.content.fact }}</span> {{ space.content.factLabel }}
+              </p>
+              <h3 class="h2">{{ space.content.title }}</h3>
+              <p class="muted">{{ space.content.intro }}</p>
+            </div>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

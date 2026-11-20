@@ -1,0 +1,26 @@
+.stack {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 90;
+  display: grid;
+  gap: 8px;
+  max-width: min(420px, calc(100vw - 40px));
+}
+.toast {
+  padding: 0.8em 1.1em;
+  background: var(--slate);
+  color: var(--white);
+  border-left: 5px solid #7fc08f;
+  font-weight: 500;
+  animation: in 0.3s var(--ease);
+}
+.toast.is-error {
+  border-left-color: #f0907f;
+}
+@keyframes in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

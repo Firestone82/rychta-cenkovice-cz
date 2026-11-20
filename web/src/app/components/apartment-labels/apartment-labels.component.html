@@ -1,0 +1,7 @@
+@if (labels().length) {
+  <ul>
+    @for (label of labels(); track $index) {
+      <li>{{ i18n.pick(label) }}</li>
+    }
+  </ul>
+}

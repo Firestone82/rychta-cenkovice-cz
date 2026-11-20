@@ -1,0 +1,9 @@
+<ol>
+  @for (step of t().steps; track step.title; let i = $index) {
+    <li>
+      <span class="n num" aria-hidden="true">{{ i + 1 }}</span>
+      <h3 class="h3">{{ step.title }}</h3>
+      <p>{{ step.text }}</p>
+    </li>
+  }
+</ol>

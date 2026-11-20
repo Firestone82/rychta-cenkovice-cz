@@ -1,0 +1,33 @@
+<div class="a-filters">
+  <rc-select-field
+    key="ph-cat"
+    [label]="t().admin.photos.category"
+    [options]="categoryOptions()"
+    [value]="category()"
+    (valueChange)="setCategory($event)"
+  />
+  @if (category() === 'apartment') {
+    <rc-select-field
+      key="ph-apt"
+      [label]="t().admin.photos.apartment"
+      [options]="apartmentOptions()"
+      [value]="'' + apartmentId()"
+      (valueChange)="apartmentId.set(+$event || 0)"
+    />
+  }
+  <div class="upload">
+    <input
+      #file
+      id="ph-file"
+      class="sr-only"
+      type="file"
+      accept="image/jpeg,image/png"
+      multiple
+      (change)="pick(file)"
+      [disabled]="!!progress()"
+    />
+    <label for="ph-file" class="btn" [attr.aria-disabled]="progress() ? 'true' : null"
+      ><rc-icon name="plus" /> {{ progress() || t().admin.photos.upload }}</label
+    >
+  </div>
+</div>

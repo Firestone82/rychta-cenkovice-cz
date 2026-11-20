@@ -1,0 +1,66 @@
+:host {
+  display: contents;
+}
+
+.settings {
+  width: min(600px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  border: 0;
+  border-top: 6px solid var(--timber);
+  background: var(--white);
+  color: var(--slate);
+  box-shadow: 0 30px 80px rgba(35, 42, 48, 0.4);
+}
+.settings::backdrop {
+  background: rgba(35, 42, 48, 0.6);
+}
+form {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 32px);
+}
+header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.x {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -8px -8px 0 0;
+  border: 0;
+  background: none;
+  color: var(--slate);
+  cursor: pointer;
+}
+.x:hover {
+  color: var(--timber);
+}
+.intro {
+  color: var(--slate-2);
+}
+.kinds {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--line-strong);
+}
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.more {
+  font-size: 0.95rem;
+}
+@media (max-width: 520px) {
+  footer .btn {
+    flex: 1 1 auto;
+  }
+}

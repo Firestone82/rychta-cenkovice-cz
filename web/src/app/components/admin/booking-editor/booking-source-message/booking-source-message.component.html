@@ -1,0 +1,6 @@
+@let m = message();
+<aside class="a-card msg">
+  <h2>{{ i18n.fill(t().admin.bookings.fromMessage, { name: m.name }) }}</h2>
+  <p class="body">{{ m.body }}</p>
+  <p class="muted">{{ m.email }} {{ m.phone }}</p>
+</aside>

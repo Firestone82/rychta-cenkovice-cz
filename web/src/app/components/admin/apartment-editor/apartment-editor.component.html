@@ -1,0 +1,40 @@
+@let prefix = 'ap' + apartment().id + '-';
+<details class="a-card">
+  <summary><rc-apartment-summary [apartment]="apartment()" /></summary>
+
+  <form (submit)="save($event)" novalidate>
+    <rc-apartment-basics [(draft)]="draft" [errors]="errors()" [prefix]="prefix" />
+    <rc-apartment-amenities
+      [selected]="draft().amenities"
+      (selectedChange)="patch({ amenities: $event })"
+    />
+    <rc-apartment-label-list
+      [labels]="draft().labels"
+      [error]="errors()['labels']"
+      (labelsChange)="patch({ labels: $event })"
+    />
+
+    <div class="texts">
+      <h3>{{ t().admin.apartments.texts }}</h3>
+      <p>{{ t().admin.apartments.textsHint }}</p>
+    </div>
+    <div class="langs">
+      @for (lang of langs; track lang) {
+        <rc-apartment-texts
+          [lang]="lang"
+          [prefix]="prefix"
+          [texts]="draft().texts[lang]"
+          [descriptionError]="errors()['description']"
+          (textsChange)="setTexts(lang, $event)"
+        />
+      }
+    </div>
+
+    @if (failure()) {
+      <p class="notice is-error" role="alert">{{ failure() }}</p>
+    }
+    <button class="btn" type="submit" [disabled]="busy()">
+      {{ t().admin.apartments.save }}
+    </button>
+  </form>
+</details>

@@ -1,0 +1,67 @@
+:host {
+  display: contents;
+}
+
+.units {
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
+}
+.units legend {
+  padding: 0;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 0.8125rem;
+}
+.units ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px;
+}
+.unit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 5px 10px;
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.unit:has(input:focus-visible) {
+  outline: 3px solid var(--winter);
+  outline-offset: 2px;
+}
+.unit.is-on {
+  border-color: var(--timber);
+  box-shadow: inset 0 0 0 1.5px var(--timber);
+}
+.unit.is-taken {
+  background: var(--larch-soft);
+}
+.unit input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--timber);
+  outline: none;
+}
+.unit .num {
+  font-size: 1.6rem;
+  line-height: 0.8;
+  color: var(--timber);
+}
+.unit-text {
+  display: grid;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  color: var(--slate-2);
+}
+.clash {
+  color: #6b4a05;
+}
+.error {
+  margin-top: 8px;
+  font-weight: 700;
+  color: var(--timber);
+}

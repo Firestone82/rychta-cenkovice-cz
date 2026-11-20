@@ -1,0 +1,22 @@
+:host {
+  display: contents;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: 40px clamp(32px, 5vw, 72px);
+  align-items: start;
+  padding-bottom: var(--section);
+}
+
+.steps {
+  display: grid;
+  gap: clamp(36px, 5vw, 56px);
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,26 @@
+<a class="back" routerLink="/admin/bookings"
+  ><rc-icon name="back" /> {{ t().admin.bookings.title }}</a
+>
+
+@if (store.ready()) {
+  <div class="a-head">
+    <div>
+      <h1>{{ store.title() }}</h1>
+      @if (store.booking(); as b) {
+        <p>
+          {{ t().admin.bookings.source[b.source] }},
+          {{ t().admin.bookings.created_at.toLowerCase() }} {{ i18n.dateTime(b.created_at) }}
+        </p>
+      }
+    </div>
+  </div>
+
+  @if (store.message(); as m) {
+    <rc-booking-source-message [message]="m" />
+  }
+  <rc-booking-editor />
+} @else if (store.missing()) {
+  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}

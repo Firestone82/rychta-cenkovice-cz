@@ -1,0 +1,17 @@
+<fieldset class="group">
+  <legend>{{ t().admin.apartments.amenities }}</legend>
+  <p class="group-hint">{{ t().admin.apartments.amenitiesHint }}</p>
+  <ul class="amenities">
+    @for (key of keys; track key) {
+      <li>
+        <label class="check"
+          ><input
+            type="checkbox"
+            [checked]="selected().includes(key)"
+            (change)="toggle(key, checked($event))"
+          /><span>{{ t().amenities[key] }}</span></label
+        >
+      </li>
+    }
+  </ul>
+</fieldset>

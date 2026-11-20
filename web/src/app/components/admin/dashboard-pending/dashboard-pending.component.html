@@ -1,0 +1,42 @@
+<section class="a-card block">
+  <h2>{{ t().admin.dashboard.pendingTitle }}</h2>
+  @if (bookings().length) {
+    <ul class="rows">
+      @for (b of bookings(); track b.id) {
+        <li>
+          <a class="who" [routerLink]="['/admin/bookings', b.id]">
+            <strong>{{ b.name }}</strong>
+            <span class="sub"
+              >{{ i18n.range(b.check_in, b.check_out) }},
+              {{ i18n.count(b.nights, t().plural.nights) }}</span
+            >
+          </a>
+          <span class="units"
+            >{{ t().common.apartment }} {{ units(b)
+            }}<span class="sub">{{ i18n.count(b.guests, t().plural.guests) }}</span></span
+          >
+          <span class="a-row-actions">
+            <button
+              type="button"
+              class="btn btn-small"
+              [disabled]="busyId() === b.id"
+              (click)="decide.emit({ booking: b, status: 'confirmed' })"
+            >
+              <rc-icon name="check" /> {{ t().admin.bookings.confirm }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-small btn-quiet"
+              [disabled]="busyId() === b.id"
+              (click)="decide.emit({ booking: b, status: 'cancelled' })"
+            >
+              {{ t().admin.bookings.decline }}
+            </button>
+          </span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="muted">{{ t().admin.dashboard.pendingEmpty }}</p>
+  }
+</section>

@@ -1,0 +1,33 @@
+<section class="wrap list" aria-labelledby="list-title">
+  <h2 id="list-title" class="sr-only">{{ t().accommodation.listTitle }}</h2>
+  <rc-stay-dates
+    [from]="from()"
+    [to]="to()"
+    [message]="message()"
+    [error]="invalid() || failed()"
+    (fromChange)="setFrom($event)"
+    (toChange)="setTo($event)"
+  />
+
+  @if (apartments(); as list) {
+    @if (list.length) {
+      <ul class="cards">
+        @for (a of list; track a.id; let i = $index) {
+          <li [rcReveal]="(i % 3) * 80">
+            <rc-apartment-card
+              [apartment]="a"
+              [state]="state(a)"
+              [nights]="nights()"
+              [from]="from()"
+              [to]="to()"
+            />
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="notice is-error">{{ t().common.loadFailed }}</p>
+    }
+  } @else {
+    <rc-spinner [label]="t().common.loading" />
+  }
+</section>

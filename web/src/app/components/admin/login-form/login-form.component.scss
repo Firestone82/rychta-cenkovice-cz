@@ -1,0 +1,22 @@
+:host {
+  display: contents;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: min(100%, 420px);
+  padding: clamp(24px, 5vw, 40px);
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  --logo-size: 40px;
+}
+.btn {
+  width: 100%;
+  min-height: 52px;
+}
+.back {
+  justify-self: center;
+}

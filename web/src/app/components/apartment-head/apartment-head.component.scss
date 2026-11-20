@@ -1,0 +1,25 @@
+:host {
+  display: contents;
+}
+
+.page-head {
+  padding-bottom: clamp(20px, 3vw, 36px);
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+}
+.no {
+  font-size: clamp(6rem, 14vw, 11rem);
+  line-height: 0.74;
+  color: var(--timber);
+}
+.type {
+  margin-top: 6px;
+  font-size: 1.2rem;
+  color: var(--slate-2);
+}
+rc-apartment-labels {
+  margin-top: 12px;
+}

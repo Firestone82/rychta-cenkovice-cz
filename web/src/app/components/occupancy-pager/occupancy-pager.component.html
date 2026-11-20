@@ -1,0 +1,46 @@
+<div class="bar">
+  <button
+    type="button"
+    class="btn btn-quiet btn-small"
+    (click)="move(-1)"
+    [disabled]="!canGoBack()"
+  >
+    <rc-icon name="left" /> {{ t().availability.prevMonth }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-quiet btn-small"
+    (click)="month.set(thisMonth)"
+    [disabled]="month() === thisMonth"
+  >
+    {{ t().availability.today }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-quiet btn-small"
+    (click)="move(1)"
+    [disabled]="!canGoForward()"
+  >
+    {{ t().availability.nextMonth }} <rc-icon name="right" />
+  </button>
+</div>
+
+@if (failed()) {
+  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+}
+
+<div class="months" [class.is-loading]="loading()" [attr.aria-busy]="loading()">
+  @for (m of shown(); track m) {
+    <section>
+      <p class="h3" role="heading" [attr.aria-level]="level()">{{ i18n.date(m, 'month') }}</p>
+      <rc-occupancy
+        [apartments]="apartments()"
+        [ranges]="ranges()"
+        [month]="m"
+        [today]="today"
+        [linked]="linked()"
+        [selection]="selection()"
+      />
+    </section>
+  }
+</div>

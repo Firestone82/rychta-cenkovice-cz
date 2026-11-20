@@ -1,0 +1,18 @@
+<section class="section section-white" aria-labelledby="steps-title">
+  <div class="wrap">
+    <h2 id="steps-title" class="h1 steps-title">{{ t().home.steps.title }}</h2>
+    <rc-steps />
+    <div class="cta">
+      <div>
+        <h2 class="h2">{{ t().home.cta.title }}</h2>
+        <p class="muted">{{ t().home.cta.text }}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn" [routerLink]="links.to('booking')">{{ t().availability.book }}</a>
+        <a class="btn btn-ghost" [routerLink]="links.to('availability')">{{
+          t().availability.title
+        }}</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+@let a = apartment();
+<span class="num">{{ a.number }}</span>
+<span class="sum-text">
+  <strong>{{ t().common.apartment }} {{ a.number }}</strong>
+  <span>{{ a.area }} {{ t().common.areaUnit }}, {{ i18n.count(a.beds, t().plural.beds) }}</span>
+</span>
+@if (!a.active) {
+  <span class="tag">{{ t().admin.apartments.hidden }}</span>
+}
+<span class="sum-price">
+  @if (a.price_per_night !== null) {
+    {{ i18n.money(a.price_per_night) }} {{ t().common.perNight }}
+  } @else {
+    {{ t().common.priceOnRequest }}
+  }
+</span>

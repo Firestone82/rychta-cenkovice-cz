@@ -1,0 +1,49 @@
+.post {
+  max-width: 520px;
+}
+.head {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 8px;
+  background: var(--slate);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+/* trail mark: white, red, white */
+.mark {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(var(--white) 0 33%, #c8281e 33% 67%, var(--white) 67%);
+}
+ul {
+  display: grid;
+  gap: 5px;
+  margin-top: 5px;
+}
+li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 34px 9px 14px;
+  background: var(--white);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
+  transition: translate 0.25s var(--ease);
+}
+li:hover {
+  translate: 6px 0;
+}
+.name {
+  font-weight: 700;
+}
+.km {
+  white-space: nowrap;
+  color: var(--slate-2);
+}
+.km .num {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--slate);
+}

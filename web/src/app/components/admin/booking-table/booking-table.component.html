@@ -1,0 +1,29 @@
+@let cols = t().admin.bookings.cols;
+<div class="a-table-wrap">
+  <table class="a-table">
+    <thead>
+      <tr>
+        <th scope="col">{{ cols.guest }}</th>
+        <th scope="col">{{ cols.dates }}</th>
+        <th scope="col">{{ cols.units }}</th>
+        <th scope="col">{{ cols.guests }}</th>
+        <th scope="col">{{ cols.status }}</th>
+        <th scope="col" class="right">{{ cols.price }}</th>
+        <th scope="col">
+          <span class="sr-only">{{ t().admin.bookings.edit }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (b of bookings(); track b.id) {
+        <tr
+          rcBookingRow
+          [booking]="b"
+          [units]="units(b)"
+          [busy]="busyId() === b.id"
+          (decide)="decide.emit({ booking: b, status: $event })"
+        ></tr>
+      }
+    </tbody>
+  </table>
+</div>

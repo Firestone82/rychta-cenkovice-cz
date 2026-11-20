@@ -1,0 +1,17 @@
+@if (photo().placeholder) {
+  <img class="blur" [src]="photo().placeholder" alt="" aria-hidden="true" />
+}
+<img
+  class="full"
+  [src]="src()"
+  [attr.srcset]="srcset()"
+  [attr.sizes]="sizes()"
+  [alt]="decorative() ? '' : alt()"
+  [attr.width]="photo().width"
+  [attr.height]="photo().height"
+  [attr.loading]="eager() ? 'eager' : 'lazy'"
+  [attr.fetchpriority]="eager() ? 'high' : null"
+  decoding="async"
+  (load)="loaded.set(true)"
+  (error)="loaded.set(true)"
+/>

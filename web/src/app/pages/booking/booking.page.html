@@ -1,0 +1,10 @@
+@if (receipt(); as r) {
+  <rc-booking-receipt [receipt]="r" [email]="store.email().trim()" (again)="again()" />
+} @else {
+  <header class="wrap page-head">
+    <h1 class="h1">{{ t().booking.title }}</h1>
+    <p class="lead">{{ t().booking.lead }}</p>
+  </header>
+
+  <rc-booking-form (sent)="receipt.set($event)" />
+}

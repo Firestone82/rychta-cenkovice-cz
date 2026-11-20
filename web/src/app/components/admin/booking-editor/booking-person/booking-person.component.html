@@ -1,0 +1,62 @@
+@let text = t().admin.bookings;
+@let guest = store.kind() === 'guest';
+<section class="a-card">
+  <div class="form-grid">
+    <rc-text-field
+      class="wide"
+      key="bf-name"
+      [label]="guest ? text.name : text.blockName"
+      [error]="store.errors()['name']"
+      [(value)]="store.name"
+    />
+    @if (guest) {
+      <rc-text-field
+        key="bf-email"
+        type="email"
+        [label]="text.email"
+        [error]="store.errors()['email']"
+        [(value)]="store.email"
+      />
+      <rc-text-field
+        key="bf-phone"
+        type="tel"
+        [label]="text.phone"
+        [error]="store.errors()['phone']"
+        [(value)]="store.phone"
+      />
+      <rc-text-field
+        key="bf-guests"
+        type="number"
+        min="1"
+        max="200"
+        [label]="text.guests"
+        [error]="store.errors()['guests']"
+        [(value)]="store.guests"
+      />
+      <rc-select-field
+        key="bf-lang"
+        [label]="text.language"
+        [options]="languages"
+        [value]="store.language()"
+        (valueChange)="store.language.set($event === 'en' ? 'en' : 'cs')"
+      />
+      <rc-text-field
+        class="wide"
+        key="bf-note"
+        type="textarea"
+        [rows]="3"
+        [label]="text.note"
+        [error]="store.errors()['note']"
+        [(value)]="store.note"
+      />
+    }
+    <rc-text-field
+      class="wide"
+      key="bf-admin-note"
+      type="textarea"
+      [rows]="3"
+      [label]="text.adminNote"
+      [(value)]="store.adminNote"
+    />
+  </div>
+</section>

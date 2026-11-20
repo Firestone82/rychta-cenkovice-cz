@@ -1,0 +1,37 @@
+:host {
+  display: contents;
+}
+
+.sub {
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+.others {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+  gap: 12px;
+}
+.others a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.others a:hover {
+  border-color: var(--slate);
+  background: var(--snow);
+}
+.others .num {
+  font-size: 3rem;
+  line-height: 0.8;
+  color: var(--timber);
+}
+.others a > span:last-child {
+  display: grid;
+  line-height: 1.3;
+}

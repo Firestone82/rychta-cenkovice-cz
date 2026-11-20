@@ -1,0 +1,135 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: end;
+}
+.house {
+  --band: clamp(104px, 13vw, 150px);
+}
+.row {
+  display: grid;
+  grid-template-columns: clamp(52px, 8vw, 84px) minmax(0, 1fr);
+  align-items: end;
+}
+.level {
+  padding: 0 10px 12px 0;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  color: var(--slate-2);
+  text-align: right;
+}
+.band {
+  display: flex;
+  gap: 3px;
+  height: var(--band);
+  background: var(--snow);
+}
+.peak {
+  clip-path: polygon(50% 0, 66.67% 100%, 33.33% 100%);
+  background: var(--timber);
+  color: rgba(243, 245, 244, 0.55);
+}
+.peak .boards {
+  flex: 1;
+  background-size: 22px 16px;
+  background-position:
+    0 0,
+    11px 0;
+}
+.f3 {
+  clip-path: polygon(33.33% 0, 66.67% 0, 83.33% 100%, 16.67% 100%);
+  margin-top: 3px;
+}
+.f2 {
+  clip-path: polygon(16.67% 0, 83.33% 0, 100% 100%, 0 100%);
+  margin-top: 3px;
+}
+.plinth {
+  margin-top: 3px;
+  height: calc(var(--band) * 0.82);
+}
+.cell {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0;
+  padding: 0 6px 10px;
+  border: 0;
+  background: var(--timber);
+  color: var(--white);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.f3 .cell:first-child {
+  padding-left: 20%;
+}
+.f3 .cell:last-child {
+  padding-right: 20%;
+}
+.f2 .cell:first-child {
+  padding-left: 9%;
+}
+.f2 .cell:last-child {
+  padding-right: 9%;
+}
+.plinth .cell {
+  background: var(--white);
+  color: var(--slate);
+  box-shadow: inset 0 0 0 2px var(--slate);
+}
+.cell:hover,
+.cell[aria-pressed='true'] {
+  background: var(--slate);
+  color: var(--white);
+}
+.cell:focus-visible {
+  outline-offset: -5px;
+  outline-color: var(--white);
+}
+.shared {
+  flex: 100 1 0;
+  display: grid;
+  place-items: end start;
+  padding: 0 0 10px 14px;
+  color: var(--slate-2);
+  font-size: 0.85rem;
+  background:
+    repeating-linear-gradient(-55deg, transparent 0 9px, var(--line) 9px 10px), var(--white);
+  box-shadow: inset 0 0 0 2px var(--slate);
+}
+.shared span {
+  background: var(--white);
+  padding: 0 6px;
+}
+.note {
+  margin: 12px 0 0;
+  padding-left: clamp(52px, 8vw, 84px);
+  font-size: 0.85rem;
+  color: var(--slate-2);
+}
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+@media (max-width: 520px) {
+  .level {
+    font-size: 0.72rem;
+    padding-right: 6px;
+  }
+  .cell {
+    padding-inline: 2px;
+  }
+  .f3 .cell:first-child {
+    padding-left: 18%;
+  }
+  .f3 .cell:last-child {
+    padding-right: 18%;
+  }
+}

@@ -1,0 +1,38 @@
+<div
+  class="table-scroll"
+  tabindex="0"
+  role="region"
+  [attr.aria-label]="t().accommodation.table.layout"
+>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">{{ t().accommodation.table.apartment }}</th>
+        <th scope="col">{{ t().accommodation.table.floor }}</th>
+        <th scope="col">{{ t().accommodation.table.area }}</th>
+        <th scope="col">{{ t().accommodation.table.beds }}</th>
+        <th scope="col">{{ t().accommodation.table.layout }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (a of apartments(); track a.id) {
+        <tr>
+          <th scope="row">
+            <a [routerLink]="links.apartment(a.number)"
+              >{{ t().common.apartment }} {{ a.number }}</a
+            >
+          </th>
+          <td class="nowrap">{{ t().common.floor[a.floor - 1] }}</td>
+          <td class="nowrap">{{ a.area }} {{ t().common.areaUnit }}</td>
+          <td class="nowrap">
+            {{ a.beds }}
+            @if (a.extra_beds) {
+              + {{ a.extra_beds }}
+            }
+          </td>
+          <td>{{ i18n.pick(a.layout) }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

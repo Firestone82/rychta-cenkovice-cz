@@ -1,0 +1,22 @@
+<ul class="grid" [class.two]="items().length === 2">
+  @for (item of items(); track item.key) {
+    <li>
+      <a class="space" [routerLink]="links.to(item.key)">
+        @if (item.photo; as photo) {
+          <rc-pic
+            [photo]="photo"
+            ratio="4/3"
+            [decorative]="true"
+            sizes="(max-width: 800px) 100vw, 33vw"
+          />
+        } @else {
+          <div class="ph"></div>
+        }
+        <p class="fact">
+          <span class="num">{{ item.content.fact }}</span> {{ item.content.factLabel }}
+        </p>
+        <h3 class="h3">{{ item.content.title }}</h3>
+      </a>
+    </li>
+  }
+</ul>

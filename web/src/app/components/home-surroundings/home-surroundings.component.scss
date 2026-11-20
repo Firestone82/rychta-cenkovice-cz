@@ -1,0 +1,47 @@
+:host {
+  display: contents;
+}
+
+.more {
+  margin-top: 24px;
+}
+
+.around-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 40px clamp(32px, 6vw, 96px);
+  align-items: start;
+
+  .lead {
+    margin-top: 18px;
+  }
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 40px;
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  rc-pic {
+    transition: filter 0.2s;
+  }
+
+  button:hover rc-pic {
+    filter: brightness(1.08) saturate(1.1);
+  }
+}
+
+@media (max-width: 900px) {
+  .around-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,10 @@
+:host {
+  display: contents;
+}
+
+.section-head {
+  display: grid;
+  gap: 16px;
+  margin-bottom: clamp(32px, 5vw, 64px);
+  max-width: 46rem;
+}

@@ -1,0 +1,41 @@
+@let b = booking();
+@let text = t().admin.bookings;
+<div class="more">
+  @if (b.status === 'pending') {
+    <button
+      type="button"
+      class="btn btn-ghost"
+      [disabled]="busy()"
+      (click)="status.emit('confirmed')"
+    >
+      <rc-icon name="check" /> {{ text.confirm }}
+    </button>
+  }
+  @if (b.status !== 'cancelled') {
+    <button
+      type="button"
+      class="btn btn-quiet"
+      [disabled]="busy()"
+      (click)="status.emit('cancelled')"
+    >
+      {{ b.status === 'pending' ? text.decline : text.cancel }}
+    </button>
+  } @else {
+    <button
+      type="button"
+      class="btn btn-quiet"
+      [disabled]="busy()"
+      (click)="status.emit('confirmed')"
+    >
+      {{ text.reopen }}
+    </button>
+  }
+  <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="remove.emit()">
+    <rc-icon name="trash" /> {{ text.delete }}
+  </button>
+</div>
+@if (b.message_id) {
+  <a class="orig" routerLink="/admin/messages" [queryParams]="{ status: 'all' }">{{
+    text.messageLink
+  }}</a>
+}

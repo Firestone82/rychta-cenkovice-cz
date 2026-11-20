@@ -1,0 +1,42 @@
+@let a = apartment();
+<section class="section section-white">
+  <div class="wrap">
+    <div class="detail">
+      @if (a.amenities.length) {
+        <div>
+          <h2 class="h2 sub">{{ t().apartment.featuresTitle }}</h2>
+          <ul class="amenities">
+            @for (key of a.amenities; track key) {
+              <li><rc-icon name="check" /> {{ t().amenities[key] }}</li>
+            }
+          </ul>
+        </div>
+      }
+      @if (i18n.pickList(a.features); as rooms) {
+        @if (rooms.length) {
+          <div>
+            <h2 class="h2 sub">{{ t().apartment.roomsTitle }}</h2>
+            <ul class="roofs">
+              @for (f of rooms; track f) {
+                <li>{{ f }}</li>
+              }
+            </ul>
+          </div>
+        }
+      }
+    </div>
+    @if (i18n.pick(a.note); as note) {
+      <p class="notice note">{{ note }}</p>
+    }
+    @if (photos().length > 1) {
+      <div class="photos">
+        <h2 class="h2 sub">{{ t().apartment.photosTitle }}</h2>
+        <rc-photo-grid
+          [photos]="photos()"
+          (open)="openPhoto.emit($event)"
+          sizes="(max-width: 560px) 50vw, (max-width: 1100px) 33vw, 320px"
+        />
+      </div>
+    }
+  </div>
+</section>

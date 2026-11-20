@@ -1,0 +1,29 @@
+<div class="wrap seasons">
+  @for (s of seasons; track s.key; let i = $index) {
+    <section
+      class="season"
+      [id]="s.key"
+      [attr.data-season]="s.key"
+      [class.flip]="i % 2 === 1"
+      [attr.aria-labelledby]="'season-' + s.key"
+    >
+      <img
+        [src]="s.img?.src"
+        [attr.srcset]="s.img?.srcset"
+        sizes="(max-width: 900px) 100vw, 600px"
+        [width]="s.img?.width"
+        [height]="s.img?.height"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        rcReveal
+      />
+      <div class="season-text">
+        <h2 class="h1" [id]="'season-' + s.key">
+          <span class="mark" aria-hidden="true"></span>{{ t().seasons[s.key].name }}
+        </h2>
+        <p>{{ t().seasons[s.key].text }}</p>
+      </div>
+    </section>
+  }
+</div>

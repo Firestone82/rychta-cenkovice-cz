@@ -1,0 +1,30 @@
+<div class="a-head">
+  <h1>{{ t().admin.messages.title }}</h1>
+</div>
+
+<div class="a-filters">
+  <div class="a-seg" role="group" [attr.aria-label]="t().admin.messages.title">
+    <button type="button" [attr.aria-pressed]="box() === ''" (click)="box.set('')">
+      {{ t().admin.messages.filterInbox }}
+    </button>
+    <button type="button" [attr.aria-pressed]="box() === 'archived'" (click)="box.set('archived')">
+      {{ t().admin.messages.filterArchived }}
+    </button>
+  </div>
+</div>
+
+@if (items(); as list) {
+  @if (list.length) {
+    <ul class="list">
+      @for (m of list; track m.id) {
+        <li class="a-card" [class.is-new]="m.status === 'new'">
+          <rc-message-card [message]="m" (status)="set(m, $event)" (remove)="remove(m)" />
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="a-empty">{{ failed() ? t().common.loadFailed : t().admin.messages.empty }}</p>
+  }
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}

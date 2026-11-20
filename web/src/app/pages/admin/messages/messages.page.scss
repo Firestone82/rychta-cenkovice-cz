@@ -1,0 +1,7 @@
+.list {
+  display: grid;
+  gap: 8px;
+}
+li.is-new {
+  border-left: 3px solid var(--timber);
+}

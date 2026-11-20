@@ -1,0 +1,11 @@
+<div class="hp" aria-hidden="true">
+  <label [for]="key()">Website</label>
+  <input
+    [id]="key()"
+    type="text"
+    tabindex="-1"
+    autocomplete="off"
+    [value]="value()"
+    (input)="value.set(valueOf($event))"
+  />
+</div>

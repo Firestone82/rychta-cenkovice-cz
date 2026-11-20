@@ -1,0 +1,15 @@
+.no {
+  font-size: clamp(2.6rem, 5.4vw, 4.2rem);
+  line-height: 0.85;
+}
+.meta {
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+@media (max-width: 520px) {
+  .meta {
+    font-size: 0.72rem;
+  }
+}

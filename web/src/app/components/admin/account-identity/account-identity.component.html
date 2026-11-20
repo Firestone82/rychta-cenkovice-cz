@@ -1,0 +1,8 @@
+<section class="a-card">
+  <h2>{{ t().admin.account.signedInAs }}</h2>
+  <p class="who">
+    <strong>{{ auth.user()?.name || auth.user()?.email }}</strong>
+    <span>{{ auth.user()?.email }}</span>
+  </p>
+  <p class="muted session">{{ t().admin.account.session }}</p>
+</section>

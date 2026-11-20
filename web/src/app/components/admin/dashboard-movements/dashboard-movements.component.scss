@@ -1,0 +1,29 @@
+:host {
+  display: contents;
+}
+
+.rows li {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 16px;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+}
+.who {
+  display: grid;
+  text-decoration: none;
+}
+.who:hover strong {
+  text-decoration: underline;
+}
+.sub {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--slate-2);
+}
+.day {
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--timber);
+}

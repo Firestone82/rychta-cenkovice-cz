@@ -1,0 +1,49 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 44px);
+}
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.space {
+  display: block;
+  text-decoration: none;
+}
+rc-pic,
+.ph {
+  aspect-ratio: 4 / 3;
+  background: var(--line);
+  clip-path: polygon(0 0, 50% 0, 100% 0, 100% 100%, 0 100%);
+  transition: clip-path 0.5s var(--ease);
+}
+.space:hover rc-pic,
+.space:focus-visible rc-pic {
+  clip-path: polygon(0 7%, 50% 0, 100% 7%, 100% 100%, 0 100%);
+}
+.fact {
+  margin-top: 16px;
+  color: var(--slate-2);
+  font-size: 0.98rem;
+}
+.num {
+  margin-right: 6px;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--timber);
+}
+.h3 {
+  margin-top: 2px;
+  text-decoration: underline transparent 2px;
+  text-underline-offset: 5px;
+  transition: text-decoration-color 0.2s;
+}
+.space:hover .h3 {
+  text-decoration-color: var(--timber);
+}
+@media (max-width: 800px) {
+  .grid,
+  .grid.two {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,18 @@
+:host {
+  display: contents;
+}
+
+.scroll {
+  position: relative;
+  overflow-x: auto;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: opacity 0.2s;
+}
+.scroll.is-loading {
+  opacity: 0.6;
+}
+.cal {
+  min-width: 900px;
+}

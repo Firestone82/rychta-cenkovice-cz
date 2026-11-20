@@ -1,0 +1,38 @@
+<form class="search" (submit)="search($event)" [attr.aria-label]="t().home.search.title">
+  <div class="field">
+    <label for="hero-in">{{ t().home.search.checkIn }}</label>
+    <input
+      id="hero-in"
+      class="input"
+      type="date"
+      [min]="today"
+      [value]="checkIn()"
+      (change)="setCheckIn(value($event))"
+    />
+  </div>
+  <div class="field">
+    <label for="hero-out">{{ t().home.search.checkOut }}</label>
+    <input
+      id="hero-out"
+      class="input"
+      type="date"
+      [min]="minCheckOut()"
+      [value]="checkOut()"
+      (change)="checkOut.set(value($event))"
+    />
+  </div>
+  <div class="field guests">
+    <label for="hero-guests">{{ t().home.search.guests }}</label>
+    <input
+      id="hero-guests"
+      class="input"
+      type="number"
+      inputmode="numeric"
+      min="1"
+      max="40"
+      [value]="guests()"
+      (change)="guests.set(guestCount($event))"
+    />
+  </div>
+  <button class="btn" type="submit">{{ t().home.search.submit }}</button>
+</form>

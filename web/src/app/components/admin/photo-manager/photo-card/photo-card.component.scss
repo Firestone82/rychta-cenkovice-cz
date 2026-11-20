@@ -1,0 +1,22 @@
+:host {
+  display: contents;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.alt {
+  font-size: 0.8125rem;
+  color: var(--slate-2);
+  min-height: 2.8em;
+}
+form {
+  display: grid;
+  gap: 10px;
+}
+.a-actions {
+  justify-content: space-between;
+}

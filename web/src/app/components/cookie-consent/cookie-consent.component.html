@@ -1,0 +1,18 @@
+@if (!consent.decided() && !consent.settingsOpen()) {
+  <rc-cookie-bar
+    [external]="hasExternal()"
+    (accept)="acceptAll()"
+    (necessary)="necessary()"
+    (settings)="consent.settingsOpen.set(true)"
+  />
+}
+
+<rc-cookie-settings
+  [open]="consent.settingsOpen()"
+  [choice]="{ preferences: consent.preferences(), external: consent.external() }"
+  [hasExternal]="hasExternal()"
+  (save)="save($event)"
+  (accept)="acceptAll()"
+  (necessary)="necessary()"
+  (closed)="consent.settingsOpen.set(false)"
+/>

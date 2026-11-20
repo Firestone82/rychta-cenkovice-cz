@@ -1,0 +1,14 @@
+<div class="name"></div>
+<div class="track">
+  @for (d of days(); track d.iso; let i = $index) {
+    <div
+      class="day"
+      [style.grid-column]="2 * i + 1 + ' / span 2'"
+      [class.weekend]="d.weekend"
+      [class.today]="d.iso === today()"
+    >
+      <span aria-hidden="true">{{ d.dow }}</span>
+      <strong>{{ d.day }}</strong>
+    </div>
+  }
+</div>

@@ -1,0 +1,36 @@
+<div class="trip" [class.has-img]="image()">
+  <p class="km">
+    @let km = trip().km;
+    @if (km !== null) {
+      <span class="num">{{ i18n.number(km) }}</span>
+      <span class="unit">km</span>
+      <span class="sr-only">{{ t().common.kmFromHouse }}</span>
+    }
+  </p>
+  <div class="trip-text">
+    <h3 class="h3">{{ trip().name }}</h3>
+    @if (trip().text) {
+      <p class="muted">{{ trip().text }}</p>
+    }
+    @if (trip().url) {
+      <p>
+        <a class="ext" [href]="trip().url" target="_blank" rel="noopener">
+          {{ t().leisure.website }} <rc-icon name="external" />
+          <span class="sr-only">{{ trip().name }} ({{ t().common.newTab }})</span>
+        </a>
+      </p>
+    }
+  </div>
+  @if (image(); as image) {
+    <img
+      [src]="image.src"
+      [attr.srcset]="image.srcset"
+      sizes="220px"
+      [width]="image.width"
+      [height]="image.height"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  }
+</div>

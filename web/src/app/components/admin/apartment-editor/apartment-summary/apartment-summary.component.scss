@@ -1,0 +1,23 @@
+:host {
+  display: contents;
+}
+
+.num {
+  font-size: 1.9rem;
+  line-height: 0.8;
+  color: var(--timber);
+}
+.sum-text {
+  display: grid;
+  line-height: 1.3;
+  font-size: 0.8125rem;
+  color: var(--slate-2);
+}
+.sum-text strong {
+  font-size: 0.875rem;
+  color: var(--slate);
+}
+.sum-price {
+  margin-left: auto;
+  font-weight: 700;
+}

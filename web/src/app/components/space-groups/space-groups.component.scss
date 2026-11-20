@@ -1,0 +1,12 @@
+:host {
+  display: contents;
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 40px clamp(32px, 5vw, 72px);
+}
+.groups .h3 {
+  margin-bottom: 16px;
+}

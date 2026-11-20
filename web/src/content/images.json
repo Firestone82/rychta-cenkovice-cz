@@ -1,0 +1,146 @@
+{
+  "hero-autumn": {
+    "widths": [
+      640,
+      1200
+    ],
+    "height": 800
+  },
+  "hero-spring": {
+    "widths": [
+      640,
+      1200
+    ],
+    "height": 800
+  },
+  "hero-summer": {
+    "widths": [
+      640,
+      899
+    ],
+    "height": 800
+  },
+  "hero-winter": {
+    "widths": [
+      640,
+      1200
+    ],
+    "height": 800
+  },
+  "house-aerial": {
+    "widths": [
+      960,
+      1920
+    ],
+    "height": 540
+  },
+  "house-winter": {
+    "widths": [
+      960
+    ],
+    "height": 540
+  },
+  "season-autumn": {
+    "widths": [
+      640,
+      1200
+    ],
+    "height": 427
+  },
+  "season-spring": {
+    "widths": [
+      640,
+      1200
+    ],
+    "height": 427
+  },
+  "season-summer": {
+    "widths": [
+      640,
+      1200
+    ],
+    "height": 427
+  },
+  "season-winter": {
+    "widths": [
+      640,
+      1023
+    ],
+    "height": 427
+  },
+  "trip-bouda": {
+    "widths": [
+      480,
+      960
+    ],
+    "height": 360
+  },
+  "trip-bukova-hora": {
+    "widths": [
+      480,
+      960
+    ],
+    "height": 360
+  },
+  "trip-dolni-morava": {
+    "widths": [
+      480,
+      960
+    ],
+    "height": 360
+  },
+  "trip-hedec": {
+    "widths": [
+      480,
+      505
+    ],
+    "height": 360
+  },
+  "trip-hurka": {
+    "widths": [
+      442
+    ],
+    "height": 332
+  },
+  "trip-jablonne": {
+    "widths": [
+      346
+    ],
+    "height": 260
+  },
+  "trip-litomysl": {
+    "widths": [
+      480,
+      960
+    ],
+    "height": 360
+  },
+  "trip-neratov": {
+    "widths": [
+      480,
+      960
+    ],
+    "height": 360
+  },
+  "trip-suchy-vrch": {
+    "widths": [
+      480,
+      960
+    ],
+    "height": 360
+  },
+  "trip-zemska-brana": {
+    "widths": [
+      480,
+      565
+    ],
+    "height": 360
+  },
+  "village": {
+    "widths": [
+      960,
+      1920
+    ],
+    "height": 540
+  }
+}

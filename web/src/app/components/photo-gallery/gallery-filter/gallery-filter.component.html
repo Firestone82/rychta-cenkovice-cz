@@ -1,0 +1,18 @@
+<div class="filter" role="group" [attr.aria-label]="t().gallery.title">
+  <button
+    type="button"
+    [attr.aria-pressed]="selected() === null"
+    (click)="selectedChange.emit(null)"
+  >
+    {{ t().gallery.all }} <span class="count">{{ allCount() }}</span>
+  </button>
+  @for (c of categories(); track c.key) {
+    <button
+      type="button"
+      [attr.aria-pressed]="selected() === c.key"
+      (click)="selectedChange.emit(c.key)"
+    >
+      {{ t().gallery.categories[c.key] }} <span class="count">{{ c.count }}</span>
+    </button>
+  }
+</div>

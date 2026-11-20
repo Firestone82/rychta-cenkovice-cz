@@ -1,0 +1,45 @@
+<nav class="cols" [attr.aria-label]="t().footer.explore">
+  <div>
+    <h2>{{ t().footer.stay }}</h2>
+    <ul>
+      <li>
+        <a [routerLink]="links.to('accommodation')">{{ t().footer.apartments }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('commonRoom')">{{ t().nav.commonRoom }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('facilities')">{{ t().nav.facilities }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('wellness')">{{ t().nav.wellness }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('availability')">{{ t().nav.availability }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('booking')">{{ t().nav.book }}</a>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <h2>{{ t().footer.explore }}</h2>
+    <ul>
+      <li>
+        <a [routerLink]="links.to('leisure')">{{ t().nav.leisure }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('gallery')">{{ t().nav.gallery }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('news')">{{ t().nav.news }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('contact')">{{ t().nav.contact }}</a>
+      </li>
+      <li>
+        <a [routerLink]="links.to('privacy')">{{ t().nav.privacy }}</a>
+      </li>
+    </ul>
+  </div>
+</nav>

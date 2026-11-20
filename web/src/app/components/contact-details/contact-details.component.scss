@@ -1,0 +1,45 @@
+:host {
+  display: contents;
+}
+
+.reach {
+  display: grid;
+  gap: clamp(28px, 4vw, 44px);
+}
+.label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--slate-2);
+}
+.phone {
+  display: inline-block;
+  font-size: clamp(3rem, 6.6vw, 5.6rem);
+  line-height: 0.95;
+  text-decoration: none;
+}
+.phone:hover {
+  color: var(--timber);
+}
+.mail {
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-underline-offset: 5px;
+}
+address {
+  display: grid;
+  font-style: normal;
+  font-size: 1.15rem;
+  margin-top: 2px;
+}
+.maps {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+.ext {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
