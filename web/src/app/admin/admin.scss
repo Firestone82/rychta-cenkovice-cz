@@ -165,12 +165,20 @@
   text-align: center;
 }
 
+/* Account, website link and sign-out, with the language switch in the bottom corner. */
 .a-side-foot {
   display: grid;
-  gap: 2px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px 8px;
   margin-top: auto;
   padding: 12px 8px 0;
   border-top: 1px solid rgba(243, 245, 244, 0.18);
+}
+
+.a-user,
+.a-foot-site {
+  grid-column: 1 / -1;
 }
 
 .a-user {
@@ -181,15 +189,14 @@
 
 .a-langs {
   display: inline-flex;
-  justify-self: start;
-  margin: 6px 0;
+  justify-self: end;
   border: 1.5px solid rgba(243, 245, 244, 0.4);
   border-radius: var(--radius);
   overflow: hidden;
 
   button {
-    min-width: 36px;
-    height: 28px;
+    min-width: 32px;
+    height: 26px;
     border: 0;
     background: transparent;
     color: #cfd6da;
@@ -219,6 +226,7 @@
   font-weight: 500;
   text-decoration: none;
   text-align: left;
+  justify-self: start;
 
   &:hover {
     color: var(--white);

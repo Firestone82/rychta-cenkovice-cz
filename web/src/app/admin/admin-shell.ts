@@ -69,6 +69,12 @@ import { Logo } from '../ui/logo';
       </ul>
       <div class="a-side-foot">
         <p class="a-user">{{ auth.user()?.email }}</p>
+        <a class="a-foot-link a-foot-site" [routerLink]="['/', i18n.lang()]"
+          ><rc-icon name="home" /> {{ t().admin.nav.site }}</a
+        >
+        <button type="button" class="a-foot-link" (click)="logout()">
+          <rc-icon name="logout" /> {{ t().admin.nav.logout }}
+        </button>
         <div class="a-langs" role="group" [attr.aria-label]="t().common.language">
           @for (l of langs; track l) {
             <button type="button" [attr.aria-pressed]="i18n.lang() === l" (click)="i18n.use(l)">
@@ -76,12 +82,6 @@ import { Logo } from '../ui/logo';
             </button>
           }
         </div>
-        <a class="a-foot-link" [routerLink]="['/', i18n.lang()]"
-          ><rc-icon name="home" /> {{ t().admin.nav.site }}</a
-        >
-        <button type="button" class="a-foot-link" (click)="logout()">
-          <rc-icon name="logout" /> {{ t().admin.nav.logout }}
-        </button>
       </div>
     </nav>
 
