@@ -95,37 +95,41 @@ import { OccupancyPager } from '../occupancy-pager';
       </section>
 
       <section class="section section-white">
-        <div class="wrap detail">
-          <div>
+        <div class="wrap">
+          <div class="detail">
             @if (a.amenities.length) {
-              <h2 class="h2 sub">{{ t().apartment.featuresTitle }}</h2>
-              <ul class="amenities">
-                @for (key of a.amenities; track key) {
-                  <li><rc-icon name="check" /> {{ t().amenities[key] }}</li>
-                }
-              </ul>
+              <div>
+                <h2 class="h2 sub">{{ t().apartment.featuresTitle }}</h2>
+                <ul class="amenities">
+                  @for (key of a.amenities; track key) {
+                    <li><rc-icon name="check" /> {{ t().amenities[key] }}</li>
+                  }
+                </ul>
+              </div>
             }
             @if (i18n.pickList(a.features); as rooms) {
               @if (rooms.length) {
-                <h2 class="h2 sub">{{ t().apartment.roomsTitle }}</h2>
-                <ul class="roofs">
-                  @for (f of rooms; track f) {
-                    <li>{{ f }}</li>
-                  }
-                </ul>
+                <div>
+                  <h2 class="h2 sub">{{ t().apartment.roomsTitle }}</h2>
+                  <ul class="roofs">
+                    @for (f of rooms; track f) {
+                      <li>{{ f }}</li>
+                    }
+                  </ul>
+                </div>
               }
             }
-            @if (i18n.pick(a.note); as note) {
-              <p class="notice note">{{ note }}</p>
-            }
           </div>
+          @if (i18n.pick(a.note); as note) {
+            <p class="notice note">{{ note }}</p>
+          }
           @if (photos().length > 1) {
-            <div>
+            <div class="photos">
               <h2 class="h2 sub">{{ t().apartment.photosTitle }}</h2>
               <rc-photo-grid
                 [photos]="photos()"
                 (open)="lightbox.set($event)"
-                sizes="(max-width: 560px) 50vw, 260px"
+                sizes="(max-width: 560px) 50vw, (max-width: 1100px) 33vw, 320px"
               />
             </div>
           }
@@ -218,7 +222,6 @@ import { OccupancyPager } from '../occupancy-pager';
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
       gap: 8px 24px;
-      margin-bottom: clamp(28px, 4vw, 44px);
     }
     .amenities li {
       display: flex;
@@ -250,17 +253,28 @@ import { OccupancyPager } from '../occupancy-pager';
     .price strong:not(.num) {
       font-size: 1.2rem;
     }
+    /* Equipment and rooms side by side; the photos follow at full width. */
     .detail {
       display: grid;
-      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
       gap: 48px clamp(32px, 6vw, 88px);
       align-items: start;
+    }
+    .detail:empty {
+      display: none;
+    }
+    .photos {
+      margin-top: clamp(48px, 7vw, 88px);
+    }
+    .detail:empty + .photos {
+      margin-top: 0;
     }
     .sub {
       margin-bottom: clamp(20px, 3vw, 32px);
     }
     .note {
-      margin-top: 28px;
+      margin-top: 32px;
+      max-width: 46rem;
       background: var(--snow);
     }
     .occ-lead {
@@ -297,8 +311,7 @@ import { OccupancyPager } from '../occupancy-pager';
       line-height: 1.3;
     }
     @media (max-width: 900px) {
-      .top,
-      .detail {
+      .top {
         grid-template-columns: 1fr;
       }
     }
