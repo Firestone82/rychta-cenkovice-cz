@@ -8,6 +8,12 @@
   visibility: visible;
   animation: swap 0.35s var(--ease);
 }
+/* Under the house on phones, so only the shown apartment takes room and no gap opens above the buttons. */
+@media (max-width: 900px) {
+  :host:not(.active) {
+    display: none;
+  }
+}
 @keyframes swap {
   from {
     opacity: 0;

@@ -23,14 +23,20 @@
           </th>
           <td class="nowrap">{{ t().common.floor[a.floor - 1] }}</td>
           <td class="nowrap">{{ a.area }} {{ t().common.areaUnit }}</td>
-          <td class="nowrap">{{ roomCount(a.flat_type) || '' }}</td>
-          <td class="nowrap">
+          <td
+            class="nowrap labelled"
+            [class.is-empty]="!roomCount(a.flat_type)"
+            [attr.data-label]="t().accommodation.table.rooms"
+          >
+            {{ roomCount(a.flat_type) || '' }}
+          </td>
+          <td class="nowrap labelled" [attr.data-label]="t().accommodation.table.beds">
             {{ a.beds }}
             @if (a.extra_beds) {
               + {{ a.extra_beds }}
             }
           </td>
-          <td>{{ i18n.pick(a.layout) }}</td>
+          <td class="layout">{{ i18n.pick(a.layout) }}</td>
         </tr>
       }
     </tbody>

@@ -8,3 +8,38 @@
 .table a {
   font-weight: 700;
 }
+
+/* On phones each apartment becomes a block: the facts on one line, the layout text under them at full width. */
+@media (max-width: 600px) {
+  .table,
+  .table tbody {
+    display: block;
+  }
+  .table thead {
+    display: none;
+  }
+  .table tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .table tbody th,
+  .table tbody td {
+    padding: 0;
+    border: 0;
+  }
+  .labelled::before {
+    content: attr(data-label) ': ';
+    color: var(--slate-2);
+  }
+  .labelled.is-empty {
+    display: none;
+  }
+  .layout {
+    flex-basis: 100%;
+    color: var(--slate-2);
+  }
+}

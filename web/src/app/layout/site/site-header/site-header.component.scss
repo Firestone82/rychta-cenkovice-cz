@@ -2,20 +2,30 @@
   display: contents;
 }
 
+/* The blur sits on a layer behind the bar: on the header itself it would trap the fixed mobile menu inside the bar. */
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--snow);
   border-bottom: 1px solid transparent;
-  transition:
-    border-color 0.2s,
-    background 0.2s;
+  transition: border-color 0.2s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--snow);
+    transition: background 0.2s;
+  }
 
   &.is-scrolled {
     border-bottom-color: var(--line);
-    background: color-mix(in srgb, var(--snow) 94%, transparent);
-    backdrop-filter: blur(10px);
+
+    &::before {
+      background: color-mix(in srgb, var(--snow) 94%, transparent);
+      backdrop-filter: blur(10px);
+    }
   }
 }
 
