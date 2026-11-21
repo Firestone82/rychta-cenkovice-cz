@@ -30,8 +30,11 @@
           [error]="errors()['email']"
           [(value)]="email"
         />
-        <rc-phone-field
+        <rc-text-field
           key="c-phone"
+          type="tel"
+          autocomplete="tel"
+          [maxlength]="limits.phone"
           [counter]="true"
           [label]="t().contact.phone"
           [optional]="t().common.optional"

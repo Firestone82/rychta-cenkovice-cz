@@ -5,7 +5,6 @@ import { CaptchaComponent } from '@components/captcha/captcha.component';
 import { HoneypotComponent } from '@components/honeypot/honeypot.component';
 import { IconComponent } from '@components/icon/icon.component';
 import { TextFieldComponent } from '@components/text-field/text-field.component';
-import { PhoneFieldComponent } from '@components/phone-field/phone-field.component';
 import { PrivacyConsentComponent } from '@components/privacy-consent/privacy-consent.component';
 import { ApiService } from '@services/api.service';
 import { toFailure } from '@utils/api-failure.util';
@@ -28,7 +27,6 @@ import { ContactSentComponent } from './contact-sent/contact-sent.component';
     RouterLink,
     IconComponent,
     TextFieldComponent,
-    PhoneFieldComponent,
     CaptchaComponent,
     HoneypotComponent,
     PrivacyConsentComponent,

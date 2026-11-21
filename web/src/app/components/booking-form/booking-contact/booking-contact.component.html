@@ -22,8 +22,11 @@
       [error]="store.errors()['email']"
       [(value)]="store.email"
     />
-    <rc-phone-field
+    <rc-text-field
       key="b-phone"
+      type="tel"
+      autocomplete="tel"
+      [maxlength]="limits.phone"
       [counter]="true"
       [required]="true"
       [label]="t().booking.phone"

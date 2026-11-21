@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { CaptchaComponent } from '@components/captcha/captcha.component';
 import { HoneypotComponent } from '@components/honeypot/honeypot.component';
-import { PhoneFieldComponent } from '@components/phone-field/phone-field.component';
 import { PrivacyConsentComponent } from '@components/privacy-consent/privacy-consent.component';
 import { TextFieldComponent } from '@components/text-field/text-field.component';
 import { I18nService } from '@services/i18n.service';
@@ -15,7 +14,6 @@ import { BookingStepComponent } from '../booking-step/booking-step.component';
   imports: [
     BookingStepComponent,
     TextFieldComponent,
-    PhoneFieldComponent,
     HoneypotComponent,
     PrivacyConsentComponent,
     CaptchaComponent,

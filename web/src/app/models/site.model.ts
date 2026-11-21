@@ -9,13 +9,6 @@ export interface SiteLanguage {
   browser: string[];
 }
 
-export interface PhoneCountry {
-  /** ISO 3166 code; the name shown comes from the browser in the visitor's language. */
-  code: string;
-  /** Dialling code such as `+420`. */
-  dial: string;
-}
-
 export interface SiteContact {
   phone: string;
   phoneHref: string;
@@ -23,8 +16,6 @@ export interface SiteContact {
   facebook: string;
   mapGoogle: string;
   mapSeznam: string;
-  /** Countries offered beside phone inputs; the first one is preselected. */
-  phoneCountries: PhoneCountry[];
 }
 
 export type PageKey =
