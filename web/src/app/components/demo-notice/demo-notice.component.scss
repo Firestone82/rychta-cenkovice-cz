@@ -16,6 +16,11 @@
   text-align: center;
   /* Measures the line from the top of the capitals to the baseline, so the text sits in the middle. */
   text-box: trim-both cap alphabetic;
+
+  /* Without that, the line box has more room under the text than above it (Firefox). */
+  @supports not (text-box: trim-both cap alphabetic) {
+    padding-block: 6px 3px;
+  }
 }
 
 strong {
@@ -40,7 +45,6 @@ a {
 
   .row {
     max-width: none;
-    padding: 8px 12px;
-    text-align: start;
+    padding-inline: 12px;
   }
 }
