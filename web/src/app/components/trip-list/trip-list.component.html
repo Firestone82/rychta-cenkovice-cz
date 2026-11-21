@@ -4,6 +4,8 @@
 </div>
 <ul class="trips">
   @for (trip of trips(); track trip.name) {
-    <li><rc-trip-row [trip]="trip" /></li>
+    <li><rc-trip-row [trip]="trip" (enlarge)="open(trip)" /></li>
   }
 </ul>
+
+<rc-lightbox [slides]="slides()" [(index)]="lightbox" />

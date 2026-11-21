@@ -1,11 +1,11 @@
 :host {
-  display: contents;
-}
-
-.panel {
+  grid-area: 1 / 1;
+  display: grid;
   min-width: 0;
+  visibility: hidden;
 }
-.swap {
+:host(.active) {
+  visibility: visible;
   animation: swap 0.35s var(--ease);
 }
 @keyframes swap {
@@ -14,8 +14,14 @@
     transform: translateY(8px);
   }
 }
-.text {
-  padding-top: 20px;
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.h3 {
+  margin-top: 20px;
 }
 .type {
   display: block;
@@ -40,17 +46,25 @@
 .facts rc-icon {
   color: var(--timber);
 }
+rc-apartment-labels {
+  margin-top: 12px;
+}
 .layout-text {
   margin-top: 12px;
   color: var(--slate-2);
-  min-height: 3.2em;
 }
-.price {
-  margin-top: 10px;
+/* Pushed to the bottom, so the price and the buttons stay put whichever apartment is shown. */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+  margin-top: auto;
+  padding-top: 18px;
 }
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
 }

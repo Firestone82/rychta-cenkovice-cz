@@ -13,10 +13,13 @@ import { LinksService } from '@services/links.service';
   imports: [RouterLink, PicComponent, IconComponent, ApartmentLabelsComponent],
   templateUrl: './house-panel.component.html',
   styleUrl: './house-panel.component.scss',
+  host: { '[class.active]': 'active()', '[attr.inert]': 'active() ? null : ""' },
 })
 export class HousePanelComponent {
-  /** Apartment selected in the diagram. */
+  /** Apartment described by this panel. */
   readonly apartment = input.required<Apartment>();
+  /** Whether this is the apartment selected in the diagram; the other panels only hold the space. */
+  readonly active = input(false);
 
   protected readonly i18n = inject(I18nService);
   protected readonly links = inject(LinksService);

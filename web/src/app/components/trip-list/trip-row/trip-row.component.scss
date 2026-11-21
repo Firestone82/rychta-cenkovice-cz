@@ -27,12 +27,23 @@
   gap: 6px;
   max-width: 42em;
 }
-.trip img {
+.enlarge {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: var(--line);
+  cursor: zoom-in;
+}
+.enlarge img {
+  display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  background: var(--line);
+  transition: filter 0.2s;
+}
+.enlarge:hover img {
+  filter: brightness(1.06);
 }
 .ext {
   display: inline-flex;
@@ -45,7 +56,7 @@
   .trip {
     grid-template-columns: 72px minmax(0, 1fr);
   }
-  .trip img {
+  .enlarge {
     grid-column: 2;
     max-width: 260px;
   }

@@ -13,7 +13,7 @@ import { ApartmentHeadComponent } from '@components/apartment-head/apartment-hea
 import { ApartmentIntroComponent } from '@components/apartment-intro/apartment-intro.component';
 import { ApartmentOthersComponent } from '@components/apartment-others/apartment-others.component';
 import { OccupancyPagerComponent } from '@components/occupancy-pager/occupancy-pager.component';
-import { LightboxComponent } from '@components/photo-grid/lightbox/lightbox.component';
+import { LightboxComponent } from '@components/lightbox/lightbox.component';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import type { Apartment } from '@models/api.model';
 import { ApiService } from '@services/api.service';
@@ -21,6 +21,7 @@ import { I18nService } from '@services/i18n.service';
 import { LinksService } from '@services/links.service';
 import { SeoService } from '@services/seo.service';
 import { apartmentNumber } from '@utils/links.util';
+import { photoSlides } from '@utils/slides.util';
 
 @Component({
   selector: 'rc-apartment-page',
@@ -49,6 +50,7 @@ export class ApartmentPage {
   protected readonly missing = signal(false);
   protected readonly lightbox = signal<number | null>(null);
   protected readonly photos = computed(() => this.apartment()?.photos ?? []);
+  protected readonly slides = computed(() => photoSlides(this.photos(), this.api, this.i18n));
   protected readonly others = computed(() =>
     this.all().filter((a) => a.id !== this.apartment()?.id),
   );

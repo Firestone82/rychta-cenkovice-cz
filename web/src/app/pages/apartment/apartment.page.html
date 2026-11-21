@@ -12,7 +12,7 @@
   </section>
 
   <rc-apartment-others [apartments]="others()" />
-  <rc-lightbox [photos]="photos()" [(index)]="lightbox" />
+  <rc-lightbox [slides]="slides()" [(index)]="lightbox" />
 } @else if (missing()) {
   <div class="wrap page-head">
     <h1 class="h1">{{ t().apartment.notFound }}</h1>

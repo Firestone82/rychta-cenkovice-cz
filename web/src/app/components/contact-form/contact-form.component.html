@@ -1,69 +1,73 @@
-@if (sent()) {
-  <rc-contact-sent (again)="again()" />
-} @else {
-  <h2 id="contact-form-title" class="h2">{{ t().contact.formTitle }}</h2>
-  <p class="hint-line muted">
-    {{ t().contact.bookingHint }}
-    <a [routerLink]="links.to('booking')">{{ t().contact.bookingHintLink }}</a>.
-  </p>
-  <form (submit)="submit($event)" novalidate>
-    <div class="form-grid">
-      <rc-text-field
-        class="wide"
-        key="c-name"
-        autocomplete="name"
-        [required]="true"
-        [label]="t().contact.name"
-        [error]="errors()['name']"
-        [(value)]="name"
+<!-- The form keeps its place under the confirmation, so the box does not change height. -->
+<div class="stack">
+  <div class="write" [class.is-sent]="sent()" [attr.inert]="sent() ? '' : null">
+    <h2 id="contact-form-title" class="h2">{{ t().contact.formTitle }}</h2>
+    <p class="hint-line muted">
+      {{ t().contact.bookingHint }}
+      <a [routerLink]="links.to('booking')">{{ t().contact.bookingHintLink }}</a>.
+    </p>
+    <form (submit)="submit($event)" novalidate>
+      <div class="form-grid">
+        <rc-text-field
+          class="wide"
+          key="c-name"
+          autocomplete="name"
+          [required]="true"
+          [label]="t().contact.name"
+          [error]="errors()['name']"
+          [(value)]="name"
+        />
+        <rc-text-field
+          key="c-email"
+          type="email"
+          autocomplete="email"
+          [required]="true"
+          [label]="t().contact.email"
+          [error]="errors()['email']"
+          [(value)]="email"
+        />
+        <rc-text-field
+          key="c-phone"
+          type="tel"
+          autocomplete="tel"
+          [label]="t().contact.phone"
+          [optional]="t().common.optional"
+          [error]="errors()['phone']"
+          [(value)]="phone"
+        />
+        <rc-text-field
+          class="wide"
+          key="c-message"
+          type="textarea"
+          [rows]="6"
+          [required]="true"
+          [label]="t().contact.message"
+          [error]="errors()['message']"
+          [(value)]="message"
+        />
+      </div>
+
+      <rc-honeypot key="c-website" [(value)]="website" />
+
+      <rc-privacy-consent
+        key="c-consent"
+        [label]="t().contact.consent"
+        [error]="errors()['consent']"
+        [(checked)]="consent"
       />
-      <rc-text-field
-        key="c-email"
-        type="email"
-        autocomplete="email"
-        [required]="true"
-        [label]="t().contact.email"
-        [error]="errors()['email']"
-        [(value)]="email"
-      />
-      <rc-text-field
-        key="c-phone"
-        type="tel"
-        autocomplete="tel"
-        [label]="t().contact.phone"
-        [optional]="t().common.optional"
-        [error]="errors()['phone']"
-        [(value)]="phone"
-      />
-      <rc-text-field
-        class="wide"
-        key="c-message"
-        type="textarea"
-        [rows]="6"
-        [required]="true"
-        [label]="t().contact.message"
-        [error]="errors()['message']"
-        [(value)]="message"
-      />
-    </div>
 
-    <rc-honeypot key="c-website" [(value)]="website" />
+      <rc-captcha key="c-captcha" [(token)]="captchaToken" [error]="errors()['captcha']" />
 
-    <rc-privacy-consent
-      key="c-consent"
-      [label]="t().contact.consent"
-      [error]="errors()['consent']"
-      [(checked)]="consent"
-    />
+      @if (failure()) {
+        <p class="notice is-error" role="alert">{{ failure() }}</p>
+      }
 
-    <rc-captcha key="c-captcha" [(token)]="captchaToken" [error]="errors()['captcha']" />
-
-    @if (failure()) {
-      <p class="notice is-error" role="alert">{{ failure() }}</p>
-    }
-
-    <button class="btn" type="submit" [disabled]="sending()">
-      <rc-icon name="mail" /> {{ sending() ? t().contact.submitting : t().contact.submit }}
-    </button>
-  </form>
-}
+      <button class="btn" type="submit" [disabled]="sending()">
+        <rc-icon name="mail" /> {{ sending() ? t().contact.submitting : t().contact.submit }}
+      </button>
+    </form>
+  </div>
+  @if (sent()) {
+    <rc-contact-sent (again)="again()" />
+  }
+</div>

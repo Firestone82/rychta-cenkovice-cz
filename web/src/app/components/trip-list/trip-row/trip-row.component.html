@@ -22,15 +22,22 @@
     }
   </div>
   @if (image(); as image) {
-    <img
-      [src]="image.src"
-      [attr.srcset]="image.srcset"
-      sizes="220px"
-      [width]="image.width"
-      [height]="image.height"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
+    <button
+      type="button"
+      class="enlarge"
+      [attr.aria-label]="t().gallery.open + ': ' + trip().name"
+      (click)="enlarge.emit()"
+    >
+      <img
+        [src]="image.src"
+        [attr.srcset]="image.srcset"
+        sizes="220px"
+        [width]="image.width"
+        [height]="image.height"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+    </button>
   }
 </div>

@@ -130,8 +130,7 @@
     "aerial": {
       "title": "The Rychta from above",
       "text": "The house stands in the middle of Čenkovice, with a courtyard, terraces and a playground. The ski slopes are within sight.",
-      "play": "Play video",
-      "pause": "Pause video",
+      "fullScreen": "Open the video full screen",
       "alt": "Aerial view of Rychta Čenkovice"
     },
     "gallery": {

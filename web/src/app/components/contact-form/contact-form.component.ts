@@ -79,6 +79,7 @@ export class ContactFormComponent {
   }
 
   protected again(): void {
+    this.captcha()?.reset();
     this.captchaToken.set('');
     this.message.set('');
     this.errors.set({});

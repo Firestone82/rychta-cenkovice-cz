@@ -26,14 +26,25 @@
   gap: 24px clamp(32px, 6vw, 88px);
   align-items: center;
 }
-.season img {
+.enlarge {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: var(--line);
+  cursor: zoom-in;
+}
+.enlarge img {
+  display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  background: var(--line);
+  transition: filter 0.2s;
 }
-.season.flip img {
+.enlarge:hover img {
+  filter: brightness(1.06);
+}
+.season.flip .enlarge {
   order: 2;
 }
 .season-text {
@@ -56,7 +67,7 @@
   .season {
     grid-template-columns: 1fr;
   }
-  .season.flip img {
+  .season.flip .enlarge {
     order: 0;
   }
 }

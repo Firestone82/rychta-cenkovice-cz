@@ -14,6 +14,10 @@ import type { Apartment, OccupiedRange } from '@models/api.model';
 import { IconComponent } from '@components/icon/icon.component';
 import { OccupancyComponent } from '@components/occupancy/occupancy.component';
 
+/**
+ * The occupancy calendar with buttons to move between months.
+ * Content marked `barEnd` is placed at the right end of the row of those buttons.
+ */
 @Component({
   selector: 'rc-occupancy-pager',
   changeDetection: ChangeDetectionStrategy.OnPush,

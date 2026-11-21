@@ -135,8 +135,7 @@
     "aerial": {
       "title": "Rychta z výšky",
       "text": "Dům stojí uprostřed Čenkovic, s dvorem, terasami a hřištěm. Sjezdovky jsou na dohled.",
-      "play": "Přehrát video",
-      "pause": "Pozastavit video",
+      "fullScreen": "Otevřít video na celou obrazovku",
       "alt": "Letecký pohled na Rychtu Čenkovice"
     },
     "gallery": {

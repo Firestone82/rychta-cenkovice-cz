@@ -6,16 +6,17 @@
 <section class="wrap calendar">
   @if (apartments(); as list) {
     @if (list.length) {
-      <rc-occupancy-pager [apartments]="list" [level]="2" />
+      <rc-occupancy-pager [apartments]="list" [level]="2">
+        <a barEnd class="btn btn-small" [routerLink]="links.to('booking')">{{
+          t().availability.book
+        }}</a>
+      </rc-occupancy-pager>
     } @else {
       <p class="notice is-error">{{ t().common.loadFailed }}</p>
     }
   } @else {
     <rc-spinner [label]="t().common.loading" />
   }
-  <p class="book">
-    <a class="btn" [routerLink]="links.to('booking')">{{ t().availability.book }}</a>
-  </p>
 </section>
 
 <section class="section section-white" aria-labelledby="av-steps">

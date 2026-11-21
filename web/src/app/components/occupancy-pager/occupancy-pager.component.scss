@@ -7,6 +7,9 @@
   gap: 8px;
   margin-bottom: 24px;
 }
+.end {
+  margin-left: auto;
+}
 .months {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

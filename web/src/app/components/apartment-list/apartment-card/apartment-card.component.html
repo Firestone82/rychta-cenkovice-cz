@@ -17,25 +17,25 @@
       <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
     </div>
   </div>
-  <rc-apartment-labels [labels]="a.labels" />
   <rc-apartment-facts [apartment]="a" />
-  @switch (state()) {
-    @case ('free') {
-      <p class="state">
-        <span class="tag tag-confirmed">{{ t().accommodation.dates.free }}</span>
-      </p>
-    }
-    @case ('taken') {
-      <p class="state">
-        <span class="tag tag-taken">{{ t().accommodation.dates.taken }}</span>
-      </p>
-    }
-    @case ('short') {
-      <p class="state">
-        <span class="tag tag-pending">{{ minNightsText(a) }}</span>
-      </p>
-    }
+  @if (a.labels.length || state()) {
+    <div class="pills">
+      <rc-apartment-labels [labels]="a.labels" />
+      @switch (state()) {
+        @case ('free') {
+          <span class="tag tag-confirmed">{{ t().accommodation.dates.free }}</span>
+        }
+        @case ('taken') {
+          <span class="tag tag-taken">{{ t().accommodation.dates.taken }}</span>
+        }
+        @case ('short') {
+          <span class="tag tag-pending">{{ minNightsText(a) }}</span>
+        }
+      }
+    </div>
   }
+</a>
+<div class="foot">
   <p class="price">
     @if (a.price_per_night === null) {
       {{ t().common.priceOnRequest }}
@@ -47,13 +47,13 @@
       <strong>{{ i18n.money(a.price_per_night) }}</strong> {{ t().common.perNight }}
     }
   </p>
-</a>
-@if (state() === 'free') {
-  <a
-    class="btn btn-small book"
-    [routerLink]="links.to('booking')"
-    [queryParams]="{ from: from(), to: to(), a: a.number }"
-    >{{ t().accommodation.dates.book
-    }}<span class="sr-only">: {{ t().common.apartment }} {{ a.number }}</span></a
-  >
-}
+  @if (state() === 'free') {
+    <a
+      class="btn btn-small book"
+      [routerLink]="links.to('booking')"
+      [queryParams]="{ from: from(), to: to(), a: a.number }"
+      >{{ t().accommodation.dates.book
+      }}<span class="sr-only">: {{ t().common.apartment }} {{ a.number }}</span></a
+    >
+  }
+</div>

@@ -12,7 +12,7 @@
 }
 .cards > li {
   display: grid;
-  align-content: start;
+  grid-template-rows: 1fr auto;
   justify-items: start;
   gap: 14px;
 }

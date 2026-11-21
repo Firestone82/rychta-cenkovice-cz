@@ -10,14 +10,13 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { ApiService } from '@services/api.service';
 import { I18nService } from '@services/i18n.service';
-import type { Photo } from '@models/api.model';
+import type { Slide } from '@models/slide.model';
 import { IconComponent } from '@components/icon/icon.component';
 
 /**
- * Full-screen photo viewer built on the native <dialog>, which gives focus trapping,
- * Escape to close and the inert background for free. Arrow keys and swipes change the photo.
+ * Full-screen picture viewer built on the native <dialog>, which gives focus trapping,
+ * Escape to close and the inert background for free. Arrow keys and swipes change the picture.
  */
 @Component({
   selector: 'rc-lightbox',
@@ -27,16 +26,15 @@ import { IconComponent } from '@components/icon/icon.component';
   styleUrl: './lightbox.component.scss',
 })
 export class LightboxComponent {
-  protected readonly api = inject(ApiService);
   protected readonly i18n = inject(I18nService);
 
-  /** Photos that can be paged through. */
-  readonly photos = input.required<Photo[]>();
-  /** Total number of photos when `photos` is only the loaded part of a longer list. */
+  /** Pictures that can be paged through. */
+  readonly slides = input.required<Slide[]>();
+  /** Total number of pictures when `slides` is only the loaded part of a longer list. */
   readonly total = input<number | null>(null);
-  /** Index of the open photo, or null when closed. */
+  /** Index of the open picture, or null when closed. */
   readonly index = model<number | null>(null);
-  /** Fired when the viewer gets close to the end of the loaded photos. */
+  /** Fired when the viewer gets close to the end of the loaded pictures. */
   readonly nearEnd = output<void>();
 
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
@@ -44,12 +42,12 @@ export class LightboxComponent {
 
   protected readonly current = computed(() => {
     const i = this.index();
-    return i === null ? null : (this.photos()[i] ?? null);
+    return i === null ? null : (this.slides()[i] ?? null);
   });
   protected readonly counter = computed(() =>
     this.i18n.fill(this.i18n.t().common.photoOf, {
       n: (this.index() ?? 0) + 1,
-      total: this.total() ?? this.photos().length,
+      total: this.total() ?? this.slides().length,
     }),
   );
 
@@ -62,17 +60,13 @@ export class LightboxComponent {
     });
   }
 
-  protected url(photo: Photo): string {
-    return this.api.photoUrl(photo, photo.widths[photo.widths.length - 1]);
-  }
-
   protected close(): void {
     this.index.set(null);
   }
 
   protected step(delta: number): void {
     const i = this.index();
-    const n = this.photos().length;
+    const n = this.slides().length;
     if (i === null || n === 0) return;
     this.index.set((i + delta + n) % n);
     if (i + delta >= n - 3) this.nearEnd.emit();

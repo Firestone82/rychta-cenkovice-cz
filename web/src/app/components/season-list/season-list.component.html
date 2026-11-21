@@ -7,17 +7,24 @@
       [class.flip]="i % 2 === 1"
       [attr.aria-labelledby]="'season-' + s.key"
     >
-      <img
-        [src]="s.img?.src"
-        [attr.srcset]="s.img?.srcset"
-        sizes="(max-width: 900px) 100vw, 600px"
-        [width]="s.img?.width"
-        [height]="s.img?.height"
-        alt=""
-        loading="lazy"
-        decoding="async"
+      <button
+        type="button"
+        class="enlarge"
+        [attr.aria-label]="t().gallery.open + ': ' + t().seasons[s.key].name"
+        (click)="lightbox.set(i)"
         rcReveal
-      />
+      >
+        <img
+          [src]="s.img?.src"
+          [attr.srcset]="s.img?.srcset"
+          sizes="(max-width: 900px) 100vw, 600px"
+          [width]="s.img?.width"
+          [height]="s.img?.height"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </button>
       <div class="season-text">
         <h2 class="h1" [id]="'season-' + s.key">
           <span class="mark" aria-hidden="true"></span>{{ t().seasons[s.key].name }}
@@ -27,3 +34,5 @@
     </section>
   }
 </div>
+
+<rc-lightbox [slides]="slides()" [(index)]="lightbox" />

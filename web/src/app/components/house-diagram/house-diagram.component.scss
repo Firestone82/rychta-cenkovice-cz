@@ -4,6 +4,10 @@
   gap: clamp(28px, 5vw, 72px);
   align-items: end;
 }
+.panels {
+  display: grid;
+  min-width: 0;
+}
 .house {
   --band: clamp(104px, 13vw, 150px);
 }

@@ -9,6 +9,8 @@
         <span class="level">{{ t().common.floor[floor.level - 1] }}</span>
         <div class="band" [class.f3]="floor.level === 3" [class.f2]="floor.level === 2">
           @for (a of floor.apartments; track a.id) {
+            <!-- The cell component fills the button with its own template. -->
+            <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
             <button
               type="button"
               class="cell"
@@ -19,9 +21,7 @@
               (click)="select(a)"
               (mouseenter)="select(a)"
               (focus)="select(a)"
-            >
-              >
-            </button>
+            ></button>
           }
         </div>
       </div>
@@ -30,6 +30,8 @@
       <span class="level">{{ t().common.floor[0] }}</span>
       <div class="band plinth">
         @for (a of ground(); track a.id) {
+          <!-- The cell component fills the button with its own template. -->
+          <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
           <button
             type="button"
             class="cell"
@@ -40,9 +42,7 @@
             (click)="select(a)"
             (mouseenter)="select(a)"
             (focus)="select(a)"
-          >
-            >
-          </button>
+          ></button>
         }
         <div class="shared">
           <span>{{ t().home.house.shared }}</span>
@@ -52,7 +52,10 @@
     <p class="note">{{ t().home.house.note }}</p>
   </div>
 
-  @if (selected(); as a) {
-    <rc-house-panel [apartment]="a" />
-  }
+  <!-- Every panel sits in the same grid cell, so the column keeps the height of the tallest one. -->
+  <div class="panels">
+    @for (a of apartments(); track a.id) {
+      <rc-house-panel [apartment]="a" [active]="a.id === selected()?.id" />
+    }
+  </div>
 </div>

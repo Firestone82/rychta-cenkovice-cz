@@ -1,10 +1,14 @@
 :host {
-  display: block;
-}
-ul {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+:host(:empty) {
+  display: none;
+}
+/* The pills are laid out by the host, so a parent can set it to `display: contents` and mix them into its own row. */
+ul {
+  display: contents;
 }
 li {
   padding: 0.1em 0.7em;

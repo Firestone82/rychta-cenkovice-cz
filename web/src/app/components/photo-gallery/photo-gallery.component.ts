@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LightboxComponent } from '@components/photo-grid/lightbox/lightbox.component';
+import { LightboxComponent } from '@components/lightbox/lightbox.component';
 import { PhotoGridComponent } from '@components/photo-grid/photo-grid.component';
 import { NearViewDirective } from '@directives/near-view.directive';
 import type { Photo } from '@models/api.model';
@@ -9,6 +9,7 @@ import { ApiService } from '@services/api.service';
 import { I18nService } from '@services/i18n.service';
 import { GalleryFilterComponent } from './gallery-filter/gallery-filter.component';
 import { GalleryMoreComponent } from './gallery-more/gallery-more.component';
+import { photoSlides } from '@utils/slides.util';
 
 const PAGE = 24;
 
@@ -30,7 +31,8 @@ const PAGE = 24;
   styleUrl: './photo-gallery.component.scss',
 })
 export class PhotoGalleryComponent {
-  protected readonly t = inject(I18nService).t;
+  protected readonly i18n = inject(I18nService);
+  protected readonly t = this.i18n.t;
   protected readonly category = signal<PhotoCategory | null>(null);
   protected readonly photos = signal<Photo[]>([]);
   protected readonly total = signal(0);
@@ -38,6 +40,7 @@ export class PhotoGalleryComponent {
   protected readonly loading = signal(false);
   protected readonly failed = signal(false);
   protected readonly lightbox = signal<number | null>(null);
+  protected readonly slides = computed(() => photoSlides(this.photos(), this.api, this.i18n));
   protected readonly hasMore = computed(() => this.photos().length < this.total());
 
   private readonly api = inject(ApiService);

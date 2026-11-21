@@ -7,26 +7,28 @@
   (keydown)="key($event)"
   [attr.aria-label]="counter()"
 >
-  @if (current(); as photo) {
+  @if (current(); as slide) {
     <figure (touchstart)="touchStart($event)" (touchend)="touchEnd($event)">
       <div
         class="frame"
-        [style.aspect-ratio]="photo.width + ' / ' + photo.height"
-        [style.background-image]="'url(' + photo.placeholder + ')'"
+        [style.aspect-ratio]="slide.width + ' / ' + slide.height"
+        [style.max-width]="'min(100%, ' + slide.width + 'px)'"
+        [style.background-image]="slide.placeholder ? 'url(' + slide.placeholder + ')' : null"
       >
-        @for (p of [photo]; track p.id) {
+        <!-- A one-item loop keyed by file recreates the image, so the previous one never lingers. -->
+        @for (s of [slide]; track s.src) {
           <img
-            [src]="url(p)"
-            [attr.srcset]="api.srcset(p)"
+            [src]="s.src"
+            [attr.srcset]="s.srcset"
             sizes="100vw"
-            [alt]="i18n.pick(p.alt)"
-            [attr.width]="p.width"
-            [attr.height]="p.height"
+            [alt]="s.alt"
+            [attr.width]="s.width"
+            [attr.height]="s.height"
           />
         }
       </div>
       <figcaption>
-        <span>{{ i18n.pick(photo.alt) }}</span>
+        <span>{{ slide.alt }}</span>
         <span class="count" aria-live="polite">{{ counter() }}</span>
       </figcaption>
     </figure>
@@ -38,7 +40,7 @@
     >
       <rc-icon name="close" />
     </button>
-    @if (photos().length > 1) {
+    @if (slides().length > 1) {
       <button
         type="button"
         class="ctl prev"

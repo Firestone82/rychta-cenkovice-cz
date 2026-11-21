@@ -23,6 +23,7 @@
   >
     {{ t().availability.nextMonth }} <rc-icon name="right" />
   </button>
+  <div class="end"><ng-content select="[barEnd]" /></div>
 </div>
 
 @if (failed()) {

@@ -2,6 +2,20 @@
   display: contents;
 }
 
+.stack {
+  display: grid;
+}
+.write,
+rc-contact-sent {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.write.is-sent {
+  visibility: hidden;
+}
+rc-contact-sent {
+  align-self: center;
+}
 .hint-line {
   margin: 10px 0 24px;
 }
@@ -10,7 +24,6 @@ form {
   gap: 20px;
   justify-items: start;
 }
-.form-grid,
 .form-grid {
   width: 100%;
 }

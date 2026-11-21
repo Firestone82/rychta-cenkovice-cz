@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { IconComponent } from '@components/icon/icon.component';
 import type { Trip } from '@models/i18n.model';
 import { I18nService } from '@services/i18n.service';
@@ -14,6 +14,8 @@ import { bundled } from '@utils/images.util';
 export class TripRowComponent {
   /** The destination to show: distance, name, description, link and thumbnail. */
   readonly trip = input.required<Trip>();
+  /** The visitor clicked the thumbnail to see it large. */
+  readonly enlarge = output<void>();
 
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
