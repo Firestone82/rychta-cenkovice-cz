@@ -14,7 +14,7 @@
 
   &.is-scrolled {
     border-bottom-color: var(--line);
-    background: rgba(243, 245, 244, 0.94);
+    background: color-mix(in srgb, var(--snow) 94%, transparent);
     backdrop-filter: blur(10px);
   }
 }

@@ -261,8 +261,9 @@ Durations are written as `10m`, `168h` or `30d`.
   "Settings". Nothing optional is stored or loaded before a choice. The choice can be
   changed at any time with "Cookie settings" in the footer or on the privacy page.
 - Necessary: the choice itself (`rc-consent` in local storage), the administrator's
-  refresh cookie and the language of the administration. Preferences: the remembered
-  language of the website (`rc-lang`). Form protection: hCaptcha.
+  refresh cookie and the language and theme of the administration. Preferences: the
+  remembered language (`rc-lang`) and theme (`rc_theme`) of the website. Form protection:
+  hCaptcha.
 - With `RC_HCAPTCHA_SITEKEY` and `RC_HCAPTCHA_SECRET` set, the booking request and the
   contact form show an hCaptcha check and the API verifies every answer with
   `https://api.hcaptcha.com/siteverify` before it stores anything. The hCaptcha script is

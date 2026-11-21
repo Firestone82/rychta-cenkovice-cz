@@ -4,7 +4,7 @@
    Design tokens. The palette is taken from the house itself:
    oxblood timber cladding, slate roof, lime-washed plinth, spruce forest.
    ------------------------------------------------------------------ */
-:root {
+@mixin light-tokens {
   --timber: #8c2a1d;
   --timber-deep: #6d1f14;
   --timber-soft: #f4e4e0;
@@ -31,6 +31,10 @@
   --spring: #4a8a3b;
   --summer: #b88213;
   --autumn: #b04d1e;
+}
+
+:root {
+  @include light-tokens;
 
   --font-display: 'Sofia Sans Extra Condensed', 'Arial Narrow', 'Helvetica Neue', sans-serif;
   --font-body: 'Sofia Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -41,6 +45,39 @@
   --radius: 3px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --header-h: 72px;
+}
+
+/*
+ * Dark theme. The tokens swap roles (`--white` is the surface, `--slate` the text), so every
+ * pair of them keeps its contrast. `ThemeService` sets the attribute.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --white: #1d242a;
+  --snow: #14191d;
+  --slate: #e8ecee;
+  --slate-2: #aab4bb;
+  --slate-3: #8a959d;
+  --line: #2e383f;
+  --line-strong: #46525b;
+  --edge: #6c7982;
+  --ice: #22303a;
+  --timber: #db6c57;
+  --timber-deep: #eb9484;
+  --timber-soft: #3a221e;
+  --spruce: #7cc08d;
+  --spruce-soft: #1c3324;
+  --spruce-edge: #3f7350;
+  --spruce-ink: #a9dcb6;
+  --larch-soft: #3a2e14;
+  --larch-ink: #ecc779;
+  --winter: #7fb0e0;
+}
+
+/* Surfaces that are dark in both themes keep the light values of the tokens. */
+.section-dark,
+.on-dark {
+  @include light-tokens;
 }
 
 *,

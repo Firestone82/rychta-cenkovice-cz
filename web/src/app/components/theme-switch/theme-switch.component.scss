@@ -1,0 +1,31 @@
+:host {
+  display: inline-flex;
+  border: 1.5px solid rgba(243, 245, 244, 0.4);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+button {
+  display: grid;
+  place-items: center;
+  min-width: var(--switch-width, 36px);
+  height: var(--switch-height, 30px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #cfd6da;
+  --icon: 17px;
+
+  &:hover {
+    color: var(--white);
+  }
+
+  &[aria-pressed='true'] {
+    background: var(--snow);
+    color: var(--slate);
+  }
+
+  &:focus-visible {
+    outline-offset: -3px;
+  }
+}

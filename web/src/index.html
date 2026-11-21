@@ -15,6 +15,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Rychta Čenkovice" />
     <meta property="og:image" content="/img/og-image.jpg" />
+    <script src="theme.js"></script>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link
@@ -35,6 +36,10 @@
       /* Boot loader: shown until Angular has rendered the first page. */
       html {
         background: #f3f5f4;
+      }
+      html[data-theme='dark'],
+      html[data-theme='dark'] #boot {
+        background: #14191d;
       }
       #boot {
         position: fixed;

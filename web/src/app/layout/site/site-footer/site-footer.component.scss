@@ -171,10 +171,22 @@ address {
   }
 }
 
+.legal,
+.legal-links {
+  align-items: center;
+}
+
 .legal-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 24px;
+}
+
+@media (max-width: 900px) {
+  rc-theme-switch {
+    --switch-width: 48px;
+    --switch-height: 40px;
+  }
 }
 
 @media (max-width: 820px) {

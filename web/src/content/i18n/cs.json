@@ -471,7 +471,7 @@
         "id": "cookies",
         "title": "Cookies",
         "text": [
-          "Web nepoužívá reklamní ani analytické cookies a nesleduje vás. Bez vašeho souhlasu si do prohlížeče uložíme jen vaši volbu v nastavení cookies. Pokud to dovolíte, zapamatujeme si i zvolený jazyk.",
+          "Web nepoužívá reklamní ani analytické cookies a nesleduje vás. Bez vašeho souhlasu si do prohlížeče uložíme jen vaši volbu v nastavení cookies. Pokud to dovolíte, zapamatujeme si i zvolený jazyk a vzhled.",
           "Administrace používá jednu technickou cookie nutnou k bezpečnému přihlášení správce a pamatuje si jazyk, který si správce zvolil."
         ]
       },
@@ -492,8 +492,8 @@
   },
   "cookies": {
     "title": "Nastavení cookies",
-    "barText": "Do vašeho prohlížeče ukládáme jen to, co web potřebuje k provozu. Pokud to dovolíte, zapamatujeme si váš jazyk a formuláře ochrání před roboty služba hCaptcha.",
-    "barTextPlain": "Do vašeho prohlížeče ukládáme jen to, co web potřebuje k provozu. Pokud to dovolíte, zapamatujeme si váš jazyk.",
+    "barText": "Do vašeho prohlížeče ukládáme jen to, co web potřebuje k provozu. Pokud to dovolíte, zapamatujeme si váš jazyk a vzhled a formuláře ochrání před roboty služba hCaptcha.",
+    "barTextPlain": "Do vašeho prohlížeče ukládáme jen to, co web potřebuje k provozu. Pokud to dovolíte, zapamatujeme si váš jazyk a vzhled.",
     "more": "Zásady ochrany osobních údajů",
     "acceptAll": "Povolit vše",
     "onlyNecessary": "Jen nezbytné",
@@ -507,7 +507,7 @@
     },
     "preferences": {
       "name": "Předvolby",
-      "text": "Zapamatujeme si zvolený jazyk, abyste ho příště nemuseli přepínat."
+      "text": "Pamatujeme si zvolený jazyk a vzhled, abyste je příště nemuseli přepínat."
     },
     "external": {
       "name": "Ochrana formulářů",
@@ -515,6 +515,11 @@
     },
     "save": "Uložit výběr",
     "saved": "Nastavení cookies je uložené."
+  },
+  "theme": {
+    "label": "Vzhled",
+    "light": "Světlý vzhled",
+    "dark": "Tmavý vzhled"
   },
   "captcha": {
     "label": "Ověření proti robotům",
@@ -983,11 +988,6 @@
       "deleteConfirm": "Opravdu smazat účet uživatele {name}? Už se nebude moci přihlásit.",
       "deleted": "Uživatel je smazaný.",
       "empty": "Žádní uživatelé."
-    },
-    "theme": {
-      "label": "Vzhled",
-      "light": "Světlý vzhled",
-      "dark": "Tmavý vzhled"
     },
     "common": {
       "cancel": "Zrušit",

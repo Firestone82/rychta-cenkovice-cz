@@ -1,0 +1,10 @@
+@for (theme of themes; track theme) {
+  <button
+    type="button"
+    [attr.aria-pressed]="look.theme() === theme"
+    [title]="t().theme[theme]"
+    (click)="look.use(theme)"
+  >
+    <rc-icon [name]="theme === 'light' ? 'sun' : 'moon'" [label]="t().theme[theme]" />
+  </button>
+}

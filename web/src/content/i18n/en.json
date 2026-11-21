@@ -487,8 +487,8 @@
   },
   "cookies": {
     "title": "Cookie settings",
-    "barText": "We store in your browser only what the website needs to work. If you allow it, we remember your language and hCaptcha protects the forms against bots.",
-    "barTextPlain": "We store in your browser only what the website needs to work. If you allow it, we remember your language.",
+    "barText": "We store in your browser only what the website needs to work. If you allow it, we remember your language and theme, and hCaptcha protects the forms against bots.",
+    "barTextPlain": "We store in your browser only what the website needs to work. If you allow it, we remember your language and theme.",
     "more": "Privacy policy",
     "acceptAll": "Allow all",
     "onlyNecessary": "Necessary only",
@@ -502,7 +502,7 @@
     },
     "preferences": {
       "name": "Preferences",
-      "text": "We remember your chosen language, so you do not have to switch it next time."
+      "text": "We remember your chosen language and theme, so you do not have to switch them next time."
     },
     "external": {
       "name": "Form protection",
@@ -510,6 +510,11 @@
     },
     "save": "Save selection",
     "saved": "Your cookie settings are saved."
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light theme",
+    "dark": "Dark theme"
   },
   "captcha": {
     "label": "Check against bots",
@@ -978,11 +983,6 @@
       "deleteConfirm": "Really delete the account of {name}? They will no longer be able to sign in.",
       "deleted": "The user has been deleted.",
       "empty": "There are no users."
-    },
-    "theme": {
-      "label": "Theme",
-      "light": "Light theme",
-      "dark": "Dark theme"
     },
     "common": {
       "cancel": "Cancel",

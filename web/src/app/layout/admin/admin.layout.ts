@@ -1,19 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ViewEncapsulation,
   effect,
   inject,
   signal,
   untracked,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ConfirmOutletComponent } from '@components/admin/confirm-outlet/confirm-outlet.component';
 import { AdminApiService } from '@services/admin-api.service';
-import { AdminThemeService } from '@services/admin-theme.service';
 import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { filter } from 'rxjs';
@@ -48,7 +45,6 @@ export class AdminLayout {
       this.api.changed();
       untracked(() => this.count());
     });
-    this.applyTheme();
     inject(Router)
       .events.pipe(
         filter((e) => e instanceof NavigationEnd),
@@ -63,14 +59,6 @@ export class AdminLayout {
   protected skip(event: Event): void {
     event.preventDefault();
     document.getElementById('admin-main')?.focus();
-  }
-
-  /** The theme sits on the root element, so windows and toasts outside the shell follow it too. */
-  private applyTheme(): void {
-    const root = inject(DOCUMENT).documentElement;
-    const theme = inject(AdminThemeService).theme;
-    effect(() => root.setAttribute('data-admin-theme', theme()));
-    inject(DestroyRef).onDestroy(() => root.removeAttribute('data-admin-theme'));
   }
 
   /** Read-only accounts have no overview, so nothing is counted for them. */

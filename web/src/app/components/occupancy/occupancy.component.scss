@@ -1,6 +1,6 @@
 :host {
   display: block;
-  --free: #dcebdd;
+  --free: var(--spruce-soft);
   --booked: var(--timber);
   --pending: var(--larch);
 }

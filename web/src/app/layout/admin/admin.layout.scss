@@ -9,33 +9,6 @@
   line-height: 1.5;
 }
 
-/*
- * Dark theme. The tokens swap roles (`--white` is the surface, `--slate` the text), so every
- * pair of them keeps its contrast. It sits on the root element while the shell is on screen.
- */
-:root[data-admin-theme='dark'] {
-  color-scheme: dark;
-  --white: #1d242a;
-  --snow: #14191d;
-  --slate: #e8ecee;
-  --slate-2: #aab4bb;
-  --slate-3: #8a959d;
-  --line: #2e383f;
-  --line-strong: #46525b;
-  --edge: #6c7982;
-  --ice: #22303a;
-  --timber: #e07a66;
-  --timber-deep: #eb9484;
-  --timber-soft: #3a221e;
-  --spruce: #7cc08d;
-  --spruce-soft: #1c3324;
-  --spruce-edge: #3f7350;
-  --spruce-ink: #a9dcb6;
-  --larch-soft: #3a2e14;
-  --larch-ink: #ecc779;
-  --winter: #7fb0e0;
-}
-
 /* The navigation is dark in both themes, so it keeps the light values of the tokens it uses. */
 .a-side,
 .a-top {

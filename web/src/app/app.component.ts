@@ -7,6 +7,7 @@ import {
   Router,
   RouterOutlet,
 } from '@angular/router';
+import { ThemeService } from '@services/theme.service';
 import { ToastOutletComponent } from './components/toast-outlet/toast-outlet.component';
 
 @Component({
@@ -20,6 +21,7 @@ export class AppComponent {
   protected readonly navigating = signal(false);
 
   constructor() {
+    inject(ThemeService);
     const router = inject(Router);
     let timer: ReturnType<typeof setTimeout> | undefined;
     let booted = false;
