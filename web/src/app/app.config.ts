@@ -6,6 +6,7 @@ import {
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
+  withNavigationErrorHandler,
   withViewTransitions,
 } from '@angular/router';
 import { routes } from './app.routes';
@@ -13,6 +14,7 @@ import { DEMO } from './config/demo.config';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { demoInterceptor } from './interceptors/demo.interceptor';
 import { serverApiInterceptor } from './interceptors/server-api.interceptor';
+import { reloadOnStaleChunk } from './utils/stale-chunk.util';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,6 +30,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
       withViewTransitions({ skipInitialTransition: true }),
+      withNavigationErrorHandler(reloadOnStaleChunk),
     ),
   ],
 };
