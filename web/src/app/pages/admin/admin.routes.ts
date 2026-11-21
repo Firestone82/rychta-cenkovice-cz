@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import type { ResolveFn, Routes } from '@angular/router';
-import { adminGuard, administratorGuard, guestGuard } from '@guards/auth.guard';
+import { adminGuard, administratorGuard, guestGuard, staffGuard } from '@guards/auth.guard';
 import { I18nService } from '@services/i18n.service';
 
 /** The administration has no language in its URL; it uses the one the administrator used last. */
@@ -27,6 +27,7 @@ export const adminRoutes: Routes = [
           {
             path: '',
             pathMatch: 'full',
+            canActivate: [staffGuard],
             loadComponent: () => import('./dashboard/dashboard.page').then((m) => m.DashboardPage),
           },
           {
@@ -39,6 +40,7 @@ export const adminRoutes: Routes = [
           },
           {
             path: 'bookings/new',
+            canActivate: [staffGuard],
             loadComponent: () =>
               import('./booking-form/booking-form.page').then((m) => m.BookingFormPage),
           },
@@ -49,6 +51,7 @@ export const adminRoutes: Routes = [
           },
           {
             path: 'messages',
+            canActivate: [staffGuard],
             loadComponent: () => import('./messages/messages.page').then((m) => m.MessagesPage),
           },
           {

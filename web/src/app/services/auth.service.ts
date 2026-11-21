@@ -33,6 +33,8 @@ export class AuthService {
   readonly signedIn = computed(() => this.token() !== null);
   /** Administrators also manage apartments, photos and accounts. */
   readonly isAdmin = computed(() => this.user()?.role === 'admin');
+  /** Everyone but read-only accounts may change bookings and work with messages. */
+  readonly canEdit = computed(() => this.user() !== null && this.user()?.role !== 'viewer');
 
   constructor() {
     // Signing out in one tab signs out the others.

@@ -18,6 +18,7 @@ import { IconComponent } from '@components/icon/icon.component';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import type { Apartment, Booking } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
+import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 import { addDays, addMonths, daysInMonth, startOfMonth, todayISO } from '@utils/dates.util';
@@ -44,6 +45,7 @@ const LAYOUT_KEY = 'rc_admin_year_layout';
 })
 export class CalendarPage {
   protected readonly t = inject(I18nService).t;
+  protected readonly canEdit = inject(AuthService).canEdit;
   protected readonly views = VIEWS;
   protected readonly view = signal<CalendarView>(
     readStored<CalendarView>(VIEW_KEY, 'months') === 'year' ? 'year' : 'months',

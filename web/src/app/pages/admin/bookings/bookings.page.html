@@ -3,14 +3,16 @@
     <h1>{{ t().admin.bookings.title }}</h1>
     <p>{{ t().admin.bookings.lead }}</p>
   </div>
-  <div class="a-actions">
-    <a class="btn btn-quiet" routerLink="/admin/bookings/new" [queryParams]="{ kind: 'block' }">{{
-      t().admin.bookings.newBlock
-    }}</a>
-    <a class="btn" routerLink="/admin/bookings/new"
-      ><rc-icon name="plus" /> {{ t().admin.bookings.new }}</a
-    >
-  </div>
+  @if (canEdit()) {
+    <div class="a-actions">
+      <a class="btn btn-quiet" routerLink="/admin/bookings/new" [queryParams]="{ kind: 'block' }">{{
+        t().admin.bookings.newBlock
+      }}</a>
+      <a class="btn" routerLink="/admin/bookings/new"
+        ><rc-icon name="plus" /> {{ t().admin.bookings.new }}</a
+      >
+    </div>
+  }
 </div>
 
 <rc-booking-filters [(filter)]="filter" (searchChange)="search.set($event)" />
@@ -21,6 +23,7 @@
       [bookings]="list"
       [apartments]="apartments()"
       [busyId]="busy()"
+      [readOnly]="!canEdit()"
       (decide)="decide($event)"
     />
   } @else {

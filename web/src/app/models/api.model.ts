@@ -104,8 +104,11 @@ export interface Dashboard {
   pending: Booking[];
 }
 
-/** `admin` manages everything; `staff` works with bookings and messages only. */
-export type UserRole = 'admin' | 'staff';
+/**
+ * `admin` manages everything, `staff` works with bookings and messages, `viewer` only reads
+ * the calendar and the bookings.
+ */
+export type UserRole = 'admin' | 'staff' | 'viewer';
 
 export interface User {
   id: number;

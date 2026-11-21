@@ -14,6 +14,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ConfirmOutletComponent } from '@components/admin/confirm-outlet/confirm-outlet.component';
 import { AdminApiService } from '@services/admin-api.service';
 import { AdminThemeService } from '@services/admin-theme.service';
+import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { filter } from 'rxjs';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
@@ -39,6 +40,7 @@ export class AdminLayout {
   protected readonly unread = signal(0);
 
   private readonly api = inject(AdminApiService);
+  private readonly auth = inject(AuthService);
 
   constructor() {
     // Counts once now and again after every change to a booking or a message.
@@ -71,7 +73,9 @@ export class AdminLayout {
     inject(DestroyRef).onDestroy(() => root.removeAttribute('data-admin-theme'));
   }
 
+  /** Read-only accounts have no overview, so nothing is counted for them. */
   private count(): void {
+    if (!this.auth.canEdit()) return;
     this.api.dashboard().then(
       ({ dashboard }) => {
         this.pending.set(dashboard.pending_bookings);

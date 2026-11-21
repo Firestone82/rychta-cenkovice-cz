@@ -1,13 +1,23 @@
 <div class="a-head">
   <div>
     <h1>{{ t().admin.calendar.title }}</h1>
-    <p>{{ view() === 'year' ? t().admin.calendar.yearHint : t().admin.calendar.hint }}</p>
+    <p>
+      {{
+        view() === 'year'
+          ? t().admin.calendar.yearHint
+          : canEdit()
+            ? t().admin.calendar.hint
+            : t().admin.calendar.hintView
+      }}
+    </p>
   </div>
-  <div class="a-actions">
-    <a class="btn" routerLink="/admin/bookings/new"
-      ><rc-icon name="plus" /> {{ t().admin.bookings.new }}</a
-    >
-  </div>
+  @if (canEdit()) {
+    <div class="a-actions">
+      <a class="btn" routerLink="/admin/bookings/new"
+        ><rc-icon name="plus" /> {{ t().admin.bookings.new }}</a
+      >
+    </div>
+  }
 </div>
 
 <rc-month-switch [(month)]="month" [unit]="view() === 'year' ? 'year' : 'month'">

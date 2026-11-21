@@ -1,6 +1,3 @@
-<a class="site" [routerLink]="['/', i18n.lang()]">
-  <rc-icon name="home" /> {{ t().admin.nav.site }}
-</a>
 <div class="row">
   <div class="seg" role="group" [attr.aria-label]="t().admin.theme.label">
     @for (theme of themes; track theme) {
@@ -22,3 +19,6 @@
     }
   </div>
 </div>
+<a class="site" [routerLink]="['/', i18n.lang()]">
+  <rc-icon name="home" /> {{ t().admin.nav.site }}
+</a>

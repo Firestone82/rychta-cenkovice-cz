@@ -5,16 +5,25 @@
 </div>
 <div class="track" (pointerdown)="press($event)" (pointermove)="drag($event)">
   @for (d of days(); track d.iso; let i = $index) {
-    <a
-      class="cell"
-      [style.grid-column]="2 * i + 1 + ' / span 2'"
-      [class.weekend]="d.weekend"
-      [class.today]="d.iso === today()"
-      routerLink="/admin/bookings/new"
-      [queryParams]="{ from: d.iso, a: a.number }"
-      [attr.aria-label]="newLabel(d.iso)"
-      draggable="false"
-    ></a>
+    @if (canEdit()) {
+      <a
+        class="cell"
+        [style.grid-column]="2 * i + 1 + ' / span 2'"
+        [class.weekend]="d.weekend"
+        [class.today]="d.iso === today()"
+        routerLink="/admin/bookings/new"
+        [queryParams]="{ from: d.iso, a: a.number }"
+        [attr.aria-label]="newLabel(d.iso)"
+        draggable="false"
+      ></a>
+    } @else {
+      <span
+        class="cell"
+        [style.grid-column]="2 * i + 1 + ' / span 2'"
+        [class.weekend]="d.weekend"
+        [class.today]="d.iso === today()"
+      ></span>
+    }
   }
   @if (picked(); as pick) {
     <div class="pick" [class.is-day]="pick.day" [style.grid-column]="pick.column">

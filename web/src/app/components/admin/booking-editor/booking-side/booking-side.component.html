@@ -12,6 +12,8 @@
       [disabled]="store.autoPrice()"
       [(value)]="store.price"
     />
+  }
+  @if (store.kind() === 'guest' && !store.readOnly()) {
     <label class="check">
       <input
         type="checkbox"
@@ -47,16 +49,18 @@
     <p class="notice is-error" role="alert">{{ store.failure() }}</p>
   }
 
-  <button class="btn" type="submit" [disabled]="store.busy()">
-    {{ store.busy() ? text.saving : text.save }}
-  </button>
+  @if (!store.readOnly()) {
+    <button class="btn" type="submit" [disabled]="store.busy()">
+      {{ store.busy() ? text.saving : text.save }}
+    </button>
 
-  @if (store.booking(); as b) {
-    <rc-booking-actions
-      [booking]="b"
-      [busy]="store.busy()"
-      (status)="store.quick($event)"
-      (remove)="store.remove()"
-    />
+    @if (store.booking(); as b) {
+      <rc-booking-actions
+        [booking]="b"
+        [busy]="store.busy()"
+        (status)="store.quick($event)"
+        (remove)="store.remove()"
+      />
+    }
   }
 </aside>

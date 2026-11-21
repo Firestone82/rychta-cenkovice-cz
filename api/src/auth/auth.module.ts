@@ -11,6 +11,7 @@ import { AuthService } from './auth.service.js';
 import { RefreshToken } from './refresh-token.entity.js';
 import { SameSiteGuard } from './same-site.guard.js';
 import { SessionService } from './session.service.js';
+import { StaffGuard } from './staff.guard.js';
 
 @Module({
   imports: [
@@ -41,8 +42,9 @@ import { SessionService } from './session.service.js';
     AccessTokenService,
     AccessTokenGuard,
     AdminGuard,
+    StaffGuard,
     SameSiteGuard,
   ],
-  exports: [AccessTokenService, AccessTokenGuard, AdminGuard, SessionService],
+  exports: [AccessTokenService, AccessTokenGuard, AdminGuard, StaffGuard, SessionService],
 })
 export class AuthModule {}

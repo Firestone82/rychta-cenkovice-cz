@@ -5,7 +5,7 @@ import { SITE } from '@config/site.config';
 import { ADMIN_THEMES, AdminThemeService } from '@services/admin-theme.service';
 import { I18nService } from '@services/i18n.service';
 
-/** Link to the public website with the theme and the language of the administration under it. */
+/** Theme and language of the administration, with the link to the public website under them. */
 @Component({
   selector: 'rc-sidebar-tools',
   changeDetection: ChangeDetectionStrategy.OnPush,

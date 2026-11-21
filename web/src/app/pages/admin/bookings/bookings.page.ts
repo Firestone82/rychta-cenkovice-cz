@@ -19,6 +19,7 @@ import { IconComponent } from '@components/icon/icon.component';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import type { Apartment, Booking } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
+import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 import { ToastService } from '@services/toast.service';
@@ -38,6 +39,7 @@ import { ToastService } from '@services/toast.service';
 })
 export class BookingsPage {
   protected readonly t = inject(I18nService).t;
+  protected readonly canEdit = inject(AuthService).canEdit;
   protected readonly filter = signal<BookingFilter>('active');
   protected readonly search = signal('');
   protected readonly items = signal<Booking[] | null>(null);

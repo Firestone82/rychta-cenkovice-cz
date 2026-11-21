@@ -81,6 +81,31 @@ describe('User management', () => {
     t.useToken(adminToken);
   });
 
+  it('lets a read-only account read the calendar and bookings and nothing more', async () => {
+    const viewer = { ...STAFF, name: 'Petr Úklid', email: 'petr@example.com', role: 'viewer' };
+    const created = await t.call('post', '/admin/users').send(viewer).expect(201);
+    const { id } = created.body as Account;
+    t.newVisitor();
+    const session = await t.stranger('post', '/auth/login').send(viewer).expect(200);
+
+    t.useToken((session.body as { access_token: string }).access_token);
+    await t.call('get', '/admin/bookings').expect(200);
+    await t.call('get', '/admin/apartments').expect(200);
+    for (const [method, path] of [
+      ['get', '/admin/dashboard'],
+      ['post', '/admin/bookings'],
+      ['patch', '/admin/bookings/1'],
+      ['delete', '/admin/bookings/1'],
+      ['get', '/admin/messages'],
+      ['get', '/admin/users'],
+    ] as const) {
+      const res = await t.call(method, path).send({}).expect(403);
+      expect(errorCode(res)).toBe('forbidden');
+    }
+    t.useToken(adminToken);
+    await t.call('delete', `/admin/users/${id}`).expect(204);
+  });
+
   it('keeps the administrator from locking themselves out', async () => {
     const me = (await t.call('get', '/auth/me').expect(200)).body as Account;
     const demoted = await t.call('patch', `/admin/users/${me.id}`).send({ role: 'staff' });

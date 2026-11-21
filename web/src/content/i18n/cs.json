@@ -813,7 +813,8 @@
       "created_at": "Vytvořeno",
       "messageLink": "Původní zpráva",
       "lead": "Všechny rezervace a blokace termínů. Filtrujte podle stavu, hledejte podle jména nebo kódu a kliknutím na řádek rezervaci otevřete.",
-      "formLead": "Zadejte termín, apartmány a hosta. Blokace jen uzavře termín, bez údajů o hostovi."
+      "formLead": "Zadejte termín, apartmány a hosta. Blokace jen uzavře termín, bez údajů o hostovi.",
+      "open": "Otevřít"
     },
     "calendar": {
       "title": "Kalendář obsazenosti",
@@ -844,7 +845,8 @@
         "boxes": "Měsíce v polích",
         "rows": "Řádky"
       },
-      "block": "blokace"
+      "block": "blokace",
+      "hintView": "Kliknutím na rezervaci ji otevřete."
     },
     "messages": {
       "title": "Zprávy z kontaktního formuláře",
@@ -947,7 +949,7 @@
     },
     "users": {
       "title": "Uživatelé",
-      "lead": "Účty, které se mohou přihlásit do administrace. Personál pracuje s přehledem, kalendářem, rezervacemi a zprávami; správce navíc spravuje apartmány, fotografie a uživatele.",
+      "lead": "Účty, které se mohou přihlásit do administrace. Účet jen pro čtení vidí kalendář a rezervace, personál navíc spravuje rezervace a zprávy a správce i apartmány, fotografie a uživatele.",
       "add": "Přidat uživatele",
       "edit": "Upravit uživatele",
       "cols": {
@@ -958,13 +960,14 @@
       },
       "roles": {
         "admin": "Správce",
-        "staff": "Personál"
+        "staff": "Personál",
+        "viewer": "Jen pro čtení"
       },
       "you": "vy",
       "name": "Jméno",
       "email": "E-mail",
       "role": "Role",
-      "roleHint": "Personál vidí přehled, kalendář, rezervace a zprávy. Správce navíc upravuje apartmány, fotografie a uživatele.",
+      "roleHint": "Účet jen pro čtení vidí kalendář a rezervace a nic nemění. Personál navíc spravuje rezervace a zprávy. Správce navíc upravuje apartmány, fotografie a uživatele.",
       "ownRole": "Vlastní roli změnit nemůžete.",
       "password": "Heslo",
       "passwordHint": "Aspoň 12 znaků. Uživateli ho předejte sami, e-mailem se neposílá.",

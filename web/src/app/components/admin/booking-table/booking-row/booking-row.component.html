@@ -20,7 +20,7 @@
 </td>
 <td>
   <span class="a-row-actions">
-    @if (b.status === 'pending') {
+    @if (b.status === 'pending' && !readOnly()) {
       <button
         type="button"
         class="btn btn-small"
@@ -41,8 +41,8 @@
       <a
         class="a-icon-btn"
         [routerLink]="['/admin/bookings', b.id]"
-        [attr.aria-label]="text.edit + ': ' + (b.name || b.code)"
-        ><rc-icon name="edit"
+        [attr.aria-label]="(readOnly() ? text.open : text.edit) + ': ' + (b.name || b.code)"
+        ><rc-icon [name]="readOnly() ? 'right' : 'edit'"
       /></a>
     }
   </span>

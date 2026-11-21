@@ -71,9 +71,10 @@ try things out, and `npm run cli -- create-admin --email you@example.com` create
 administrator or resets a password; it takes the password from `RC_ADMIN_PASSWORD` or asks
 for it on the terminal.
 
-Accounts have one of two roles. An administrator manages everything, including the other
+Accounts have one of three roles. An administrator manages everything, including the other
 accounts on the Users page of the administration. Staff work with the overview, the calendar,
 bookings and messages; the API refuses them changes to apartments, photos and accounts.
+A read-only account sees the calendar and the bookings and cannot change anything.
 
 The hero, season and trip images in `web/public/img` are built from the original photos by
 `tools/make-static-images.py <folder>` (needs Pillow).

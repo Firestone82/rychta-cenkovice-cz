@@ -1,7 +1,9 @@
-<form class="grid" (submit)="save($event)" novalidate>
-  <div class="main">
-    <rc-booking-stay />
-    <rc-booking-person />
-  </div>
-  <rc-booking-side />
+<form (submit)="save($event)" novalidate>
+  <fieldset class="grid" [disabled]="store.readOnly()">
+    <div class="main">
+      <rc-booking-stay />
+      <rc-booking-person />
+    </div>
+    <rc-booking-side />
+  </fieldset>
 </form>

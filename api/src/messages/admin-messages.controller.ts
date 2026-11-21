@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/access-token.guard.js';
+import { StaffGuard } from '../auth/staff.guard.js';
 import { IdPipe } from '../common/id.pipe.js';
 import {
   type MessageListQuery,
@@ -23,7 +24,7 @@ import { MessagesService } from './messages.service.js';
 
 @ApiTags('admin')
 @ApiBearerAuth()
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, StaffGuard)
 @Controller('admin/messages')
 export class AdminMessagesController {
   constructor(private readonly messages: MessagesService) {}

@@ -17,6 +17,6 @@ export class BookingEditorComponent {
 
   protected save(event: Event): void {
     event.preventDefault();
-    void this.store.save();
+    if (!this.store.readOnly()) void this.store.save();
   }
 }

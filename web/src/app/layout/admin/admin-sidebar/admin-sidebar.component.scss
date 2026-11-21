@@ -99,13 +99,11 @@
   text-align: center;
 }
 
-/* Website link and look of the tool, then the signed-in account. */
+/* Look of the tool and the website link, then the signed-in account. */
 .a-side-foot {
   display: grid;
   gap: 10px;
   margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid rgba(243, 245, 244, 0.18);
 }
 
 @media (max-width: 900px) {

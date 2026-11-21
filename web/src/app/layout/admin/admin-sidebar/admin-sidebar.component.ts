@@ -21,18 +21,18 @@ interface NavItem {
   path: string;
   key: NavKey;
   icon: IconName;
-  /** Shown to administrators only. */
-  admin?: true;
+  /** Who sees the item besides administrators: nobody (`admin`) or staff; everyone without it. */
+  only?: 'admin' | 'staff';
 }
 
 const ITEMS: NavItem[] = [
-  { path: '/admin', key: 'dashboard', icon: 'grid' },
+  { path: '/admin', key: 'dashboard', icon: 'grid', only: 'staff' },
   { path: '/admin/calendar', key: 'calendar', icon: 'calendar' },
   { path: '/admin/bookings', key: 'bookings', icon: 'bed' },
-  { path: '/admin/messages', key: 'messages', icon: 'inbox' },
-  { path: '/admin/apartments', key: 'apartments', icon: 'key', admin: true },
-  { path: '/admin/photos', key: 'photos', icon: 'image', admin: true },
-  { path: '/admin/users', key: 'users', icon: 'users', admin: true },
+  { path: '/admin/messages', key: 'messages', icon: 'inbox', only: 'staff' },
+  { path: '/admin/apartments', key: 'apartments', icon: 'key', only: 'admin' },
+  { path: '/admin/photos', key: 'photos', icon: 'image', only: 'admin' },
+  { path: '/admin/users', key: 'users', icon: 'users', only: 'admin' },
   { path: '/admin/account', key: 'account', icon: 'user' },
 ];
 
@@ -59,7 +59,11 @@ export class AdminSidebarComponent {
   readonly unread = input(0);
 
   protected readonly t = inject(I18nService).t;
-  protected readonly items = computed(() => ITEMS.filter((item) => !item.admin || this.isAdmin()));
+  protected readonly items = computed(() =>
+    ITEMS.filter(
+      ({ only }) => !only || (only === 'admin' ? this.auth.isAdmin() : this.auth.canEdit()),
+    ),
+  );
 
-  private readonly isAdmin = inject(AuthService).isAdmin;
+  private readonly auth = inject(AuthService);
 }

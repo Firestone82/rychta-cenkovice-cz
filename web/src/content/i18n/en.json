@@ -808,7 +808,8 @@
       "created_at": "Created",
       "messageLink": "Original message",
       "lead": "All bookings and blocked dates. Filter by status, search by name or code, and click a row to open the booking.",
-      "formLead": "Set the dates, the apartments and the guest. A block only closes the dates, without guest details."
+      "formLead": "Set the dates, the apartments and the guest. A block only closes the dates, without guest details.",
+      "open": "Open"
     },
     "calendar": {
       "title": "Occupancy calendar",
@@ -839,7 +840,8 @@
         "boxes": "Month boxes",
         "rows": "Rows"
       },
-      "block": "block"
+      "block": "block",
+      "hintView": "Click a booking to open it."
     },
     "messages": {
       "title": "Messages from the contact form",
@@ -942,7 +944,7 @@
     },
     "users": {
       "title": "Users",
-      "lead": "Accounts that can sign in to the administration. Staff work with the overview, the calendar, bookings and messages; administrators also manage apartments, photos and users.",
+      "lead": "Accounts that can sign in to the administration. Read-only accounts see the calendar and bookings, staff also manage bookings and messages, and administrators also manage apartments, photos and users.",
       "add": "Add user",
       "edit": "Edit user",
       "cols": {
@@ -953,13 +955,14 @@
       },
       "roles": {
         "admin": "Administrator",
-        "staff": "Staff"
+        "staff": "Staff",
+        "viewer": "Read-only"
       },
       "you": "you",
       "name": "Name",
       "email": "E-mail",
       "role": "Role",
-      "roleHint": "Staff see the overview, the calendar, bookings and messages. An administrator also edits apartments, photos and users.",
+      "roleHint": "Read-only accounts see the calendar and bookings and change nothing. Staff also manage bookings and messages. An administrator also edits apartments, photos and users.",
       "ownRole": "You cannot change your own role.",
       "password": "Password",
       "passwordHint": "At least 12 characters. Pass it on to the user yourself; it is not sent by e-mail.",

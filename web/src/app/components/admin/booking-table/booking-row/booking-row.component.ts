@@ -20,6 +20,8 @@ export class BookingRowComponent {
   readonly units = input.required<string>();
   /** Disables the confirm and decline buttons. */
   readonly busy = input(false);
+  /** Shows the link that opens the booking instead of the confirm and decline buttons. */
+  readonly readOnly = input(false);
   /** The owner confirmed or declined this pending request. */
   readonly decide = output<'confirmed' | 'cancelled'>();
 

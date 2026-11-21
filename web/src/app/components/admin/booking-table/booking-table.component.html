@@ -21,6 +21,7 @@
           [booking]="b"
           [units]="units(b)"
           [busy]="busyId() === b.id"
+          [readOnly]="readOnly()"
           (decide)="decide.emit({ booking: b, status: $event })"
         ></tr>
       }

@@ -21,7 +21,7 @@ import { ToastService } from '@services/toast.service';
 import { toFailure } from '@utils/api-failure.util';
 import { TEXT_LIMITS } from '@utils/forms.util';
 
-const ROLES: UserRole[] = ['staff', 'admin'];
+const ROLES: UserRole[] = ['viewer', 'staff', 'admin'];
 const MIN_PASSWORD_LENGTH = 12;
 
 /** A window that creates an account or edits one. */

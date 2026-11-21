@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/access-token.guard.js';
 import type { SessionUser } from '../auth/access-token.service.js';
 import { CurrentUser } from '../auth/current-user.decorator.js';
+import { StaffGuard } from '../auth/staff.guard.js';
 import { today } from '../common/dates.util.js';
 import { IdPipe } from '../common/id.pipe.js';
 import { BookingEditorService } from './booking-editor.service.js';
@@ -28,6 +29,7 @@ import {
 import { BookingsService } from './bookings.service.js';
 import { DashboardService } from './dashboard.service.js';
 
+/** Read-only accounts may list and open bookings; everything else needs staff or an administrator. */
 @ApiTags('admin')
 @ApiBearerAuth()
 @UseGuards(AccessTokenGuard)
@@ -40,6 +42,7 @@ export class AdminBookingsController {
   ) {}
 
   @Get('dashboard')
+  @UseGuards(StaffGuard)
   async dashboard() {
     const day = today();
     return { today: day, dashboard: await this.dashboardData.summary(day) };
@@ -51,6 +54,7 @@ export class AdminBookingsController {
   }
 
   @Post('bookings')
+  @UseGuards(StaffGuard)
   create(
     @Body({ schema: adminBookingSchema }) body: AdminBookingInput,
     @CurrentUser() user: SessionUser,
@@ -64,6 +68,7 @@ export class AdminBookingsController {
   }
 
   @Patch('bookings/:id')
+  @UseGuards(StaffGuard)
   update(
     @Param('id', IdPipe) id: number,
     @Body({ schema: adminBookingSchema }) body: AdminBookingInput,
@@ -72,6 +77,7 @@ export class AdminBookingsController {
   }
 
   @Delete('bookings/:id')
+  @UseGuards(StaffGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', IdPipe) id: number): Promise<void> {
     return this.bookings.remove(id);

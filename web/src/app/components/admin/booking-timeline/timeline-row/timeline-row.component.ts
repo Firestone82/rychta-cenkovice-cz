@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { Apartment, Booking } from '@models/api.model';
+import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { nightsBetween } from '@utils/dates.util';
 import type { TimelineBar, TimelineDay } from '@utils/timeline.util';
@@ -18,13 +19,14 @@ export class TimelineRowComponent {
   readonly apartment = input.required<Apartment>();
   /** Bookings of this apartment as bars on the half-day grid. */
   readonly bars = input.required<TimelineBar[]>();
-  /** Days of the shown month; each free day links to a new booking. */
+  /** Days of the shown month; each free day links to a new booking, unless the account only reads. */
   readonly days = input.required<TimelineDay[]>();
   /** ISO date marked as today. */
   readonly today = input.required<string>();
 
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
+  protected readonly canEdit = inject(AuthService).canEdit;
   private readonly picking = inject(TimelineSelectionStore);
 
   /** The part of the stay being dragged that falls on this row, drawn like the bar it will become. */
@@ -51,7 +53,7 @@ export class TimelineRowComponent {
 
   /** Starts picking days; touch is left alone, where a drag scrolls the page. */
   protected press(event: PointerEvent): void {
-    if (event.button !== 0 || event.pointerType === 'touch') return;
+    if (!this.canEdit() || event.button !== 0 || event.pointerType === 'touch') return;
     if ((event.target as Element).closest('.bar-item')) return;
     this.picking.begin(this.apartment(), this.dayAt(event));
   }

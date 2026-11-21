@@ -21,3 +21,7 @@ export const guestGuard: CanActivateFn = async () => {
 /** For pages only an administrator may open; runs after `adminGuard`, so the account is known. */
 export const administratorGuard: CanActivateFn = () =>
   inject(AuthService).isAdmin() || inject(Router).createUrlTree(['/admin']);
+
+/** For pages a read-only account may not open; it lands on the calendar instead. */
+export const staffGuard: CanActivateFn = () =>
+  inject(AuthService).canEdit() || inject(Router).createUrlTree(['/admin/calendar']);

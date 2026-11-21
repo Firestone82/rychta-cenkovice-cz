@@ -3,6 +3,7 @@ import { type ParamMap, Router } from '@angular/router';
 import type { Apartment, Booking, BookingKind, BookingStatus, Message } from '@models/api.model';
 import { type AdminBookingInput } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
+import { AuthService } from '@services/auth.service';
 import { toFailure } from '@utils/api-failure.util';
 import { I18nService } from '@services/i18n.service';
 import { ConfirmService } from '@services/confirm.service';
@@ -14,6 +15,8 @@ import { addDays, isISO, nightsBetween } from '@utils/dates.util';
 @Injectable()
 export class BookingEditorStore {
   readonly booking = signal<Booking | null>(null);
+  /** The account only reads: the form shows the booking and nothing can be changed. */
+  readonly readOnly = computed(() => !this.auth.canEdit());
   /** Contact-form message the new booking is created from. */
   readonly message = signal<Message | null>(null);
   readonly apartments = signal<Apartment[]>([]);
@@ -59,6 +62,7 @@ export class BookingEditorStore {
   private readonly i18n = inject(I18nService);
   private readonly t = this.i18n.t;
   private readonly api = inject(AdminApiService);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toasts = inject(ToastService);
   private readonly confirm = inject(ConfirmService);

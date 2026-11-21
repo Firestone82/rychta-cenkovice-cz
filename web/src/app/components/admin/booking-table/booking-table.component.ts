@@ -23,6 +23,8 @@ export class BookingTableComponent {
   readonly apartments = input.required<Apartment[]>();
   /** Id of the booking whose decision is being saved; its buttons are disabled. */
   readonly busyId = input<number | null>(null);
+  /** Leaves out the confirm and decline buttons; every row then only opens its booking. */
+  readonly readOnly = input(false);
   /** The owner confirmed or declined a pending request. */
   readonly decide = output<BookingDecision>();
 
