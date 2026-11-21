@@ -829,7 +829,13 @@
         "full": "fully booked"
       },
       "weekend": "Saturday and Sunday",
-      "counted": "Counts the {total} apartments shown on the website."
+      "counted": "Counts the {total} apartments shown on the website.",
+      "layout": "Arrangement of the year",
+      "layouts": {
+        "boxes": "Month boxes",
+        "rows": "Rows"
+      },
+      "block": "block"
     },
     "messages": {
       "title": "Messages from the contact form",

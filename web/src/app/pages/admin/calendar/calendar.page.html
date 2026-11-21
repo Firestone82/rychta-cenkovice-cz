@@ -13,6 +13,13 @@
 <rc-month-switch [(month)]="month" [unit]="view() === 'year' ? 'year' : 'month'">
   @if (view() === 'year') {
     <strong class="year">{{ year() }}</strong>
+    <div class="a-seg" role="group" [attr.aria-label]="t().admin.calendar.layout">
+      @for (l of layouts; track l) {
+        <button type="button" [attr.aria-pressed]="layout() === l" (click)="arrange(l)">
+          {{ t().admin.calendar.layouts[l] }}
+        </button>
+      }
+    </div>
   }
   <div class="a-seg" role="group" [attr.aria-label]="t().admin.calendar.view">
     @for (v of views; track v) {
@@ -32,6 +39,7 @@
 } @else if (view() === 'year') {
   <rc-year-occupancy
     [year]="year()"
+    [layout]="layout()"
     [apartments]="apartments()"
     [bookings]="bookings()"
     [loading]="loading()"

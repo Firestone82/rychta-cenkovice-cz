@@ -79,3 +79,26 @@ export function yearOccupancy(
     };
   });
 }
+
+export interface LabelledDay extends OccupancyDay {
+  /** Sentence for the tooltip, e.g. "Sat 13/03: 4 of 6 apartments taken". */
+  title: string;
+}
+
+export interface LabelledMonth extends Omit<OccupancyMonth, 'days'> {
+  days: LabelledDay[];
+  /** `share` as a rounded percentage with its sign. */
+  percent: string;
+}
+
+/** Adds the texts both layouts of the year view show. */
+export function labelMonths(
+  months: OccupancyMonth[],
+  title: (day: OccupancyDay) => string,
+): LabelledMonth[] {
+  return months.map((month) => ({
+    ...month,
+    percent: `${Math.round(month.share * 100)} %`,
+    days: month.days.map((day) => ({ ...day, title: title(day) })),
+  }));
+}

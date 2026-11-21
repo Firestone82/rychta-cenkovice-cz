@@ -1,65 +1,26 @@
-<div
-  class="scroll"
-  tabindex="0"
-  role="region"
-  [attr.aria-label]="t().admin.calendar.yearCaption + ' ' + year()"
->
-  <table [class.is-loading]="loading()">
-    <caption class="sr-only">
-      {{
-        t().admin.calendar.yearCaption
-      }}
-      {{
-        year()
-      }}
-    </caption>
-    <thead>
-      <tr>
-        <td></td>
-        @for (n of dayNumbers; track n) {
-          <th scope="col">{{ n }}</th>
-        }
-        <th scope="col" class="share">{{ t().admin.calendar.share }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (m of months(); track m.first) {
-        <tr>
-          <th scope="row">
-            <button
-              type="button"
-              class="name"
-              [title]="t().admin.calendar.openMonth"
-              (click)="month.emit(m.first)"
-            >
-              {{ m.name }}
-            </button>
-          </th>
-          @for (day of m.days; track day.iso) {
-            <td
-              class="day"
-              [class]="'is-' + day.level"
-              [class.weekend]="day.weekend"
-              [class.today]="day.iso === today"
-              [title]="describe(day)"
-            >
-              {{ day.taken || '' }}
-            </td>
-          }
-          @if (m.days.length < 31) {
-            <td class="none" [attr.colspan]="31 - m.days.length"></td>
-          }
-          <td class="share">{{ percent(m.share) }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-</div>
+@if (layout() === 'boxes') {
+  <rc-year-boxes
+    [months]="months()"
+    [today]="today"
+    [loading]="loading()"
+    (month)="month.emit($event)"
+  />
+} @else {
+  <rc-year-rows
+    [year]="year()"
+    [months]="months()"
+    [today]="today"
+    [loading]="loading()"
+    (month)="month.emit($event)"
+  />
+}
 
 <ul class="legend">
   @for (level of levels; track level) {
     <li><span class="key" [class]="'is-' + level"></span>{{ t().admin.calendar.levels[level] }}</li>
   }
-  <li><span class="key weekend"></span>{{ t().admin.calendar.weekend }}</li>
+  @if (layout() === 'rows') {
+    <li><span class="key weekend"></span>{{ t().admin.calendar.weekend }}</li>
+  }
   <li class="note">{{ i18n.fill(t().admin.calendar.counted, { total: total() }) }}</li>
 </ul>

@@ -2,12 +2,18 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output } f
 import type { Apartment, Booking } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
 import { todayISO } from '@utils/dates.util';
-import { OCCUPANCY_LEVELS, type OccupancyDay, yearOccupancy } from '@utils/occupancy.util';
+import { labelMonths, OCCUPANCY_LEVELS, yearOccupancy } from '@utils/occupancy.util';
+import { YearBoxesComponent } from './year-boxes/year-boxes.component';
+import { YearRowsComponent } from './year-rows/year-rows.component';
 
-/** One row per month and one cell per night, coloured by how many apartments are taken. */
+export const YEAR_LAYOUTS = ['boxes', 'rows'] as const;
+export type YearLayout = (typeof YEAR_LAYOUTS)[number];
+
+/** Every night of a year coloured by how many apartments are taken, as month boxes or as rows. */
 @Component({
   selector: 'rc-year-occupancy',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [YearBoxesComponent, YearRowsComponent],
   templateUrl: './year-occupancy.component.html',
   styleUrl: './year-occupancy.component.scss',
 })
@@ -21,6 +27,8 @@ export class YearOccupancyComponent {
   readonly apartments = input.required<Apartment[]>();
   /** Bookings and blocks overlapping the year. */
   readonly bookings = input.required<Booking[]>();
+  /** `boxes` draws one small calendar per month, `rows` one table row per month. */
+  readonly layout = input<YearLayout>('boxes');
   /** Dims the grid while the bookings of another year are being loaded. */
   readonly loading = input(false);
   /** A month was chosen; carries its first day as an ISO date. */
@@ -28,28 +36,16 @@ export class YearOccupancyComponent {
 
   protected readonly levels = OCCUPANCY_LEVELS;
   protected readonly today = todayISO();
-  protected readonly dayNumbers = Array.from({ length: 31 }, (_, i) => i + 1);
   protected readonly total = computed(() => this.apartments().filter((a) => a.active).length);
-  protected readonly months = computed(() =>
-    yearOccupancy(
-      this.year(),
-      this.apartments()
-        .filter((a) => a.active)
-        .map((a) => a.id),
-      this.bookings(),
-      this.i18n.locale(),
-    ),
-  );
-
-  protected describe(day: OccupancyDay): string {
-    const text = this.t().admin.calendar;
-    return `${this.i18n.date(day.iso, 'weekday')}: ${this.i18n.fill(text.taken, {
-      n: day.taken,
-      total: this.total(),
-    })}`;
-  }
-
-  protected percent(share: number): string {
-    return `${Math.round(share * 100)} %`;
-  }
+  protected readonly months = computed(() => {
+    const ids = this.apartments()
+      .filter((a) => a.active)
+      .map((a) => a.id);
+    const text = this.t().admin.calendar.taken;
+    return labelMonths(
+      yearOccupancy(this.year(), ids, this.bookings(), this.i18n.locale()),
+      (day) =>
+        `${this.i18n.date(day.iso, 'weekday')}: ${this.i18n.fill(text, { n: day.taken, total: ids.length })}`,
+    );
+  });
 }

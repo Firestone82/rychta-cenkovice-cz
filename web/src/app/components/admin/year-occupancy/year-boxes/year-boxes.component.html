@@ -1,0 +1,35 @@
+<ul class="boxes" [class.is-loading]="loading()">
+  @for (m of months(); track m.first) {
+    <li class="box">
+      <div class="head">
+        <button
+          type="button"
+          class="name"
+          [title]="t().admin.calendar.openMonth"
+          (click)="month.emit(m.first)"
+        >
+          {{ m.name }}
+        </button>
+        <span class="share" [title]="t().admin.calendar.share">{{ m.percent }}</span>
+      </div>
+      <div class="grid" aria-hidden="true">
+        @for (name of weekdays(); track $index) {
+          <span class="dow">{{ name }}</span>
+        }
+      </div>
+      <ol class="grid">
+        @for (day of m.days; track day.iso) {
+          <li
+            class="day"
+            [class]="'is-' + day.level"
+            [class.today]="day.iso === today()"
+            [style.grid-column-start]="day.day === 1 ? offset(m.first) : null"
+            [title]="day.title"
+          >
+            {{ day.day }}
+          </li>
+        }
+      </ol>
+    </li>
+  }
+</ul>

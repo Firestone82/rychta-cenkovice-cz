@@ -834,7 +834,13 @@
         "full": "plně obsazeno"
       },
       "weekend": "sobota a neděle",
-      "counted": "Počítá se {total} apartmánů zobrazených na webu."
+      "counted": "Počítá se {total} apartmánů zobrazených na webu.",
+      "layout": "Uspořádání roku",
+      "layouts": {
+        "boxes": "Měsíce v polích",
+        "rows": "Řádky"
+      },
+      "block": "blokace"
     },
     "messages": {
       "title": "Zprávy z kontaktního formuláře",

@@ -1,0 +1,14 @@
+/* Fill of a night by its occupancy; the colours are set on `rc-year-occupancy`. */
+.is-free {
+  background: var(--white);
+}
+.is-some {
+  background: var(--some);
+}
+.is-half {
+  background: var(--half);
+}
+.is-full {
+  background: var(--full);
+  color: var(--white);
+}
