@@ -45,11 +45,7 @@
     "no": "Ne",
     "optional": "nepovinné",
     "apartment": "Apartmán",
-    "floor": [
-      "přízemí",
-      "1. patro",
-      "2. patro"
-    ],
+    "floor": ["přízemí", "1. patro", "2. patro"],
     "stepFree": "bezbariérový",
     "priceOnRequest": "Cena na dotaz",
     "perNight": "za noc",
@@ -304,18 +300,11 @@
         },
         {
           "title": "Po sportu",
-          "items": [
-            "lyžárna se sušákem na lyžařské boty",
-            "koupací horký sud pro 8 osob"
-          ]
+          "items": ["lyžárna se sušákem na lyžařské boty", "koupací horký sud pro 8 osob"]
         },
         {
           "title": "Pro děti",
-          "items": [
-            "pískoviště",
-            "klouzačka a houpačky",
-            "velká trampolína"
-          ]
+          "items": ["pískoviště", "klouzačka a houpačky", "velká trampolína"]
         }
       ]
     },
@@ -432,10 +421,7 @@
     "call": "Volejte",
     "write": "Pište",
     "visit": "Navštivte nás",
-    "address": [
-      "Čenkovice 106",
-      "561 64 Čenkovice"
-    ],
+    "address": ["Čenkovice 106", "561 64 Čenkovice"],
     "mapGoogle": "Otevřít v Mapách Google",
     "mapSeznam": "Otevřít na Mapy.cz",
     "facebook": "Rychta na Facebooku",

@@ -25,7 +25,7 @@ export class BookingFiltersComponent {
   /** Pressed status filter. */
   readonly filter = model.required<BookingFilter>();
   /** Trimmed search text, emitted once the owner pauses typing. */
-  readonly search = output<string>();
+  readonly searchChange = output<string>();
 
   protected readonly t = inject(I18nService).t;
   protected readonly filters = [
@@ -47,6 +47,6 @@ export class BookingFiltersComponent {
   protected type(text: string): void {
     this.query.set(text);
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.search.emit(text.trim()), SEARCH_DELAY_MS);
+    this.timer = setTimeout(() => this.searchChange.emit(text.trim()), SEARCH_DELAY_MS);
   }
 }

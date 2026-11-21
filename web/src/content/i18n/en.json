@@ -40,11 +40,7 @@
     "no": "No",
     "optional": "optional",
     "apartment": "Apartment",
-    "floor": [
-      "ground floor",
-      "first floor",
-      "second floor"
-    ],
+    "floor": ["ground floor", "first floor", "second floor"],
     "stepFree": "step-free",
     "priceOnRequest": "Price on request",
     "perNight": "per night",
@@ -299,18 +295,11 @@
         },
         {
           "title": "After sport",
-          "items": [
-            "ski room with a boot dryer",
-            "hot tub for 8 people"
-          ]
+          "items": ["ski room with a boot dryer", "hot tub for 8 people"]
         },
         {
           "title": "For children",
-          "items": [
-            "sandpit",
-            "slide and swings",
-            "large trampoline"
-          ]
+          "items": ["sandpit", "slide and swings", "large trampoline"]
         }
       ]
     },
@@ -427,10 +416,7 @@
     "call": "Call",
     "write": "Write",
     "visit": "Visit us",
-    "address": [
-      "Čenkovice 106",
-      "561 64 Čenkovice, Czechia"
-    ],
+    "address": ["Čenkovice 106", "561 64 Čenkovice, Czechia"],
     "mapGoogle": "Open in Google Maps",
     "mapSeznam": "Open on Mapy.cz",
     "facebook": "The Rychta on Facebook",

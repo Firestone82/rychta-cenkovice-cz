@@ -1,0 +1,101 @@
+name: Deploy
+
+# Publishes the image after CI passed on main, then updates the server when one is configured.
+#
+# Repository variables: DEPLOY_HOST, DEPLOY_USER, DEPLOY_PATH (folder on the server holding .env).
+# Repository secrets:   DEPLOY_SSH_KEY (private key), DEPLOY_KNOWN_HOSTS (output of `ssh-keyscan <host>`).
+# Without DEPLOY_HOST only the image is published.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  image:
+    name: Publish image
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.name.outputs.image }}
+      revision: ${{ steps.name.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - id: name
+        # Image names must be lower case; repository names need not be.
+        run: |
+          echo "image=${IMAGE,,}" >> "$GITHUB_OUTPUT"
+          echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - run: echo "$TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        env:
+          NAME: ${{ steps.name.outputs.image }}
+          REVISION: ${{ steps.name.outputs.revision }}
+        run: |
+          docker build \
+            --label "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+            --label "org.opencontainers.image.revision=$REVISION" \
+            --tag "$NAME:$REVISION" --tag "$NAME:latest" .
+          docker push "$NAME:$REVISION"
+          docker push "$NAME:latest"
+
+  server:
+    name: Update server
+    needs: image
+    if: vars.DEPLOY_HOST != ''
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: read
+    env:
+      HOST: ${{ vars.DEPLOY_HOST }}
+      REMOTE_USER: ${{ vars.DEPLOY_USER }}
+      REMOTE_PATH: ${{ vars.DEPLOY_PATH }}
+      RC_IMAGE: ${{ needs.image.outputs.image }}:${{ needs.image.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.image.outputs.revision }}
+      - name: Set up SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Copy the compose file
+        run: scp -i ~/.ssh/id_deploy docker-compose.yml "$REMOTE_USER@$HOST:$REMOTE_PATH/docker-compose.yml"
+      - name: Pull the image and restart
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # The database migrates itself when the new container starts.
+        run: |
+          remote() { ssh -i ~/.ssh/id_deploy "$REMOTE_USER@$HOST" "$@"; }
+          printf '%s' "$TOKEN" | remote "docker login ghcr.io --username '$GITHUB_ACTOR' --password-stdin"
+          remote "cd '$REMOTE_PATH' \
+            && RC_IMAGE='$RC_IMAGE' docker compose pull rychta \
+            && RC_IMAGE='$RC_IMAGE' docker compose up -d --no-build --wait \
+            && docker logout ghcr.io \
+            && docker image prune -f"

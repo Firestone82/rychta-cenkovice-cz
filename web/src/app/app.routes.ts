@@ -1,5 +1,6 @@
-import { inject, Type } from '@angular/core';
-import { ResolveFn, Route, Routes } from '@angular/router';
+import type { Type } from '@angular/core';
+import { inject } from '@angular/core';
+import type { ResolveFn, Route, Routes } from '@angular/router';
 import { SITE } from './config/site.config';
 import type { Lang } from './models/i18n.model';
 import type { PageKey } from './models/site.model';

@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ResolveFn, Routes } from '@angular/router';
+import type { ResolveFn, Routes } from '@angular/router';
 import { adminGuard, guestGuard } from '@guards/auth.guard';
 import { I18nService } from '@services/i18n.service';
 

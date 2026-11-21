@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<rc-booking-filters [(filter)]="filter" (search)="search.set($event)" />
+<rc-booking-filters [(filter)]="filter" (searchChange)="search.set($event)" />
 
 @if (items(); as list) {
   @if (list.length) {

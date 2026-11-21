@@ -1,8 +1,8 @@
+import type { ElementRef } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  ElementRef,
   effect,
   inject,
   input,

@@ -4,10 +4,7 @@
       "code": "cs",
       "short": "CS",
       "name": "Česky",
-      "browser": [
-        "cs",
-        "sk"
-      ]
+      "browser": ["cs", "sk"]
     },
     {
       "code": "en",

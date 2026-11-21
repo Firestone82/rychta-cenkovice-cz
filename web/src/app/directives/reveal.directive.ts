@@ -1,4 +1,5 @@
-import { Directive, ElementRef, OnDestroy, afterNextRender, inject, input } from '@angular/core';
+import type { OnDestroy } from '@angular/core';
+import { Directive, ElementRef, afterNextRender, inject, input } from '@angular/core';
 
 /** Fades an element in the first time it scrolls into view. One shared observer for the page. */
 let observer: IntersectionObserver | null = null;

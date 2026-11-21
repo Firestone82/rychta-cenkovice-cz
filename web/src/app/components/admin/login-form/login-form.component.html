@@ -8,13 +8,14 @@
 
   <div class="field">
     <label for="l-email">{{ t().admin.login.email }}</label>
+    <!-- The page holds nothing but this form. -->
+
     <input
       id="l-email"
       class="input"
       type="email"
       autocomplete="username"
       required
-      autofocus
       [value]="email()"
       (input)="email.set(value($event))"
     />
