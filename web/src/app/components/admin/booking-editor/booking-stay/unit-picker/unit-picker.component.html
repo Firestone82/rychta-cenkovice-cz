@@ -16,6 +16,7 @@
           <span class="num">{{ a.number }}</span>
           <span class="unit-text">
             {{ i18n.count(a.beds, t().plural.beds) }}
+            <span class="floor">{{ t().common.floor[a.floor - 1] }}</span>
             @if (taken().has(a.id)) {
               <strong class="clash"
                 >{{ t().admin.bookings.unitTaken }}: {{ taken().get(a.id) }}</strong

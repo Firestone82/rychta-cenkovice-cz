@@ -10,6 +10,7 @@
   <span class="unit-text">
     <strong>{{ i18n.apartment(a) }}</strong>
     <span class="muted">
+      {{ t().common.floor[a.floor - 1] }},
       @if (i18n.flatType(a.flat_type); as type) {
         {{ type }},
       }
