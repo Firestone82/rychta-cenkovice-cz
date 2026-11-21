@@ -5,24 +5,25 @@
   <strong>{{ i18n.apartment(a) }}</strong>
   <span>{{ a.area }} {{ t().common.areaUnit }}, {{ i18n.count(a.beds, t().plural.beds) }}</span>
 </span>
+<!-- From what every apartment has to what only a few have, so equal badges line up. -->
 <span class="badges">
-  @if (!a.active) {
-    <span class="tag is-off">{{ text.hidden }}</span>
-  }
+  <span class="tag">{{ i18n.fill(text.minBadge, { n: a.min_nights }) }}</span>
   @if (a.flat_type) {
     <span class="tag" [title]="i18n.flatType(a.flat_type)">{{
       a.flat_type === 'studio' ? i18n.flatType(a.flat_type) : a.flat_type
     }}</span>
   }
-  @if (a.accessible) {
-    <span class="tag"><rc-icon name="access" /> {{ text.accessible }}</span>
+  @for (label of a.labels; track $index) {
+    <span class="tag is-label">{{ i18n.pick(label) }}</span>
   }
   @if (a.extra_beds) {
     <span class="tag">{{ i18n.fill(text.extraBadge, { n: a.extra_beds }) }}</span>
   }
-  <span class="tag">{{ i18n.fill(text.minBadge, { n: a.min_nights }) }}</span>
-  @for (label of a.labels; track $index) {
-    <span class="tag is-label">{{ i18n.pick(label) }}</span>
+  @if (a.accessible) {
+    <span class="tag"><rc-icon name="access" /> {{ text.accessible }}</span>
+  }
+  @if (!a.active) {
+    <span class="tag is-off">{{ text.hidden }}</span>
   }
 </span>
 <span class="sum-price">
