@@ -48,3 +48,10 @@
     }
   }
 }
+
+@media (max-width: 520px) {
+  .search {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+  }
+}

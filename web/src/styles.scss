@@ -447,6 +447,17 @@ button {
   }
 }
 
+/* Phone browsers give date fields a native width that ignores the column; drawn as plain boxes they fit it. */
+input[type='date'].input {
+  display: block;
+  appearance: none;
+  text-align: left;
+
+  &::-webkit-date-and-time-value {
+    text-align: left;
+  }
+}
+
 textarea.input {
   min-height: 140px;
   resize: vertical;
