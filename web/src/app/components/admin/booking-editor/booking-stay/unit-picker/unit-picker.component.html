@@ -15,11 +15,13 @@
           />
           <span class="num">{{ a.number }}</span>
           <span class="unit-text">
-            {{ i18n.count(a.beds, t().plural.beds) }}
-            <span class="floor">{{ t().common.floor[a.floor - 1] }}</span>
-            @if (taken().has(a.id)) {
-              <strong class="clash"
-                >{{ t().admin.bookings.unitTaken }}: {{ taken().get(a.id) }}</strong
+            <strong class="unit-name">{{ i18n.apartment(a) }}</strong>
+            <span
+              >{{ i18n.count(a.beds, t().plural.beds) }}, {{ t().common.floor[a.floor - 1] }}</span
+            >
+            @if (taken().get(a.id); as holder) {
+              <strong class="clash" [title]="holder"
+                >{{ t().admin.bookings.unitTaken }}: {{ holder }}</strong
               >
             }
           </span>

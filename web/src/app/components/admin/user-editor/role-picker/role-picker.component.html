@@ -1,0 +1,18 @@
+@let text = t().admin.users;
+<fieldset>
+  <legend>{{ label() }}</legend>
+  @for (role of roles; track role) {
+    <label class="role" [class.is-on]="value() === role">
+      <input
+        type="radio"
+        name="user-role"
+        [checked]="value() === role"
+        (change)="value.set(role)"
+      />
+      <span>
+        <strong>{{ text.roles[role] }}</strong>
+        <span class="about">{{ text.roleInfo[role] }}</span>
+      </span>
+    </label>
+  }
+</fieldset>

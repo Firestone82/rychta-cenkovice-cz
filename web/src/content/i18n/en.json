@@ -713,7 +713,6 @@
       "messages": "Messages",
       "apartments": "Apartments",
       "photos": "Photos",
-      "channels": "Portals",
       "users": "Users",
       "account": "Account",
       "site": "View website",
@@ -828,7 +827,7 @@
     },
     "calendar": {
       "title": "Occupancy calendar",
-      "hint": "Click a booking to open it. Click a free day to create a new one, or drag over several days to set the whole stay.",
+      "hint": "Click a booking to open it. Click a free day to create a new one, or drag over several days, and over several apartments, to set the whole stay.",
       "yearHint": "Each cell is one night and its colour shows how many apartments are taken. Click the name of a month to open its detailed calendar.",
       "view": "View",
       "views": {
@@ -941,13 +940,7 @@
       "edit": "Edit description"
     },
     "channels": {
-      "title": "Booking portals",
-      "lead": "Connect the calendar of each apartment on e-chalupy.cz. Days taken there are blocked here, so nobody can ask for them on the website. The calendars are read every 15 minutes.",
-      "cols": {
-        "apartment": "Apartment",
-        "status": "e-chalupy.cz calendar",
-        "checked": "Last read"
-      },
+      "title": "e-chalupy.cz calendar",
       "none": "Not connected",
       "failed": "Could not be read",
       "errors": {
@@ -957,20 +950,19 @@
         "too_large": "The calendar is too large.",
         "not_calendar": "There is no calendar at the address."
       },
-      "connect": "Connect calendar",
-      "edit": "Change address",
       "sync": "Read now",
       "disconnect": "Disconnect",
       "disconnectConfirm": "Really disconnect the e-chalupy.cz calendar of {apartment}? The days it blocks become free.",
       "disconnected": "The calendar has been disconnected.",
-      "heading": "e-chalupy.cz calendar",
       "address": "Address of the calendar (iCal)",
-      "addressHint": "In the e-chalupy.cz administration open Obsazenost, then Export kalendáře, and copy the address for this apartment. Keep it to yourself: anyone who has it can read the calendar.",
+      "addressHint": "Days taken on e-chalupy.cz are blocked here; the calendar is read every 15 minutes. In its administration open Obsazenost, then Export kalendáře, and copy the address for this apartment. Keep it to yourself: anyone who has it can read the calendar.",
       "invalid": "Enter the whole address, starting with https://.",
       "save": "Save and read",
       "saved": "The calendar is connected.",
       "savedFailed": "The address is saved, but the calendar could not be read.",
-      "synced": "The calendar has been read."
+      "synced": "The calendar has been read.",
+      "lastRead": "read {time}",
+      "failedBadge": "calendar not read"
     },
     "account": {
       "title": "Account",
@@ -998,7 +990,8 @@
         "name": "Name",
         "email": "E-mail",
         "role": "Role",
-        "created": "Created"
+        "created": "Created",
+        "lastLogin": "Last sign-in"
       },
       "roles": {
         "admin": "Administrator",
@@ -1009,7 +1002,6 @@
       "name": "Name",
       "email": "E-mail",
       "role": "Role",
-      "roleHint": "Read-only accounts see the calendar and bookings and change nothing. Staff also manage bookings and messages. An administrator also edits apartments, photos and users.",
       "ownRole": "You cannot change your own role.",
       "password": "Password",
       "passwordHint": "At least 12 characters. Pass it on to the user yourself; it is not sent by e-mail.",
@@ -1024,7 +1016,13 @@
       "delete": "Delete user",
       "deleteConfirm": "Really delete the account of {name}? They will no longer be able to sign in.",
       "deleted": "The user has been deleted.",
-      "empty": "There are no users."
+      "empty": "There are no users.",
+      "never": "never",
+      "roleInfo": {
+        "viewer": "Sees the calendar and the bookings and cannot change anything.",
+        "staff": "Also enters, confirms and declines bookings and answers messages.",
+        "admin": "Also edits apartments, photos and users."
+      }
     },
     "common": {
       "cancel": "Cancel",

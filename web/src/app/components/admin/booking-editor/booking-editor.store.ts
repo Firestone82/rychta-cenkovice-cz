@@ -164,8 +164,10 @@ export class BookingEditorStore {
       this.checkIn.set(from);
       this.checkOut.set(isISO(to) && to > from ? to : addDays(from, 2));
     }
-    const apartment = this.apartments().find((a) => a.number === Number(query.get('a')));
-    if (apartment) this.selected.set([apartment.id]);
+    // `a` holds apartment numbers, several when the stay was dragged over more rows of the calendar.
+    const numbers = (query.get('a') ?? '').split(',').map(Number);
+    const picked = this.apartments().filter((a) => numbers.includes(a.number));
+    if (picked.length) this.selected.set(picked.map((a) => a.id));
     this.autoPrice.set(true);
 
     const messageId = Number(query.get('message'));

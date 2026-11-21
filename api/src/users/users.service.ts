@@ -32,6 +32,10 @@ export class UsersService {
     return this.users.count();
   }
 
+  async signedIn(id: number): Promise<void> {
+    await this.users.update(id, { lastLoginAt: new Date() });
+  }
+
   list(): Promise<User[]> {
     return this.users.find({ order: { createdAt: 'ASC', id: 'ASC' } });
   }

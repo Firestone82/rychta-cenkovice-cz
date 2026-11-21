@@ -32,5 +32,5 @@
 } @else if (failed()) {
   <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
 } @else {
-  <rc-spinner [label]="t().common.loading" />
+  <rc-admin-skeleton kind="cards" [count]="4" [label]="t().common.loading" />
 }

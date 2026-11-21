@@ -7,6 +7,7 @@
         <th scope="col">{{ text.cols.email }}</th>
         <th scope="col">{{ text.cols.role }}</th>
         <th scope="col">{{ text.cols.created }}</th>
+        <th scope="col">{{ text.cols.lastLogin }}</th>
         <th scope="col">
           <span class="sr-only">{{ text.edit }}</span>
         </th>
@@ -28,6 +29,13 @@
             }}</span>
           </td>
           <td class="nowrap">{{ i18n.date(user.created_at.slice(0, 10)) }}</td>
+          <td class="nowrap">
+            @if (user.last_login_at; as at) {
+              {{ i18n.dateTime(at) }}
+            } @else {
+              <span class="never">{{ text.never }}</span>
+            }
+          </td>
           <td>
             <div class="a-row-actions">
               <button

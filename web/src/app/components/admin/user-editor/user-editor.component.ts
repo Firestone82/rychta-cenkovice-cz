@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   input,
   linkedSignal,
@@ -9,10 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { ModalComponent } from '@components/admin/modal/modal.component';
-import {
-  type SelectOption,
-  SelectFieldComponent,
-} from '@components/select-field/select-field.component';
 import { TextFieldComponent } from '@components/text-field/text-field.component';
 import type { Account, AccountInput, UserRole } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
@@ -20,15 +15,15 @@ import { I18nService } from '@services/i18n.service';
 import { ToastService } from '@services/toast.service';
 import { toFailure } from '@utils/api-failure.util';
 import { TEXT_LIMITS } from '@utils/forms.util';
+import { RolePickerComponent } from './role-picker/role-picker.component';
 
-const ROLES: UserRole[] = ['viewer', 'staff', 'admin'];
 const MIN_PASSWORD_LENGTH = 12;
 
 /** A window that creates an account or edits one. */
 @Component({
   selector: 'rc-user-editor',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ModalComponent, TextFieldComponent, SelectFieldComponent],
+  imports: [ModalComponent, TextFieldComponent, RolePickerComponent],
   templateUrl: './user-editor.component.html',
   styleUrl: './user-editor.component.scss',
 })
@@ -46,13 +41,10 @@ export class UserEditorComponent {
   protected readonly limits = TEXT_LIMITS;
   protected readonly name = linkedSignal(() => this.user()?.name ?? '');
   protected readonly email = linkedSignal(() => this.user()?.email ?? '');
-  protected readonly role = linkedSignal<string>(() => this.user()?.role ?? 'staff');
+  protected readonly role = linkedSignal<UserRole>(() => this.user()?.role ?? 'staff');
   protected readonly password = signal('');
   protected readonly errors = signal<Record<string, string>>({});
   protected readonly saving = signal(false);
-  protected readonly roles = computed<SelectOption[]>(() =>
-    ROLES.map((value) => ({ value, label: this.t().admin.users.roles[value] })),
-  );
 
   private readonly api = inject(AdminApiService);
   private readonly toasts = inject(ToastService);
@@ -62,7 +54,7 @@ export class UserEditorComponent {
     if (this.saving() || !this.valid()) return;
     const user = this.user();
     const body: AccountInput = { name: this.name().trim(), email: this.email().trim() };
-    if (!this.own()) body.role = this.role() as UserRole;
+    if (!this.own()) body.role = this.role();
     if (this.password()) body.password = this.password();
 
     this.saving.set(true);

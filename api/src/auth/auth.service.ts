@@ -55,6 +55,7 @@ export class AuthService {
     }
     this.failures.clear(`acct:${email}`);
     this.logger.log(`User ${user.id} signed in from ${client.ip}`);
+    await this.users.signedIn(user.id);
     return { user, refresh: await this.sessions.start(user.id, client) };
   }
 

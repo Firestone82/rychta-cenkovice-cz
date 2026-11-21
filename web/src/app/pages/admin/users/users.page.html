@@ -23,7 +23,7 @@
     <p class="a-empty">{{ failed() ? t().common.loadFailed : text.empty }}</p>
   }
 } @else {
-  <rc-spinner [label]="t().common.loading" />
+  <rc-admin-skeleton [count]="3" [label]="t().common.loading" />
 }
 
 @if (editing(); as open) {

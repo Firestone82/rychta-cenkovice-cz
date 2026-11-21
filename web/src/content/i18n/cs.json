@@ -719,7 +719,6 @@
       "messages": "Zprávy",
       "apartments": "Apartmány",
       "photos": "Fotografie",
-      "channels": "Portály",
       "users": "Uživatelé",
       "account": "Účet",
       "site": "Zobrazit web",
@@ -834,7 +833,7 @@
     },
     "calendar": {
       "title": "Kalendář obsazenosti",
-      "hint": "Kliknutím na rezervaci ji otevřete. Kliknutím na volný den založíte novou, tažením přes více dní rovnou zadáte celý pobyt.",
+      "hint": "Kliknutím na rezervaci ji otevřete. Kliknutím na volný den založíte novou, tažením přes více dní i přes více apartmánů rovnou zadáte celý pobyt.",
       "yearHint": "Každé pole je jedna noc, barva ukazuje, kolik apartmánů je obsazeno. Kliknutím na název měsíce otevřete jeho podrobný kalendář.",
       "view": "Zobrazení",
       "views": {
@@ -947,13 +946,7 @@
       "edit": "Upravit popis"
     },
     "channels": {
-      "title": "Rezervační portály",
-      "lead": "Připojte kalendář každého apartmánu z e-chalupy.cz. Dny obsazené tam se zablokují i tady, takže o ně na webu nikdo nepožádá. Kalendáře se načítají každých 15 minut.",
-      "cols": {
-        "apartment": "Apartmán",
-        "status": "Kalendář e-chalupy.cz",
-        "checked": "Naposledy načteno"
-      },
+      "title": "Kalendář e-chalupy.cz",
       "none": "Nepřipojeno",
       "failed": "Nepodařilo se načíst",
       "errors": {
@@ -963,20 +956,19 @@
         "too_large": "Kalendář je příliš velký.",
         "not_calendar": "Na adrese není kalendář."
       },
-      "connect": "Připojit kalendář",
-      "edit": "Změnit adresu",
       "sync": "Načíst teď",
       "disconnect": "Odpojit",
       "disconnectConfirm": "Opravdu odpojit kalendář e-chalupy.cz pro {apartment}? Dny, které blokuje, se uvolní.",
       "disconnected": "Kalendář byl odpojen.",
-      "heading": "Kalendář e-chalupy.cz",
       "address": "Adresa kalendáře (iCal)",
-      "addressHint": "V administraci e-chalupy.cz otevřete Obsazenost, potom Export kalendáře, a zkopírujte adresu pro tento apartmán. Nikomu ji nedávejte: kdo ji má, může kalendář číst.",
+      "addressHint": "Dny obsazené na e-chalupy.cz se tady zablokují; kalendář se načítá každých 15 minut. V její administraci otevřete Obsazenost, potom Export kalendáře, a zkopírujte adresu pro tento apartmán. Nikomu ji nedávejte: kdo ji má, může kalendář číst.",
       "invalid": "Zadejte celou adresu začínající https://.",
       "save": "Uložit a načíst",
       "saved": "Kalendář je připojen.",
       "savedFailed": "Adresa je uložena, ale kalendář se nepodařilo načíst.",
-      "synced": "Kalendář byl načten."
+      "synced": "Kalendář byl načten.",
+      "lastRead": "načteno {time}",
+      "failedBadge": "kalendář nenačten"
     },
     "account": {
       "title": "Účet",
@@ -1004,7 +996,8 @@
         "name": "Jméno",
         "email": "E-mail",
         "role": "Role",
-        "created": "Vytvořen"
+        "created": "Vytvořen",
+        "lastLogin": "Poslední přihlášení"
       },
       "roles": {
         "admin": "Správce",
@@ -1015,7 +1008,6 @@
       "name": "Jméno",
       "email": "E-mail",
       "role": "Role",
-      "roleHint": "Účet jen pro čtení vidí kalendář a rezervace a nic nemění. Personál navíc spravuje rezervace a zprávy. Správce navíc upravuje apartmány, fotografie a uživatele.",
       "ownRole": "Vlastní roli změnit nemůžete.",
       "password": "Heslo",
       "passwordHint": "Aspoň 12 znaků. Uživateli ho předejte sami, e-mailem se neposílá.",
@@ -1030,7 +1022,13 @@
       "delete": "Smazat uživatele",
       "deleteConfirm": "Opravdu smazat účet uživatele {name}? Už se nebude moci přihlásit.",
       "deleted": "Uživatel je smazaný.",
-      "empty": "Žádní uživatelé."
+      "empty": "Žádní uživatelé.",
+      "never": "nikdy",
+      "roleInfo": {
+        "viewer": "Vidí kalendář a rezervace a nemůže nic měnit.",
+        "staff": "Navíc zadává, potvrzuje a odmítá rezervace a vyřizuje zprávy.",
+        "admin": "Navíc upravuje apartmány, fotografie a uživatele."
+      }
     },
     "common": {
       "cancel": "Zrušit",

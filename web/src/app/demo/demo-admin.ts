@@ -141,6 +141,7 @@ export function adminRoutes(store: DemoStore, auth: DemoSession): DemoRoute[] {
           role: 'staff',
           ...body,
           created_at: now(),
+          last_login_at: null,
         };
         data.users.push(user);
         return user;

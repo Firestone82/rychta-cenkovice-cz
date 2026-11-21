@@ -1,6 +1,8 @@
 @let prefix = 'ap' + apartment().id + '-';
 <details class="a-card" (toggle)="opened.set(true)">
-  <summary><rc-apartment-summary [apartment]="apartment()" /></summary>
+  <summary>
+    <rc-apartment-summary [apartment]="apartment()" [calendarFailed]="!!channel()?.error" />
+  </summary>
 
   <form (submit)="save($event)" novalidate>
     <rc-apartment-name
@@ -45,6 +47,12 @@
     </button>
   </form>
 
-  <!-- Outside the form: photos are stored at once and their editor has a form of its own. -->
+  <!-- Outside the form: the calendar and the photos are stored at once, with forms of their own. -->
+  <rc-apartment-calendar
+    class="calendar"
+    [apartment]="apartment()"
+    [channel]="channel()"
+    (channelChange)="channelChange.emit($event)"
+  />
   <rc-apartment-photos class="photos" [apartment]="apartment()" [active]="opened()" />
 </details>

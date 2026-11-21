@@ -15,14 +15,15 @@
 }
 .units ul {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  /* Wide enough for a name and for who holds the apartment, each on one line. */
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 6px;
 }
 .unit {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 46px;
+  min-height: 68px;
   padding: 5px 10px;
   border: 1.5px solid var(--edge);
   border-radius: var(--radius);
@@ -53,9 +54,19 @@
 }
 .unit-text {
   display: grid;
+  min-width: 0;
   font-size: 0.8125rem;
-  line-height: 1.25;
+  line-height: 1.3;
   color: var(--slate-2);
+}
+.unit-text > * {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.unit-name {
+  font-size: 0.875rem;
+  color: var(--slate);
 }
 .clash {
   color: var(--larch-ink);
@@ -64,10 +75,4 @@
   margin-top: 8px;
   font-weight: 700;
   color: var(--timber);
-}
-
-.floor {
-  display: block;
-  font-size: 0.75rem;
-  white-space: nowrap;
 }

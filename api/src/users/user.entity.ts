@@ -21,4 +21,8 @@ export class User {
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
+
+  /** The last sign-in with the password; null for an account that never signed in. */
+  @Column({ type: 'timestamptz', nullable: true })
+  lastLoginAt: Date | null;
 }

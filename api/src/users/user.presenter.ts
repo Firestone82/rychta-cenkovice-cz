@@ -6,4 +6,5 @@ export const presentUser = (user: User) => ({
   name: user.name,
   role: user.role,
   created_at: user.createdAt.toISOString(),
+  last_login_at: user.lastLoginAt?.toISOString() ?? null,
 });

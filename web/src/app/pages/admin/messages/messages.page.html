@@ -29,5 +29,5 @@
     <p class="a-empty">{{ failed() ? t().common.loadFailed : t().admin.messages.empty }}</p>
   }
 } @else {
-  <rc-spinner [label]="t().common.loading" />
+  <rc-admin-skeleton kind="list" [label]="t().common.loading" />
 }

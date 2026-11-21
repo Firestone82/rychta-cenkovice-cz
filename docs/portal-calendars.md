@@ -6,7 +6,7 @@ and `other` as providers.
 
 ## How it works
 
-- An administrator stores the feed address of an apartment under **Portals**
+- An administrator stores the feed address of an apartment in its editor under **Apartments**
   (`PUT /api/v1/admin/channels`). The address carries a private token of the portal, so only
   administrators see it and it is never logged.
 - The feed is read at once, then every 15 minutes, and on request
@@ -25,9 +25,10 @@ and `other` as providers.
 
 ## Failures
 
-A feed that cannot be read keeps its blocks, and the reason shows on the Portals page:
+A feed that cannot be read keeps its blocks, and the reason shows in the apartment's editor,
+with a warning badge on its row:
 `address` (not a public address), `unreachable`, `http`, `too_large` (over 1 MB) or
 `not_calendar`. Feeds are fetched with a 10 second limit and at most three redirects, and only
 from public addresses.
 
-Code: `api/src/channels`, `web/src/app/pages/admin/channels`.
+Code: `api/src/channels`, `web/src/app/components/admin/apartment-editor/apartment-calendar`.

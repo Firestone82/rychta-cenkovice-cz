@@ -25,6 +25,9 @@
   @if (!a.active) {
     <span class="tag is-off">{{ text.hidden }}</span>
   }
+  @if (calendarFailed()) {
+    <span class="tag is-off">{{ t().admin.channels.failedBadge }}</span>
+  }
 </span>
 <span class="sum-price">
   @if (a.price_per_night !== null) {

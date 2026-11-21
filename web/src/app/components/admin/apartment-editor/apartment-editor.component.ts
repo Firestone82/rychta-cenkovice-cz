@@ -7,7 +7,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import type { Apartment } from '@models/api.model';
+import type { Apartment, Channel } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { toFailure } from '@utils/api-failure.util';
 import { I18nService } from '@services/i18n.service';
@@ -19,6 +19,7 @@ import {
   toDraft,
 } from '@utils/apartment-draft.util';
 import { ApartmentAmenitiesComponent } from './apartment-amenities/apartment-amenities.component';
+import { ApartmentCalendarComponent } from './apartment-calendar/apartment-calendar.component';
 import { ApartmentBasicsComponent } from './apartment-basics/apartment-basics.component';
 import { ApartmentNameComponent } from './apartment-name/apartment-name.component';
 import { ApartmentPhotosComponent } from './apartment-photos/apartment-photos.component';
@@ -34,6 +35,7 @@ import { ApartmentTextsComponent } from './apartment-texts/apartment-texts.compo
     ApartmentNameComponent,
     ApartmentBasicsComponent,
     ApartmentPhotosComponent,
+    ApartmentCalendarComponent,
     ApartmentAmenitiesComponent,
     ApartmentLabelListComponent,
     ApartmentTextsComponent,
@@ -44,8 +46,12 @@ import { ApartmentTextsComponent } from './apartment-texts/apartment-texts.compo
 export class ApartmentEditorComponent {
   /** Apartment to edit; the form starts from its values. */
   readonly apartment = input.required<Apartment>();
+  /** Its calendar on e-chalupy.cz; `null` when none is connected. */
+  readonly channel = input<Channel | null>(null);
   /** The apartment as stored by the API after a successful save. */
   readonly saved = output<Apartment>();
+  /** The calendar after it was stored, read or disconnected (`null`). */
+  readonly channelChange = output<Channel | null>();
 
   protected readonly t = inject(I18nService).t;
   protected readonly langs = ['cs', 'en'] as const;

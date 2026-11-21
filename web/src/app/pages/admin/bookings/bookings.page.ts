@@ -16,7 +16,7 @@ import {
   BookingTableComponent,
 } from '@components/admin/booking-table/booking-table.component';
 import { IconComponent } from '@components/icon/icon.component';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { Apartment, Booking } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { AuthService } from '@services/auth.service';
@@ -30,7 +30,7 @@ import { ToastService } from '@services/toast.service';
   imports: [
     RouterLink,
     IconComponent,
-    SpinnerComponent,
+    SkeletonComponent,
     BookingFiltersComponent,
     BookingTableComponent,
   ],

@@ -1,0 +1,57 @@
+@let text = t().admin.channels;
+@let current = channel();
+<div class="head">
+  <h3>{{ text.title }}</h3>
+  <p class="state">
+    @if (!current) {
+      <span class="none">{{ text.none }}</span>
+    } @else if (current.error) {
+      <span class="tag failed">{{ text.failed }}</span>
+      <span class="reason">{{ text.errors[current.error] }}</span>
+    } @else {
+      <span class="tag tag-confirmed">{{
+        i18n.count(current.blocks, t().plural.blockedStays)
+      }}</span>
+    }
+    @if (current?.synced_at; as at) {
+      <span class="reason">{{ i18n.fill(text.lastRead, { time: i18n.dateTime(at) }) }}</span>
+    }
+  </p>
+</div>
+<form (submit)="save($event)" novalidate>
+  <rc-text-field
+    type="url"
+    inputmode="url"
+    autocomplete="off"
+    placeholder="https://"
+    [key]="'ap' + apartment().id + '-calendar'"
+    [maxlength]="2000"
+    [label]="text.address"
+    [hint]="text.addressHint"
+    [error]="error()"
+    [(value)]="address"
+  />
+  <div class="actions">
+    <button class="btn btn-quiet" type="submit" [disabled]="busy()">{{ text.save }}</button>
+    <button
+      type="button"
+      class="a-icon-btn"
+      [class.is-hidden]="!current"
+      [disabled]="!current || busy()"
+      [title]="text.sync"
+      (click)="current && sync(current)"
+    >
+      <rc-icon name="sync" [label]="text.sync" />
+    </button>
+    <button
+      type="button"
+      class="a-icon-btn is-danger"
+      [class.is-hidden]="!current"
+      [disabled]="!current || busy()"
+      [title]="text.disconnect"
+      (click)="disconnect()"
+    >
+      <rc-icon name="trash" [label]="text.disconnect" />
+    </button>
+  </div>
+</form>

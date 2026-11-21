@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ApartmentEditorComponent } from '@components/admin/apartment-editor/apartment-editor.component';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
-import type { Apartment } from '@models/api.model';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
+import type { Apartment, Channel } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
@@ -9,7 +9,7 @@ import { SeoService } from '@services/seo.service';
 @Component({
   selector: 'rc-admin-apartments-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ApartmentEditorComponent, SpinnerComponent],
+  imports: [ApartmentEditorComponent, SkeletonComponent],
   templateUrl: './apartments.page.html',
   styleUrl: './apartments.page.scss',
 })
@@ -24,14 +24,30 @@ export class ApartmentsPage {
     return [...groups].map(([floor, apartments]) => ({ floor, apartments }));
   });
 
+  /** The portal calendar of each apartment that has one, by apartment id. */
+  protected readonly channels = signal(new Map<number, Channel>());
+
   constructor() {
     inject(SeoService).noIndex(this.t().admin.apartments.title);
-    inject(AdminApiService)
-      .apartments()
-      .then(
-        (list) => this.items.set(list),
-        () => this.items.set([]),
-      );
+    const api = inject(AdminApiService);
+    api.apartments().then(
+      (list) => this.items.set(list),
+      () => this.items.set([]),
+    );
+    // Without the calendars the apartments can still be edited.
+    api.channels().then(
+      (list) => this.channels.set(new Map(list.map((c) => [c.apartment_id, c]))),
+      () => undefined,
+    );
+  }
+
+  protected setChannel(apartmentId: number, channel: Channel | null): void {
+    this.channels.update((current) => {
+      const next = new Map(current);
+      if (channel) next.set(apartmentId, channel);
+      else next.delete(apartmentId);
+      return next;
+    });
   }
 
   protected replace(saved: Apartment): void {

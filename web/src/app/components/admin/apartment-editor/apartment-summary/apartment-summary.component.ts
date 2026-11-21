@@ -13,6 +13,8 @@ import { I18nService } from '@services/i18n.service';
 export class ApartmentSummaryComponent {
   /** Apartment shown as one line: number, name, size, badges for its state and type, and price. */
   readonly apartment = input.required<Apartment>();
+  /** Its portal calendar could not be read; shown as a warning badge. */
+  readonly calendarFailed = input(false);
 
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;

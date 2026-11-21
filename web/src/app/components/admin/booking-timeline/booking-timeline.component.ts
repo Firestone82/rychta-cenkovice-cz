@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import type { Apartment, Booking } from '@models/api.model';
 import { todayISO } from '@utils/dates.util';
@@ -9,7 +9,8 @@ import { TimelineSelectionStore } from './timeline-selection.store';
 /**
  * Months as timelines: one row per apartment, bookings as bars from the afternoon of
  * arrival to the morning of departure. Bars open the booking, a free day starts a new one,
- * and dragging over several days starts a new one for that stay, also across months.
+ * and dragging over several days starts a new one for that stay, also across months and over
+ * several apartments.
  */
 @Component({
   selector: 'rc-booking-timeline',
@@ -38,12 +39,20 @@ export class BookingTimelineComponent {
   private readonly picking = inject(TimelineSelectionStore);
   private readonly router = inject(Router);
 
-  /** A drag that stayed on one day is left to the link of that day. */
+  constructor() {
+    effect(() => this.picking.rows.set(this.apartments()));
+  }
+
+  /** A drag that stayed on one day of one apartment is left to the link of that day. */
   protected finish(): void {
     const picked = this.picking.finish();
-    if (!picked || picked.from === picked.to) return;
+    if (!picked || (picked.from === picked.to && picked.apartments.length === 1)) return;
     void this.router.navigate(['/admin/bookings/new'], {
-      queryParams: { from: picked.from, to: picked.to, a: picked.apartment.number },
+      queryParams: {
+        from: picked.from,
+        ...(picked.to > picked.from && { to: picked.to }),
+        a: picked.apartments.map((apartment) => apartment.number).join(','),
+      },
     });
   }
 

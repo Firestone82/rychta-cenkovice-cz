@@ -15,7 +15,7 @@ import {
   YearOccupancyComponent,
 } from '@components/admin/year-occupancy/year-occupancy.component';
 import { IconComponent } from '@components/icon/icon.component';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { Apartment, Booking } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { AuthService } from '@services/auth.service';
@@ -35,7 +35,7 @@ const LAYOUT_KEY = 'rc_admin_year_layout';
   imports: [
     RouterLink,
     IconComponent,
-    SpinnerComponent,
+    SkeletonComponent,
     MonthSwitchComponent,
     BookingTimelineComponent,
     YearOccupancyComponent,

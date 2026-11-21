@@ -24,14 +24,9 @@
     @if (own()) {
       <p class="own">{{ text.ownRole }} {{ text.ownPassword }}</p>
     } @else {
-      <rc-select-field
-        key="user-role"
-        [label]="text.role"
-        [options]="roles()"
-        [hint]="text.roleHint"
-        [(value)]="role"
-      />
+      <rc-role-picker class="wide" [label]="text.role" [(value)]="role" />
       <rc-text-field
+        class="wide"
         key="user-password"
         type="password"
         autocomplete="new-password"

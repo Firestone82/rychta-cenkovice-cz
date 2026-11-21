@@ -9,7 +9,8 @@ form {
   align-items: start;
 }
 
-.own {
+.own,
+.wide {
   grid-column: 1 / -1;
   color: var(--slate-2);
 }

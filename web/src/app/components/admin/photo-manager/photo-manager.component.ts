@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { TileSize } from '@components/admin/tile-size/tile-size.component';
 import type { Apartment, Photo } from '@models/api.model';
 import { PHOTO_CATEGORIES, type PhotoCategory } from '@models/photo-category.model';
@@ -28,7 +28,7 @@ const COLLAPSED_KEY = 'rc_admin_photo_rows';
 @Component({
   selector: 'rc-photo-manager',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpinnerComponent, PhotoSectionComponent, PhotoEditorComponent],
+  imports: [SkeletonComponent, PhotoSectionComponent, PhotoEditorComponent],
   templateUrl: './photo-manager.component.html',
   styleUrl: './photo-manager.component.scss',
 })

@@ -5,6 +5,7 @@ interface Account {
   email: string;
   name: string;
   role: string;
+  last_login_at: string | null;
 }
 
 const STAFF = {
@@ -39,10 +40,10 @@ describe('User management', () => {
     expect(res.body).not.toHaveProperty('password_hash');
 
     const list = await t.call('get', '/admin/users').expect(200);
-    expect((list.body as { items: Account[] }).items.map((u) => u.email)).toEqual([
-      ADMIN.email,
-      STAFF.email,
-    ]);
+    const { items } = list.body as { items: Account[] };
+    expect(items.map((u) => u.email)).toEqual([ADMIN.email, STAFF.email]);
+    // Only the administrator has signed in so far.
+    expect(items.map((u) => u.last_login_at !== null)).toEqual([true, false]);
   });
 
   it('refuses a taken e-mail, a short password and an unknown role', async () => {

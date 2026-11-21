@@ -44,7 +44,7 @@
   @if (failed()) {
     <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
   } @else {
-    <rc-spinner [label]="t().common.loading" />
+    <rc-admin-skeleton kind="calendar" [label]="t().common.loading" />
   }
 } @else if (view() === 'year') {
   <rc-year-occupancy

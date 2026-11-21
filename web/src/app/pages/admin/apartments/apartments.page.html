@@ -16,7 +16,12 @@
         </h2>
         <div class="list">
           @for (a of group.apartments; track a.id) {
-            <rc-apartment-editor [apartment]="a" (saved)="replace($event)" />
+            <rc-apartment-editor
+              [apartment]="a"
+              [channel]="channels().get(a.id) ?? null"
+              (saved)="replace($event)"
+              (channelChange)="setChannel(a.id, $event)"
+            />
           }
         </div>
       </section>
@@ -25,5 +30,5 @@
     <p class="a-empty">{{ t().common.loadFailed }}</p>
   }
 } @else {
-  <rc-spinner [label]="t().common.loading" />
+  <rc-admin-skeleton kind="list" [count]="6" [label]="t().common.loading" />
 }

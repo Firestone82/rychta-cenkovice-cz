@@ -140,6 +140,8 @@ export interface User {
 /** An account as the user management lists it. */
 export interface Account extends User {
   created_at: string;
+  /** The last sign-in with the password; `null` for an account that never signed in. */
+  last_login_at: string | null;
 }
 
 /** Fields of an account an administrator sets; the password stays out when it does not change. */

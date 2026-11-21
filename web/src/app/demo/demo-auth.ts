@@ -28,6 +28,7 @@ export class DemoSession {
       users.find((u) => u.email.toLowerCase() === email.trim().toLowerCase()) ??
       users.find((u) => u.role === 'admin') ??
       users[0];
+    user.last_login_at = new Date().toISOString();
     this.remember(user);
     return user;
   }

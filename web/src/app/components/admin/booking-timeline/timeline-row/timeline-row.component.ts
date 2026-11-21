@@ -33,7 +33,7 @@ export class TimelineRowComponent {
   protected readonly picked = computed(() => {
     const pick = this.picking.selection();
     const days = this.days();
-    if (pick?.apartment.id !== this.apartment().id) return null;
+    if (!pick?.apartments.some((apartment) => apartment.id === this.apartment().id)) return null;
     const nights = nightsBetween(pick.from, pick.to);
     const start = Math.max(1, 2 * (nightsBetween(days[0].iso, pick.from) + 1) - (nights ? 0 : 1));
     const end = Math.min(2 * days.length + 1, 2 * (nightsBetween(days[0].iso, pick.to) + 1));
@@ -59,7 +59,7 @@ export class TimelineRowComponent {
   }
 
   protected drag(event: PointerEvent): void {
-    if (this.picking.selection()) this.picking.extend(this.dayAt(event));
+    if (this.picking.selection()) this.picking.extend(this.apartment(), this.dayAt(event));
   }
 
   private dayAt(event: PointerEvent): string {

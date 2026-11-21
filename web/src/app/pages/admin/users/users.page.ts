@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { UserEditorComponent } from '@components/admin/user-editor/user-editor.component';
 import { UserListComponent } from '@components/admin/user-list/user-list.component';
 import { IconComponent } from '@components/icon/icon.component';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { Account } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { AuthService } from '@services/auth.service';
@@ -14,7 +14,7 @@ import { ToastService } from '@services/toast.service';
 @Component({
   selector: 'rc-admin-users-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpinnerComponent, IconComponent, UserListComponent, UserEditorComponent],
+  imports: [SkeletonComponent, IconComponent, UserListComponent, UserEditorComponent],
   templateUrl: './users.page.html',
 })
 export class UsersPage {

@@ -11,7 +11,7 @@ import { BookingEditorComponent } from '@components/admin/booking-editor/booking
 import { BookingEditorStore } from '@components/admin/booking-editor/booking-editor.store';
 import { BookingSourceMessageComponent } from '@components/admin/booking-editor/booking-source-message/booking-source-message.component';
 import { IconComponent } from '@components/icon/icon.component';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 
@@ -25,7 +25,7 @@ import { SeoService } from '@services/seo.service';
   imports: [
     RouterLink,
     IconComponent,
-    SpinnerComponent,
+    SkeletonComponent,
     BookingEditorComponent,
     BookingSourceMessageComponent,
   ],

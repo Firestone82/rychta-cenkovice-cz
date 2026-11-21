@@ -5,7 +5,7 @@ import { DashboardMovementsComponent } from '@components/admin/dashboard-movemen
 import { DashboardPendingComponent } from '@components/admin/dashboard-pending/dashboard-pending.component';
 import { DashboardStatsComponent } from '@components/admin/dashboard-stats/dashboard-stats.component';
 import { IconComponent } from '@components/icon/icon.component';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { Apartment, Dashboard } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
@@ -18,7 +18,7 @@ import { ToastService } from '@services/toast.service';
   imports: [
     RouterLink,
     IconComponent,
-    SpinnerComponent,
+    SkeletonComponent,
     DashboardStatsComponent,
     DashboardPendingComponent,
     DashboardMovementsComponent,

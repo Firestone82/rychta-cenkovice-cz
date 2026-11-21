@@ -12,13 +12,13 @@ import { I18nService } from '@services/i18n.service';
 import type { Message } from '@models/api.model';
 import { ConfirmService } from '@services/confirm.service';
 import { SeoService } from '@services/seo.service';
-import { SpinnerComponent } from '@components/spinner/spinner.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'rc-admin-messages-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpinnerComponent, MessageCardComponent],
+  imports: [SkeletonComponent, MessageCardComponent],
   templateUrl: './messages.page.html',
   styleUrl: './messages.page.scss',
 })
