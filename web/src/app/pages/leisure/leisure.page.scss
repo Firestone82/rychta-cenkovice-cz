@@ -17,7 +17,7 @@
   text-decoration: none;
   transition: border-color 0.2s;
 }
-.jump a::before {
+.jump a[data-season]::before {
   content: '';
   width: 10px;
   height: 10px;
@@ -26,6 +26,14 @@
 }
 .jump a:hover {
   border-color: var(--slate);
+}
+/* The links to the lists further down stand apart from the seasons, at the right edge. */
+.jump .more {
+  margin-left: auto;
+}
+.jump rc-icon {
+  --icon: 1.15em;
+  color: var(--timber);
 }
 [data-season='winter'] {
   --tone: var(--winter);
@@ -45,4 +53,10 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: clamp(40px, 5vw, 64px);
+}
+
+@media (max-width: 900px) {
+  .jump .more {
+    margin-left: 0;
+  }
 }

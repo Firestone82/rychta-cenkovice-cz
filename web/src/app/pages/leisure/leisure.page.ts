@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { IconComponent } from '@components/icon/icon.component';
 import { SeasonListComponent } from '@components/season-list/season-list.component';
 import { TripListComponent } from '@components/trip-list/trip-list.component';
+import { JumpDirective } from '@directives/jump.directive';
 import { I18nService } from '@services/i18n.service';
 import { LinksService } from '@services/links.service';
 import { SeoService } from '@services/seo.service';
@@ -10,7 +12,7 @@ import { SEASONS } from '@utils/season.util';
 @Component({
   selector: 'rc-leisure',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, SeasonListComponent, TripListComponent],
+  imports: [RouterLink, IconComponent, JumpDirective, SeasonListComponent, TripListComponent],
   templateUrl: './leisure.page.html',
   styleUrl: './leisure.page.scss',
 })

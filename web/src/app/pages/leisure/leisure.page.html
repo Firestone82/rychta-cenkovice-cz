@@ -1,16 +1,18 @@
 <header class="wrap page-head">
   <h1 class="h1">{{ t().leisure.title }}</h1>
   <p class="lead">{{ t().leisure.lead }}</p>
-  <nav class="jump" [attr.aria-label]="t().seasons.label">
+  <nav class="jump" [attr.aria-label]="t().leisure.jump">
     @for (s of seasons; track s) {
-      <a [routerLink]="[]" [fragment]="s" [attr.data-season]="s">{{ t().seasons[s].name }}</a>
+      <a [rcJump]="s" [attr.data-season]="s">{{ t().seasons[s].name }}</a>
     }
+    <a class="more" rcJump="trips"><rc-icon name="pin" /> {{ t().leisure.tripsJump }}</a>
+    <a rcJump="resorts"><rc-icon name="mountain" /> {{ t().leisure.resortsJump }}</a>
   </nav>
 </header>
 
 <rc-season-list />
 
-<section class="section section-white" aria-labelledby="trips-title">
+<section id="trips" class="section section-white" aria-labelledby="trips-title">
   <div class="wrap">
     <rc-trip-list
       headingId="trips-title"
@@ -21,7 +23,7 @@
   </div>
 </section>
 
-<section class="section" aria-labelledby="resorts-title">
+<section id="resorts" class="section" aria-labelledby="resorts-title">
   <div class="wrap">
     <rc-trip-list
       headingId="resorts-title"
