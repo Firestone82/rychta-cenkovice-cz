@@ -1,13 +1,40 @@
-# Runs the website and the API as one service. Put it behind a reverse proxy that
-# terminates HTTPS (Caddy, nginx, Traefik) and forwards to port 8080.
+# Runs the website and the API as one service next to its PostgreSQL database. Put it behind a
+# reverse proxy that terminates HTTPS (Caddy, nginx, Traefik) and forwards to port 8080.
 services:
   rychta:
+    # CI publishes the image; without RC_IMAGE it is built from this folder.
+    image: ${RC_IMAGE:-rychta-cenkovice}
     build: .
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - "127.0.0.1:8080:8080"
     env_file: .env
+    environment:
+      RC_DATABASE_URL: postgres://rychta:${POSTGRES_PASSWORD}@db:5432/rychta
     volumes:
-      - ./data:/data
+      # Processed photos and, without SMTP, the e-mail outbox.
+      - data:/data
       # Optional: the folder with the original photos, used once by `import-photos`.
       # - ./photos:/photos:ro
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rychta
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: rychta
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rychta -d rychta"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  data:
+  db:

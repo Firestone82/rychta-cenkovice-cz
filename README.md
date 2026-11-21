@@ -4,8 +4,10 @@ The website of Rychta Čenkovice, six holiday apartments in the Orlické hory mo
 with online booking requests and an administration for the owners.
 
 - `web/` is the website and the administration: Angular 22, Czech and English.
-- `api/` is the management API: Go, SQLite, JWT access tokens with rotating refresh tokens.
+- `api/` is the management API: NestJS 12, PostgreSQL with TypeORM migrations, JWT access
+  tokens with rotating refresh tokens, OpenAPI documentation.
 - `tools/` holds the image build script and a browser smoke test.
+- `.github/workflows/` lints, tests and builds every push, and deploys `main`.
 
 Visitors browse the apartments, the shared spaces, trips and the photo gallery, check the
 occupancy calendar and send a booking request for the apartments that are free on their
@@ -15,70 +17,188 @@ message), blocks dates, and edits apartments, prices, photos and news.
 
 ## Run it locally
 
-You need Go 1.26+ and Node 22+.
+You need Node 22+ and PostgreSQL 14+ (or Docker, which starts one for you).
 
 ```bash
-# 1. API on http://localhost:8080
+# 1. Database on localhost:5432, with the databases `rychta` and `rychta_test`
+docker compose -f docker-compose.dev.yml up -d
+
+# 2. API on http://localhost:8080, restarting on changes
 cd api
-go run ./cmd/rychta-api serve
+npm install
+npm run start:dev
 ```
 
-On the first start in development the API creates `admin@rychtacenkovice.cz` and prints a
-random password once. To choose the account yourself, set `RC_ADMIN_EMAIL` and
-`RC_ADMIN_PASSWORD` (at least 12 characters) before the first start.
+The API creates its tables on start (see Migrations) and fills an empty database with the
+six apartments and the catalogue of the original photos. On the first start in development
+it also creates `admin@rychtacenkovice.cz` and prints a random password once. To choose the
+account yourself, set `RC_ADMIN_EMAIL` and `RC_ADMIN_PASSWORD` (at least 12 characters)
+before the first start. Settings are read from the environment and from `.env` in `api/` or
+in the repository root.
 
 ```bash
-# 2. Website on http://localhost:4200 (proxies /api and /media to the API)
+# 3. Website on http://localhost:4200 (proxies /api and /media to the API)
 cd web
 npm install
 npm start
 ```
 
-The administration is at `/admin`.
+The administration is at `/admin`, the API documentation at http://localhost:8080/api/docs.
+
+With your own PostgreSQL instead of Docker, create a role and the two databases and set
+`RC_DATABASE_URL` if they differ from the default:
+
+```sql
+CREATE ROLE rychta LOGIN PASSWORD 'rychta';
+CREATE DATABASE rychta OWNER rychta;
+CREATE DATABASE rychta_test OWNER rychta;
+```
 
 ### Photos
 
 Gallery and apartment photos live in the API, not in the repository. Import the photos of
-the original site once:
+the original site once (after `npm run build` in `api/`):
 
 ```bash
 cd api
-go run ./cmd/rychta-api import-photos                 # downloads from www.rychtacenkovice.cz
-go run ./cmd/rychta-api import-photos -dir ../photos  # or reads a local copy of /userFiles
+npm run cli -- import-photos                  # downloads from www.rychtacenkovice.cz
+npm run cli -- import-photos --dir ../photos  # or reads a local copy of /userFiles
 ```
 
 Each photo is stored in three sizes with a blurred placeholder. New photos are uploaded in
-the administration. `seed-demo` adds a few example bookings and messages to try things out.
+the administration. `npm run cli -- seed-demo` adds a few example bookings and messages to
+try things out, and `npm run cli -- create-admin --email you@example.com` creates an
+administrator or resets a password; it takes the password from `RC_ADMIN_PASSWORD` or asks
+for it on the terminal.
 
 The hero, season and trip images in `web/public/img` are built from the original photos by
 `tools/make-static-images.py <folder>` (needs Pillow).
 
-## Tests
+## How the code is organised
+
+### Website (`web/src`)
+
+| Folder | Holds |
+| --- | --- |
+| `app/components/` | Every component in a folder of its own with `.ts`, `.html` and `.scss`. A component used by one parent only lives inside that parent's folder; the administration's components are under `components/admin/`. |
+| `app/pages/` | One folder per route. A page loads its data and arranges components. |
+| `app/layout/` | The frames around the pages: `site` (header, footer, cookie bar) and `admin` (sidebar, top bar). |
+| `app/utils/` | Shared logic without state, as `*.util.ts` with tests next to it. |
+| `app/services/`, `guards/`, `interceptors/`, `directives/` | API access, session, translations, consent; route guards; the token interceptor; the scroll reveal. |
+| `app/models/`, `app/config/` | Types of the API and of the content files; the typed entry points to the content. |
+| `content/` | What the site says and shows, as JSON (below). |
+| `styles/` | Design tokens and the few global styles. |
+
+Imports use aliases (`@components/…`, `@utils/…`, `@content/…`), defined in `web/tsconfig.json`.
+Every component input and output carries a one-line description.
+
+### Content in JSON
+
+- `content/site.json`: languages, contact details, map links, the address of each page in
+  each language, redirects from the old website.
+- `content/images.json`: the bundled images with their sizes and descriptions.
+- `content/i18n/<language>.json`: every text of the website and the administration.
+
+The files are compiled into the build, so a change takes a rebuild, and
+`app/config/content.spec.ts` fails the tests when a language misses a key or `site.json`
+has a wrong shape. Apartments, prices, photos and news are edited in the administration
+and come from the API.
+
+To add a language: copy `content/i18n/en.json` and translate it, add the language to
+`languages` and to every entry of `routes` in `content/site.json`, to the `Lang` type in
+`app/models/i18n.model.ts` and to `app/config/languages.config.ts`. Texts stored in the
+API (apartment texts, labels, news, photo descriptions) are Czech and English only.
+
+### API (`api/src`)
+
+One folder per feature (`apartments`, `bookings`, `photos`, `messages`, `news`, `auth`,
+`users`, `forms`, `mail`, `site`, `seed`), each a NestJS module with its entity, request
+schemas, service and controllers. `common/` has the error format, validation helpers and
+the rate limiter, `config/` the typed settings, `database/` the TypeORM setup and the
+migrations, `web/` the security headers and static files.
+
+- Requests are validated with Zod schemas on the controller parameters. A failed rule
+  answers `422` with one code per field: `{ "error": { "code": "validation", "fields": { "email": "invalid" } } }`.
+- Every error has the same shape, `{ "error": { "code", "message" } }`.
+- Booking overlaps are prevented in the database transaction that stores the booking, by
+  locking the apartments first.
+
+### Migrations
+
+The schema changes only through migrations in `api/src/database/migrations`; the API
+never synchronises it from the entities. Pending migrations run when the API starts
+(`RC_DATABASE_MIGRATE=false` switches that off, to run them as a separate deploy step).
 
 ```bash
-cd api && go vet ./... && go test ./...   # booking rules, tokens, rate limits, forms
-cd web && npx ng test --no-watch          # date helpers, form helpers, translation keys
+cd api
+npm run migration:generate -- src/database/migrations/AddSomething   # after changing an entity
+# then list the new class in src/database/migrations/index.ts
+npm run migration:run
+npm run migration:revert
+npm run migration:show
+npm run migration:check   # fails when the entities and the migrated database differ
 ```
+
+## Tests and linting
+
+```bash
+cd api
+npm run lint && npm run format:check
+npm test             # unit tests
+npm run test:e2e     # the whole API over HTTP against the `rychta_test` database, which it empties
+
+cd web
+npm run lint && npm run format:check
+npx ng test --no-watch
+```
+
+The API's end-to-end tests cover the booking rules and simultaneous requests, sign-in,
+token rotation and reuse, rate limits, the forms with a stand-in for hCaptcha, photo
+uploads, and the administration. `RC_TEST_DATABASE_URL` points them at another database.
 
 `tools/e2e-smoke.js` drives a real browser through the main flows (booking request,
 availability, contact form, sign-in, confirming, booking from a message, conflicts).
 It needs Playwright and writes test data, so point it at a development database.
 
-## Deploy
+## Continuous integration and deployment
 
-The simplest setup is one process: the API also serves the built website.
+`.github/workflows/ci.yml` runs on every push to `main` and every pull request: lint,
+format check, tests and build for the website and for the API (with a PostgreSQL service,
+including a check that the migrations match the entities), and a build of the Docker image.
+
+`.github/workflows/deploy.yml` runs after CI passed on `main` (or by hand). It publishes
+the image as `ghcr.io/<owner>/<repository>` with the tags `latest` and the commit, and,
+when a server is configured, copies `docker-compose.yml` there, pulls the image and
+restarts the service. The database migrates when the new container starts.
+
+To switch the server step on, set in the repository settings:
+
+| | |
+| --- | --- |
+| Variables `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PATH` | the server, the account, and the folder that holds `.env` |
+| Secret `DEPLOY_SSH_KEY` | a private key that account accepts |
+| Secret `DEPLOY_KNOWN_HOSTS` | the output of `ssh-keyscan <host>` |
+
+The server needs Docker with the compose plugin, and the account must be allowed to run it.
+The job uses the `production` environment, so a required reviewer can be added there.
+
+## Deploy by hand
+
+The simplest setup is one container: the API also serves the built website, with
+PostgreSQL next to it.
 
 ```bash
-cp .env.example .env      # fill in RC_JWT_SECRET, the administrator and SMTP
+cp .env.example .env      # fill in POSTGRES_PASSWORD, RC_JWT_SECRET, the administrator and SMTP
 docker compose up -d --build
-docker compose exec rychta /app/rychta-api import-photos
+docker compose exec rychta node dist/cli.js import-photos
 ```
 
-Put a reverse proxy with HTTPS in front of port 8080. The database, the photos and the
-e-mail outbox are in `./data`; back that folder up.
+Put a reverse proxy with HTTPS in front of port 8080. Back up the database
+(`docker compose exec db pg_dump -U rychta rychta`) and the `data` volume, which holds the
+photos (`docker compose cp rychta:/data ./backup`).
 
-Without Docker: `make build`, then run `api/bin/rychta-api serve` with `RC_ENV=production`,
-`RC_WEB_DIR` pointing at `web/dist/web/browser` and the variables below.
+Without Docker: `make build`, then run `node dist/main.js` in `api/` with
+`RC_ENV=production`, `RC_WEB_DIR` pointing at `web/dist/web/browser` and the variables below.
 
 To host the website elsewhere (a CDN, another domain), serve `web/dist/web/browser` with a
 fallback to `index.html`, set `<meta name="rc-api-base">` in `index.html` to the API
@@ -89,27 +209,30 @@ address and list the website's origin in `RC_ALLOWED_ORIGINS`. Keep both on the 
 
 | Variable | Default | Meaning |
 | --- | --- | --- |
-| `RC_ENV` | `development` | `production` requires `RC_JWT_SECRET`, sets secure cookies and HSTS |
-| `RC_ADDR` | `:8080` | listen address |
-| `RC_DB_PATH` | `data/rychta.db` | SQLite database file |
+| `RC_ENV` | `development` | `production` requires `RC_JWT_SECRET`, sets secure cookies and HSTS, hides the API documentation |
+| `RC_HOST`, `RC_PORT` | `0.0.0.0`, `8080` | listen address |
+| `RC_DATABASE_URL` | `postgres://rychta:rychta@localhost:5432/rychta` | PostgreSQL connection |
+| `RC_DATABASE_SSL` | `false` | connect to the database over TLS |
+| `RC_DATABASE_MIGRATE` | `true` | run pending migrations on start |
 | `RC_MEDIA_DIR` | `data/media` | processed photos |
+| `RC_OUTBOX_DIR` | `data/outbox` | where e-mails are written when no mail server is set |
 | `RC_WEB_DIR` | | folder with the built website; empty means API only |
 | `RC_PUBLIC_URL` | `http://localhost:4200` | public address, used for links in e-mails |
 | `RC_ALLOWED_ORIGINS` | `http://localhost:4200` | browser origins that may call the API |
 | `RC_TRUST_PROXY` | `false` | read the client address from `X-Forwarded-For` |
+| `RC_API_DOCS` | `true` outside production | serve the OpenAPI documentation at `/api/docs` |
 | `RC_JWT_SECRET` | random in development | signing key, at least 32 characters |
 | `RC_ACCESS_TTL` | `10m` | access token lifetime (30 minutes at most) |
-| `RC_REFRESH_TTL` | `168h` | a session ends after this long without use |
-| `RC_SESSION_TTL` | `720h` | a session ends after this long in any case |
+| `RC_REFRESH_TTL` | `7d` | a session ends after this long without use |
+| `RC_SESSION_TTL` | `30d` | a session ends after this long in any case |
 | `RC_COOKIE_SECURE` | `true` in production | send the refresh cookie over HTTPS only |
 | `RC_ADMIN_EMAIL`, `RC_ADMIN_PASSWORD` | | first administrator, created if none exists |
 | `RC_MAIL_FROM`, `RC_MAIL_TO` | | sender, and the owner's address for notifications |
-| `RC_SMTP_HOST`, `RC_SMTP_PORT`, `RC_SMTP_USERNAME`, `RC_SMTP_PASSWORD`, `RC_SMTP_TLS` | | mail server; without a host, e-mails are written to `<data>/outbox` |
+| `RC_SMTP_HOST`, `RC_SMTP_PORT`, `RC_SMTP_USERNAME`, `RC_SMTP_PASSWORD`, `RC_SMTP_TLS` | | mail server; without a host, e-mails are written to `RC_OUTBOX_DIR` |
 | `RC_HCAPTCHA_SITEKEY`, `RC_HCAPTCHA_SECRET` | | hCaptcha keys; with both set, the booking request and the contact form need a solved hCaptcha. Leave both empty to switch it off |
 | `RC_PHOTO_SOURCE_URL` | the original site | where `import-photos` downloads from |
 
-`rychta-api create-admin -email you@example.com` creates an administrator or resets a
-password. It takes the password from `RC_ADMIN_PASSWORD` or asks for it on the terminal.
+Durations are written as `10m`, `168h` or `30d`.
 
 ## How sign-in is kept safe
 
@@ -154,23 +277,25 @@ password. It takes the password from `RC_ADMIN_PASSWORD` or asks for it on the t
   departure day is free for the next arrival.
 - A request from the website is `pending` and holds its dates. The owner confirms or
   declines it; the guest is told by e-mail in their language.
-- The availability check and the insert run in one database transaction, so two people
-  cannot book the same apartment for overlapping dates.
-- Flat type, floor and equipment come from fixed lists (`api/internal/store/store.go` and
-  `web/src/app/core/apartment-options.ts`, kept in step). Labels, the description and the
-  other texts are free and bilingual.
+- The availability check and the insert run in one database transaction that first locks
+  the apartments, so two people cannot book the same apartment for overlapping dates.
+- Flat type, floor and equipment come from fixed lists (`api/src/apartments/apartment-options.ts`
+  and `web/src/app/models/apartment-options.model.ts`, kept in step). Labels, the
+  description and the other texts are free and bilingual.
 - Prices are optional. An apartment without a nightly price shows "price on request", and
   the owner sets the total when confirming.
 
 ## API
 
-All endpoints are under `/api/v1`.
+All endpoints are under `/api/v1`. Every endpoint with its request shape, to try out in the browser, is in the OpenAPI
+documentation at `/api/docs` (JSON at `/api/docs-json`).
 
 | | |
 | --- | --- |
 | `GET /apartments`, `GET /apartments/{slug}` | apartments with photos |
 | `GET /availability?from&to` | occupied ranges for the calendar |
 | `GET /availability/check?check_in&check_out` | apartments taken in those dates |
+| `GET /health` | answers once the database is reachable |
 | `GET /config` | what the website needs to know up front: the hCaptcha site key |
 | `POST /bookings` | booking request (`captcha_token` when hCaptcha is on) |
 | `POST /contact` | contact form (`captcha_token` when hCaptcha is on) |
@@ -183,15 +308,18 @@ All endpoints are under `/api/v1`.
 ## Things to finish before going live
 
 - Add the operator's legal identity (name or company, registration number) to the privacy
-  page texts in `web/src/app/core/i18n/cs.ts` and `en.ts`. The original site did not state it.
+  page texts in `web/src/content/i18n/cs.json` and `en.json`. The original site did not state it.
 - Enter nightly prices in the administration, or keep "price on request".
 - Configure SMTP so guests and the owner receive e-mails.
 - Create an hCaptcha site at dashboard.hcaptcha.com and set `RC_HCAPTCHA_SITEKEY` and
   `RC_HCAPTCHA_SECRET`. Then send one booking request and one contact message on the live
   site: the hCaptcha widget and the real verification call could not be run during
-  development, only the code around them (see `api/internal/captcha`).
+  development, only the code around them (see `api/src/forms/captcha.service.ts`).
 - The occupancy shown on the old site came from an embedded e-chalupy.cz calendar. Enter
   the existing bookings in the administration so the new calendar starts correct.
+
+- Create the GitHub repository, push, and set the deploy variables and secrets above. The
+  workflows have not run yet.
 
 ## Fonts
 

@@ -1,6 +1,6 @@
 /**
  * The fixed lists an apartment chooses from. The API validates against the same keys
- * (FlatTypes and Amenities in api/internal/store/store.go); their names are in the
+ * (`api/src/apartments/apartment-options.ts`); their names are in the
  * translations under `flatTypes` and `amenities`.
  */
 export const FLAT_TYPES = [

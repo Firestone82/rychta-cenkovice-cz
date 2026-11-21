@@ -2,6 +2,8 @@
 **/node_modules
 web/dist
 web/.angular
+api/dist
+.github
 api/data
 data
 .env

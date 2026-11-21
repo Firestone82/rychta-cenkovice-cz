@@ -1,0 +1,17 @@
+# The development database: `docker compose -f docker-compose.dev.yml up -d`.
+# Matches the default RC_DATABASE_URL, and holds the `rychta_test` database for `npm run test:e2e`.
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_USER: rychta
+      POSTGRES_PASSWORD: rychta
+      POSTGRES_DB: rychta
+    volumes:
+      - dev-db:/var/lib/postgresql/data
+      - ./tools/create-test-database.sql:/docker-entrypoint-initdb.d/create-test-database.sql:ro
+
+volumes:
+  dev-db:

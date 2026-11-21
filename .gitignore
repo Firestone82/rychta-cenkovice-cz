@@ -2,8 +2,8 @@
 node_modules/
 web/dist/
 web/.angular/
-api/rychta-api
-api/bin/
+api/dist/
+*.tsbuildinfo
 
 # local data: database, processed photos, e-mail outbox
 api/data/
