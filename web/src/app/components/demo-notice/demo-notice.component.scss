@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.band {
+  background: var(--timber-soft);
+  border-bottom: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.row {
+  margin: 0;
+  /* Uneven on purpose: the line box leaves more room under the text than above it. */
+  padding-block: 6px 3px;
+  text-align: center;
+}
+
+strong {
+  margin-right: 0.5em;
+  color: var(--timber);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+a {
+  color: var(--timber-deep);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* In the administration the band is a card at the top of the main column. */
+.is-admin {
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+
+  .row {
+    max-width: none;
+    padding: 8px 12px;
+    text-align: start;
+  }
+}

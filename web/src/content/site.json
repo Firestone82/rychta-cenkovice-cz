@@ -37,7 +37,7 @@
       "autumn": "season-autumn"
     },
     "aerialVideo": {
-      "src": "/video/rychta-z-vysky.mp4",
+      "src": "video/rychta-z-vysky.mp4",
       "poster": "house-aerial"
     }
   },

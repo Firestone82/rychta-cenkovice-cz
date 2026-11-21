@@ -10,6 +10,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CookieConsentComponent } from '@components/cookie-consent/cookie-consent.component';
+import { DemoNoticeComponent } from '@components/demo-notice/demo-notice.component';
 import { SITE } from '@config/site.config';
 import type { Lang } from '@models/i18n.model';
 import type { PageKey } from '@models/site.model';
@@ -24,7 +25,13 @@ import { SiteHeaderComponent } from './site-header/site-header.component';
 @Component({
   selector: 'rc-site-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, CookieConsentComponent, SiteHeaderComponent, SiteFooterComponent],
+  imports: [
+    RouterOutlet,
+    CookieConsentComponent,
+    DemoNoticeComponent,
+    SiteHeaderComponent,
+    SiteFooterComponent,
+  ],
   templateUrl: './site.layout.html',
   styleUrl: './site.layout.scss',
 })

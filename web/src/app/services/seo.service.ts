@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { DEMO } from '@config/demo.config';
 import { I18nService } from './i18n.service';
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +22,9 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:title', content: full });
     this.meta.updateTag({ property: 'og:description', content: desc });
     this.meta.updateTag({ property: 'og:locale', content: this.i18n.locale().replace('-', '_') });
-    this.meta.removeTag('name="robots"');
+    // The showcase must not compete with the real website in search results.
+    if (DEMO) this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });
+    else this.meta.removeTag('name="robots"');
   }
 
   noIndex(title: string): void {

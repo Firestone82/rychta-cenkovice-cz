@@ -1,6 +1,7 @@
 .git
 **/node_modules
 web/dist
+web/demo
 web/.angular
 api/dist
 .github

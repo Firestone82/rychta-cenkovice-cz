@@ -4,6 +4,7 @@
 <rc-admin-sidebar [open]="open()" [pending]="pending()" [unread]="unread()" />
 
 <main id="admin-main" class="a-main" tabindex="-1">
+  <rc-demo-notice place="admin" />
   <router-outlet />
   <rc-confirm-outlet />
 </main>
