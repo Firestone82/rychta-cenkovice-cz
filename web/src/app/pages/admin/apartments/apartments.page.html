@@ -6,11 +6,21 @@
 </div>
 @if (items(); as list) {
   @if (list.length) {
-    <div class="list">
-      @for (a of list; track a.id) {
-        <rc-apartment-editor [apartment]="a" (saved)="replace($event)" />
-      }
-    </div>
+    @for (group of floors(); track group.floor) {
+      <section class="floor" [attr.aria-labelledby]="'floor-' + group.floor">
+        <h2 [id]="'floor-' + group.floor">
+          <span class="name">{{ t().common.floor[group.floor - 1] }}</span>
+          <span class="count">{{
+            i18n.count(group.apartments.length, t().plural.apartments)
+          }}</span>
+        </h2>
+        <div class="list">
+          @for (a of group.apartments; track a.id) {
+            <rc-apartment-editor [apartment]="a" (saved)="replace($event)" />
+          }
+        </div>
+      </section>
+    }
   } @else {
     <p class="a-empty">{{ t().common.loadFailed }}</p>
   }

@@ -68,7 +68,7 @@ export class TimelineRowComponent {
   }
 
   protected newLabel(iso: string): string {
-    const unit = `${this.t().common.apartment} ${this.apartment().number}`;
+    const unit = this.i18n.apartment(this.apartment());
     return `${this.t().admin.bookings.new}: ${unit}, ${this.i18n.date(iso)}`;
   }
 }

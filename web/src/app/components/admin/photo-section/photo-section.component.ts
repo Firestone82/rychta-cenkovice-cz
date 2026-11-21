@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, model, output } from
 import { IconComponent } from '@components/icon/icon.component';
 import type { Photo } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
-import { PhotoCardComponent } from '../photo-card/photo-card.component';
+import { PhotoCardComponent } from './photo-card/photo-card.component';
 
 @Component({
   selector: 'rc-photo-section',

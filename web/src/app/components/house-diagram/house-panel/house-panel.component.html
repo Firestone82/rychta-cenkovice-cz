@@ -4,7 +4,7 @@
     <rc-pic [photo]="cover" ratio="4/3" sizes="(max-width: 900px) 100vw, 480px" />
   }
   <h3 class="h3">
-    {{ t().common.apartment }} {{ item.number }}
+    {{ i18n.apartment(item) }}
     @if (i18n.flatType(item.flat_type); as type) {
       <span class="type">{{ type }}</span>
     }

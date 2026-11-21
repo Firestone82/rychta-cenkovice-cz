@@ -18,9 +18,7 @@
       @for (a of apartments(); track a.id) {
         <tr>
           <th scope="row">
-            <a [routerLink]="links.apartment(a.number)"
-              >{{ t().common.apartment }} {{ a.number }}</a
-            >
+            <a [routerLink]="links.apartment(a.number)">{{ i18n.apartment(a) }}</a>
           </th>
           <td class="nowrap">{{ t().common.floor[a.floor - 1] }}</td>
           <td class="nowrap">{{ a.area }} {{ t().common.areaUnit }}</td>

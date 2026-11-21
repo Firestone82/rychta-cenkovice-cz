@@ -9,3 +9,14 @@
   gap: 8px;
   margin-bottom: 10px;
 }
+
+.end {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: auto;
+
+  &:empty {
+    display: none;
+  }
+}

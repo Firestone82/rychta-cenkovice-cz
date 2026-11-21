@@ -7,7 +7,7 @@
     min="0"
     step="1"
     [label]="labels.price"
-    [hint]="labels.priceHint"
+    [placeholder]="t().common.priceOnRequest"
     [error]="errors()['price_per_night']"
     [value]="d.price"
     (valueChange)="set({ price: $event })"

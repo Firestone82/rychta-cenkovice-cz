@@ -1,7 +1,10 @@
 <nav id="admin-nav" class="a-side" [class.is-open]="open()" [attr.aria-label]="t().admin.title">
-  <a class="a-brand a-brand-side" routerLink="/admin">
+  <a class="a-brand-side" routerLink="/admin">
     <rc-logo [markOnly]="true" />
-    <span>{{ t().admin.title }}</span>
+    <span class="a-brand-text">
+      <strong>{{ t().meta.site }}</strong>
+      <span>{{ t().admin.title }}</span>
+    </span>
   </a>
   <ul class="a-nav">
     @for (item of items; track item.path) {

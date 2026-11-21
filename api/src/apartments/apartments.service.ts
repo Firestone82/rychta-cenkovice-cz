@@ -62,6 +62,9 @@ export class ApartmentsService {
     }
     if (Object.keys(fields).length > 0) throw validationFailed(fields);
 
+    // A name given in English only is used for Czech too; an empty English one follows Czech.
+    if (changes.name)
+      apartment.name = { cs: changes.name.cs || changes.name.en, en: changes.name.en };
     apartment.area = changes.area ?? apartment.area;
     apartment.beds = changes.beds ?? apartment.beds;
     apartment.extraBeds = changes.extra_beds ?? apartment.extraBeds;

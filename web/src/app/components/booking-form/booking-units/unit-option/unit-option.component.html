@@ -8,7 +8,7 @@
   />
   <span class="no num" aria-hidden="true">{{ a.number }}</span>
   <span class="unit-text">
-    <strong>{{ t().common.apartment }} {{ a.number }}</strong>
+    <strong>{{ i18n.apartment(a) }}</strong>
     <span class="muted">
       @if (i18n.flatType(a.flat_type); as type) {
         {{ type }},

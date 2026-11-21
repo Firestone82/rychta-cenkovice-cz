@@ -82,7 +82,7 @@ export class ApartmentPage {
     });
     effect(() => {
       const a = this.apartment();
-      if (a) this.seo.page(`${this.t().common.apartment} ${a.number}`, this.i18n.pick(a.layout));
+      if (a) this.seo.page(this.i18n.apartment(a), this.i18n.pick(a.layout));
     });
   }
 }

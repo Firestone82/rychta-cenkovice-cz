@@ -1,0 +1,10 @@
+:host {
+  display: grid;
+  gap: 8px;
+  --tile: 170px;
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--slate-2);
+}

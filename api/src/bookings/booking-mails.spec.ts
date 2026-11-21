@@ -4,7 +4,10 @@ import { guestMail, ownerRequestMail } from './booking-mails.js';
 import type { BookingView } from './booking.presenter.js';
 
 const settings = { owner: 'owner@example.com', publicUrl: 'https://www.rychtacenkovice.cz' };
-const apartments = [{ number: 2 }, { number: 5 }] as Apartment[];
+const apartments = [
+  { number: 2, name: { cs: '', en: '' } },
+  { number: 5, name: { cs: 'Pod střechou', en: '' } },
+] as Apartment[];
 const booking = (overrides: Partial<BookingView> = {}) =>
   ({
     id: 7,
@@ -31,7 +34,7 @@ describe('booking e-mails', () => {
     );
     expect(mail).toMatchObject({ to: 'owner@example.com', replyTo: 'jan@example.com' });
     expect(mail.subject).toBe('Nová poptávka RC-7KQ2MX: 6. 2. 2027 – 13. 2. 2027, Jan Novák');
-    expect(mail.text).toContain('Apartmány: Apartmán 2, Apartmán 5');
+    expect(mail.text).toContain('Apartmány: Apartmán 2, Apartmán 5 – Pod střechou');
     expect(mail.text).toContain('Orientační cena: 31 500 Kč');
     expect(mail.text).toContain('Přijedeme pozdě večer.');
     expect(mail.text).toContain('https://www.rychtacenkovice.cz/admin/bookings/7');
@@ -53,7 +56,7 @@ describe('booking e-mails', () => {
     expect(english.subject).toBe('Your booking RC-7KQ2MX is confirmed');
     expect(english.text).toContain('Hello Jan Novák,');
     expect(english.text).toContain('Dates: 6 February 2027 – 13 February 2027 (7 nights)');
-    expect(english.text).toContain('Apartments: Apartment 2, Apartment 5');
+    expect(english.text).toContain('Apartments: Apartment 2, Apartment 5 – Pod střechou');
     expect(english.text).toContain('Price: we will confirm the price by e-mail');
   });
 

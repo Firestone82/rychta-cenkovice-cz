@@ -17,7 +17,58 @@
   font-size: 0.875rem;
   color: var(--slate);
 }
+/* A fixed column, so the badges of all rows start at the same place. */
+.sum-text {
+  flex: 0 0 clamp(9.5em, 24%, 17em);
+  min-width: 0;
+}
+/* State and type at a glance, so a closed row answers most questions. */
+.badges {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  min-width: 0;
+}
+.tag {
+  padding: 0.05em 0.6em;
+  font-size: 0.75rem;
+  background: var(--snow);
+  border-color: var(--line);
+  --icon: 1.1em;
+}
+.tag.is-off {
+  background: var(--timber-soft);
+  border-color: var(--timber);
+  color: var(--timber-deep);
+}
+.tag.is-label {
+  background: var(--white);
+  border-style: dashed;
+  border-color: var(--line-strong);
+  font-weight: 500;
+}
 .sum-price {
-  margin-left: auto;
+  flex: none;
   font-weight: 700;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  :host {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+  }
+  .sum-text {
+    flex: 1 1 9em;
+  }
+  .badges {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .sum-price {
+    margin-left: auto;
+  }
 }

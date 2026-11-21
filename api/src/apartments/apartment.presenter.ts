@@ -12,6 +12,7 @@ export const presentApartment = (
   id: apartment.id,
   slug: apartment.slug,
   number: apartment.number,
+  name: bothLanguages(apartment.name),
   floor: apartment.floor,
   area: apartment.area,
   beds: apartment.beds,

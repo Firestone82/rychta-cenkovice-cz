@@ -6,7 +6,7 @@
   <div class="title">
     <span class="no num" aria-hidden="true">{{ a.number }}</span>
     <div>
-      <h1 class="h1">{{ t().common.apartment }} {{ a.number }}</h1>
+      <h1 class="h1">{{ i18n.apartment(a) }}</h1>
       <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
       <rc-apartment-labels [labels]="a.labels" />
     </div>

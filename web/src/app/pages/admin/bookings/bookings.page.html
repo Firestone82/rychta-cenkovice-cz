@@ -1,5 +1,8 @@
 <div class="a-head">
-  <h1>{{ t().admin.bookings.title }}</h1>
+  <div>
+    <h1>{{ t().admin.bookings.title }}</h1>
+    <p>{{ t().admin.bookings.lead }}</p>
+  </div>
   <div class="a-actions">
     <a class="btn btn-quiet" routerLink="/admin/bookings/new" [queryParams]="{ kind: 'block' }">{{
       t().admin.bookings.newBlock

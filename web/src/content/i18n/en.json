@@ -729,7 +729,8 @@
       "departures": "Departures in the next 14 days",
       "none": "Nothing planned.",
       "newBooking": "New booking",
-      "of": "of"
+      "of": "of",
+      "lead": "Today is {date}. New requests, arrivals and departures that are waiting for you."
     },
     "bookings": {
       "title": "Bookings",
@@ -802,11 +803,34 @@
       "save": "Save booking",
       "saving": "Saving",
       "created_at": "Created",
-      "messageLink": "Original message"
+      "messageLink": "Original message",
+      "lead": "All bookings and blocked dates. Filter by status, search by name or code, and click a row to open the booking.",
+      "formLead": "Set the dates, the apartments and the guest. A block only closes the dates, without guest details."
     },
     "calendar": {
       "title": "Occupancy calendar",
-      "hint": "Click a booking to open it. Click a free day to create a new one, or drag over several days to set the whole stay."
+      "hint": "Click a booking to open it. Click a free day to create a new one, or drag over several days to set the whole stay.",
+      "yearHint": "Each cell is one night and its colour shows how many apartments are taken. Click the name of a month to open its detailed calendar.",
+      "view": "View",
+      "views": {
+        "months": "Months",
+        "year": "Year"
+      },
+      "prevYear": "Previous year",
+      "thisYear": "This year",
+      "nextYear": "Next year",
+      "yearCaption": "Occupancy in",
+      "share": "Occupied",
+      "openMonth": "Open the calendar of this month",
+      "taken": "{n} of {total} apartments taken",
+      "levels": {
+        "free": "free",
+        "some": "partly occupied",
+        "half": "half or more occupied",
+        "full": "fully booked"
+      },
+      "weekend": "Saturday and Sunday",
+      "counted": "Counts the {total} apartments shown on the website."
     },
     "messages": {
       "title": "Messages from the contact form",
@@ -826,13 +850,13 @@
       "unarchive": "Move back to inbox",
       "delete": "Delete",
       "deleteConfirm": "Really delete this message for good?",
-      "reply": "Reply by e-mail"
+      "reply": "Reply by e-mail",
+      "lead": "Messages sent from the contact form on the website. You can turn a message into a booking or reply to it by e-mail."
     },
     "apartments": {
       "title": "Apartments",
-      "lead": "Prices, capacity and the texts of each apartment. Changes show on the website straight away.",
+      "lead": "Prices, capacity, texts and photos of each apartment, grouped by floor. Changes show on the website straight away.",
       "price": "Price per night (CZK)",
-      "priceHint": "An empty field means \"price on request\".",
       "minNights": "Minimum nights",
       "beds": "Beds",
       "extraBeds": "Extra beds",
@@ -860,7 +884,15 @@
       "descriptionHint": "Free text above the bed layout. An empty field is not shown on the website.",
       "save": "Save",
       "saved": "The apartment has been saved.",
-      "hidden": "hidden"
+      "hidden": "hidden from the website",
+      "nameCs": "Name in Czech",
+      "nameEn": "Name in English",
+      "nameHint": "The apartment keeps its number and the name follows it: \"Apartment {n} – Under the roof\".",
+      "nameEnHint": "When it is missing, the Czech name is used.",
+      "photos": "Photos",
+      "photosHint": "Photos are stored at once and are the same ones as on the Photos page.",
+      "extraBadge": "extra beds: {n}",
+      "minBadge": "min. nights: {n}"
     },
     "photos": {
       "title": "Photos",
@@ -895,7 +927,8 @@
       "tooShort": "The password must have at least 12 characters.",
       "save": "Change password",
       "changed": "The password has been changed. Other devices were signed out.",
-      "session": "The sign-in is protected by a short-lived access token that renews itself. After 30 days you sign in again."
+      "session": "The sign-in is protected by a short-lived access token that renews itself. After 30 days you sign in again.",
+      "lead": "The administrator's sign-in details and the password change."
     },
     "common": {
       "cancel": "Cancel",

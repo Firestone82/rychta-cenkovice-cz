@@ -1,8 +1,15 @@
 @let prefix = 'ap' + apartment().id + '-';
-<details class="a-card">
+<details class="a-card" (toggle)="opened.set(true)">
   <summary><rc-apartment-summary [apartment]="apartment()" /></summary>
 
   <form (submit)="save($event)" novalidate>
+    <rc-apartment-name
+      [name]="draft().name"
+      [number]="apartment().number"
+      [error]="errors()['name']"
+      [prefix]="prefix"
+      (nameChange)="patch({ name: $event })"
+    />
     <rc-apartment-basics [(draft)]="draft" [errors]="errors()" [prefix]="prefix" />
     <rc-apartment-amenities
       [selected]="draft().amenities"
@@ -37,4 +44,7 @@
       {{ t().admin.apartments.save }}
     </button>
   </form>
+
+  <!-- Outside the form: photos are stored at once and their editor has a form of its own. -->
+  <rc-apartment-photos class="photos" [apartment]="apartment()" [active]="opened()" />
 </details>

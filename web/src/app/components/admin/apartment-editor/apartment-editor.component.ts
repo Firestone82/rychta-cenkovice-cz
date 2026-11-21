@@ -20,6 +20,8 @@ import {
 } from '@utils/apartment-draft.util';
 import { ApartmentAmenitiesComponent } from './apartment-amenities/apartment-amenities.component';
 import { ApartmentBasicsComponent } from './apartment-basics/apartment-basics.component';
+import { ApartmentNameComponent } from './apartment-name/apartment-name.component';
+import { ApartmentPhotosComponent } from './apartment-photos/apartment-photos.component';
 import { ApartmentLabelListComponent } from './apartment-label-list/apartment-label-list.component';
 import { ApartmentSummaryComponent } from './apartment-summary/apartment-summary.component';
 import { ApartmentTextsComponent } from './apartment-texts/apartment-texts.component';
@@ -29,7 +31,9 @@ import { ApartmentTextsComponent } from './apartment-texts/apartment-texts.compo
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ApartmentSummaryComponent,
+    ApartmentNameComponent,
     ApartmentBasicsComponent,
+    ApartmentPhotosComponent,
     ApartmentAmenitiesComponent,
     ApartmentLabelListComponent,
     ApartmentTextsComponent,
@@ -49,6 +53,8 @@ export class ApartmentEditorComponent {
   protected readonly errors = signal<Record<string, string>>({});
   protected readonly failure = signal('');
   protected readonly busy = signal(false);
+  /** Set when the editor is opened for the first time; the photos load from then on. */
+  protected readonly opened = signal(false);
 
   private readonly api = inject(AdminApiService);
   private readonly toasts = inject(ToastService);

@@ -8,7 +8,7 @@
             <a [routerLink]="links.apartment(o.number)">
               <span class="num">{{ o.number }}</span>
               <span>
-                <strong>{{ t().common.apartment }} {{ o.number }}</strong>
+                <strong>{{ i18n.apartment(o) }}</strong>
                 <span class="muted"
                   >{{ o.area }} {{ t().common.areaUnit }},
                   {{ i18n.count(o.beds, t().plural.beds) }}</span

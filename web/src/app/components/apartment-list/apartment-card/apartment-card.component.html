@@ -13,7 +13,7 @@
   <div class="body">
     <span class="no num" aria-hidden="true">{{ a.number }}</span>
     <div>
-      <h3 class="h3">{{ t().common.apartment }} {{ a.number }}</h3>
+      <h3 class="h3">{{ i18n.apartment(a) }}</h3>
       <p class="type">{{ i18n.flatType(a.flat_type) }}</p>
     </div>
   </div>
@@ -52,8 +52,7 @@
       class="btn btn-small book"
       [routerLink]="links.to('booking')"
       [queryParams]="{ from: from(), to: to(), a: a.number }"
-      >{{ t().accommodation.dates.book
-      }}<span class="sr-only">: {{ t().common.apartment }} {{ a.number }}</span></a
+      >{{ t().accommodation.dates.book }}<span class="sr-only">: {{ i18n.apartment(a) }}</span></a
     >
   }
 </div>

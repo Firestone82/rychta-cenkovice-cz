@@ -734,7 +734,8 @@
       "departures": "Odjezdy v příštích 14 dnech",
       "none": "Nic v plánu.",
       "newBooking": "Nová rezervace",
-      "of": "z"
+      "of": "z",
+      "lead": "Dnes je {date}. Nové žádosti, příjezdy a odjezdy, které čekají na vyřízení."
     },
     "bookings": {
       "title": "Rezervace",
@@ -807,11 +808,34 @@
       "save": "Uložit rezervaci",
       "saving": "Ukládání",
       "created_at": "Vytvořeno",
-      "messageLink": "Původní zpráva"
+      "messageLink": "Původní zpráva",
+      "lead": "Všechny rezervace a blokace termínů. Filtrujte podle stavu, hledejte podle jména nebo kódu a kliknutím na řádek rezervaci otevřete.",
+      "formLead": "Zadejte termín, apartmány a hosta. Blokace jen uzavře termín, bez údajů o hostovi."
     },
     "calendar": {
       "title": "Kalendář obsazenosti",
-      "hint": "Kliknutím na rezervaci ji otevřete. Kliknutím na volný den založíte novou, tažením přes více dní rovnou zadáte celý pobyt."
+      "hint": "Kliknutím na rezervaci ji otevřete. Kliknutím na volný den založíte novou, tažením přes více dní rovnou zadáte celý pobyt.",
+      "yearHint": "Každé pole je jedna noc, barva ukazuje, kolik apartmánů je obsazeno. Kliknutím na název měsíce otevřete jeho podrobný kalendář.",
+      "view": "Zobrazení",
+      "views": {
+        "months": "Měsíce",
+        "year": "Rok"
+      },
+      "prevYear": "Předchozí rok",
+      "thisYear": "Letos",
+      "nextYear": "Další rok",
+      "yearCaption": "Obsazenost v roce",
+      "share": "Obsazeno",
+      "openMonth": "Otevřít kalendář měsíce",
+      "taken": "obsazeno {n} z {total} apartmánů",
+      "levels": {
+        "free": "volno",
+        "some": "částečně obsazeno",
+        "half": "obsazena polovina a více",
+        "full": "plně obsazeno"
+      },
+      "weekend": "sobota a neděle",
+      "counted": "Počítá se {total} apartmánů zobrazených na webu."
     },
     "messages": {
       "title": "Zprávy z kontaktního formuláře",
@@ -831,13 +855,13 @@
       "unarchive": "Vrátit z archivu",
       "delete": "Smazat",
       "deleteConfirm": "Opravdu zprávu trvale smazat?",
-      "reply": "Odpovědět e-mailem"
+      "reply": "Odpovědět e-mailem",
+      "lead": "Zprávy odeslané z kontaktního formuláře na webu. Ze zprávy můžete rovnou vytvořit rezervaci nebo na ni odpovědět e-mailem."
     },
     "apartments": {
       "title": "Apartmány",
-      "lead": "Ceny, kapacita a texty každého apartmánu. Změny se na webu projeví hned.",
+      "lead": "Ceny, kapacita, texty a fotografie každého apartmánu, seřazené po patrech. Změny se na webu projeví hned.",
       "price": "Cena za noc (Kč)",
-      "priceHint": "Prázdné pole znamená „cena na dotaz“.",
       "minNights": "Minimum nocí",
       "beds": "Lůžka",
       "extraBeds": "Přistýlky",
@@ -865,7 +889,15 @@
       "descriptionHint": "Volný text nad uspořádáním lůžek. Prázdné pole se na webu nezobrazí.",
       "save": "Uložit",
       "saved": "Apartmán je uložený.",
-      "hidden": "skrytý"
+      "hidden": "skryto na webu",
+      "nameCs": "Název česky",
+      "nameEn": "Název anglicky",
+      "nameHint": "Apartmán si ponechá číslo, název se zobrazí za ním: „Apartmán {n} – Pod střechou“.",
+      "nameEnHint": "Když chybí, použije se český název.",
+      "photos": "Fotografie",
+      "photosHint": "Fotografie se ukládají hned a jsou stejné jako na stránce Fotografie.",
+      "extraBadge": "přistýlky: {n}",
+      "minBadge": "min. nocí: {n}"
     },
     "photos": {
       "title": "Fotografie",
@@ -900,7 +932,8 @@
       "tooShort": "Heslo musí mít aspoň 12 znaků.",
       "save": "Změnit heslo",
       "changed": "Heslo je změněné. Ostatní zařízení byla odhlášena.",
-      "session": "Přihlášení je chráněné krátkodobým přístupovým tokenem, který se sám obnovuje. Po 30 dnech se přihlásíte znovu."
+      "session": "Přihlášení je chráněné krátkodobým přístupovým tokenem, který se sám obnovuje. Po 30 dnech se přihlásíte znovu.",
+      "lead": "Přihlašovací údaje správce a změna hesla."
     },
     "common": {
       "cancel": "Zrušit",

@@ -1,0 +1,26 @@
+@if (problems().length) {
+  <ul class="notice is-error" role="alert">
+    @for (p of problems(); track p) {
+      <li>{{ p }}</li>
+    }
+  </ul>
+}
+@if (photos(); as list) {
+  <rc-photo-section
+    [key]="'apartment-editor-' + apartment().id"
+    [heading]="t().admin.apartments.photos"
+    [photos]="list"
+    [progress]="progress()"
+    [busy]="!!uploading()"
+    (files)="upload($event)"
+    (edit)="editing.set($event)"
+    (removed)="drop($event)"
+  />
+  <p class="hint">{{ t().admin.apartments.photosHint }}</p>
+} @else if (failed()) {
+  <p class="a-empty">{{ t().common.loadFailed }}</p>
+}
+
+@if (editing(); as photo) {
+  <rc-photo-editor [photo]="photo" (saved)="replace($event)" (closed)="editing.set(null)" />
+}

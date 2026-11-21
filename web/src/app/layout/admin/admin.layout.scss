@@ -119,10 +119,15 @@
     line-height: 1;
   }
 
+  /* The title block takes the room the actions leave, so the description wraps only at the edge. */
+  > div:first-child {
+    flex: 1 1 22em;
+    min-width: 0;
+  }
+
   p {
     margin-top: 4px;
     color: var(--slate-2);
-    max-width: 44em;
   }
 }
 

@@ -12,6 +12,10 @@ export class Apartment {
   @Column({ type: 'int' })
   number: number;
 
+  /** Optional alias shown beside the number, such as "Under the roof". */
+  @Column(() => Localized)
+  name: Localized;
+
   @Column({ type: 'int' })
   floor: number;
 

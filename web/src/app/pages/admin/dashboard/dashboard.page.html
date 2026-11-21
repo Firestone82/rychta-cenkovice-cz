@@ -2,7 +2,7 @@
   <div>
     <h1>{{ t().admin.dashboard.title }}</h1>
     @if (today()) {
-      <p>{{ i18n.date(today(), 'long') }}</p>
+      <p>{{ i18n.fill(t().admin.dashboard.lead, { date: i18n.date(today(), 'long') }) }}</p>
     }
   </div>
   <div class="a-actions">

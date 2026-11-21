@@ -1,0 +1,22 @@
+@let text = t().admin.apartments;
+<rc-text-field
+  [key]="prefix() + 'name-cs'"
+  lang="cs"
+  [maxlength]="maxlength"
+  [label]="text.nameCs"
+  [optional]="t().common.optional"
+  [hint]="i18n.fill(text.nameHint, { n: number() })"
+  [error]="error()"
+  [value]="name().cs"
+  (valueChange)="set({ cs: $event })"
+/>
+<rc-text-field
+  [key]="prefix() + 'name-en'"
+  lang="en"
+  [maxlength]="maxlength"
+  [label]="text.nameEn"
+  [optional]="t().common.optional"
+  [hint]="text.nameEnHint"
+  [value]="name().en"
+  (valueChange)="set({ en: $event })"
+/>

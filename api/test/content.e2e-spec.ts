@@ -63,6 +63,7 @@ describe('Apartments and photos', () => {
             { cs: '', en: '' },
           ],
           description: { cs: 'Tichý apartmán s výhledem.', en: '' },
+          name: { cs: ' Pod střechou ', en: '' },
           price_per_night: 2400,
           min_nights: 3,
         })
@@ -76,6 +77,7 @@ describe('Apartments and photos', () => {
           { cs: 'Quiet', en: 'Quiet' },
         ],
         description: { cs: 'Tichý apartmán s výhledem.', en: '' },
+        name: { cs: 'Pod střechou', en: '' },
         price_per_night: 2400,
         min_nights: 3,
       });

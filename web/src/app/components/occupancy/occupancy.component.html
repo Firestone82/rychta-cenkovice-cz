@@ -23,11 +23,11 @@
         <tr>
           <th scope="row">
             @if (linked()) {
-              <a [routerLink]="links.apartment(row.apartment.number)"
-                >{{ t().common.apartment }} {{ row.apartment.number }}</a
-              >
+              <a [routerLink]="links.apartment(row.apartment.number)">{{
+                i18n.apartment(row.apartment)
+              }}</a>
             } @else {
-              {{ t().common.apartment }} {{ row.apartment.number }}
+              {{ i18n.apartment(row.apartment) }}
             }
             <span class="beds">{{ i18n.count(row.apartment.beds, t().plural.beds) }}</span>
           </th>

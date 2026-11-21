@@ -5,6 +5,7 @@ import { AMENITIES, FLAT_TYPES } from './apartment-options.js';
 const TEXT_LIMIT = 1000;
 const FEATURE_LIMIT = 60;
 const LABEL_LIMIT = 40;
+const NAME_LIMIT = 60;
 
 const whole = (min: number, max: number) =>
   z.int('invalid').min(min, 'invalid').max(max, 'invalid');
@@ -12,6 +13,7 @@ const whole = (min: number, max: number) =>
 /** Only the fields that are sent change. `clear_price` removes the price ("on request"). */
 export const apartmentUpdateSchema = z
   .object({
+    name: localized(NAME_LIMIT),
     area: whole(1, 1000),
     beds: whole(1, 50),
     extra_beds: whole(0, 20),

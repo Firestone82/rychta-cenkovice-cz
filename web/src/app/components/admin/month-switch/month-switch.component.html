@@ -1,16 +1,17 @@
 <div class="bar">
   <button type="button" class="btn btn-quiet btn-small" (click)="move(-1)">
-    <rc-icon name="left" /> {{ t().availability.prevMonth }}
+    <rc-icon name="left" /> {{ labels().prev }}
   </button>
   <button
     type="button"
     class="btn btn-quiet btn-small"
     (click)="month.set(thisMonth)"
-    [disabled]="month() === thisMonth"
+    [disabled]="isNow()"
   >
-    {{ t().availability.today }}
+    {{ labels().now }}
   </button>
   <button type="button" class="btn btn-quiet btn-small" (click)="move(1)">
-    {{ t().availability.nextMonth }} <rc-icon name="right" />
+    {{ labels().next }} <rc-icon name="right" />
   </button>
+  <div class="end"><ng-content /></div>
 </div>

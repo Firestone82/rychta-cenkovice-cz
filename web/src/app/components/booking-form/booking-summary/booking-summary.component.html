@@ -20,7 +20,7 @@
           <ul>
             @for (a of store.chosen(); track a.id) {
               <li>
-                {{ t().common.apartment }} {{ a.number }}
+                {{ i18n.apartment(a) }}
                 <span class="muted">({{ i18n.count(a.beds, t().plural.beds) }})</span>
               </li>
             }

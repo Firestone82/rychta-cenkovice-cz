@@ -1,4 +1,39 @@
+.floor + .floor {
+  margin-top: 18px;
+}
+
+/* Floor name with a rule running to the edge, as a storey line of the house. */
+h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1;
+
+  .name::first-letter {
+    text-transform: uppercase;
+  }
+
+  .count {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    color: var(--slate-2);
+  }
+
+  &::after {
+    content: '';
+    flex: 1;
+    align-self: center;
+    height: 1px;
+    background: var(--line-strong);
+  }
+}
+
 .list {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }

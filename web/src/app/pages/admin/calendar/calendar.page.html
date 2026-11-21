@@ -1,7 +1,7 @@
 <div class="a-head">
   <div>
     <h1>{{ t().admin.calendar.title }}</h1>
-    <p>{{ t().admin.calendar.hint }}</p>
+    <p>{{ view() === 'year' ? t().admin.calendar.yearHint : t().admin.calendar.hint }}</p>
   </div>
   <div class="a-actions">
     <a class="btn" routerLink="/admin/bookings/new"
@@ -10,17 +10,38 @@
   </div>
 </div>
 
-<rc-month-switch [(month)]="month" />
+<rc-month-switch [(month)]="month" [unit]="view() === 'year' ? 'year' : 'month'">
+  @if (view() === 'year') {
+    <strong class="year">{{ year() }}</strong>
+  }
+  <div class="a-seg" role="group" [attr.aria-label]="t().admin.calendar.view">
+    @for (v of views; track v) {
+      <button type="button" [attr.aria-pressed]="view() === v" (click)="show(v)">
+        {{ t().admin.calendar.views[v] }}
+      </button>
+    }
+  </div>
+</rc-month-switch>
 
-@if (apartments().length) {
+@if (!apartments().length) {
+  @if (failed()) {
+    <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+  } @else {
+    <rc-spinner [label]="t().common.loading" />
+  }
+} @else if (view() === 'year') {
+  <rc-year-occupancy
+    [year]="year()"
+    [apartments]="apartments()"
+    [bookings]="bookings()"
+    [loading]="loading()"
+    (month)="openMonth($event)"
+  />
+} @else {
   <rc-booking-timeline
     [months]="months()"
     [apartments]="apartments()"
     [bookings]="bookings()"
     [loading]="loading()"
   />
-} @else if (failed()) {
-  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
-} @else {
-  <rc-spinner [label]="t().common.loading" />
 }

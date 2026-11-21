@@ -5,9 +5,10 @@ import type { Apartment, Photo } from '@models/api.model';
 import { PHOTO_CATEGORIES, type PhotoCategory } from '@models/photo-category.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
+import { uploadPhotos } from '@utils/photo-upload.util';
 import { readStored, writeStored } from '@utils/storage.util';
-import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
-import { PhotoSectionComponent } from './photo-section/photo-section.component';
+import { PhotoEditorComponent } from '@components/admin/photo-editor/photo-editor.component';
+import { PhotoSectionComponent } from '@components/admin/photo-section/photo-section.component';
 
 /** A row of the page: one gallery category, or the photos of one apartment. */
 interface PhotoGroup {
@@ -72,17 +73,13 @@ export class PhotoManagerComponent {
   }
 
   protected async upload(group: PhotoGroup, files: File[]): Promise<void> {
-    const problems: string[] = [];
-    for (const [i, file] of files.entries()) {
-      this.uploading.set({ key: group.key, n: i + 1, total: files.length });
-      try {
-        await this.api.uploadPhoto(file, group.category, group.apartmentId);
-      } catch {
-        problems.push(this.i18n.fill(this.t().admin.photos.failed, { name: file.name }));
-      }
-    }
+    const refused = await uploadPhotos(this.api, files, group, (n, total) =>
+      this.uploading.set({ key: group.key, n, total }),
+    );
     this.uploading.set(null);
-    this.problems.set(problems);
+    this.problems.set(
+      refused.map((name) => this.i18n.fill(this.t().admin.photos.failed, { name })),
+    );
     await this.load();
   }
 
@@ -99,9 +96,7 @@ export class PhotoManagerComponent {
     const all = this.photos() ?? [];
     return {
       key: apartment ? `apartment-${apartment.id}` : category,
-      heading: apartment
-        ? `${this.t().common.apartment} ${apartment.number}`
-        : this.t().gallery.categories[category],
+      heading: apartment ? this.i18n.apartment(apartment) : this.t().gallery.categories[category],
       category,
       apartmentId: apartment?.id ?? null,
       photos: all.filter(

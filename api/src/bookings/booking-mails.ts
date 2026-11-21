@@ -37,7 +37,13 @@ function price(value: number | null, language: Language): string {
 }
 
 const apartmentNames = (apartments: Apartment[], language: Language): string =>
-  apartments.map((a) => `${language === 'en' ? 'Apartment' : 'Apartmán'} ${a.number}`).join(', ');
+  apartments
+    .map((a) => {
+      const alias = a.name[language] || a.name.cs;
+      const title = `${language === 'en' ? 'Apartment' : 'Apartmán'} ${a.number}`;
+      return alias ? `${title} – ${alias}` : title;
+    })
+    .join(', ');
 
 const orDash = (value: string): string => value.trim() || '–';
 

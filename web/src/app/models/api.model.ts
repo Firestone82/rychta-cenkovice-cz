@@ -27,6 +27,8 @@ export interface Apartment {
   id: number;
   slug: string;
   number: number;
+  /** Optional alias shown beside the number. */
+  name: L10n;
   floor: number;
   area: number;
   beds: number;

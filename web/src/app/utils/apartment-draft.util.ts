@@ -13,6 +13,8 @@ export interface ApartmentTexts {
 
 /** Form state of the apartment editor; numbers stay strings until saved. */
 export interface ApartmentDraft {
+  /** Optional alias beside the number. */
+  name: L10n;
   price: string;
   minNights: string;
   beds: string;
@@ -40,6 +42,7 @@ function texts(a: Apartment, lang: Lang & ('cs' | 'en')): ApartmentTexts {
 
 export function toDraft(a: Apartment): ApartmentDraft {
   return {
+    name: { cs: a.name?.cs ?? '', en: a.name?.en ?? '' },
     price: a.price_per_night !== null ? String(a.price_per_night) : '',
     minNights: String(a.min_nights),
     beds: String(a.beds),
@@ -65,6 +68,7 @@ const lines = (text: string): string[] =>
 export function toApartmentUpdate(d: ApartmentDraft): Record<string, unknown> {
   const both = (key: keyof ApartmentTexts): L10n => ({ cs: d.texts.cs[key], en: d.texts.en[key] });
   const body: Record<string, unknown> = {
+    name: { cs: d.name.cs.trim(), en: d.name.en.trim() },
     min_nights: Number(d.minNights) || 1,
     beds: Number(d.beds),
     extra_beds: Number(d.extraBeds) || 0,

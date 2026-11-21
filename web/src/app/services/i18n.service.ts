@@ -100,6 +100,13 @@ export class I18nService {
     return this.lang() === 'en' && value.en ? value.en : value.cs;
   }
 
+  /** "Apartment 3", followed by the apartment's own name when it has one. */
+  apartment(a: { number: number; name?: { cs: string; en: string } }): string {
+    const title = `${this.t().common.apartment} ${a.number}`;
+    const alias = this.pick(a.name);
+    return alias ? `${title} – ${alias}` : title;
+  }
+
   /** The name of a flat type from the fixed list, or nothing when it is not stated. */
   flatType(key: string | null | undefined): string {
     return key ? ((this.t().flatTypes as Record<string, string>)[key] ?? '') : '';

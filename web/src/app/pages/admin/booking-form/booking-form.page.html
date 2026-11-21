@@ -11,6 +11,8 @@
           {{ t().admin.bookings.source[b.source] }},
           {{ t().admin.bookings.created_at.toLowerCase() }} {{ i18n.dateTime(b.created_at) }}
         </p>
+      } @else {
+        <p>{{ t().admin.bookings.formLead }}</p>
       }
     </div>
   </div>
