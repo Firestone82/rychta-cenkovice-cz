@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, RESPONSE_INIT, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { DEMO } from '@config/demo.config';
 import { SITE_ORIGIN } from '@config/render.config';
 import { I18nService } from './i18n.service';
 
@@ -42,7 +43,9 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:image', content: image });
     this.meta.updateTag({ property: 'og:locale', content: locale });
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.removeTag('name="robots"');
+    // The showcase must not compete with the real website in search results.
+    if (DEMO) this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });
+    else this.meta.removeTag('name="robots"');
   }
 
   /** Pages of the administration and pages that do not exist stay out of search results. */

@@ -16,8 +16,8 @@ export function bundled(name: string): BundledImage | null {
   if (!image) return null;
   const { widths, height } = image;
   return {
-    src: `/img/${name}-${widths[0]}.webp`,
-    srcset: widths.map((w) => `/img/${name}-${w}.webp ${w}w`).join(', '),
+    src: `img/${name}-${widths[0]}.webp`,
+    srcset: widths.map((w) => `img/${name}-${w}.webp ${w}w`).join(', '),
     width: widths[0],
     height,
   };
@@ -29,7 +29,7 @@ export function bundledSlide(name: string, alt: string): Slide | null {
   if (!image) return null;
   const largest = IMAGES[name]?.widths.at(-1) ?? image.width;
   return {
-    src: `/img/${name}-${largest}.webp`,
+    src: `img/${name}-${largest}.webp`,
     srcset: image.srcset,
     width: largest,
     height: Math.round((image.height * largest) / image.width),

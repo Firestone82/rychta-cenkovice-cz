@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LogoComponent } from '@components/logo/logo.component';
+import { DEMO } from '@config/demo.config';
 import { type ApiFailure } from '@models/api.model';
 import { toFailure } from '@utils/api-failure.util';
 import { AuthService } from '@services/auth.service';
@@ -27,12 +28,17 @@ export class LoginFormComponent {
   protected readonly notice = signal('');
   protected readonly isError = signal(true);
   protected readonly value = valueOf;
+  protected readonly demo = DEMO;
 
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly query = inject(ActivatedRoute).snapshot.queryParamMap;
 
   constructor() {
+    if (DEMO) {
+      this.email.set('admin@rychtacenkovice.cz');
+      this.password.set('demo');
+    }
     if (this.query.get('expired')) {
       this.isError.set(false);
       this.notice.set(this.t().admin.login.expired);

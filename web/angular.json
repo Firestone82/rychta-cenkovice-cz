@@ -58,6 +58,9 @@
             ],
             "styles": [
               "src/styles.scss"
+            ],
+            "externalDependencies": [
+              "fonts/*"
             ]
           },
           "configurations": {
@@ -88,6 +91,46 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "demo": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "700kB",
+                  "maximumError": "1.2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "16kB",
+                  "maximumError": "32kB"
+                }
+              ],
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+              "fileReplacements": [
+                {
+                  "replace": "src/app/config/demo.config.ts",
+                  "with": "src/app/config/demo.config.on.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "demo",
+                  "output": "demo"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

@@ -1033,5 +1033,12 @@
       "error": "The action could not be completed.",
       "all": "All"
     }
+  },
+  "demo": {
+    "label": "Demo",
+    "site": "This is a preview of the new Rychta Čenkovice website. It runs without a server, so bookings and messages are not sent anywhere.",
+    "siteLink": "Try the administration",
+    "admin": "Demo administration without a server. Changes stay in this window only and are gone after a reload. No e-mails are sent and photos cannot be uploaded.",
+    "login": "Any password signs you in. For the staff role try recepce@rychtacenkovice.cz, for read-only access ucetni@rychtacenkovice.cz."
   }
 }

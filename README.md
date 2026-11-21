@@ -33,6 +33,7 @@ http://localhost:4200/admin, the API documentation at http://localhost:8080/api/
 - [Deployment](docs/deployment.md): CI/CD, Docker, configuration variables
 - [Search engines](docs/seo.md): server rendering, metadata, sitemap and structured data
 - [Before going live](docs/go-live.md): what is still open
+- [Showcase](docs/showcase.md): static demo on GitHub Pages
 
 ## Fonts
 

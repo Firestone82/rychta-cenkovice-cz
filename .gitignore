@@ -18,3 +18,7 @@ data/
 .vscode/
 .DS_Store
 *.log
+
+# Showcase data, published as the demo-data release asset (docs/showcase.md)
+/web/demo/
+/web/demo-data.zip

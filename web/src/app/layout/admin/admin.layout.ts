@@ -10,6 +10,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ConfirmOutletComponent } from '@components/admin/confirm-outlet/confirm-outlet.component';
+import { DemoNoticeComponent } from '@components/demo-notice/demo-notice.component';
 import { AdminApiService } from '@services/admin-api.service';
 import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
@@ -25,7 +26,13 @@ import { AdminTopbarComponent } from './admin-topbar/admin-topbar.component';
   selector: 'rc-admin-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterOutlet, AdminTopbarComponent, AdminSidebarComponent, ConfirmOutletComponent],
+  imports: [
+    RouterOutlet,
+    AdminTopbarComponent,
+    AdminSidebarComponent,
+    ConfirmOutletComponent,
+    DemoNoticeComponent,
+  ],
   host: { class: 'a-shell', '(document:keydown.escape)': 'open.set(false)' },
   templateUrl: './admin.layout.html',
   styleUrl: './admin.layout.scss',
