@@ -12,9 +12,10 @@
 
 .row {
   margin: 0;
-  /* Uneven on purpose: the line box leaves more room under the text than above it. */
-  padding-block: 6px 3px;
+  padding-block: 8px;
   text-align: center;
+  /* Measures the line from the top of the capitals to the baseline, so the text sits in the middle. */
+  text-box: trim-both cap alphabetic;
 }
 
 strong {
