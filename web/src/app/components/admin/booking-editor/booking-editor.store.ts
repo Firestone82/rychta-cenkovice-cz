@@ -15,8 +15,11 @@ import { addDays, isISO, nightsBetween } from '@utils/dates.util';
 @Injectable()
 export class BookingEditorStore {
   readonly booking = signal<Booking | null>(null);
-  /** The account only reads: the form shows the booking and nothing can be changed. */
-  readonly readOnly = computed(() => !this.auth.canEdit());
+  /**
+   * The form shows the booking and nothing can be changed: the account only reads, or the block
+   * mirrors a portal's calendar.
+   */
+  readonly readOnly = computed(() => !this.auth.canEdit() || this.booking()?.imported === true);
   /** Contact-form message the new booking is created from. */
   readonly message = signal<Message | null>(null);
   readonly apartments = signal<Apartment[]>([]);

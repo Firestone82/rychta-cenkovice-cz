@@ -44,6 +44,13 @@ export const unavailable = (apartmentIds: number[]) =>
     { extra: { apartment_ids: apartmentIds } },
   );
 
+export const importedBlock = () =>
+  new ApiError(
+    HttpStatus.CONFLICT,
+    'imported',
+    'This block follows the calendar of a booking portal and is changed there.',
+  );
+
 export const tooManyRequests = (retryAfterSeconds: number) =>
   new ApiError(
     HttpStatus.TOO_MANY_REQUESTS,

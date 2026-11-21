@@ -5,6 +5,7 @@ import type {
   AdminBookingInput,
   Apartment,
   Booking,
+  Channel,
   Dashboard,
   Message,
   Photo,
@@ -103,6 +104,23 @@ export class AdminApiService {
   }
   deleteUser(id: number): Promise<void> {
     return this.client.send<void>('DELETE', `/admin/users/${id}`);
+  }
+
+  channels(): Promise<Channel[]> {
+    return this.client.get<{ items: Channel[] }>('/admin/channels').then((r) => r.items);
+  }
+  /** Stores the calendar address of an apartment and reads it at once; an empty one disconnects. */
+  saveChannel(apartmentId: number, importUrl: string): Promise<Channel | null> {
+    return this.client
+      .send<{ channel: Channel | null }>('PUT', '/admin/channels', {
+        apartment_id: apartmentId,
+        provider: 'echalupy',
+        import_url: importUrl,
+      })
+      .then((r) => r.channel);
+  }
+  syncChannel(id: number): Promise<Channel> {
+    return this.client.send<Channel>('POST', `/admin/channels/${id}/sync`);
   }
 
   private counted<T>(result: Promise<T>): Promise<T> {

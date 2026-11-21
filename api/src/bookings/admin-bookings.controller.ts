@@ -16,9 +16,12 @@ import { AccessTokenGuard } from '../auth/access-token.guard.js';
 import type { SessionUser } from '../auth/access-token.service.js';
 import { CurrentUser } from '../auth/current-user.decorator.js';
 import { StaffGuard } from '../auth/staff.guard.js';
+import { ChannelSyncService } from '../channels/channel-sync.service.js';
+import { importedBlock } from '../common/api-error.js';
 import { today } from '../common/dates.util.js';
 import { IdPipe } from '../common/id.pipe.js';
 import { BookingEditorService } from './booking-editor.service.js';
+import type { Booking } from './booking.entity.js';
 import { presentBooking } from './booking.presenter.js';
 import {
   type AdminBookingInput,
@@ -39,6 +42,7 @@ export class AdminBookingsController {
     private readonly bookings: BookingsService,
     private readonly editor: BookingEditorService,
     private readonly dashboardData: DashboardService,
+    private readonly channels: ChannelSyncService,
   ) {}
 
   @Get('dashboard')
@@ -55,11 +59,13 @@ export class AdminBookingsController {
 
   @Post('bookings')
   @UseGuards(StaffGuard)
-  create(
+  async create(
     @Body({ schema: adminBookingSchema }) body: AdminBookingInput,
     @CurrentUser() user: SessionUser,
   ) {
-    return this.editor.create(body, user.id);
+    const booking = await this.editor.create(body, user.id);
+    this.channels.refresh(booking.apartment_ids);
+    return booking;
   }
 
   @Get('bookings/:id')
@@ -69,17 +75,31 @@ export class AdminBookingsController {
 
   @Patch('bookings/:id')
   @UseGuards(StaffGuard)
-  update(
+  async update(
     @Param('id', IdPipe) id: number,
     @Body({ schema: adminBookingSchema }) body: AdminBookingInput,
   ) {
-    return this.editor.update(id, body);
+    const before = await this.editable(id);
+    const booking = await this.editor.update(id, body);
+    this.channels.refresh([...apartmentIds(before), ...booking.apartment_ids]);
+    return booking;
   }
 
   @Delete('bookings/:id')
   @UseGuards(StaffGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', IdPipe) id: number): Promise<void> {
-    return this.bookings.remove(id);
+  async remove(@Param('id', IdPipe) id: number): Promise<void> {
+    const before = await this.editable(id);
+    await this.bookings.remove(id);
+    this.channels.refresh(apartmentIds(before));
+  }
+
+  /** A block imported from a portal's calendar is changed there, not here. */
+  private async editable(id: number): Promise<Booking> {
+    const booking = await this.bookings.findById(id);
+    if (booking.channelConnectionId !== null) throw importedBlock();
+    return booking;
   }
 }
+
+const apartmentIds = (booking: Booking): number[] => booking.units.map((unit) => unit.apartmentId);

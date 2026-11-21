@@ -24,6 +24,10 @@
     "photos": {
       "one": "photo",
       "other": "photos"
+    },
+    "blockedStays": {
+      "one": "blocked stay",
+      "other": "blocked stays"
     }
   },
   "common": {
@@ -709,6 +713,7 @@
       "messages": "Messages",
       "apartments": "Apartments",
       "photos": "Photos",
+      "channels": "Portals",
       "users": "Users",
       "account": "Account",
       "site": "View website",
@@ -771,7 +776,11 @@
       },
       "source": {
         "web": "from the website",
-        "admin": "entered by admin"
+        "admin": "entered by admin",
+        "echalupy": "from e-chalupy.cz",
+        "booking": "from Booking.com",
+        "airbnb": "from Airbnb",
+        "other": "from a calendar"
       },
       "confirm": "Confirm",
       "decline": "Decline",
@@ -814,7 +823,8 @@
       "messageLink": "Original message",
       "lead": "All bookings and blocked dates. Filter by status, search by name or code, and click a row to open the booking.",
       "formLead": "Set the dates, the apartments and the guest. A block only closes the dates, without guest details.",
-      "open": "Open"
+      "open": "Open",
+      "importedHint": "These days are blocked by the calendar of a booking portal. Change the stay on the portal and it will follow here by itself."
     },
     "calendar": {
       "title": "Occupancy calendar",
@@ -929,6 +939,38 @@
       "empty": "There are no photos in this category.",
       "failed": "The file {name} could not be uploaded. We support JPEG and PNG up to 25 MB.",
       "edit": "Edit description"
+    },
+    "channels": {
+      "title": "Booking portals",
+      "lead": "Connect the calendar of each apartment on e-chalupy.cz. Days taken there are blocked here, so nobody can ask for them on the website. The calendars are read every 15 minutes.",
+      "cols": {
+        "apartment": "Apartment",
+        "status": "e-chalupy.cz calendar",
+        "checked": "Last read"
+      },
+      "none": "Not connected",
+      "failed": "Could not be read",
+      "errors": {
+        "address": "The address leads to a private network.",
+        "unreachable": "The portal did not answer.",
+        "http": "The portal refused the address.",
+        "too_large": "The calendar is too large.",
+        "not_calendar": "There is no calendar at the address."
+      },
+      "connect": "Connect calendar",
+      "edit": "Change address",
+      "sync": "Read now",
+      "disconnect": "Disconnect",
+      "disconnectConfirm": "Really disconnect the e-chalupy.cz calendar of {apartment}? The days it blocks become free.",
+      "disconnected": "The calendar has been disconnected.",
+      "heading": "e-chalupy.cz calendar",
+      "address": "Address of the calendar (iCal)",
+      "addressHint": "In the e-chalupy.cz administration open Obsazenost, then Export kalendáře, and copy the address for this apartment. Keep it to yourself: anyone who has it can read the calendar.",
+      "invalid": "Enter the whole address, starting with https://.",
+      "save": "Save and read",
+      "saved": "The calendar is connected.",
+      "savedFailed": "The address is saved, but the calendar could not be read.",
+      "synced": "The calendar has been read."
     },
     "account": {
       "title": "Account",

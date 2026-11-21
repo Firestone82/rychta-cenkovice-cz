@@ -45,6 +45,10 @@
     }
   }
 
+  @if (store.booking()?.imported) {
+    <p class="notice">{{ text.importedHint }}</p>
+  }
+
   @if (store.failure()) {
     <p class="notice is-error" role="alert">{{ store.failure() }}</p>
   }

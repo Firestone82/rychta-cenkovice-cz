@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  max-width: 1040px;
+}
+
+th[scope='row'] {
+  font-weight: 700;
+}
+
+/* Fixed widths, so the columns stay put whatever the calendars report. */
+.apartment {
+  width: 26%;
+}
+
+.checked {
+  width: 170px;
+}
+
+.actions {
+  width: 152px;
+}
+
+.none,
+.reason {
+  color: var(--slate-2);
+}
+
+.failed {
+  background: var(--timber-soft);
+  border-color: var(--timber);
+  color: var(--timber-deep);
+}
+
+.reason {
+  margin-left: 6px;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+/* Keeps its place, so the buttons of all rows stay in their columns. */
+.is-hidden {
+  visibility: hidden;
+}
+
+tbody tr:last-child th {
+  border-bottom: 0;
+}

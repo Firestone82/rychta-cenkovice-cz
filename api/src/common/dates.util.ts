@@ -32,8 +32,10 @@ export function addYears(iso: string, years: number): string {
   return fromUtc(date.getTime());
 }
 
-/** The current date at the house, whatever time zone the server runs in. */
-export const today = (): string => dayFormat.format(new Date());
+/** The date at the house at the given moment, whatever time zone the server runs in. */
+export const houseDay = (moment: Date): string => dayFormat.format(moment);
+
+export const today = (): string => houseDay(new Date());
 
 /** RFC 3339 in UTC with second precision, as the API has always written timestamps. */
 export const timestamp = (date: Date): string => date.toISOString().replace(/\.\d{3}Z$/, 'Z');

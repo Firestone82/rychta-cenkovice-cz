@@ -66,6 +66,11 @@ export const adminRoutes: Routes = [
             loadComponent: () => import('./photos/photos.page').then((m) => m.PhotosPage),
           },
           {
+            path: 'channels',
+            canActivate: [administratorGuard],
+            loadComponent: () => import('./channels/channels.page').then((m) => m.ChannelsPage),
+          },
+          {
             path: 'users',
             canActivate: [administratorGuard],
             loadComponent: () => import('./users/users.page').then((m) => m.UsersPage),

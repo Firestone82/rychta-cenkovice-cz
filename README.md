@@ -27,6 +27,7 @@ http://localhost:4200/admin, the API documentation at http://localhost:8080/api/
 - [Development](docs/development.md): running locally, photos, CLI commands, tests
 - [Architecture](docs/architecture.md): code layout, content JSON, languages, migrations
 - [Bookings](docs/bookings.md): booking rules, apartments and prices
+- [Portal calendars](docs/portal-calendars.md): blocking days from the e-chalupy.cz iCal feed
 - [API](docs/api.md): endpoints and OpenAPI docs
 - [Security](docs/security.md): sign-in, roles, cookies and hCaptcha
 - [Deployment](docs/deployment.md): CI/CD, Docker, configuration variables

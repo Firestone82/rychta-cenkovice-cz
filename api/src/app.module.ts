@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ApartmentsModule } from './apartments/apartments.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { BookingsModule } from './bookings/bookings.module.js';
+import { ChannelsModule } from './channels/channels.module.js';
 import { appConfig } from './config/app.config.js';
 import { DatabaseModule } from './database/database.module.js';
 import { MessagesModule } from './messages/messages.module.js';
@@ -22,6 +23,7 @@ import { UsersAdminModule } from './users/users-admin.module.js';
     UsersAdminModule,
     ApartmentsModule,
     BookingsModule,
+    ChannelsModule,
     MessagesModule,
     PhotosModule,
     SeedModule,

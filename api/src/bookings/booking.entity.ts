@@ -11,6 +11,7 @@ import {
   type Relation,
   UpdateDateColumn,
 } from 'typeorm';
+import { ChannelConnection, type ChannelProvider } from '../channels/channel-connection.entity.js';
 import { Message } from '../messages/message.entity.js';
 import { User } from '../users/user.entity.js';
 import { BookingUnit } from './booking-unit.entity.js';
@@ -21,7 +22,8 @@ export type BookingKind = (typeof BOOKING_KINDS)[number];
 export const BOOKING_STATUSES = ['pending', 'confirmed', 'cancelled'] as const;
 export type BookingStatus = (typeof BOOKING_STATUSES)[number];
 
-export type BookingSource = 'web' | 'admin';
+/** Where the booking came from; a portal's name marks a block imported from its calendar. */
+export type BookingSource = 'web' | 'admin' | ChannelProvider;
 
 /** A stay of guests, or a block of dates the owner keeps free (`kind = 'block'`). */
 @Entity('bookings')
@@ -29,7 +31,10 @@ export type BookingSource = 'web' | 'admin';
 @Check('bookings_dates_check', `"check_out" > "check_in"`)
 @Check('bookings_kind_check', `"kind" IN ('guest', 'block')`)
 @Check('bookings_status_check', `"status" IN ('pending', 'confirmed', 'cancelled')`)
-@Check('bookings_source_check', `"source" IN ('web', 'admin')`)
+@Check(
+  'bookings_source_check',
+  `"source" IN ('web', 'admin', 'echalupy', 'booking', 'airbnb', 'other')`,
+)
 export class Booking {
   @PrimaryGeneratedColumn('identity')
   id: number;
@@ -96,6 +101,15 @@ export class Booking {
   @ManyToOne(() => User, { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'created_by_id' })
   createdBy: Relation<User> | null;
+
+  /** Set on a block that mirrors a portal's calendar; such a block is changed only by the sync. */
+  @Index()
+  @Column({ type: 'int', nullable: true })
+  channelConnectionId: number | null;
+
+  @ManyToOne(() => ChannelConnection, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'channel_connection_id' })
+  channelConnection: Relation<ChannelConnection> | null;
 
   @OneToMany(() => BookingUnit, (unit) => unit.booking)
   units: Relation<BookingUnit>[];

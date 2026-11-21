@@ -1,5 +1,6 @@
 @let b = booking();
 @let text = t().admin.bookings;
+@let locked = readOnly() || b.imported;
 <th scope="row">
   <a [routerLink]="['/admin/bookings', b.id]">{{ b.name || text.kind.block }}</a>
   <span class="sub">{{ b.code }}, {{ text.source[b.source] }}</span>
@@ -41,8 +42,8 @@
       <a
         class="a-icon-btn"
         [routerLink]="['/admin/bookings', b.id]"
-        [attr.aria-label]="(readOnly() ? text.open : text.edit) + ': ' + (b.name || b.code)"
-        ><rc-icon [name]="readOnly() ? 'right' : 'edit'"
+        [attr.aria-label]="(locked ? text.open : text.edit) + ': ' + (b.name || b.code)"
+        ><rc-icon [name]="locked ? 'right' : 'edit'"
       /></a>
     }
   </span>

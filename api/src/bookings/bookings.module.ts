@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApartmentsModule } from '../apartments/apartments.module.js';
 import { AuthModule } from '../auth/auth.module.js';
+import { ChannelsModule } from '../channels/channels.module.js';
 import { FormsModule } from '../forms/forms.module.js';
 import { MailModule } from '../mail/mail.module.js';
 import { MessagesModule } from '../messages/messages.module.js';
@@ -21,6 +22,7 @@ import { StayService } from './stay.service.js';
     TypeOrmModule.forFeature([Booking, BookingUnit]),
     ApartmentsModule,
     AuthModule,
+    ChannelsModule,
     FormsModule,
     MailModule,
     MessagesModule,

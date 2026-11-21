@@ -1,0 +1,25 @@
+@let text = t().admin.channels;
+<rc-modal [heading]="text.heading" size="wide" (closed)="closed.emit()">
+  <form id="channel-editor-form" (submit)="save($event)" novalidate>
+    <p class="apartment">{{ i18n.apartment(apartment()) }}</p>
+    <rc-text-field
+      key="channel-address"
+      type="url"
+      inputmode="url"
+      autocomplete="off"
+      placeholder="https://"
+      [required]="true"
+      [maxlength]="2000"
+      [label]="text.address"
+      [hint]="text.addressHint"
+      [error]="error()"
+      [(value)]="address"
+    />
+  </form>
+  <button modalActions type="button" class="btn btn-quiet" (click)="closed.emit()">
+    {{ t().admin.common.cancel }}
+  </button>
+  <button modalActions type="submit" form="channel-editor-form" class="btn" [disabled]="saving()">
+    {{ text.save }}
+  </button>
+</rc-modal>

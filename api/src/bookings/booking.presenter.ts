@@ -8,6 +8,8 @@ export const presentBooking = (booking: Booking) => ({
   kind: booking.kind,
   status: booking.status,
   source: booking.source,
+  /** True for a block that mirrors a portal's calendar and cannot be changed here. */
+  imported: booking.channelConnectionId !== null,
   check_in: booking.checkIn,
   check_out: booking.checkOut,
   nights: nightsBetween(booking.checkIn, booking.checkOut),

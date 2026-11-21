@@ -21,7 +21,7 @@ export class ApiClient {
     return firstValueFrom(this.http.get<T>(this.base + path, { params: query }));
   }
 
-  send<T>(method: 'POST' | 'PATCH' | 'DELETE', path: string, body?: unknown): Promise<T> {
+  send<T>(method: 'POST' | 'PUT' | 'PATCH' | 'DELETE', path: string, body?: unknown): Promise<T> {
     return firstValueFrom(this.http.request<T>(method, this.base + path, { body }));
   }
 

@@ -29,6 +29,11 @@
       "one": "fotografie",
       "few": "fotografie",
       "other": "fotografií"
+    },
+    "blockedStays": {
+      "one": "blokovaný termín",
+      "few": "blokované termíny",
+      "other": "blokovaných termínů"
     }
   },
   "common": {
@@ -714,6 +719,7 @@
       "messages": "Zprávy",
       "apartments": "Apartmány",
       "photos": "Fotografie",
+      "channels": "Portály",
       "users": "Uživatelé",
       "account": "Účet",
       "site": "Zobrazit web",
@@ -776,7 +782,11 @@
       },
       "source": {
         "web": "z webu",
-        "admin": "zadal správce"
+        "admin": "zadal správce",
+        "echalupy": "z e-chalupy.cz",
+        "booking": "z Booking.com",
+        "airbnb": "z Airbnb",
+        "other": "z kalendáře"
       },
       "confirm": "Potvrdit",
       "decline": "Odmítnout",
@@ -819,7 +829,8 @@
       "messageLink": "Původní zpráva",
       "lead": "Všechny rezervace a blokace termínů. Filtrujte podle stavu, hledejte podle jména nebo kódu a kliknutím na řádek rezervaci otevřete.",
       "formLead": "Zadejte termín, apartmány a hosta. Blokace jen uzavře termín, bez údajů o hostovi.",
-      "open": "Otevřít"
+      "open": "Otevřít",
+      "importedHint": "Tyto dny blokuje kalendář rezervačního portálu. Termín změňte na portálu, tady se upraví sám."
     },
     "calendar": {
       "title": "Kalendář obsazenosti",
@@ -934,6 +945,38 @@
       "empty": "V této kategorii nejsou žádné fotografie.",
       "failed": "Soubor {name} se nepodařilo nahrát. Podporujeme JPEG a PNG do 25 MB.",
       "edit": "Upravit popis"
+    },
+    "channels": {
+      "title": "Rezervační portály",
+      "lead": "Připojte kalendář každého apartmánu z e-chalupy.cz. Dny obsazené tam se zablokují i tady, takže o ně na webu nikdo nepožádá. Kalendáře se načítají každých 15 minut.",
+      "cols": {
+        "apartment": "Apartmán",
+        "status": "Kalendář e-chalupy.cz",
+        "checked": "Naposledy načteno"
+      },
+      "none": "Nepřipojeno",
+      "failed": "Nepodařilo se načíst",
+      "errors": {
+        "address": "Adresa vede do soukromé sítě.",
+        "unreachable": "Portál neodpověděl.",
+        "http": "Portál adresu odmítl.",
+        "too_large": "Kalendář je příliš velký.",
+        "not_calendar": "Na adrese není kalendář."
+      },
+      "connect": "Připojit kalendář",
+      "edit": "Změnit adresu",
+      "sync": "Načíst teď",
+      "disconnect": "Odpojit",
+      "disconnectConfirm": "Opravdu odpojit kalendář e-chalupy.cz pro {apartment}? Dny, které blokuje, se uvolní.",
+      "disconnected": "Kalendář byl odpojen.",
+      "heading": "Kalendář e-chalupy.cz",
+      "address": "Adresa kalendáře (iCal)",
+      "addressHint": "V administraci e-chalupy.cz otevřete Obsazenost, potom Export kalendáře, a zkopírujte adresu pro tento apartmán. Nikomu ji nedávejte: kdo ji má, může kalendář číst.",
+      "invalid": "Zadejte celou adresu začínající https://.",
+      "save": "Uložit a načíst",
+      "saved": "Kalendář je připojen.",
+      "savedFailed": "Adresa je uložena, ale kalendář se nepodařilo načíst.",
+      "synced": "Kalendář byl načten."
     },
     "account": {
       "title": "Účet",

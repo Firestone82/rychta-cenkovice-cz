@@ -63,7 +63,9 @@ export interface Booking {
   code: string;
   kind: BookingKind;
   status: BookingStatus;
-  source: 'web' | 'admin';
+  source: 'web' | 'admin' | ChannelProvider;
+  /** A block that mirrors a portal's calendar; it changes only there. */
+  imported: boolean;
   check_in: string;
   check_out: string;
   nights: number;
@@ -79,6 +81,24 @@ export interface Booking {
   apartment_ids: number[];
   created_at: string;
   updated_at: string;
+}
+
+/** Booking portals whose calendar can block days here. */
+export type ChannelProvider = 'echalupy' | 'booking' | 'airbnb' | 'other';
+
+/** The calendar of an apartment on a booking portal. */
+export interface Channel {
+  id: number;
+  apartment_id: number;
+  provider: ChannelProvider;
+  /** Address of the iCal file; it carries a private token of the portal. */
+  import_url: string;
+  /** The last attempt to read the calendar; null before the first one. */
+  synced_at: string | null;
+  /** Why the last attempt failed; empty after a success. */
+  error: '' | 'address' | 'unreachable' | 'http' | 'too_large' | 'not_calendar';
+  /** Number of upcoming blocks the calendar holds. */
+  blocks: number;
 }
 
 export interface Message {

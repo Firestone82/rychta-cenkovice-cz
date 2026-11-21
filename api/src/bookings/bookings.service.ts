@@ -6,6 +6,7 @@ import {
   type FindOptionsWhere,
   ILike,
   In,
+  IsNull,
   LessThan,
   MoreThan,
   Not,
@@ -83,7 +84,7 @@ export class BookingsService {
   /** Checks availability and stores the booking in one transaction. Throws 409 when taken. */
   async create(draft: BookingDraft): Promise<Booking> {
     const id = await this.dataSource.transaction(async (manager) => {
-      await this.assertFree(manager, draft, 0);
+      await this.assertFree(manager, draft, 0, draft.source !== 'web');
       const { apartmentIds, ...columns } = draft;
       const { identifiers } = await manager.insert(Booking, {
         ...columns,
@@ -105,7 +106,7 @@ export class BookingsService {
     draft: Omit<BookingDraft, 'source' | 'messageId' | 'createdById'>,
   ): Promise<Booking> {
     await this.dataSource.transaction(async (manager) => {
-      await this.assertFree(manager, draft, id);
+      await this.assertFree(manager, draft, id, true);
       const { apartmentIds, ...columns } = draft;
       const { affected } = await manager.update(Booking, id, columns);
       if (!affected) throw notFound();
@@ -176,11 +177,15 @@ export class BookingsService {
   /**
    * Locking the apartment rows makes simultaneous requests for the same apartment wait for each
    * other, so two of them can never both find it free.
+   *
+   * The owner (`overImported`) may book days blocked by a portal's calendar, which is how a stay
+   * sold there gets its guest; the next sync takes the block away from under the booking.
    */
   private async assertFree(
     manager: EntityManager,
     draft: Pick<BookingDraft, 'status' | 'apartmentIds' | 'checkIn' | 'checkOut'>,
     ownId: number,
+    overImported: boolean,
   ): Promise<void> {
     if (draft.status === 'cancelled' || draft.apartmentIds.length === 0) return;
     await manager.find(Apartment, {
@@ -191,7 +196,11 @@ export class BookingsService {
     });
     const taken = await this.takenIds(manager, {
       apartmentId: In(draft.apartmentIds),
-      booking: { ...overlapping(draft.checkIn, draft.checkOut), id: Not(ownId) },
+      booking: {
+        ...overlapping(draft.checkIn, draft.checkOut),
+        id: Not(ownId),
+        ...(overImported && { channelConnectionId: IsNull() }),
+      },
     });
     if (taken.length > 0) throw unavailable(taken);
   }
