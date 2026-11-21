@@ -1,4 +1,5 @@
-import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, REQUEST, computed, effect, inject, signal, untracked } from '@angular/core';
 import { ConsentService } from './consent.service';
 import { DICTIONARIES } from '@config/languages.config';
 import { SITE } from '@config/site.config';
@@ -29,6 +30,8 @@ export class I18nService {
   readonly locale = computed(() => this.t().locale);
 
   private readonly consent = inject(ConsentService);
+  private readonly doc = inject(DOCUMENT);
+  private readonly request = inject(REQUEST, { optional: true });
 
   constructor() {
     // The language is remembered only with the visitor's consent and forgotten without it.
@@ -52,23 +55,36 @@ export class I18nService {
     this.cache[lang] ??= await DICTIONARIES[lang]();
     this.dict.set(this.cache[lang]);
     this.lang.set(lang);
-    document.documentElement.lang = lang;
+    this.doc.documentElement.lang = lang;
     this.remember(this.consent.preferences());
   }
 
-  /** The language to start with: the remembered one, else the browser's, else Czech. */
+  /**
+   * The language to start with: the remembered one, else the browser's, else English.
+   * On the server it is the Accept-Language header, and Czech when there is none (search engines).
+   */
   preferred(): Lang {
+    if (this.request) return this.fromHeader(this.request.headers.get('accept-language'));
     try {
       const saved = this.consent.preferences() ? localStorage.getItem(STORAGE_KEY) : null;
       if (isLang(saved)) return saved;
     } catch {
       /* ignore */
     }
-    const browser = (navigator.languages?.[0] ?? navigator.language ?? '').toLowerCase();
-    const match = SITE.languages.find((l) =>
-      l.browser.some((prefix) => browser.startsWith(prefix)),
+    return (
+      this.match(navigator.languages?.[0] ?? navigator.language ?? '') ?? SITE.fallbackLanguage
     );
-    return match?.code ?? SITE.fallbackLanguage;
+  }
+
+  private fromHeader(header: string | null): Lang {
+    const first = header?.split(',')[0]?.split(';')[0]?.trim() ?? '';
+    if (!first || first === '*') return SITE.defaultLanguage;
+    return this.match(first) ?? SITE.fallbackLanguage;
+  }
+
+  private match(language: string): Lang | undefined {
+    const tag = language.toLowerCase();
+    return SITE.languages.find((l) => l.browser.some((prefix) => tag.startsWith(prefix)))?.code;
   }
 
   /**

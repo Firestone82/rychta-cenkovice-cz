@@ -25,7 +25,7 @@ ENV NODE_ENV=production \
 COPY --from=api /src/api/package.json ./
 COPY --from=api /src/api/node_modules ./node_modules
 COPY --from=api /src/api/dist ./dist
-COPY --from=web /src/web/dist/web/browser ./web
+COPY --from=web /src/web/dist/web ./web
 RUN mkdir /data && chown node:node /data
 USER node
 VOLUME /data

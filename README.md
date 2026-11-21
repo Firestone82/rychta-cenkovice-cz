@@ -31,6 +31,7 @@ http://localhost:4200/admin, the API documentation at http://localhost:8080/api/
 - [API](docs/api.md): endpoints and OpenAPI docs
 - [Security](docs/security.md): sign-in, roles, cookies and hCaptcha
 - [Deployment](docs/deployment.md): CI/CD, Docker, configuration variables
+- [Search engines](docs/seo.md): server rendering, metadata, sitemap and structured data
 - [Before going live](docs/go-live.md): what is still open
 
 ## Fonts

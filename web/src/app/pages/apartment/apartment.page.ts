@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,8 +21,9 @@ import { ApiService } from '@services/api.service';
 import { I18nService } from '@services/i18n.service';
 import { LinksService } from '@services/links.service';
 import { SeoService } from '@services/seo.service';
-import { apartmentNumber } from '@utils/links.util';
+import { apartmentNumber, commandsToPath } from '@utils/links.util';
 import { photoSlides } from '@utils/slides.util';
+import { apartmentData, breadcrumbs } from '@utils/structured-data.util';
 
 @Component({
   selector: 'rc-apartment-page',
@@ -71,18 +73,55 @@ export class ApartmentPage {
       this.lightbox.set(null);
       if (!number) {
         this.missing.set(true);
+        this.seo.page(this.t().apartment.notFound);
+        this.seo.notFound();
         return;
       }
       this.api.apartment(`apartman-${number}`).then(
         (a) => {
           if (apartmentNumber(this.slug()) === number) this.apartment.set(a);
         },
-        () => this.missing.set(true),
+        (error: unknown) => {
+          this.missing.set(true);
+          this.seo.page(this.t().apartment.notFound);
+          if (error instanceof HttpErrorResponse && error.status === 404) this.seo.notFound();
+          else this.seo.unavailable();
+        },
       );
     });
     effect(() => {
       const a = this.apartment();
-      if (a) this.seo.page(this.i18n.apartment(a), this.i18n.pick(a.layout));
+      if (a) this.describe(a);
+      else this.seo.structuredData('apartment', null);
     });
   }
+
+  /** Title, description, preview picture and structured data of the apartment. */
+  private describe(a: Apartment): void {
+    const name = this.i18n.apartment(a);
+    const description = this.i18n.pick(a.description) || this.i18n.pick(a.layout);
+    const images = (a.photos?.length ? a.photos : a.cover ? [a.cover] : [])
+      .slice(0, 4)
+      .map((p) => this.seo.absolute(this.api.photoUrl(p, previewWidth(p.widths))));
+    this.seo.page(name, description, { image: images[0] });
+    const url = this.seo.absolute(commandsToPath(this.links.apartment(a.number)));
+    const home = this.seo.absolute(`/${this.i18n.lang()}`);
+    const list = this.seo.absolute(commandsToPath(this.links.to('accommodation')));
+    this.seo.structuredData('apartment', {
+      '@graph': [
+        apartmentData(a, { origin: this.seo.origin, url, name, description, images }),
+        breadcrumbs([
+          { name: this.t().nav.home, url: home },
+          { name: this.t().nav.accommodation, url: list },
+          { name, url },
+        ]),
+      ],
+    });
+  }
+}
+
+/** The smallest generated size that still fills a link preview (1200 px), else the largest. */
+function previewWidth(widths: number[]): number {
+  const sorted = [...widths].sort((x, y) => x - y);
+  return sorted.find((w) => w >= 1200) ?? sorted[sorted.length - 1];
 }

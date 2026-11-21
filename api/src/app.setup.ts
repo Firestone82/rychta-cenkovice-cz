@@ -6,7 +6,7 @@ import { schemaValidationPipe } from './common/schemas.js';
 import { type AppConfig, appConfig } from './config/app.config.js';
 import { requestLog } from './web/request-log.middleware.js';
 import { API_DOCS_PATH, securityHeaders } from './web/security-headers.middleware.js';
-import { media, webApp } from './web/static.middleware.js';
+import { media, renderHosts, webApp } from './web/static.middleware.js';
 
 export const API_PREFIX = 'api/v1';
 
@@ -43,5 +43,13 @@ export function configureApp(app: NestExpressApplication): void {
       .build();
     SwaggerModule.setup(API_DOCS_PATH, app, () => SwaggerModule.createDocument(app, document));
   }
-  if (config.webDir) app.use(webApp(config.webDir));
+  if (config.webDir) {
+    app.use(
+      webApp(config.webDir, {
+        apiOrigin: `http://127.0.0.1:${config.port}`,
+        siteUrl: config.publicUrl,
+        allowedHosts: renderHosts([config.publicUrl, ...config.allowedOrigins]),
+      }),
+    );
+  }
 }

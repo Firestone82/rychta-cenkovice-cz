@@ -16,7 +16,8 @@ import type { PageKey } from '@models/site.model';
 import { I18nService } from '@services/i18n.service';
 import { LinksService } from '@services/links.service';
 import { SeoService } from '@services/seo.service';
-import { apartmentNumber, apartmentSlug } from '@utils/links.util';
+import { apartmentNumber, apartmentSlug, commandsToPath } from '@utils/links.util';
+import { lodgingBusiness } from '@utils/structured-data.util';
 import { filter } from 'rxjs';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
 import { SiteHeaderComponent } from './site-header/site-header.component';
@@ -29,7 +30,8 @@ import { SiteHeaderComponent } from './site-header/site-header.component';
   styleUrl: './site.layout.scss',
 })
 export class SiteLayout {
-  protected readonly t = inject(I18nService).t;
+  private readonly i18n = inject(I18nService);
+  protected readonly t = this.i18n.t;
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -74,9 +76,11 @@ export class SiteLayout {
 
     effect(() => {
       const urls = Object.entries(this.alternates()).map(
-        ([lang, commands]) => [lang, commands.join('/').replace('//', '/')] as const,
+        ([lang, commands]) => [lang, commandsToPath(commands)] as const,
       );
-      seo.alternates(Object.fromEntries(urls));
+      const lang = this.i18n.lang();
+      seo.alternates(Object.fromEntries(urls), lang);
+      seo.structuredData('business', lodgingBusiness(seo.origin, `/${lang}`, this.t()));
     });
   }
 

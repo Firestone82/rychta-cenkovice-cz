@@ -1,7 +1,10 @@
-import { InjectionToken } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { InjectionToken, inject } from '@angular/core';
 
 function metaContent(name: string, fallback: string): string {
-  const value = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`)?.content?.trim();
+  const value = inject(DOCUMENT)
+    .querySelector<HTMLMetaElement>(`meta[name="${name}"]`)
+    ?.content?.trim();
   return (value || fallback).replace(/\/$/, '');
 }
 
