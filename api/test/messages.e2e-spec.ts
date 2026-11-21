@@ -47,7 +47,7 @@ describe('Contact form and messages', () => {
           name: ' ',
           email: 'not-an-address',
           phone: 'abc',
-          message: 'Hi',
+          message: ' ',
           consent: false,
         }),
       )

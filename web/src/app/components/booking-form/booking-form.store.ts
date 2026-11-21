@@ -148,7 +148,7 @@ export class BookingFormStore {
     if (!this.selected().length) codes['apartment_ids'] = 'required';
     else if (this.capacityLow()) codes['guests'] = 'over_capacity';
     if (this.minNightsProblem()) codes['dates'] = 'min_nights';
-    if (this.name().trim().length < 2) codes['name'] = 'required';
+    if (!this.name().trim()) codes['name'] = 'required';
     if (!isEmail(this.email())) codes['email'] = 'invalid';
     if (!isPhone(this.phone())) codes['phone'] = 'invalid';
     if (this.note().length > 2000) codes['note'] = 'too_long';

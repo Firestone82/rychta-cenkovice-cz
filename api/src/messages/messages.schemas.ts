@@ -3,10 +3,10 @@ import { email, language, PHONE, text } from '../common/schemas.js';
 import { MESSAGE_STATUSES } from './message.entity.js';
 
 export const contactSchema = z.object({
-  name: text('required').min(2, 'required').max(120, 'required'),
+  name: text('required').min(1, 'required').max(120, 'too_long'),
   email: email(),
   phone: z.union([z.literal(''), text().regex(PHONE, 'invalid')], 'invalid').default(''),
-  message: text('required').min(5, 'required').max(4000, 'too_long'),
+  message: text('required').min(1, 'required').max(4000, 'too_long'),
   consent: z.literal(true, 'required'),
   language,
   captcha_token: z.string().default(''),

@@ -200,7 +200,7 @@ export class BookingEditorStore {
     else if (isISO(this.checkIn()) && this.checkOut() <= this.checkIn())
       problems['check_out'] = this.t().booking.datesInvalid;
     if (!this.selected().length) problems['apartment_ids'] = this.t().booking.summaryEmpty;
-    if (this.kind() === 'guest' && this.name().trim().length < 2) problems['name'] = required;
+    if (this.kind() === 'guest' && !this.name().trim()) problems['name'] = required;
     return problems;
   }
 

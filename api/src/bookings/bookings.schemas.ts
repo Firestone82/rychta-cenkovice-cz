@@ -7,7 +7,7 @@ export const bookingRequestSchema = z.object({
   check_in: z.string('invalid').default(''),
   check_out: z.string('invalid').default(''),
   guests: z.int('over_capacity').default(0),
-  name: text('required').min(2, 'required').max(120, 'required'),
+  name: text('required').min(1, 'required').max(120, 'too_long'),
   email: email(),
   phone: text().regex(PHONE, 'invalid'),
   note: text('too_long').max(2000, 'too_long').default(''),

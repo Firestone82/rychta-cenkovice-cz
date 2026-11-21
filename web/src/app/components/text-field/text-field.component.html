@@ -46,4 +46,7 @@
   } @else if (hint()) {
     <p class="hint">{{ hint() }}</p>
   }
+  @if (counter() && maxlength()) {
+    <p class="count" aria-hidden="true">{{ value().length }} / {{ maxlength() }}</p>
+  }
 </div>

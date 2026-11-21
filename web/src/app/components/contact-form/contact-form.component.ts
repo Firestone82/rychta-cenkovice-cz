@@ -5,12 +5,20 @@ import { CaptchaComponent } from '@components/captcha/captcha.component';
 import { HoneypotComponent } from '@components/honeypot/honeypot.component';
 import { IconComponent } from '@components/icon/icon.component';
 import { TextFieldComponent } from '@components/text-field/text-field.component';
+import { PhoneFieldComponent } from '@components/phone-field/phone-field.component';
 import { PrivacyConsentComponent } from '@components/privacy-consent/privacy-consent.component';
 import { ApiService } from '@services/api.service';
 import { toFailure } from '@utils/api-failure.util';
 import { I18nService } from '@services/i18n.service';
 import { LinksService } from '@services/links.service';
-import { captchaSpent, fieldMessage, isEmail, isPhone, submitFailure } from '@utils/forms.util';
+import {
+  captchaSpent,
+  fieldMessage,
+  isEmail,
+  isPhone,
+  submitFailure,
+  TEXT_LIMITS,
+} from '@utils/forms.util';
 import { ContactSentComponent } from './contact-sent/contact-sent.component';
 
 @Component({
@@ -20,6 +28,7 @@ import { ContactSentComponent } from './contact-sent/contact-sent.component';
     RouterLink,
     IconComponent,
     TextFieldComponent,
+    PhoneFieldComponent,
     CaptchaComponent,
     HoneypotComponent,
     PrivacyConsentComponent,
@@ -33,6 +42,7 @@ export class ContactFormComponent {
   protected readonly links = inject(LinksService);
   protected readonly t = this.i18n.t;
   private readonly api = inject(ApiService);
+  protected readonly limits = TEXT_LIMITS;
 
   protected readonly name = signal('');
   protected readonly email = signal('');
@@ -89,10 +99,10 @@ export class ContactFormComponent {
 
   private validate(): Record<string, string> {
     const codes: Record<string, string> = {};
-    if (this.name().trim().length < 2) codes['name'] = 'required';
+    if (!this.name().trim()) codes['name'] = 'required';
     if (!isEmail(this.email())) codes['email'] = 'invalid';
     if (this.phone().trim() && !isPhone(this.phone())) codes['phone'] = 'invalid';
-    if (this.message().trim().length < 5) codes['message'] = 'required';
+    if (!this.message().trim()) codes['message'] = 'required';
     if (!this.consent()) codes['consent'] = 'required';
     if (this.captcha()?.needed() && !this.captchaToken()) codes['captcha'] = 'required';
     return codes;

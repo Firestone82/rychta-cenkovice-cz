@@ -1,0 +1,46 @@
+<label [for]="key()">
+  {{ label() }}
+  @if (optional()) {
+    <span class="opt">({{ optional() }})</span>
+  }
+</label>
+<div class="phone" [class.is-invalid]="!!error()">
+  <!-- The select lies invisible over the short text, so the closed list shows only the code. -->
+  <span class="country">
+    <span class="shown" aria-hidden="true">
+      {{ country().code }} {{ country().dial }} <rc-icon name="down" />
+    </span>
+    <select
+      [id]="key() + '-country'"
+      autocomplete="tel-country-code"
+      [attr.aria-label]="t().common.phoneCountry"
+      (change)="choose(valueOf($event))"
+    >
+      @for (c of options(); track c.code) {
+        <option [value]="c.dial" [selected]="c.dial === parts().dial">
+          {{ c.name }} ({{ c.dial }})
+        </option>
+      }
+    </select>
+  </span>
+  <input
+    [id]="key()"
+    type="tel"
+    inputmode="tel"
+    autocomplete="tel-national"
+    [required]="required()"
+    [attr.maxlength]="maxlength"
+    [value]="parts().number"
+    (input)="type(valueOf($event))"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-describedby]="key() + '-msg'"
+  />
+</div>
+<div [id]="key() + '-msg'" class="msg">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  @if (counter()) {
+    <p class="count" aria-hidden="true">{{ parts().number.length }} / {{ maxlength }}</p>
+  }
+</div>

@@ -27,6 +27,7 @@
     }
   },
   "common": {
+    "phoneCountry": "Country calling code",
     "loading": "Loading",
     "loadFailed": "The content could not be loaded.",
     "retry": "Try again",

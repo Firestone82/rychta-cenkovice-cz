@@ -4,6 +4,9 @@ import { type ApiFailure } from '@models/api.model';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE = /^\+?[\d\s()./-]{6,24}$/;
 
+/** Longest texts the API accepts in the public forms. */
+export const TEXT_LIMITS = { name: 120, email: 254, message: 4000, note: 2000 } as const;
+
 export function isEmail(value: string): boolean {
   return EMAIL.test(value.trim());
 }

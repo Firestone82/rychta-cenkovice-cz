@@ -72,7 +72,7 @@ describe('Bookings', () => {
   it('names every field of the form that is wrong', async () => {
     const res = await t
       .call('post', '/bookings')
-      .send({ apartment_ids: [second], name: 'X', email: 'nope', phone: '1', consent: false })
+      .send({ apartment_ids: [second], name: ' ', email: 'nope', phone: '1', consent: false })
       .expect(422);
     expect(res.body.error).toMatchObject({
       code: 'validation',

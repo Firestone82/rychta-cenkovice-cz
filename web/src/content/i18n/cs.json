@@ -32,6 +32,7 @@
     }
   },
   "common": {
+    "phoneCountry": "Předvolba země",
     "loading": "Načítání",
     "loadFailed": "Obsah se nepodařilo načíst.",
     "retry": "Zkusit znovu",

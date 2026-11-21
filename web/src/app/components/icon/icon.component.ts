@@ -14,6 +14,7 @@ const PATHS = {
   back: 'M19 12H5M11 6l-6 6 6 6',
   left: 'M15 5l-7 7 7 7',
   right: 'M9 5l7 7-7 7',
+  down: 'M5 9l7 7 7-7',
   close: 'M6 6l12 12M18 6 6 18',
   check: 'M4 12.5l5 5L20 6.5',
   menu: 'M3 7h18M3 12h18M3 17h18',
