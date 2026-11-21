@@ -5,7 +5,8 @@
 .done {
   display: grid;
   gap: 14px;
-  justify-items: start;
+  justify-items: center;
+  text-align: center;
   outline: none;
 }
 .done svg {
