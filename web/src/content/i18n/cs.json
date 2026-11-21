@@ -1039,5 +1039,12 @@
       "error": "Akci se nepodařilo dokončit.",
       "all": "Vše"
     }
+  },
+  "demo": {
+    "label": "Ukázka",
+    "site": "Toto je ukázka nového webu Rychty Čenkovice. Běží bez serveru, takže rezervace ani zprávy se nikam neodesílají.",
+    "siteLink": "Vyzkoušet administraci",
+    "admin": "Ukázková administrace bez serveru. Změny zůstávají jen v tomto okně a po obnovení stránky zmizí. E-maily se neodesílají a fotky nelze nahrávat.",
+    "login": "Přihlásí vás jakékoli heslo. Jako recepční zkuste recepce@rychtacenkovice.cz, jen pro čtení ucetni@rychtacenkovice.cz."
   }
 }

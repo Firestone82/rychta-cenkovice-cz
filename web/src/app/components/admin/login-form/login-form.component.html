@@ -2,6 +2,9 @@
   <rc-logo />
   <h1 class="h2">{{ t().admin.login.title }}</h1>
 
+  @if (demo) {
+    <p class="notice">{{ t().demo.login }}</p>
+  }
   @if (notice()) {
     <p class="notice" [class.is-error]="isError()" role="alert">{{ notice() }}</p>
   }

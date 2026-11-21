@@ -8,12 +8,14 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { routes } from './app.routes';
+import { DEMO } from './config/demo.config';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { demoInterceptor } from './interceptors/demo.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors(DEMO ? [demoInterceptor] : [authInterceptor])),
     provideRouter(
       routes,
       withComponentInputBinding(),

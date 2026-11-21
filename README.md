@@ -32,6 +32,7 @@ http://localhost:4200/admin, the API documentation at http://localhost:8080/api/
 - [Security](docs/security.md): sign-in, roles, cookies and hCaptcha
 - [Deployment](docs/deployment.md): CI/CD, Docker, configuration variables
 - [Before going live](docs/go-live.md): what is still open
+- [Showcase](docs/showcase.md): static demo on GitHub Pages
 
 ## Fonts
 

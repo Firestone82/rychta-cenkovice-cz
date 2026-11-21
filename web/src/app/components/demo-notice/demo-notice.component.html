@@ -1,0 +1,13 @@
+@if (shown) {
+  <aside class="band" [class.is-admin]="place() === 'admin'" [attr.aria-label]="t().demo.label">
+    <p class="wrap row">
+      <strong>{{ t().demo.label }}</strong>
+      @if (place() === 'site') {
+        {{ t().demo.site }}
+        <a routerLink="/admin">{{ t().demo.siteLink }}</a>
+      } @else {
+        {{ t().demo.admin }}
+      }
+    </p>
+  </aside>
+}
