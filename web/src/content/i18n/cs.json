@@ -706,6 +706,7 @@
       "messages": "Zprávy",
       "apartments": "Apartmány",
       "photos": "Fotografie",
+      "users": "Uživatelé",
       "account": "Účet",
       "site": "Zobrazit web",
       "logout": "Odhlásit se"
@@ -938,7 +939,49 @@
       "save": "Změnit heslo",
       "changed": "Heslo je změněné. Ostatní zařízení byla odhlášena.",
       "session": "Přihlášení je chráněné krátkodobým přístupovým tokenem, který se sám obnovuje. Po 30 dnech se přihlásíte znovu.",
-      "lead": "Přihlašovací údaje správce a změna hesla."
+      "lead": "Vaše přihlašovací údaje a změna hesla.",
+      "role": "Role"
+    },
+    "users": {
+      "title": "Uživatelé",
+      "lead": "Účty, které se mohou přihlásit do administrace. Personál pracuje s přehledem, kalendářem, rezervacemi a zprávami; správce navíc spravuje apartmány, fotografie a uživatele.",
+      "add": "Přidat uživatele",
+      "edit": "Upravit uživatele",
+      "cols": {
+        "name": "Jméno",
+        "email": "E-mail",
+        "role": "Role",
+        "created": "Vytvořen"
+      },
+      "roles": {
+        "admin": "Správce",
+        "staff": "Personál"
+      },
+      "you": "vy",
+      "name": "Jméno",
+      "email": "E-mail",
+      "role": "Role",
+      "roleHint": "Personál vidí přehled, kalendář, rezervace a zprávy. Správce navíc upravuje apartmány, fotografie a uživatele.",
+      "ownRole": "Vlastní roli změnit nemůžete.",
+      "password": "Heslo",
+      "passwordHint": "Aspoň 12 znaků. Uživateli ho předejte sami, e-mailem se neposílá.",
+      "newPassword": "Nové heslo",
+      "newPasswordHint": "Nechte prázdné, pokud se heslo nemění. Nové heslo uživatele všude odhlásí.",
+      "ownPassword": "Vlastní heslo změníte na stránce Účet.",
+      "taken": "Tento e-mail už používá jiný účet.",
+      "create": "Vytvořit uživatele",
+      "save": "Uložit uživatele",
+      "created": "Uživatel je vytvořený.",
+      "saved": "Uživatel je uložený.",
+      "delete": "Smazat uživatele",
+      "deleteConfirm": "Opravdu smazat účet uživatele {name}? Už se nebude moci přihlásit.",
+      "deleted": "Uživatel je smazaný.",
+      "empty": "Žádní uživatelé."
+    },
+    "theme": {
+      "label": "Vzhled",
+      "light": "Světlý vzhled",
+      "dark": "Tmavý vzhled"
     },
     "common": {
       "cancel": "Zrušit",

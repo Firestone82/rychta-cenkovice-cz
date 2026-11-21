@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  max-width: 860px;
+}
+
+th[scope='row'] {
+  font-weight: 700;
+}
+
+.you {
+  font-weight: 400;
+  color: var(--slate-2);
+}
+
+/* Keeps its place, so the edit buttons of all rows stay in one column. */
+.is-hidden {
+  visibility: hidden;
+}
+
+tbody tr:last-child th {
+  border-bottom: 0;
+}

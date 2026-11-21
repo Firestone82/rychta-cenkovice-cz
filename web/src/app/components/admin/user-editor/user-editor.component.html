@@ -1,0 +1,52 @@
+@let text = t().admin.users;
+@let existing = user() !== null;
+<rc-modal [heading]="existing ? text.edit : text.add" size="wide" (closed)="closed.emit()">
+  <form id="user-editor-form" (submit)="save($event)" novalidate>
+    <rc-text-field
+      key="user-name"
+      autocomplete="off"
+      [required]="true"
+      [maxlength]="limits.name"
+      [label]="text.name"
+      [error]="errors()['name']"
+      [(value)]="name"
+    />
+    <rc-text-field
+      key="user-email"
+      type="email"
+      autocomplete="off"
+      [required]="true"
+      [maxlength]="limits.email"
+      [label]="text.email"
+      [error]="errors()['email']"
+      [(value)]="email"
+    />
+    @if (own()) {
+      <p class="own">{{ text.ownRole }} {{ text.ownPassword }}</p>
+    } @else {
+      <rc-select-field
+        key="user-role"
+        [label]="text.role"
+        [options]="roles()"
+        [hint]="text.roleHint"
+        [(value)]="role"
+      />
+      <rc-text-field
+        key="user-password"
+        type="password"
+        autocomplete="new-password"
+        [required]="!existing"
+        [label]="existing ? text.newPassword : text.password"
+        [hint]="existing ? text.newPasswordHint : text.passwordHint"
+        [error]="errors()['password']"
+        [(value)]="password"
+      />
+    }
+  </form>
+  <button modalActions type="button" class="btn btn-quiet" (click)="closed.emit()">
+    {{ t().admin.common.cancel }}
+  </button>
+  <button modalActions type="submit" form="user-editor-form" class="btn" [disabled]="saving()">
+    {{ existing ? text.save : text.create }}
+  </button>
+</rc-modal>

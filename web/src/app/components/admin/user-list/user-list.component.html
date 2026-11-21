@@ -1,0 +1,57 @@
+@let text = t().admin.users;
+<div class="a-table-wrap">
+  <table class="a-table">
+    <thead>
+      <tr>
+        <th scope="col">{{ text.cols.name }}</th>
+        <th scope="col">{{ text.cols.email }}</th>
+        <th scope="col">{{ text.cols.role }}</th>
+        <th scope="col">{{ text.cols.created }}</th>
+        <th scope="col">
+          <span class="sr-only">{{ text.edit }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users(); track user.id) {
+        <tr>
+          <th scope="row">
+            {{ user.name }}
+            @if (user.id === ownId()) {
+              <span class="you">({{ text.you }})</span>
+            }
+          </th>
+          <td>{{ user.email }}</td>
+          <td>
+            <span class="tag" [class.tag-block]="user.role === 'admin'">{{
+              text.roles[user.role]
+            }}</span>
+          </td>
+          <td class="nowrap">{{ i18n.date(user.created_at.slice(0, 10)) }}</td>
+          <td>
+            <div class="a-row-actions">
+              <button
+                type="button"
+                class="a-icon-btn"
+                [title]="text.edit"
+                (click)="edit.emit(user)"
+              >
+                <rc-icon name="edit" [label]="text.edit" />
+              </button>
+              <button
+                type="button"
+                class="a-icon-btn is-danger"
+                [class.is-hidden]="user.id === ownId()"
+                [disabled]="user.id === ownId()"
+                [title]="text.delete"
+                (click)="remove.emit(user)"
+              >
+                <rc-icon name="trash" [label]="text.delete" />
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

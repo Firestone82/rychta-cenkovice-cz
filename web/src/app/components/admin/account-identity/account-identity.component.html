@@ -1,11 +1,16 @@
 <section class="a-card">
   <h2>{{ t().admin.account.signedInAs }}</h2>
   <div class="who">
-    <rc-icon name="users" />
+    <rc-icon name="user" />
     <p>
       <strong>{{ auth.user()?.name || auth.user()?.email }}</strong>
       <span>{{ auth.user()?.email }}</span>
     </p>
+    @if (auth.user(); as user) {
+      <span class="tag" [class.tag-block]="user.role === 'admin'">{{
+        t().admin.users.roles[user.role]
+      }}</span>
+    }
   </div>
   <p class="muted session">{{ t().admin.account.session }}</p>
 </section>

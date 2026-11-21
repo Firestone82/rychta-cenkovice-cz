@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/access-token.guard.js';
+import { AdminGuard } from '../auth/admin.guard.js';
 import { IdPipe } from '../common/id.pipe.js';
 import { presentApartment } from './apartment.presenter.js';
 import { ApartmentViewsService } from './apartment-views.service.js';
@@ -24,6 +25,7 @@ export class AdminApartmentsController {
   }
 
   @Patch(':id')
+  @UseGuards(AdminGuard)
   async update(
     @Param('id', IdPipe) id: number,
     @Body({ schema: apartmentUpdateSchema }) body: ApartmentUpdate,

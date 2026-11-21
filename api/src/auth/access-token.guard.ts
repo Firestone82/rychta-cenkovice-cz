@@ -1,13 +1,14 @@
 import { type CanActivate, type ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import type { Request } from 'express';
 import { ApiError } from '../common/api-error.js';
+import { isUserRole } from '../users/user-role.js';
 import { AccessTokenService, type SessionUser } from './access-token.service.js';
 
 export type AuthenticatedRequest = Request & { user: SessionUser };
 
 const REALM = 'Bearer realm="rychta-admin"';
 
-/** Lets a request through only with a valid access token of an administrator. */
+/** Lets a request through only with a valid access token of an account of the administration. */
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
   constructor(private readonly tokens: AccessTokenService) {}
@@ -29,7 +30,7 @@ export class AccessTokenGuard implements CanActivate {
         { headers: { 'WWW-Authenticate': `${REALM}, error="invalid_token"` } },
       );
     }
-    if (user.role !== 'admin') {
+    if (!isUserRole(user.role)) {
       throw new ApiError(
         HttpStatus.FORBIDDEN,
         'forbidden',

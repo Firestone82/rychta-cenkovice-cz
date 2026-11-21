@@ -1,0 +1,24 @@
+<a class="site" [routerLink]="['/', i18n.lang()]">
+  <rc-icon name="home" /> {{ t().admin.nav.site }}
+</a>
+<div class="row">
+  <div class="seg" role="group" [attr.aria-label]="t().admin.theme.label">
+    @for (theme of themes; track theme) {
+      <button
+        type="button"
+        [attr.aria-pressed]="look.theme() === theme"
+        [title]="t().admin.theme[theme]"
+        (click)="look.use(theme)"
+      >
+        <rc-icon [name]="theme === 'light' ? 'sun' : 'moon'" [label]="t().admin.theme[theme]" />
+      </button>
+    }
+  </div>
+  <div class="seg" role="group" [attr.aria-label]="t().common.language">
+    @for (l of langs; track l) {
+      <button type="button" [attr.aria-pressed]="i18n.lang() === l" (click)="i18n.useInAdmin(l)">
+        {{ l.toUpperCase() }}
+      </button>
+    }
+  </div>
+</div>

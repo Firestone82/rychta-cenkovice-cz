@@ -17,3 +17,7 @@ export const guestGuard: CanActivateFn = async () => {
   const router = inject(Router);
   return (await auth.ensure()) ? router.createUrlTree(['/admin']) : true;
 };
+
+/** For pages only an administrator may open; runs after `adminGuard`, so the account is known. */
+export const administratorGuard: CanActivateFn = () =>
+  inject(AuthService).isAdmin() || inject(Router).createUrlTree(['/admin']);

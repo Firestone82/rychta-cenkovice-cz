@@ -1,0 +1,21 @@
+:host {
+  display: contents;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+  align-items: start;
+}
+
+.own {
+  grid-column: 1 / -1;
+  color: var(--slate-2);
+}
+
+@media (max-width: 560px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+}

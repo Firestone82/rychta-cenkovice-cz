@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { type AppConfig, appConfig } from '../config/app.config.js';
 import { UsersModule } from '../users/users.module.js';
 import { AccessTokenGuard } from './access-token.guard.js';
+import { AdminGuard } from './admin.guard.js';
 import { ACCESS_TOKEN_AUDIENCE, AccessTokenService } from './access-token.service.js';
 import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
@@ -34,7 +35,14 @@ import { SessionService } from './session.service.js';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, SessionService, AccessTokenService, AccessTokenGuard, SameSiteGuard],
-  exports: [AccessTokenService, AccessTokenGuard],
+  providers: [
+    AuthService,
+    SessionService,
+    AccessTokenService,
+    AccessTokenGuard,
+    AdminGuard,
+    SameSiteGuard,
+  ],
+  exports: [AccessTokenService, AccessTokenGuard, AdminGuard, SessionService],
 })
 export class AuthModule {}

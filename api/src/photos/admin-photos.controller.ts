@@ -16,6 +16,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../auth/access-token.guard.js';
+import { AdminGuard } from '../auth/admin.guard.js';
 import { type FieldErrors, validationFailed } from '../common/api-error.js';
 import { IdPipe } from '../common/id.pipe.js';
 import { MAX_UPLOAD_BYTES, MediaService, NotAnImageError } from './media.service.js';
@@ -35,7 +36,7 @@ const ADMIN_PAGE = 200;
 
 @ApiTags('admin')
 @ApiBearerAuth()
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, AdminGuard)
 @Controller('admin/photos')
 export class AdminPhotosController {
   constructor(

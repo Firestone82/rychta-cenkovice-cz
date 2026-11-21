@@ -104,11 +104,27 @@ export interface Dashboard {
   pending: Booking[];
 }
 
+/** `admin` manages everything; `staff` works with bookings and messages only. */
+export type UserRole = 'admin' | 'staff';
+
 export interface User {
   id: number;
   email: string;
   name: string;
-  role: string;
+  role: UserRole;
+}
+
+/** An account as the user management lists it. */
+export interface Account extends User {
+  created_at: string;
+}
+
+/** Fields of an account an administrator sets; the password stays out when it does not change. */
+export interface AccountInput {
+  name: string;
+  email: string;
+  role?: UserRole;
+  password?: string;
 }
 
 export interface Session {

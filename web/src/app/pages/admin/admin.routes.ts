@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import type { ResolveFn, Routes } from '@angular/router';
-import { adminGuard, guestGuard } from '@guards/auth.guard';
+import { adminGuard, administratorGuard, guestGuard } from '@guards/auth.guard';
 import { I18nService } from '@services/i18n.service';
 
 /** The administration has no language in its URL; it uses the one the administrator used last. */
@@ -53,12 +53,19 @@ export const adminRoutes: Routes = [
           },
           {
             path: 'apartments',
+            canActivate: [administratorGuard],
             loadComponent: () =>
               import('./apartments/apartments.page').then((m) => m.ApartmentsPage),
           },
           {
             path: 'photos',
+            canActivate: [administratorGuard],
             loadComponent: () => import('./photos/photos.page').then((m) => m.PhotosPage),
+          },
+          {
+            path: 'users',
+            canActivate: [administratorGuard],
+            loadComponent: () => import('./users/users.page').then((m) => m.UsersPage),
           },
           {
             path: 'account',

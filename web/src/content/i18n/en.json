@@ -701,6 +701,7 @@
       "messages": "Messages",
       "apartments": "Apartments",
       "photos": "Photos",
+      "users": "Users",
       "account": "Account",
       "site": "View website",
       "logout": "Sign out"
@@ -933,7 +934,49 @@
       "save": "Change password",
       "changed": "The password has been changed. Other devices were signed out.",
       "session": "The sign-in is protected by a short-lived access token that renews itself. After 30 days you sign in again.",
-      "lead": "The administrator's sign-in details and the password change."
+      "lead": "Your sign-in details and the password change.",
+      "role": "Role"
+    },
+    "users": {
+      "title": "Users",
+      "lead": "Accounts that can sign in to the administration. Staff work with the overview, the calendar, bookings and messages; administrators also manage apartments, photos and users.",
+      "add": "Add user",
+      "edit": "Edit user",
+      "cols": {
+        "name": "Name",
+        "email": "E-mail",
+        "role": "Role",
+        "created": "Created"
+      },
+      "roles": {
+        "admin": "Administrator",
+        "staff": "Staff"
+      },
+      "you": "you",
+      "name": "Name",
+      "email": "E-mail",
+      "role": "Role",
+      "roleHint": "Staff see the overview, the calendar, bookings and messages. An administrator also edits apartments, photos and users.",
+      "ownRole": "You cannot change your own role.",
+      "password": "Password",
+      "passwordHint": "At least 12 characters. Pass it on to the user yourself; it is not sent by e-mail.",
+      "newPassword": "New password",
+      "newPasswordHint": "Leave empty to keep the current password. A new one signs the user out everywhere.",
+      "ownPassword": "You change your own password on the Account page.",
+      "taken": "Another account already uses this e-mail.",
+      "create": "Create user",
+      "save": "Save user",
+      "created": "The user has been created.",
+      "saved": "The user has been saved.",
+      "delete": "Delete user",
+      "deleteConfirm": "Really delete the account of {name}? They will no longer be able to sign in.",
+      "deleted": "The user has been deleted.",
+      "empty": "There are no users."
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light theme",
+      "dark": "Dark theme"
     },
     "common": {
       "cancel": "Cancel",

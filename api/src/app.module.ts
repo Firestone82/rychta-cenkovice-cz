@@ -10,6 +10,7 @@ import { MessagesModule } from './messages/messages.module.js';
 import { PhotosModule } from './photos/photos.module.js';
 import { SeedModule } from './seed/seed.module.js';
 import { SiteModule } from './site/site.module.js';
+import { UsersAdminModule } from './users/users-admin.module.js';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SiteModule } from './site/site.module.js';
     DatabaseModule,
     SiteModule,
     AuthModule,
+    UsersAdminModule,
     ApartmentsModule,
     BookingsModule,
     MessagesModule,

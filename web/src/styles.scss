@@ -19,8 +19,11 @@
   --edge: #707b83;
   --spruce: #2b5a3a;
   --spruce-soft: #e1ede3;
+  --spruce-edge: #8fb79a;
+  --spruce-ink: #1d4229;
   --larch: #d8a23c;
   --larch-soft: #f9eed3;
+  --larch-ink: #6b4a05;
   --ice: #dde8ee;
 
   /* Seasons (also the colours of Czech hiking trail marks) */
@@ -412,13 +415,13 @@ textarea.input {
 .tag-pending {
   background: var(--larch-soft);
   border-color: var(--larch);
-  color: #6b4a05;
+  color: var(--larch-ink);
 }
 
 .tag-confirmed {
   background: var(--spruce-soft);
-  border-color: #8fb79a;
-  color: #1d4229;
+  border-color: var(--spruce-edge);
+  color: var(--spruce-ink);
 }
 
 .tag-cancelled {

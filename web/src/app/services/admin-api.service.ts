@@ -1,5 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import type {
+  Account,
+  AccountInput,
   AdminBookingInput,
   Apartment,
   Booking,
@@ -13,6 +15,10 @@ import { ApiClient } from './api-client.service';
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
   private readonly client = inject(ApiClient);
+  private readonly writes = signal(0);
+
+  /** Grows with every change to a booking or a message, so the counts in the sidebar can follow. */
+  readonly changed = this.writes.asReadonly();
 
   dashboard(): Promise<{ today: string; dashboard: Dashboard }> {
     return this.client.get('/admin/dashboard');
@@ -31,13 +37,13 @@ export class AdminApiService {
     return this.client.get<Booking>(`/admin/bookings/${id}`);
   }
   createBooking(body: AdminBookingInput): Promise<Booking> {
-    return this.client.send<Booking>('POST', '/admin/bookings', body);
+    return this.counted(this.client.send<Booking>('POST', '/admin/bookings', body));
   }
   updateBooking(id: number, body: AdminBookingInput): Promise<Booking> {
-    return this.client.send<Booking>('PATCH', `/admin/bookings/${id}`, body);
+    return this.counted(this.client.send<Booking>('PATCH', `/admin/bookings/${id}`, body));
   }
   deleteBooking(id: number): Promise<void> {
-    return this.client.send<void>('DELETE', `/admin/bookings/${id}`);
+    return this.counted(this.client.send<void>('DELETE', `/admin/bookings/${id}`));
   }
   messages(status?: string): Promise<Message[]> {
     return this.client
@@ -45,10 +51,10 @@ export class AdminApiService {
       .then((r) => r.items);
   }
   setMessageStatus(id: number, status: Message['status']): Promise<Message> {
-    return this.client.send<Message>('PATCH', `/admin/messages/${id}`, { status });
+    return this.counted(this.client.send<Message>('PATCH', `/admin/messages/${id}`, { status }));
   }
   deleteMessage(id: number): Promise<void> {
-    return this.client.send<void>('DELETE', `/admin/messages/${id}`);
+    return this.counted(this.client.send<void>('DELETE', `/admin/messages/${id}`));
   }
   apartments(): Promise<Apartment[]> {
     return this.client.get<{ items: Apartment[] }>('/admin/apartments').then((r) => r.items);
@@ -85,5 +91,21 @@ export class AdminApiService {
   }
   deletePhoto(id: number): Promise<void> {
     return this.client.invalidating(this.client.send<void>('DELETE', `/admin/photos/${id}`));
+  }
+  users(): Promise<Account[]> {
+    return this.client.get<{ items: Account[] }>('/admin/users').then((r) => r.items);
+  }
+  createUser(body: AccountInput): Promise<Account> {
+    return this.client.send<Account>('POST', '/admin/users', body);
+  }
+  updateUser(id: number, body: AccountInput): Promise<Account> {
+    return this.client.send<Account>('PATCH', `/admin/users/${id}`, body);
+  }
+  deleteUser(id: number): Promise<void> {
+    return this.client.send<void>('DELETE', `/admin/users/${id}`);
+  }
+
+  private counted<T>(result: Promise<T>): Promise<T> {
+    return result.finally(() => this.writes.update((n) => n + 1));
   }
 }

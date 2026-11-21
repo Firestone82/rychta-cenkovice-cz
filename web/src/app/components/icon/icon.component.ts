@@ -31,6 +31,9 @@ const PATHS = {
   image: 'M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M8.5 9.5a1 1 0 1 0 0-.010',
   key: 'M14.5 9.5a4 4 0 1 0-5 5L3 21h4v-3h3v-3l1.5-1.5a4 4 0 0 0 3-4zM16 8h.010',
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+  user: 'M19 20v-1a5 5 0 0 0-5-5h-4a5 5 0 0 0-5 5v1M12 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
+  sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
+  moon: 'M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z',
 } as const;
 
 export type IconName = keyof typeof PATHS;

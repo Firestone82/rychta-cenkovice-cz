@@ -23,9 +23,13 @@
     overflow-wrap: anywhere;
   }
 
-  span {
+  p span {
     font-size: 0.875rem;
     color: var(--slate-2);
+  }
+
+  .tag {
+    margin-left: auto;
   }
 }
 .session {

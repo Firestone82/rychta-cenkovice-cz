@@ -1,0 +1,11 @@
+@let user = auth.user();
+<a class="who" routerLink="/admin/account" [title]="t().admin.nav.account">
+  <rc-icon name="user" />
+  <span class="id">
+    <strong>{{ user?.name || user?.email }}</strong>
+    <span>{{ user?.email }}</span>
+  </span>
+</a>
+<button type="button" class="out" (click)="logout()">
+  <rc-icon name="logout" /> {{ t().admin.nav.logout }}
+</button>

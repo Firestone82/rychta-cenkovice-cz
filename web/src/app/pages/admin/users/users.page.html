@@ -1,0 +1,36 @@
+@let text = t().admin.users;
+<div class="a-head">
+  <div>
+    <h1>{{ text.title }}</h1>
+    <p>{{ text.lead }}</p>
+  </div>
+  <div class="a-actions">
+    <button type="button" class="btn" (click)="editing.set('new')">
+      <rc-icon name="plus" /> {{ text.add }}
+    </button>
+  </div>
+</div>
+
+@if (items(); as list) {
+  @if (list.length) {
+    <rc-user-list
+      [users]="list"
+      [ownId]="auth.user()?.id ?? null"
+      (edit)="editing.set($event)"
+      (remove)="remove($event)"
+    />
+  } @else {
+    <p class="a-empty">{{ failed() ? t().common.loadFailed : text.empty }}</p>
+  }
+} @else {
+  <rc-spinner [label]="t().common.loading" />
+}
+
+@if (editing(); as open) {
+  <rc-user-editor
+    [user]="account(open)"
+    [own]="account(open)?.id === auth.user()?.id"
+    (saved)="stored($event)"
+    (closed)="editing.set(null)"
+  />
+}

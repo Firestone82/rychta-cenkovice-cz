@@ -8,7 +8,7 @@ import type { Session, User } from '@models/api.model';
 const CSRF_HEADER = { 'X-Requested-With': 'rychta-web' };
 
 /**
- * Administrator session.
+ * Session of the administration.
  *
  * - The access token (a JWT valid for about 10 minutes) lives only in memory, never in
  *   localStorage, so a script injected into the page cannot steal a long-lived credential.
@@ -31,6 +31,8 @@ export class AuthService {
 
   readonly user = signal<User | null>(null);
   readonly signedIn = computed(() => this.token() !== null);
+  /** Administrators also manage apartments, photos and accounts. */
+  readonly isAdmin = computed(() => this.user()?.role === 'admin');
 
   constructor() {
     // Signing out in one tab signs out the others.
