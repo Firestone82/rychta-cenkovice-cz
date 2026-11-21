@@ -17,10 +17,12 @@
 
 <ul class="legend">
   @for (level of levels; track level) {
-    <li><span class="key" [class]="'is-' + level"></span>{{ t().admin.calendar.levels[level] }}</li>
+    <li data-static>
+      <span class="key" [class]="'is-' + level"></span>{{ t().admin.calendar.levels[level] }}
+    </li>
   }
   @if (layout() === 'rows') {
-    <li><span class="key weekend"></span>{{ t().admin.calendar.weekend }}</li>
+    <li data-static><span class="key weekend"></span>{{ t().admin.calendar.weekend }}</li>
   }
   <li class="note">{{ i18n.fill(t().admin.calendar.counted, { total: total() }) }}</li>
 </ul>

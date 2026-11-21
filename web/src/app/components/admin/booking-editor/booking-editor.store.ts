@@ -10,6 +10,7 @@ import { ConfirmService } from '@services/confirm.service';
 import { ToastService } from '@services/toast.service';
 import { unitNumbers } from '@utils/booking.util';
 import { addDays, isISO, nightsBetween } from '@utils/dates.util';
+import { placeholderApartments, placeholderBookings } from '@utils/placeholders.util';
 
 /** State of the admin booking editor; provided by the page so every part of the form shares it. */
 @Injectable()
@@ -22,7 +23,9 @@ export class BookingEditorStore {
   readonly readOnly = computed(() => !this.auth.canEdit() || this.booking()?.imported === true);
   /** Contact-form message the new booking is created from. */
   readonly message = signal<Message | null>(null);
-  readonly apartments = signal<Apartment[]>([]);
+  /** Placeholders until the list arrives, so the form has its shape while it loads. */
+  readonly apartments = signal<Apartment[]>(placeholderApartments());
+  /** False while loading: the form then shows placeholders and looks nothing up. */
   readonly ready = signal(false);
   readonly missing = signal(false);
 
@@ -75,7 +78,7 @@ export class BookingEditorStore {
       const from = this.checkIn();
       const to = this.checkOut();
       const own = this.booking()?.id;
-      if (!isISO(from) || !isISO(to) || to <= from) {
+      if (!this.ready() || !isISO(from) || !isISO(to) || to <= from) {
         this.taken.set(new Map());
         return;
       }
@@ -101,6 +104,8 @@ export class BookingEditorStore {
    * `a` (apartment number) and `message` (id of a contact-form message to take the guest from).
    */
   async init(id: number, query: ParamMap): Promise<void> {
+    // A stored booking has more parts on the form than a new one, so it loads over a stand-in.
+    if (id) this.fill(placeholderBookings(1)[0]);
     try {
       this.apartments.set(await this.api.apartments());
       if (id) this.fill(await this.api.booking(id));

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { TileSize } from '@components/admin/tile-size/tile-size.component';
@@ -6,6 +7,7 @@ import { PHOTO_CATEGORIES, type PhotoCategory } from '@models/photo-category.mod
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
 import { uploadPhotos } from '@utils/photo-upload.util';
+import { placeholderApartments, placeholderPhotos } from '@utils/placeholders.util';
 import { readStored, writeStored } from '@utils/storage.util';
 import { PhotoEditorComponent } from '@components/admin/photo-editor/photo-editor.component';
 import { PhotoSectionComponent } from '@components/admin/photo-section/photo-section.component';
@@ -28,7 +30,7 @@ const COLLAPSED_KEY = 'rc_admin_photo_rows';
 @Component({
   selector: 'rc-photo-manager',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkeletonComponent, PhotoSectionComponent, PhotoEditorComponent],
+  imports: [NgTemplateOutlet, SkeletonComponent, PhotoSectionComponent, PhotoEditorComponent],
   templateUrl: './photo-manager.component.html',
   styleUrl: './photo-manager.component.scss',
 })
@@ -39,6 +41,8 @@ export class PhotoManagerComponent {
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
   protected readonly photos = signal<Photo[] | null>(null);
+  /** Both the photos and the apartments, whose rows they fill, have arrived. */
+  protected readonly loaded = computed(() => !!this.photos() && !!this.apartments());
   protected readonly failed = signal(false);
   protected readonly problems = signal<string[]>([]);
   protected readonly editing = signal<Photo | null>(null);
@@ -48,21 +52,22 @@ export class PhotoManagerComponent {
     const u = this.uploading();
     return u ? this.i18n.fill(this.t().admin.photos.uploading, u) : '';
   });
+  /** The rows of the page; filled with placeholders until everything is loaded. */
   protected readonly groups = computed(() =>
     PHOTO_CATEGORIES.flatMap((category) =>
       category === 'apartment'
-        ? this.apartments().map((a) => this.group(category, a))
+        ? (this.apartments() ?? placeholderApartments()).map((a) => this.group(category, a))
         : [this.group(category, null)],
     ),
   );
 
   private readonly api = inject(AdminApiService);
-  private readonly apartments = signal<Apartment[]>([]);
+  private readonly apartments = signal<Apartment[] | null>(null);
 
   constructor() {
     this.api.apartments().then(
       (list) => this.apartments.set(list),
-      () => undefined,
+      () => this.apartments.set([]),
     );
     void this.load();
   }
@@ -93,14 +98,16 @@ export class PhotoManagerComponent {
   }
 
   private group(category: PhotoCategory, apartment: Apartment | null): PhotoGroup {
-    const all = this.photos() ?? [];
+    const all = this.loaded() ? (this.photos() ?? []) : placeholderPhotos(4, category);
     return {
       key: apartment ? `apartment-${apartment.id}` : category,
       heading: apartment ? this.i18n.apartment(apartment) : this.t().gallery.categories[category],
       category,
       apartmentId: apartment?.id ?? null,
       photos: all.filter(
-        (p) => p.category === category && (!apartment || p.apartment_id === apartment.id),
+        (p) =>
+          p.category === category &&
+          (!apartment || !this.loaded() || p.apartment_id === apartment.id),
       ),
     };
   }

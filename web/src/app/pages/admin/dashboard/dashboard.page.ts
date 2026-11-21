@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { BookingDecision } from '@components/admin/booking-table/booking-table.component';
@@ -11,11 +12,13 @@ import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 import { ToastService } from '@services/toast.service';
+import { placeholderDashboard } from '@utils/placeholders.util';
 
 @Component({
   selector: 'rc-admin-dashboard-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    NgTemplateOutlet,
     RouterLink,
     IconComponent,
     SkeletonComponent,
@@ -30,6 +33,7 @@ export class DashboardPage {
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
   protected readonly data = signal<Dashboard | null>(null);
+  protected readonly placeholder = placeholderDashboard();
   /** The API's idea of today, so the heading matches the counters. */
   protected readonly today = signal('');
   protected readonly apartments = signal<Apartment[]>([]);

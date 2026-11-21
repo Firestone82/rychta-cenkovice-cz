@@ -50,6 +50,7 @@
                 type="button"
                 class="a-icon-btn is-danger"
                 [class.is-hidden]="user.id === ownId()"
+                [rcBusy]="busyId() === user.id"
                 [disabled]="user.id === ownId()"
                 [title]="text.delete"
                 (click)="remove.emit(user)"

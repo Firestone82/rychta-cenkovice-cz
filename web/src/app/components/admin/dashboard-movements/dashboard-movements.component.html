@@ -1,6 +1,6 @@
 @let arriving = kind() === 'arrivals';
 <section class="a-card">
-  <h2>{{ t().admin.dashboard[kind()] }}</h2>
+  <h2 data-static>{{ t().admin.dashboard[kind()] }}</h2>
   @if (bookings().length) {
     <ul class="rows compact">
       @for (b of bookings(); track b.id) {

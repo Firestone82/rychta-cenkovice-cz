@@ -4,6 +4,7 @@ import { IconComponent } from '@components/icon/icon.component';
 import type { Booking } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
 import { statusClass } from '@utils/booking.util';
+import { BusyDirective } from '@directives/busy.directive';
 
 /**
  * One table row; used as an attribute on `<tr>` so the table markup stays valid. A click anywhere
@@ -13,7 +14,7 @@ import { statusClass } from '@utils/booking.util';
   selector: 'tr[rcBookingRow]',
   host: { '(click)': 'open($event)' },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, IconComponent],
+  imports: [BusyDirective, RouterLink, IconComponent],
   templateUrl: './booking-row.component.html',
   styleUrl: './booking-row.component.scss',
 })

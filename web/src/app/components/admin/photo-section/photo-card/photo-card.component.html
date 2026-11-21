@@ -19,6 +19,7 @@
   <button
     type="button"
     class="a-icon-btn is-danger"
+    [rcBusy]="busy()"
     (click)="remove()"
     [attr.aria-label]="t().admin.photos.delete + ': ' + p.alt.cs"
   >

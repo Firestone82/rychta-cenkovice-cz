@@ -30,7 +30,7 @@ const ITEMS: NavItem[] = [
   { path: '/admin/calendar', key: 'calendar', icon: 'calendar' },
   { path: '/admin/bookings', key: 'bookings', icon: 'bed' },
   { path: '/admin/messages', key: 'messages', icon: 'inbox', only: 'staff' },
-  { path: '/admin/apartments', key: 'apartments', icon: 'key', only: 'admin' },
+  { path: '/admin/apartments', key: 'apartments', icon: 'door', only: 'admin' },
   { path: '/admin/photos', key: 'photos', icon: 'image', only: 'admin' },
   { path: '/admin/users', key: 'users', icon: 'users', only: 'admin' },
   { path: '/admin/account', key: 'account', icon: 'user' },

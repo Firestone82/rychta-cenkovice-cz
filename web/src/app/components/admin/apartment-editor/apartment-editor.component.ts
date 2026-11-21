@@ -26,11 +26,13 @@ import { ApartmentPhotosComponent } from './apartment-photos/apartment-photos.co
 import { ApartmentLabelListComponent } from './apartment-label-list/apartment-label-list.component';
 import { ApartmentSummaryComponent } from './apartment-summary/apartment-summary.component';
 import { ApartmentTextsComponent } from './apartment-texts/apartment-texts.component';
+import { BusyDirective } from '@directives/busy.directive';
 
 @Component({
   selector: 'rc-apartment-editor',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    BusyDirective,
     ApartmentSummaryComponent,
     ApartmentNameComponent,
     ApartmentBasicsComponent,

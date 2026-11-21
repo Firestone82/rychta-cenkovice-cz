@@ -1,5 +1,5 @@
 <section class="a-card block">
-  <h2>{{ t().admin.dashboard.pendingTitle }}</h2>
+  <h2 data-static>{{ t().admin.dashboard.pendingTitle }}</h2>
   @if (bookings().length) {
     <ul class="rows">
       @for (b of bookings(); track b.id) {
@@ -19,7 +19,7 @@
             <button
               type="button"
               class="btn btn-small"
-              [disabled]="busyId() === b.id"
+              [rcBusy]="busyId() === b.id"
               (click)="decide.emit({ booking: b, status: 'confirmed' })"
             >
               <rc-icon name="check" /> {{ t().admin.bookings.confirm }}
@@ -27,7 +27,7 @@
             <button
               type="button"
               class="btn btn-small btn-quiet"
-              [disabled]="busyId() === b.id"
+              [rcBusy]="busyId() === b.id"
               (click)="decide.emit({ booking: b, status: 'cancelled' })"
             >
               {{ t().admin.bookings.decline }}

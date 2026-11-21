@@ -1,5 +1,8 @@
 <ul class="facts">
   <li><rc-icon name="area" /> {{ apartment().area }} {{ t().common.areaUnit }}</li>
+  @if (i18n.rooms(apartment().flat_type); as rooms) {
+    <li><rc-icon name="door" /> {{ rooms }}</li>
+  }
   <li>
     <rc-icon name="bed" /> {{ i18n.count(apartment().beds, t().plural.beds) }}
     @if (apartment().extra_beds) {

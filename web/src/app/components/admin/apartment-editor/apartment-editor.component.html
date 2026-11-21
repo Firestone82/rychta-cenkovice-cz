@@ -42,7 +42,7 @@
     @if (failure()) {
       <p class="notice is-error" role="alert">{{ failure() }}</p>
     }
-    <button class="btn" type="submit" [disabled]="busy()">
+    <button class="btn" type="submit" [rcBusy]="busy()">
       {{ t().admin.apartments.save }}
     </button>
   </form>

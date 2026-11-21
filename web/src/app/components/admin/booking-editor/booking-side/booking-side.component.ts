@@ -4,11 +4,12 @@ import { I18nService } from '@services/i18n.service';
 import { checkedOf } from '@utils/forms.util';
 import { BookingEditorStore } from '../booking-editor.store';
 import { BookingActionsComponent } from './booking-actions/booking-actions.component';
+import { BusyDirective } from '@directives/busy.directive';
 
 @Component({
   selector: 'rc-booking-side',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TextFieldComponent, BookingActionsComponent],
+  imports: [BusyDirective, TextFieldComponent, BookingActionsComponent],
   templateUrl: './booking-side.component.html',
   styleUrl: './booking-side.component.scss',
 })

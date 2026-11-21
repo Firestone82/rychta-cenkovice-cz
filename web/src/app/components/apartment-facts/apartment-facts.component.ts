@@ -13,6 +13,6 @@ import { IconComponent } from '@components/icon/icon.component';
 export class ApartmentFactsComponent {
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
-  /** Apartment whose area, beds, floor and access are listed. */
+  /** Apartment whose area, rooms, beds, floor and access are listed. */
   readonly apartment = input.required<Apartment>();
 }

@@ -13,6 +13,10 @@
       "one": "guest",
       "other": "guests"
     },
+    "rooms": {
+      "one": "room",
+      "other": "rooms"
+    },
     "beds": {
       "one": "bed",
       "other": "beds"
@@ -190,6 +194,7 @@
       "apartment": "Apartment",
       "floor": "Floor",
       "area": "Area",
+      "rooms": "Rooms",
       "beds": "Beds",
       "layout": "Bed layout"
     },
@@ -405,7 +410,6 @@
     "priceEstimate": "Estimated price",
     "priceLater": "We will confirm the price by e-mail.",
     "submit": "Send booking request",
-    "submitting": "Sending your request",
     "fixErrors": "Please check the highlighted fields.",
     "conflict": "Someone has just booked one of the selected apartments. Please choose again.",
     "doneTitle": "Your request has been sent",
@@ -432,7 +436,6 @@
     "message": "Message",
     "consent": "I agree to the processing of my personal data in order to answer my message.",
     "submit": "Send message",
-    "submitting": "Sending your message",
     "sentTitle": "Your message has been sent",
     "sentText": "Thank you. We will get back to you by e-mail or phone.",
     "sendAnother": "Write another message",
@@ -723,7 +726,6 @@
       "email": "E-mail",
       "password": "Password",
       "submit": "Sign in",
-      "submitting": "Signing in",
       "invalid": "Wrong e-mail or password.",
       "limited": "Too many failed attempts. Try again in {min} min.",
       "expired": "Your session has expired. Please sign in again.",
@@ -817,7 +819,6 @@
       "priceAuto": "Calculate from nightly prices",
       "priceHint": "Leave empty if the price has not been agreed yet.",
       "save": "Save booking",
-      "saving": "Saving",
       "created_at": "Created",
       "messageLink": "Original message",
       "lead": "All bookings and blocked dates. Filter by status, search by name or code, and click a row to open the booking.",

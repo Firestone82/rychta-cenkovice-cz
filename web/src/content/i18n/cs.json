@@ -15,6 +15,11 @@
       "few": "osoby",
       "other": "osob"
     },
+    "rooms": {
+      "one": "pokoj",
+      "few": "pokoje",
+      "other": "pokojů"
+    },
     "beds": {
       "one": "lůžko",
       "few": "lůžka",
@@ -196,6 +201,7 @@
       "apartment": "Apartmán",
       "floor": "Podlaží",
       "area": "Plocha",
+      "rooms": "Pokoje",
       "beds": "Lůžka",
       "layout": "Uspořádání lůžek"
     },
@@ -411,7 +417,6 @@
     "priceEstimate": "Orientační cena",
     "priceLater": "Cenu vám potvrdíme e-mailem.",
     "submit": "Odeslat poptávku",
-    "submitting": "Odesíláme poptávku",
     "fixErrors": "Zkontrolujte prosím označená pole.",
     "conflict": "Některý z vybraných apartmánů si právě rezervoval někdo jiný. Vyberte prosím znovu.",
     "doneTitle": "Poptávka je odeslaná",
@@ -438,7 +443,6 @@
     "message": "Zpráva",
     "consent": "Souhlasím se zpracováním osobních údajů pro vyřízení mé zprávy.",
     "submit": "Odeslat zprávu",
-    "submitting": "Odesíláme zprávu",
     "sentTitle": "Zpráva je odeslaná",
     "sentText": "Děkujeme. Ozveme se vám na uvedený e-mail nebo telefon.",
     "sendAnother": "Napsat další zprávu",
@@ -729,7 +733,6 @@
       "email": "E-mail",
       "password": "Heslo",
       "submit": "Přihlásit se",
-      "submitting": "Přihlašování",
       "invalid": "Nesprávný e-mail nebo heslo.",
       "limited": "Příliš mnoho neúspěšných pokusů. Zkuste to znovu za {min} min.",
       "expired": "Přihlášení vypršelo. Přihlaste se prosím znovu.",
@@ -823,7 +826,6 @@
       "priceAuto": "Spočítat z cen za noc",
       "priceHint": "Nechte prázdné, pokud cena ještě není domluvená.",
       "save": "Uložit rezervaci",
-      "saving": "Ukládání",
       "created_at": "Vytvořeno",
       "messageLink": "Původní zpráva",
       "lead": "Všechny rezervace a blokace termínů. Filtrujte podle stavu, hledejte podle jména nebo kódu a kliknutím na řádek rezervaci otevřete.",

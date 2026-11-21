@@ -14,6 +14,7 @@ import { AdminApiService } from '@services/admin-api.service';
 import { ConfirmService } from '@services/confirm.service';
 import { I18nService } from '@services/i18n.service';
 import { ToastService } from '@services/toast.service';
+import { BusyDirective } from '@directives/busy.directive';
 
 const WEB_ADDRESS = /^https?:\/\/\S+$/i;
 
@@ -21,7 +22,7 @@ const WEB_ADDRESS = /^https?:\/\/\S+$/i;
 @Component({
   selector: 'rc-apartment-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, TextFieldComponent],
+  imports: [BusyDirective, IconComponent, TextFieldComponent],
   templateUrl: './apartment-calendar.component.html',
   styleUrl: './apartment-calendar.component.scss',
 })

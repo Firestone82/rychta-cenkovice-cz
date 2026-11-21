@@ -16,6 +16,7 @@ import { ToastService } from '@services/toast.service';
 import { toFailure } from '@utils/api-failure.util';
 import { TEXT_LIMITS } from '@utils/forms.util';
 import { RolePickerComponent } from './role-picker/role-picker.component';
+import { BusyDirective } from '@directives/busy.directive';
 
 const MIN_PASSWORD_LENGTH = 12;
 
@@ -23,7 +24,7 @@ const MIN_PASSWORD_LENGTH = 12;
 @Component({
   selector: 'rc-user-editor',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ModalComponent, TextFieldComponent, RolePickerComponent],
+  imports: [BusyDirective, ModalComponent, TextFieldComponent, RolePickerComponent],
   templateUrl: './user-editor.component.html',
   styleUrl: './user-editor.component.scss',
 })

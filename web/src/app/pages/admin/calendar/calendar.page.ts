@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,6 +23,7 @@ import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 import { addDays, addMonths, daysInMonth, startOfMonth, todayISO } from '@utils/dates.util';
+import { placeholderApartments } from '@utils/placeholders.util';
 import { readStored, writeStored } from '@utils/storage.util';
 
 const VIEWS = ['months', 'year'] as const;
@@ -33,6 +35,7 @@ const LAYOUT_KEY = 'rc_admin_year_layout';
   selector: 'rc-admin-calendar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    NgTemplateOutlet,
     RouterLink,
     IconComponent,
     SkeletonComponent,
@@ -67,6 +70,7 @@ export class CalendarPage {
     return early ? [month] : [month, addMonths(month, 1)];
   });
   protected readonly apartments = signal<Apartment[]>([]);
+  protected readonly placeholders = placeholderApartments();
   protected readonly bookings = signal<Booking[]>([]);
   protected readonly loading = signal(true);
   protected readonly failed = signal(false);

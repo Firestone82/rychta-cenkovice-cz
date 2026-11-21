@@ -4,6 +4,8 @@ import { ConsentService } from './consent.service';
 import { DICTIONARIES } from '@config/languages.config';
 import { SITE } from '@config/site.config';
 import type { Dict, Lang, Plural } from '@models/i18n.model';
+import type { FlatType } from '@models/apartment-options.model';
+import { roomCount } from '@utils/apartment.util';
 
 const STORAGE_KEY = 'rc-lang';
 const ADMIN_KEY = 'rc-admin-lang';
@@ -126,6 +128,12 @@ export class I18nService {
   /** The name of a flat type from the fixed list, or nothing when it is not stated. */
   flatType(key: string | null | undefined): string {
     return key ? ((this.t().flatTypes as Record<string, string>)[key] ?? '') : '';
+  }
+
+  /** "3 rooms" for a flat type; empty when the apartment has none set. */
+  rooms(flatType: FlatType | ''): string {
+    const rooms = roomCount(flatType);
+    return rooms ? this.count(rooms, this.t().plural.rooms) : '';
   }
 
   pickList(value: { cs: string[]; en: string[] } | null | undefined): string[] {

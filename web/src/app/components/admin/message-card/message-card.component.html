@@ -30,24 +30,44 @@
     ><rc-icon name="mail" /> {{ t().admin.messages.reply }}</a
   >
   @if (m.status === 'new') {
-    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('read')">
+    <button
+      type="button"
+      class="btn btn-small btn-quiet"
+      [rcBusy]="busy()"
+      (click)="status.emit('read')"
+    >
       {{ t().admin.messages.markRead }}
     </button>
   } @else if (m.status === 'read') {
-    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('new')">
+    <button
+      type="button"
+      class="btn btn-small btn-quiet"
+      [rcBusy]="busy()"
+      (click)="status.emit('new')"
+    >
       {{ t().admin.messages.markNew }}
     </button>
   }
   @if (m.status === 'archived') {
-    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('read')">
+    <button
+      type="button"
+      class="btn btn-small btn-quiet"
+      [rcBusy]="busy()"
+      (click)="status.emit('read')"
+    >
       {{ t().admin.messages.unarchive }}
     </button>
   } @else {
-    <button type="button" class="btn btn-small btn-quiet" (click)="status.emit('archived')">
+    <button
+      type="button"
+      class="btn btn-small btn-quiet"
+      [rcBusy]="busy()"
+      (click)="status.emit('archived')"
+    >
       {{ t().admin.messages.archive }}
     </button>
   }
-  <button type="button" class="btn btn-small btn-danger" (click)="remove.emit()">
+  <button type="button" class="btn btn-small btn-danger" [rcBusy]="busy()" (click)="remove.emit()">
     <rc-icon name="trash" /> {{ t().admin.messages.delete }}
   </button>
 </div>

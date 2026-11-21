@@ -6,6 +6,6 @@
     <span>{{ user?.email }}</span>
   </span>
 </a>
-<button type="button" class="out" (click)="logout()">
+<button type="button" class="out" [rcBusy]="leaving()" (click)="logout()">
   <rc-icon name="logout" /> {{ t().admin.nav.logout }}
 </button>

@@ -41,7 +41,7 @@
   <button modalActions type="button" class="btn btn-quiet" (click)="closed.emit()">
     {{ t().admin.common.cancel }}
   </button>
-  <button modalActions type="submit" form="user-editor-form" class="btn" [disabled]="saving()">
+  <button modalActions type="submit" form="user-editor-form" class="btn" [rcBusy]="saving()">
     {{ existing ? text.save : text.create }}
   </button>
 </rc-modal>

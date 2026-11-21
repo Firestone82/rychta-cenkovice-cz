@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, inject, input, output } from '@angu
 import { IconComponent } from '@components/icon/icon.component';
 import type { Account } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
+import { BusyDirective } from '@directives/busy.directive';
 
 /** Table of the accounts of the administration. */
 @Component({
   selector: 'rc-user-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent],
+  imports: [BusyDirective, IconComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })
@@ -16,6 +17,8 @@ export class UserListComponent {
   readonly users = input.required<Account[]>();
   /** Id of the signed-in account; its row is marked and cannot be deleted. */
   readonly ownId = input<number | null>(null);
+  /** Id of the account that is being deleted. */
+  readonly busyId = input<number | null>(null);
   /** The administrator wants to edit this account. */
   readonly edit = output<Account>();
   /** The administrator wants to delete this account. */

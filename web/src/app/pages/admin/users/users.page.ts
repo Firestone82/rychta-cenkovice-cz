@@ -10,6 +10,7 @@ import { ConfirmService } from '@services/confirm.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 import { ToastService } from '@services/toast.service';
+import { placeholderAccounts } from '@utils/placeholders.util';
 
 @Component({
   selector: 'rc-admin-users-page',
@@ -22,7 +23,10 @@ export class UsersPage {
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
   protected readonly items = signal<Account[] | null>(null);
+  protected readonly placeholders = placeholderAccounts(3);
   protected readonly failed = signal(false);
+  /** Id of the account that is being deleted. */
+  protected readonly busy = signal<number | null>(null);
   /** The account in the editor; `new` for one that does not exist yet. */
   protected readonly editing = signal<Account | 'new' | null>(null);
 
@@ -32,7 +36,7 @@ export class UsersPage {
 
   constructor() {
     inject(SeoService).noIndex(this.t().admin.users.title);
-    this.load();
+    void this.load();
   }
 
   protected account(editing: Account | 'new'): Account | null {
@@ -41,7 +45,7 @@ export class UsersPage {
 
   protected stored(user: Account): void {
     this.editing.set(null);
-    this.load();
+    void this.load();
     // The sidebar shows the name and the e-mail of the session, so it is renewed.
     if (user.id === this.auth.user()?.id) void this.auth.refresh();
   }
@@ -50,17 +54,20 @@ export class UsersPage {
     const text = this.t().admin.users;
     const question = this.i18n.fill(text.deleteConfirm, { name: user.name });
     if (!(await this.confirm.ask(question, text.delete))) return;
+    this.busy.set(user.id);
     try {
       await this.api.deleteUser(user.id);
       this.toasts.show(text.deleted);
-      this.load();
+      await this.load();
     } catch {
       this.toasts.show(this.t().admin.common.error, 'error');
+    } finally {
+      this.busy.set(null);
     }
   }
 
-  private load(): void {
-    this.api.users().then(
+  private load(): Promise<void> {
+    return this.api.users().then(
       (list) => {
         this.failed.set(false);
         this.items.set(list);

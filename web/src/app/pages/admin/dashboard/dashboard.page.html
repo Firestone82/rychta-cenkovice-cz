@@ -1,9 +1,14 @@
 <div class="a-head">
   <div>
     <h1>{{ t().admin.dashboard.title }}</h1>
-    @if (today()) {
-      <p>{{ i18n.fill(t().admin.dashboard.lead, { date: i18n.date(today(), 'long') }) }}</p>
-    }
+    <!-- The line keeps its place while the date is on its way, so the heading does not move. -->
+    <p>
+      {{
+        today()
+          ? i18n.fill(t().admin.dashboard.lead, { date: i18n.date(today(), 'long') })
+          : '\u00a0'
+      }}
+    </p>
   </div>
   <div class="a-actions">
     <a class="btn" routerLink="/admin/bookings/new"
@@ -12,7 +17,7 @@
   </div>
 </div>
 
-@if (data(); as d) {
+<ng-template #overview let-d>
   <rc-dashboard-stats [data]="d" />
   <rc-dashboard-pending
     [bookings]="d.pending"
@@ -29,8 +34,17 @@
       [apartments]="apartments()"
     />
   </div>
+</ng-template>
+
+@if (data(); as d) {
+  <ng-container [ngTemplateOutlet]="overview" [ngTemplateOutletContext]="{ $implicit: d }" />
 } @else if (failed()) {
   <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
 } @else {
-  <rc-admin-skeleton kind="cards" [count]="4" [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ng-container
+      [ngTemplateOutlet]="overview"
+      [ngTemplateOutletContext]="{ $implicit: placeholder }"
+    />
+  </rc-admin-skeleton>
 }

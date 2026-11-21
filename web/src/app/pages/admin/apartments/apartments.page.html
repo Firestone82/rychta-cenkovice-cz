@@ -4,31 +4,35 @@
     <p>{{ t().admin.apartments.lead }}</p>
   </div>
 </div>
+<ng-template #floorList>
+  @for (group of floors(); track group.floor) {
+    <section class="floor" [attr.aria-labelledby]="'floor-' + group.floor">
+      <h2 [id]="'floor-' + group.floor">
+        <span class="name">{{ t().common.floor[group.floor - 1] }}</span>
+        <span class="count">{{ i18n.count(group.apartments.length, t().plural.apartments) }}</span>
+      </h2>
+      <div class="list">
+        @for (a of group.apartments; track a.id) {
+          <rc-apartment-editor
+            [apartment]="a"
+            [channel]="channels().get(a.id) ?? null"
+            (saved)="replace($event)"
+            (channelChange)="setChannel(a.id, $event)"
+          />
+        }
+      </div>
+    </section>
+  }
+</ng-template>
+
 @if (items(); as list) {
   @if (list.length) {
-    @for (group of floors(); track group.floor) {
-      <section class="floor" [attr.aria-labelledby]="'floor-' + group.floor">
-        <h2 [id]="'floor-' + group.floor">
-          <span class="name">{{ t().common.floor[group.floor - 1] }}</span>
-          <span class="count">{{
-            i18n.count(group.apartments.length, t().plural.apartments)
-          }}</span>
-        </h2>
-        <div class="list">
-          @for (a of group.apartments; track a.id) {
-            <rc-apartment-editor
-              [apartment]="a"
-              [channel]="channels().get(a.id) ?? null"
-              (saved)="replace($event)"
-              (channelChange)="setChannel(a.id, $event)"
-            />
-          }
-        </div>
-      </section>
-    }
+    <ng-container [ngTemplateOutlet]="floorList" />
   } @else {
     <p class="a-empty">{{ t().common.loadFailed }}</p>
   }
 } @else {
-  <rc-admin-skeleton kind="list" [count]="6" [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ng-container [ngTemplateOutlet]="floorList" />
+  </rc-admin-skeleton>
 }

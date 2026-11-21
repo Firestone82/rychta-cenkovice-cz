@@ -67,8 +67,8 @@
         <p class="notice is-error" role="alert">{{ failure() }}</p>
       }
 
-      <button class="btn" type="submit" [disabled]="sending()">
-        <rc-icon name="mail" /> {{ sending() ? t().contact.submitting : t().contact.submit }}
+      <button class="btn" type="submit" [rcBusy]="sending()">
+        <rc-icon name="mail" /> {{ t().contact.submit }}
       </button>
     </form>
   </div>

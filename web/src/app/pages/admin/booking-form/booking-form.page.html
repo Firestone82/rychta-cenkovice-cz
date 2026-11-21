@@ -2,7 +2,7 @@
   ><rc-icon name="back" /> {{ t().admin.bookings.title }}</a
 >
 
-@if (store.ready()) {
+<ng-template #form>
   <div class="a-head">
     <div>
       <h1>{{ store.title() }}</h1>
@@ -21,8 +21,14 @@
     <rc-booking-source-message [message]="m" />
   }
   <rc-booking-editor />
+</ng-template>
+
+@if (store.ready()) {
+  <ng-container [ngTemplateOutlet]="form" />
 } @else if (store.missing()) {
   <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
 } @else {
-  <rc-admin-skeleton kind="form" [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ng-container [ngTemplateOutlet]="form" />
+  </rc-admin-skeleton>
 }

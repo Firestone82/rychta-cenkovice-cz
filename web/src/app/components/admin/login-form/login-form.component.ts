@@ -7,6 +7,7 @@ import { toFailure } from '@utils/api-failure.util';
 import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { valueOf } from '@utils/forms.util';
+import { BusyDirective } from '@directives/busy.directive';
 
 /**
  * Sign-in form. Reads `?expired` (shows why the owner was signed out) and `?next` (admin URL
@@ -15,7 +16,7 @@ import { valueOf } from '@utils/forms.util';
 @Component({
   selector: 'rc-login-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, LogoComponent],
+  imports: [BusyDirective, RouterLink, LogoComponent],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })

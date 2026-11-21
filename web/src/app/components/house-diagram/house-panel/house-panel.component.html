@@ -11,6 +11,9 @@
   </h3>
   <ul class="facts">
     <li><rc-icon name="area" /> {{ item.area }} m²</li>
+    @if (i18n.rooms(item.flat_type); as rooms) {
+      <li><rc-icon name="door" /> {{ rooms }}</li>
+    }
     <li>
       <rc-icon name="bed" /> {{ i18n.count(item.beds, t().plural.beds) }}
       @if (item.extra_beds) {

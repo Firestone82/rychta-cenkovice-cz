@@ -23,6 +23,7 @@ import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { SeoService } from '@services/seo.service';
 import { ToastService } from '@services/toast.service';
+import { placeholderBookings } from '@utils/placeholders.util';
 
 @Component({
   selector: 'rc-admin-bookings-page',
@@ -43,6 +44,7 @@ export class BookingsPage {
   protected readonly filter = signal<BookingFilter>('active');
   protected readonly search = signal('');
   protected readonly items = signal<Booking[] | null>(null);
+  protected readonly placeholders = placeholderBookings(8);
   protected readonly apartments = signal<Apartment[]>([]);
   protected readonly failed = signal(false);
   protected readonly busy = signal<number | null>(null);

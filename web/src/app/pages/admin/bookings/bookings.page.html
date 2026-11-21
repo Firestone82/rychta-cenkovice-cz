@@ -30,5 +30,12 @@
     <p class="a-empty">{{ failed() ? t().common.loadFailed : t().admin.bookings.empty }}</p>
   }
 } @else {
-  <rc-admin-skeleton [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <rc-booking-table
+      [bookings]="placeholders"
+      [apartments]="apartments()"
+      [busyId]="null"
+      [readOnly]="!canEdit()"
+    />
+  </rc-admin-skeleton>
 }

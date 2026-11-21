@@ -298,6 +298,40 @@ button {
   }
 }
 
+/* A button whose request is running (`rcBusy`): a turning ring in place of the label. */
+.is-busy {
+  position: relative;
+  -webkit-text-fill-color: transparent;
+
+  > * {
+    visibility: hidden;
+  }
+
+  &[disabled] {
+    opacity: 1;
+    cursor: progress;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 1.15em;
+    height: 1.15em;
+    margin: auto;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: busy-turn 0.7s linear infinite;
+  }
+}
+
+@keyframes busy-turn {
+  to {
+    rotate: 1turn;
+  }
+}
+
 .btn-ghost {
   background: transparent;
   color: var(--slate);

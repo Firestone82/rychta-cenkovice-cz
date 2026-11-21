@@ -40,26 +40,38 @@
   </div>
 </rc-month-switch>
 
-@if (!apartments().length) {
-  @if (failed()) {
-    <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
+<ng-template #calendar let-list>
+  @if (view() === 'year') {
+    <rc-year-occupancy
+      [year]="year()"
+      [layout]="layout()"
+      [apartments]="list"
+      [bookings]="bookings()"
+      [loading]="loading()"
+      (month)="openMonth($event)"
+    />
   } @else {
-    <rc-admin-skeleton kind="calendar" [label]="t().common.loading" />
+    <rc-booking-timeline
+      [months]="months()"
+      [apartments]="list"
+      [bookings]="bookings()"
+      [loading]="loading()"
+    />
   }
-} @else if (view() === 'year') {
-  <rc-year-occupancy
-    [year]="year()"
-    [layout]="layout()"
-    [apartments]="apartments()"
-    [bookings]="bookings()"
-    [loading]="loading()"
-    (month)="openMonth($event)"
+</ng-template>
+
+@if (apartments().length) {
+  <ng-container
+    [ngTemplateOutlet]="calendar"
+    [ngTemplateOutletContext]="{ $implicit: apartments() }"
   />
+} @else if (failed()) {
+  <p class="notice is-error" role="alert">{{ t().common.loadFailed }}</p>
 } @else {
-  <rc-booking-timeline
-    [months]="months()"
-    [apartments]="apartments()"
-    [bookings]="bookings()"
-    [loading]="loading()"
-  />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ng-container
+      [ngTemplateOutlet]="calendar"
+      [ngTemplateOutletContext]="{ $implicit: placeholders }"
+    />
+  </rc-admin-skeleton>
 }

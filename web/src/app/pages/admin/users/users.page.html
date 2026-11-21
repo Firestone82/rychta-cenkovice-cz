@@ -16,6 +16,7 @@
     <rc-user-list
       [users]="list"
       [ownId]="auth.user()?.id ?? null"
+      [busyId]="busy()"
       (edit)="editing.set($event)"
       (remove)="remove($event)"
     />
@@ -23,7 +24,9 @@
     <p class="a-empty">{{ failed() ? t().common.loadFailed : text.empty }}</p>
   }
 } @else {
-  <rc-admin-skeleton [count]="3" [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <rc-user-list [users]="placeholders" [ownId]="null" />
+  </rc-admin-skeleton>
 }
 
 @if (editing(); as open) {

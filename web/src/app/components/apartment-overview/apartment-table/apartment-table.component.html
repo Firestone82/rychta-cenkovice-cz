@@ -10,6 +10,7 @@
         <th scope="col">{{ t().accommodation.table.apartment }}</th>
         <th scope="col">{{ t().accommodation.table.floor }}</th>
         <th scope="col">{{ t().accommodation.table.area }}</th>
+        <th scope="col">{{ t().accommodation.table.rooms }}</th>
         <th scope="col">{{ t().accommodation.table.beds }}</th>
         <th scope="col">{{ t().accommodation.table.layout }}</th>
       </tr>
@@ -22,6 +23,7 @@
           </th>
           <td class="nowrap">{{ t().common.floor[a.floor - 1] }}</td>
           <td class="nowrap">{{ a.area }} {{ t().common.areaUnit }}</td>
+          <td class="nowrap">{{ roomCount(a.flat_type) || '' }}</td>
           <td class="nowrap">
             {{ a.beds }}
             @if (a.extra_beds) {

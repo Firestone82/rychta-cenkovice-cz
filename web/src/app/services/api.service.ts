@@ -12,15 +12,18 @@ import type {
 } from '@models/api.model';
 import { ApiClient } from './api-client.service';
 
+/** A transparent pixel, so a placeholder photo requests nothing. */
+const EMPTY_PICTURE = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
 /** Public endpoints of the API: what the website needs without signing in. */
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly client = inject(ApiClient);
   private readonly media = inject(MEDIA_BASE);
 
-  /** URL of one generated size of a photo. */
+  /** URL of one generated size of a photo; a photo without a file is an empty picture. */
   photoUrl(photo: Pick<Photo, 'file'>, width: number): string {
-    return `${this.media}/${photo.file}-${width}.jpg`;
+    return photo.file ? `${this.media}/${photo.file}-${width}.jpg` : EMPTY_PICTURE;
   }
 
   srcset(photo: Pick<Photo, 'file' | 'widths'>): string {

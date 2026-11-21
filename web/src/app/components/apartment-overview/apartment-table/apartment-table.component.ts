@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import type { Apartment } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
 import { LinksService } from '@services/links.service';
+import { roomCount } from '@utils/apartment.util';
 
 @Component({
   selector: 'rc-apartment-table',
@@ -18,4 +19,5 @@ export class ApartmentTableComponent {
   protected readonly i18n = inject(I18nService);
   protected readonly links = inject(LinksService);
   protected readonly t = this.i18n.t;
+  protected readonly roomCount = roomCount;
 }

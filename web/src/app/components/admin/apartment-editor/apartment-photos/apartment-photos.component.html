@@ -5,7 +5,7 @@
     }
   </ul>
 }
-@if (photos(); as list) {
+<ng-template #section let-list>
   <rc-photo-section
     [key]="'apartment-editor-' + apartment().id"
     [heading]="t().admin.apartments.photos"
@@ -17,8 +17,19 @@
     (removed)="drop($event)"
   />
   <p class="hint">{{ t().admin.apartments.photosHint }}</p>
+</ng-template>
+
+@if (photos(); as list) {
+  <ng-container [ngTemplateOutlet]="section" [ngTemplateOutletContext]="{ $implicit: list }" />
 } @else if (failed()) {
   <p class="a-empty">{{ t().common.loadFailed }}</p>
+} @else if (active()) {
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ng-container
+      [ngTemplateOutlet]="section"
+      [ngTemplateOutletContext]="{ $implicit: placeholders }"
+    />
+  </rc-admin-skeleton>
 }
 
 @if (editing(); as photo) {

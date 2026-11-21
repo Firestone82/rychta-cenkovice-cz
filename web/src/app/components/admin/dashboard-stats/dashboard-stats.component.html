@@ -7,13 +7,13 @@
       [class.is-hot]="d.pending_bookings > 0"
     >
       <span class="num">{{ d.pending_bookings }}</span>
-      <span>{{ t().admin.dashboard.pending }}</span>
+      <span data-static>{{ t().admin.dashboard.pending }}</span>
     </a>
   </li>
   <li>
     <a routerLink="/admin/messages" [class.is-hot]="d.new_messages > 0">
       <span class="num">{{ d.new_messages }}</span>
-      <span>{{ t().admin.dashboard.newMessages }}</span>
+      <span data-static>{{ t().admin.dashboard.newMessages }}</span>
     </a>
   </li>
   <li>
@@ -22,13 +22,13 @@
         >{{ d.occupied_tonight
         }}<small> {{ t().admin.dashboard.of }} {{ d.apartments }}</small></span
       >
-      <span>{{ t().admin.dashboard.occupied }}</span>
+      <span data-static>{{ t().admin.dashboard.occupied }}</span>
     </a>
   </li>
   <li>
     <div>
       <span class="num">{{ d.guests_in_house }}</span>
-      <span>{{ t().admin.dashboard.guestsInHouse }}</span>
+      <span data-static>{{ t().admin.dashboard.guestsInHouse }}</span>
     </div>
   </li>
 </ul>

@@ -5,11 +5,12 @@ import { IconComponent } from '@components/icon/icon.component';
 import type { Apartment, Booking } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
 import { unitNumbers } from '@utils/booking.util';
+import { BusyDirective } from '@directives/busy.directive';
 
 @Component({
   selector: 'rc-dashboard-pending',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, IconComponent],
+  imports: [BusyDirective, RouterLink, IconComponent],
   templateUrl: './dashboard-pending.component.html',
   styleUrl: './dashboard-pending.component.scss',
 })

@@ -1,13 +1,2 @@
 <span class="sr-only">{{ label() }}</span>
-<div class="shapes" aria-hidden="true">
-  @for (item of items(); track item) {
-    <div class="shape">
-      @if (kind() === 'table') {
-        <i class="bar w-30"></i><i class="bar w-20"></i><i class="bar w-15"></i
-        ><i class="bar w-10"></i>
-      } @else if (kind() !== 'calendar') {
-        <i class="bar w-40"></i><i class="bar w-70"></i><i class="bar w-55"></i>
-      }
-    </div>
-  }
-</div>
+<div #content class="a-skeleton" inert aria-hidden="true"><ng-content /></div>

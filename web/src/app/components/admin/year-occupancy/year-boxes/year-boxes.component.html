@@ -5,6 +5,7 @@
         <button
           type="button"
           class="name"
+          data-static
           [title]="t().admin.calendar.openMonth"
           (click)="month.emit(m.first)"
         >
@@ -12,12 +13,12 @@
         </button>
         <span class="share" [title]="t().admin.calendar.share">{{ m.percent }}</span>
       </div>
-      <div class="grid" aria-hidden="true">
+      <div class="grid" aria-hidden="true" data-static>
         @for (name of weekdays(); track $index) {
           <span class="dow">{{ name }}</span>
         }
       </div>
-      <ol class="grid">
+      <ol class="grid" data-static>
         @for (day of m.days; track day.iso) {
           <li
             class="day"

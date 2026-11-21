@@ -21,7 +21,12 @@
     <ul class="list">
       @for (m of list; track m.id) {
         <li class="a-card" [class.is-new]="m.status === 'new'">
-          <rc-message-card [message]="m" (status)="set(m, $event)" (remove)="remove(m)" />
+          <rc-message-card
+            [message]="m"
+            [busy]="busy() === m.id"
+            (status)="set(m, $event)"
+            (remove)="remove(m)"
+          />
         </li>
       }
     </ul>
@@ -29,5 +34,11 @@
     <p class="a-empty">{{ failed() ? t().common.loadFailed : t().admin.messages.empty }}</p>
   }
 } @else {
-  <rc-admin-skeleton kind="list" [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ul class="list">
+      @for (m of placeholders; track m.id) {
+        <li class="a-card"><rc-message-card [message]="m" /></li>
+      }
+    </ul>
+  </rc-admin-skeleton>
 }

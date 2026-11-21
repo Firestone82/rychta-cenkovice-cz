@@ -4,13 +4,14 @@ import { toFailure } from '@utils/api-failure.util';
 import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 import { ToastService } from '@services/toast.service';
+import { BusyDirective } from '@directives/busy.directive';
 
 const MIN_PASSWORD_LENGTH = 12;
 
 @Component({
   selector: 'rc-password-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TextFieldComponent],
+  imports: [BusyDirective, TextFieldComponent],
   templateUrl: './password-form.component.html',
   styleUrl: './password-form.component.scss',
 })

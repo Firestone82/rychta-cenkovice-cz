@@ -5,7 +5,7 @@
     <button
       type="button"
       class="btn btn-ghost"
-      [disabled]="busy()"
+      [rcBusy]="busy()"
       (click)="status.emit('confirmed')"
     >
       <rc-icon name="check" /> {{ text.confirm }}
@@ -15,7 +15,7 @@
     <button
       type="button"
       class="btn btn-quiet"
-      [disabled]="busy()"
+      [rcBusy]="busy()"
       (click)="status.emit('cancelled')"
     >
       {{ b.status === 'pending' ? text.decline : text.cancel }}
@@ -24,13 +24,13 @@
     <button
       type="button"
       class="btn btn-quiet"
-      [disabled]="busy()"
+      [rcBusy]="busy()"
       (click)="status.emit('confirmed')"
     >
       {{ text.reopen }}
     </button>
   }
-  <button type="button" class="btn btn-danger" [disabled]="busy()" (click)="remove.emit()">
+  <button type="button" class="btn btn-danger" [rcBusy]="busy()" (click)="remove.emit()">
     <rc-icon name="trash" /> {{ text.delete }}
   </button>
 </div>

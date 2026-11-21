@@ -14,12 +14,13 @@ import { AdminApiService } from '@services/admin-api.service';
 import { ApiService } from '@services/api.service';
 import { I18nService } from '@services/i18n.service';
 import { ToastService } from '@services/toast.service';
+import { BusyDirective } from '@directives/busy.directive';
 
 /** A window for the Czech and English description of one photo. */
 @Component({
   selector: 'rc-photo-editor',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ModalComponent, TextFieldComponent],
+  imports: [BusyDirective, ModalComponent, TextFieldComponent],
   templateUrl: './photo-editor.component.html',
   styleUrl: './photo-editor.component.scss',
 })

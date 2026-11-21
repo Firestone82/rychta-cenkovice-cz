@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,16 +10,18 @@ import {
 } from '@angular/core';
 import { PhotoEditorComponent } from '@components/admin/photo-editor/photo-editor.component';
 import { PhotoSectionComponent } from '@components/admin/photo-section/photo-section.component';
+import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import type { Apartment, Photo } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
 import { uploadPhotos } from '@utils/photo-upload.util';
+import { placeholderPhotos } from '@utils/placeholders.util';
 
 /** The photos of one apartment; the same ones the Photos page lists under that apartment. */
 @Component({
   selector: 'rc-apartment-photos',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PhotoSectionComponent, PhotoEditorComponent],
+  imports: [NgTemplateOutlet, SkeletonComponent, PhotoSectionComponent, PhotoEditorComponent],
   templateUrl: './apartment-photos.component.html',
   styleUrl: './apartment-photos.component.scss',
 })
@@ -31,6 +34,7 @@ export class ApartmentPhotosComponent {
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
   protected readonly photos = signal<Photo[] | null>(null);
+  protected readonly placeholders = placeholderPhotos(4);
   protected readonly failed = signal(false);
   protected readonly problems = signal<string[]>([]);
   protected readonly editing = signal<Photo | null>(null);

@@ -32,7 +32,7 @@
   <button modalActions type="button" class="btn btn-quiet" (click)="closed.emit()">
     {{ t().admin.common.cancel }}
   </button>
-  <button modalActions type="submit" form="photo-editor-form" class="btn" [disabled]="saving()">
+  <button modalActions type="submit" form="photo-editor-form" class="btn" [rcBusy]="saving()">
     {{ t().admin.photos.save }}
   </button>
 </rc-modal>

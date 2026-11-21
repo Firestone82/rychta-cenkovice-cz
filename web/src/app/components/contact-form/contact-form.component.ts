@@ -19,11 +19,13 @@ import {
   TEXT_LIMITS,
 } from '@utils/forms.util';
 import { ContactSentComponent } from './contact-sent/contact-sent.component';
+import { BusyDirective } from '@directives/busy.directive';
 
 @Component({
   selector: 'rc-contact-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    BusyDirective,
     RouterLink,
     IconComponent,
     TextFieldComponent,

@@ -234,7 +234,7 @@
     border-bottom: 2px solid var(--slate);
   }
 
-  tbody tr:last-child td {
+  tbody tr:last-child :is(td, th) {
     border-bottom: 0;
   }
 
@@ -332,5 +332,95 @@
   .a-icon-btn {
     width: 40px;
     height: 40px;
+  }
+}
+
+/* ---------- loading: the real components with placeholder data, drawn as grey shapes ---------- */
+
+.a-skeleton {
+  /* One gradient across the window, so every shape is a cut-out of the same moving light. */
+  --sk-light: color-mix(in srgb, var(--line) 45%, var(--white));
+  --sk: linear-gradient(90deg, var(--line) 30%, var(--sk-light) 50%, var(--line) 70%) 0 0 / 200vw
+    100% fixed;
+  pointer-events: none;
+  user-select: none;
+
+  /* A fast answer shows nothing at all instead of a flash of grey. */
+  > * {
+    animation: sk-appear 0.2s 0.12s both;
+  }
+
+  .sk-text,
+  .btn,
+  .tag,
+  .a-icon-btn,
+  .a-seg,
+  .input,
+  img,
+  input[type='checkbox'] {
+    background: var(--sk) !important;
+    border-color: transparent !important;
+    color: transparent !important;
+    box-shadow: none !important;
+    animation: sk-shimmer 1.6s linear infinite;
+  }
+
+  /* A bar is lower than its line of text, so two lines stay two shapes. */
+  /*
+   * A bar is lower than its line of text, so two lines stay two shapes. It is cut out with
+   * a mask (two round ends and the stretch between them), which also works for wrapped text.
+   */
+  .sk-text {
+    --bar: 0.72em;
+    mask:
+      radial-gradient(closest-side, #000 96%, #0000) 0 50% / var(--bar) var(--bar) no-repeat,
+      radial-gradient(closest-side, #000 96%, #0000) 100% 50% / var(--bar) var(--bar) no-repeat,
+      linear-gradient(#000 0 0) 50% 50% / max(0px, 100% - var(--bar)) var(--bar) no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* A control is one shape; what is written on it is not drawn again. */
+  :is(.btn, .tag, .a-icon-btn, .a-seg) :is(.sk-text, button) {
+    background: none !important;
+    animation: none;
+    mask: none;
+  }
+
+  input[type='checkbox'] {
+    appearance: none;
+    border-radius: 3px;
+  }
+
+  .input::placeholder,
+  .input::-webkit-datetime-edit {
+    color: transparent;
+  }
+
+  .input::-webkit-calendar-picker-indicator,
+  svg {
+    visibility: hidden;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+@keyframes sk-shimmer {
+  to {
+    background-position: -200vw 0;
+  }
+}
+
+@keyframes sk-appear {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .a-skeleton * {
+    animation: none !important;
   }
 }

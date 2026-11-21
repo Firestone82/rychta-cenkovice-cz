@@ -32,12 +32,13 @@
     [(value)]="address"
   />
   <div class="actions">
-    <button class="btn btn-quiet" type="submit" [disabled]="busy()">{{ text.save }}</button>
+    <button class="btn btn-quiet" type="submit" [rcBusy]="busy()">{{ text.save }}</button>
     <button
       type="button"
       class="a-icon-btn"
       [class.is-hidden]="!current"
-      [disabled]="!current || busy()"
+      [rcBusy]="busy()"
+      [disabled]="!current"
       [title]="text.sync"
       (click)="current && sync(current)"
     >
@@ -47,7 +48,8 @@
       type="button"
       class="a-icon-btn is-danger"
       [class.is-hidden]="!current"
-      [disabled]="!current || busy()"
+      [rcBusy]="busy()"
+      [disabled]="!current"
       [title]="text.disconnect"
       (click)="disconnect()"
     >

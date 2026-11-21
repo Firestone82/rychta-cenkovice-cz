@@ -14,6 +14,7 @@ import { ConfirmService } from '@services/confirm.service';
 import { SeoService } from '@services/seo.service';
 import { SkeletonComponent } from '@components/admin/skeleton/skeleton.component';
 import { ToastService } from '@services/toast.service';
+import { placeholderMessages } from '@utils/placeholders.util';
 
 @Component({
   selector: 'rc-admin-messages-page',
@@ -31,19 +32,22 @@ export class MessagesPage {
 
   protected readonly box = signal<'' | 'archived'>('');
   protected readonly items = signal<Message[] | null>(null);
+  protected readonly placeholders = placeholderMessages(4);
   protected readonly failed = signal(false);
+  /** Id of the message whose change is being stored. */
+  protected readonly busy = signal<number | null>(null);
 
   constructor() {
     inject(SeoService).noIndex(this.t().admin.messages.title);
     effect(() => {
       this.box();
-      untracked(() => this.load());
+      untracked(() => void this.load());
     });
   }
 
-  private load(): void {
+  private load(): Promise<void> {
     const box = this.box();
-    this.api.messages(box).then(
+    return this.api.messages(box).then(
       (list) => {
         if (box !== this.box()) return;
         this.failed.set(false);
@@ -57,22 +61,28 @@ export class MessagesPage {
   }
 
   protected async set(m: Message, status: Message['status']): Promise<void> {
+    this.busy.set(m.id);
     try {
       await this.api.setMessageStatus(m.id, status);
-      this.load();
+      await this.load();
     } catch {
       this.toasts.show(this.t().admin.common.error, 'error');
+    } finally {
+      this.busy.set(null);
     }
   }
 
   protected async remove(m: Message): Promise<void> {
     const text = this.t().admin.messages;
     if (!(await this.confirm.ask(text.deleteConfirm, text.delete))) return;
+    this.busy.set(m.id);
     try {
       await this.api.deleteMessage(m.id);
-      this.load();
+      await this.load();
     } catch {
       this.toasts.show(this.t().admin.common.error, 'error');
+    } finally {
+      this.busy.set(null);
     }
   }
 }

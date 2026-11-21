@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { IconComponent } from '@components/icon/icon.component';
 import type { Booking, BookingStatus } from '@models/api.model';
 import { I18nService } from '@services/i18n.service';
+import { BusyDirective } from '@directives/busy.directive';
 
 @Component({
   selector: 'rc-booking-actions',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, IconComponent],
+  imports: [BusyDirective, RouterLink, IconComponent],
   templateUrl: './booking-actions.component.html',
   styleUrl: './booking-actions.component.scss',
 })

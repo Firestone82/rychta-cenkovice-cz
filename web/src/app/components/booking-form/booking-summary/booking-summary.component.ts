@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { I18nService } from '@services/i18n.service';
 import { BookingFormStore } from '../booking-form.store';
+import { BusyDirective } from '@directives/busy.directive';
 
 @Component({
   selector: 'rc-booking-summary',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [BusyDirective],
   templateUrl: './booking-summary.component.html',
   styleUrl: './booking-summary.component.scss',
 })

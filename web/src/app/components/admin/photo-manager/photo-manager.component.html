@@ -6,7 +6,7 @@
   </ul>
 }
 
-@if (photos()) {
+<ng-template #sections>
   <div class="sections" [attr.data-size]="size()">
     @for (group of groups(); track group.key) {
       <rc-photo-section
@@ -23,10 +23,16 @@
       />
     }
   </div>
+</ng-template>
+
+@if (loaded()) {
+  <ng-container [ngTemplateOutlet]="sections" />
 } @else if (failed()) {
   <p class="a-empty">{{ t().common.loadFailed }}</p>
 } @else {
-  <rc-admin-skeleton kind="list" [count]="4" [label]="t().common.loading" />
+  <rc-admin-skeleton [label]="t().common.loading">
+    <ng-container [ngTemplateOutlet]="sections" />
+  </rc-admin-skeleton>
 }
 
 @if (editing(); as photo) {

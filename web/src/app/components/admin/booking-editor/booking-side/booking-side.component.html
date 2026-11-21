@@ -54,9 +54,7 @@
   }
 
   @if (!store.readOnly()) {
-    <button class="btn" type="submit" [disabled]="store.busy()">
-      {{ store.busy() ? text.saving : text.save }}
-    </button>
+    <button class="btn" type="submit" [rcBusy]="store.busy()">{{ text.save }}</button>
 
     @if (store.booking(); as b) {
       <rc-booking-actions
