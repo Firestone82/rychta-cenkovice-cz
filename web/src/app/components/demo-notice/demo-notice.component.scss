@@ -11,7 +11,8 @@
 }
 
 .row {
-  margin: 0;
+  /* Only the block margins: .wrap centers the line with margin-inline: auto. */
+  margin-block: 0;
   padding-block: 8px;
   text-align: center;
   /* Measures the line from the top of the capitals to the baseline, so the text sits in the middle. */
