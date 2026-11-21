@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { valueOf } from '@utils/forms.util';
 
 @Component({
@@ -43,12 +43,13 @@ export class TextFieldComponent {
   readonly step = input<string | number | null>(null);
   /** Longest accepted text. */
   readonly maxlength = input<number | null>(null);
-  /** Shows the used and the allowed length under the right end of the control. Needs `maxlength`. */
+  /** Shows the used and the allowed length in the bottom right corner of a textarea. Needs `maxlength`. */
   readonly counter = input(false);
   /** Height of a textarea in lines. */
   readonly rows = input(4);
   /** Lets a textarea shrink to its `rows` instead of the default minimum height. */
   readonly compact = input(false);
 
+  protected readonly shown = computed(() => this.counter() && this.maxlength() !== null);
   protected readonly valueOf = valueOf;
 }

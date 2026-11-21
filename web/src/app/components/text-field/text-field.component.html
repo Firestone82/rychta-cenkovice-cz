@@ -5,20 +5,26 @@
   }
 </label>
 @if (type() === 'textarea') {
-  <textarea
-    [id]="key()"
-    class="input"
-    [class.compact]="compact()"
-    [rows]="rows()"
-    [attr.maxlength]="maxlength()"
-    [required]="required()"
-    [attr.placeholder]="placeholder() || null"
-    [attr.lang]="lang() || null"
-    [value]="value()"
-    (input)="value.set(valueOf($event))"
-    [attr.aria-invalid]="error() ? 'true' : null"
-    [attr.aria-describedby]="key() + '-msg'"
-  ></textarea>
+  <div class="area">
+    <textarea
+      [id]="key()"
+      class="input"
+      [class.compact]="compact()"
+      [class.counted]="shown()"
+      [rows]="rows()"
+      [attr.maxlength]="maxlength()"
+      [required]="required()"
+      [attr.placeholder]="placeholder() || null"
+      [attr.lang]="lang() || null"
+      [value]="value()"
+      (input)="value.set(valueOf($event))"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      [attr.aria-describedby]="key() + '-msg'"
+    ></textarea>
+    @if (shown()) {
+      <span class="count" aria-hidden="true">{{ value().length }} / {{ maxlength() }}</span>
+    }
+  </div>
 } @else {
   <input
     [id]="key()"
@@ -45,8 +51,5 @@
     <p class="error">{{ error() }}</p>
   } @else if (hint()) {
     <p class="hint">{{ hint() }}</p>
-  }
-  @if (counter() && maxlength()) {
-    <p class="count" aria-hidden="true">{{ value().length }} / {{ maxlength() }}</p>
   }
 </div>

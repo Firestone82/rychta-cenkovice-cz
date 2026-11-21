@@ -10,3 +10,27 @@
 textarea.input.compact {
   min-height: 0;
 }
+
+.area {
+  position: relative;
+  display: grid;
+}
+
+/* Room under the last line, so the text never runs beneath the counter. */
+textarea.input.counted {
+  padding-bottom: 2em;
+}
+
+.count {
+  position: absolute;
+  right: 16px;
+  bottom: 7px;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: var(--white);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  color: var(--slate-2);
+  pointer-events: none;
+}

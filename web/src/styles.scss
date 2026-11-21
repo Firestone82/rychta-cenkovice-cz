@@ -344,21 +344,6 @@ button {
     font-weight: 700;
     color: var(--timber);
   }
-
-  /* Message at the left, used length at the right end of the control. */
-  .msg {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-  }
-
-  .count {
-    margin-left: auto;
-    font-size: 0.85rem;
-    font-variant-numeric: tabular-nums;
-    color: var(--slate-2);
-    white-space: nowrap;
-  }
 }
 
 .input {
