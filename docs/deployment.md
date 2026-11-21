@@ -38,10 +38,12 @@ Put a reverse proxy with HTTPS in front of port 8080. Back up the database
 photos (`docker compose cp rychta:/data ./backup`).
 
 Without Docker: `make build`, then run `node dist/main.js` in `api/` with
-`RC_ENV=production`, `RC_WEB_DIR` pointing at `web/dist/web/browser` and the variables in [Configuration](#configuration).
+`RC_ENV=production`, `RC_WEB_DIR` pointing at `web/dist/web` and the variables in [Configuration](#configuration).
+The API renders the pages of the website on the server (see [Search engines](seo.md)), so set
+`RC_PUBLIC_URL` to the address visitors use: canonical links and the sitemap are built from it.
 
-To host the website elsewhere (a CDN, another domain), serve `web/dist/web/browser` with a
-fallback to `index.html`, set `<meta name="rc-api-base">` in `index.html` to the API
+To host the website elsewhere (a CDN, another domain) without server rendering, serve
+`web/dist/web/browser` with a fallback to `index.csr.html`, set `<meta name="rc-api-base">` in `src/index.html` to the API
 address and list the website's origin in `RC_ALLOWED_ORIGINS`. Keep both on the same site
 (for example `www.` and `api.` of one domain), because the refresh cookie is `SameSite=Strict`.
 
@@ -56,8 +58,8 @@ address and list the website's origin in `RC_ALLOWED_ORIGINS`. Keep both on the 
 | `RC_DATABASE_MIGRATE` | `true` | run pending migrations on start |
 | `RC_MEDIA_DIR` | `data/media` | processed photos |
 | `RC_OUTBOX_DIR` | `data/outbox` | where e-mails are written when no mail server is set |
-| `RC_WEB_DIR` | | folder with the built website; empty means API only |
-| `RC_PUBLIC_URL` | `http://localhost:4200` | public address, used for links in e-mails |
+| `RC_WEB_DIR` | | folder with the built website (`web/dist/web`); empty means API only |
+| `RC_PUBLIC_URL` | `http://localhost:4200` | public address, used for links in e-mails, canonical links and the sitemap |
 | `RC_ALLOWED_ORIGINS` | `http://localhost:4200` | browser origins that may call the API |
 | `RC_TRUST_PROXY` | `false` | read the client address from `X-Forwarded-For` |
 | `RC_API_DOCS` | `true` outside production | serve the OpenAPI documentation at `/api/docs` |

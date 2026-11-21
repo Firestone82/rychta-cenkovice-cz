@@ -18,6 +18,16 @@ export interface SiteContact {
   mapSeznam: string;
 }
 
+/** Postal address of the house, for search engines and maps. */
+export interface SiteAddress {
+  street: string;
+  postalCode: string;
+  locality: string;
+  region: string;
+  /** ISO 3166-1 alpha-2 code. */
+  country: string;
+}
+
 export type PageKey =
   | 'home'
   | 'accommodation'
@@ -39,6 +49,7 @@ export interface SiteContent {
   /** Used when the browser language matches no `languages[].browser` prefix. */
   fallbackLanguage: Lang;
   contact: SiteContact;
+  address: SiteAddress;
   media: {
     /** Keys of content/images.json. */
     hero: Record<Season, string>;

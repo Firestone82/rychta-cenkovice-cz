@@ -23,6 +23,13 @@
     "mapGoogle": "https://maps.app.goo.gl/JWp5b1ZGPRZ7RkUR8",
     "mapSeznam": "https://mapy.cz/zakladni?q=%C4%8Cenkovice%20106"
   },
+  "address": {
+    "street": "Čenkovice 106",
+    "postalCode": "561 64",
+    "locality": "Čenkovice",
+    "region": "Pardubický kraj",
+    "country": "CZ"
+  },
   "media": {
     "hero": {
       "winter": "hero-winter",
@@ -109,7 +116,7 @@
     "fotogalerie": "cs/fotogalerie",
     "kalendar-obsazenosti": "cs/obsazenost",
     "kontakt": "cs/kontakt",
-    "novinky": "cs/novinky",
+    "novinky": "cs",
     "zasady-ochrany-osobnich-udaju": "cs/ochrana-osobnich-udaju"
   }
 }

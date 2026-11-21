@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 
 const KEY = 'rc-consent';
 
@@ -23,6 +24,11 @@ export class ConsentService {
   readonly settingsOpen = signal(false);
 
   constructor() {
+    // A page rendered on the server leaves the bar out; the browser shows it when no choice is stored.
+    if (isPlatformServer(inject(PLATFORM_ID))) {
+      this.decided.set(true);
+      return;
+    }
     try {
       const saved: unknown = JSON.parse(localStorage.getItem(KEY) ?? 'null');
       if (saved && typeof saved === 'object') {

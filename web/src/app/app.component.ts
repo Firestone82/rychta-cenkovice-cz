@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { ChangeDetectionStrategy, Component, PLATFORM_ID, inject, signal } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -22,6 +23,9 @@ export class AppComponent {
 
   constructor() {
     inject(ThemeService);
+    const doc = inject(DOCUMENT);
+    // A page rendered on the server is complete, so it goes out without the loader.
+    if (isPlatformServer(inject(PLATFORM_ID))) doc.getElementById('boot')?.remove();
     const router = inject(Router);
     let timer: ReturnType<typeof setTimeout> | undefined;
     let booted = false;
@@ -38,7 +42,7 @@ export class AppComponent {
         this.navigating.set(false);
         if (!booted && !(event instanceof NavigationCancel)) {
           booted = true;
-          hideBootLoader();
+          hideBootLoader(doc);
         }
       }
     });
@@ -46,8 +50,8 @@ export class AppComponent {
 }
 
 /** Fades out the loader that index.html shows until the first page is ready. */
-function hideBootLoader(): void {
-  const boot = document.getElementById('boot');
+function hideBootLoader(doc: Document): void {
+  const boot = doc.getElementById('boot');
   if (!boot) return;
   requestAnimationFrame(() => {
     boot.classList.add('is-done');

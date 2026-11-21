@@ -9,3 +9,8 @@ export function apartmentNumber(slug: string | null | undefined): number | null 
   const match = /-(\d+)$/.exec(slug ?? '');
   return match ? Number(match[1]) : null;
 }
+
+/** A path such as `/cs/ubytovani` from routerLink commands. */
+export function commandsToPath(commands: string[]): string {
+  return commands.join('/').replace('//', '/');
+}

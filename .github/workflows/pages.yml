@@ -37,8 +37,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - run: npx ng build --configuration demo --base-href "/${{ github.event.repository.name }}/"
-      # Pages has no rewrites: unknown paths get 404.html, which then starts the router.
-      - run: cp dist/web/browser/index.html dist/web/browser/404.html
+      # Pages renders nothing on a server: the browser shell is the start page, and unknown paths
+      # get 404.html (the same shell), which then starts the router.
+      - run: |
+          cp dist/web/browser/index.csr.html dist/web/browser/index.html
+          cp dist/web/browser/index.csr.html dist/web/browser/404.html
       - uses: actions/upload-pages-artifact@v4
         with:
           path: web/dist/web/browser

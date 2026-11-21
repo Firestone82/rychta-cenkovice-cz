@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -56,8 +57,9 @@ export class SiteHeaderComponent {
         takeUntilDestroyed(inject(DestroyRef)),
       )
       .subscribe(() => this.menuOpen.set(false));
+    const body = inject(DOCUMENT).body;
     effect(() => {
-      document.body.style.overflow = this.menuOpen() ? 'hidden' : '';
+      body.style.overflow = this.menuOpen() ? 'hidden' : '';
     });
   }
 

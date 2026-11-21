@@ -18,5 +18,6 @@ export class NotFoundPage {
   constructor() {
     const seo = inject(SeoService);
     seo.page(this.t().notFound.title);
+    seo.notFound();
   }
 }
