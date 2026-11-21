@@ -1,0 +1,10 @@
+@if (confirm.request(); as request) {
+  <rc-modal [heading]="request.question" (closed)="request.answer(false)">
+    <button modalActions type="button" class="btn btn-quiet" (click)="request.answer(false)">
+      {{ t().admin.common.cancel }}
+    </button>
+    <button modalActions type="button" class="btn" (click)="request.answer(true)">
+      {{ request.action }}
+    </button>
+  </rc-modal>
+}

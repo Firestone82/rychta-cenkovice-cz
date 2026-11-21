@@ -61,10 +61,6 @@ export const adminRoutes: Routes = [
             loadComponent: () => import('./photos/photos.page').then((m) => m.PhotosPage),
           },
           {
-            path: 'news',
-            loadComponent: () => import('./news/news.page').then((m) => m.NewsAdminPage),
-          },
-          {
             path: 'account',
             loadComponent: () => import('./account/account.page').then((m) => m.AccountPage),
           },

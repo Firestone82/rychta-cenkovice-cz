@@ -3,12 +3,31 @@
 }
 
 .who {
-  display: grid;
-  font-size: 1rem;
-}
-.who span {
-  color: var(--slate-2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--snow);
+
+  rc-icon {
+    --icon: 26px;
+    color: var(--timber);
+  }
+
+  p {
+    display: grid;
+    min-width: 0;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: var(--slate-2);
+  }
 }
 .session {
-  margin-top: 16px;
+  margin-top: 14px;
 }

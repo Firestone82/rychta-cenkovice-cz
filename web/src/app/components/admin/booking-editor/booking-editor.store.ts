@@ -5,6 +5,7 @@ import { type AdminBookingInput } from '@models/api.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { toFailure } from '@utils/api-failure.util';
 import { I18nService } from '@services/i18n.service';
+import { ConfirmService } from '@services/confirm.service';
 import { ToastService } from '@services/toast.service';
 import { unitNumbers } from '@utils/booking.util';
 import { addDays, isISO, nightsBetween } from '@utils/dates.util';
@@ -60,6 +61,7 @@ export class BookingEditorStore {
   private readonly api = inject(AdminApiService);
   private readonly router = inject(Router);
   private readonly toasts = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
 
   constructor() {
     effect(() => {
@@ -133,7 +135,8 @@ export class BookingEditorStore {
 
   async remove(): Promise<void> {
     const b = this.booking();
-    if (!b || !confirm(this.t().admin.bookings.deleteConfirm)) return;
+    const text = this.t().admin.bookings;
+    if (!b || !(await this.confirm.ask(text.deleteConfirm, text.delete))) return;
     this.busy.set(true);
     try {
       await this.api.deleteBooking(b.id);
@@ -150,8 +153,9 @@ export class BookingEditorStore {
     if (query.get('kind') === 'block') this.kind.set('block');
     const from = query.get('from');
     if (isISO(from)) {
+      const to = query.get('to');
       this.checkIn.set(from);
-      this.checkOut.set(addDays(from, 2));
+      this.checkOut.set(isISO(to) && to > from ? to : addDays(from, 2));
     }
     const apartment = this.apartments().find((a) => a.number === Number(query.get('a')));
     if (apartment) this.selected.set([apartment.id]);

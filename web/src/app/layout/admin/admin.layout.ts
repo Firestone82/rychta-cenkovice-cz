@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ConfirmOutletComponent } from '@components/admin/confirm-outlet/confirm-outlet.component';
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
 import { filter } from 'rxjs';
@@ -21,7 +22,7 @@ import { AdminTopbarComponent } from './admin-topbar/admin-topbar.component';
   selector: 'rc-admin-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterOutlet, AdminTopbarComponent, AdminSidebarComponent],
+  imports: [RouterOutlet, AdminTopbarComponent, AdminSidebarComponent, ConfirmOutletComponent],
   host: { class: 'a-shell', '(document:keydown.escape)': 'open.set(false)' },
   templateUrl: './admin.layout.html',
   styleUrl: './admin.layout.scss',

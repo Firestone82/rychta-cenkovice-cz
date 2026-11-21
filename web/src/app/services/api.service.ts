@@ -5,7 +5,6 @@ import type {
   BookingReceipt,
   BookingRequest,
   ContactRequest,
-  NewsItem,
   OccupiedRange,
   Photo,
   PhotoPage,
@@ -71,8 +70,5 @@ export class ApiService {
     return this.client.cached('covers', () =>
       this.client.get<{ covers: Record<string, Photo> }>('/photos/covers').then((r) => r.covers),
     );
-  }
-  news(): Promise<NewsItem[]> {
-    return this.client.get<{ items: NewsItem[] }>('/news').then((r) => r.items);
   }
 }

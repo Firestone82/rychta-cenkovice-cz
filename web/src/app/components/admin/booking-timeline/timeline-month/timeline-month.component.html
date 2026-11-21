@@ -1,0 +1,16 @@
+<section [attr.aria-labelledby]="'timeline-' + month()">
+  <h2 class="title" [id]="'timeline-' + month()">{{ i18n.date(month(), 'month') }}</h2>
+  <div class="scroll" tabindex="0" role="region" [attr.aria-labelledby]="'timeline-' + month()">
+    <div class="cal" [style.--days]="days().length">
+      <rc-timeline-head [days]="days()" [today]="today()" />
+      @for (row of rows(); track row.apartment.id) {
+        <rc-timeline-row
+          [apartment]="row.apartment"
+          [bars]="row.bars"
+          [days]="days()"
+          [today]="today()"
+        />
+      }
+    </div>
+  </div>
+</section>

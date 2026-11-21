@@ -7,7 +7,7 @@ import { AuthService } from '@services/auth.service';
 import { I18nService } from '@services/i18n.service';
 
 type NavKey =
-  'dashboard' | 'calendar' | 'bookings' | 'messages' | 'apartments' | 'photos' | 'news' | 'account';
+  'dashboard' | 'calendar' | 'bookings' | 'messages' | 'apartments' | 'photos' | 'account';
 
 @Component({
   selector: 'rc-admin-sidebar',
@@ -35,7 +35,6 @@ export class AdminSidebarComponent {
     { path: '/admin/messages', key: 'messages', icon: 'inbox' },
     { path: '/admin/apartments', key: 'apartments', icon: 'key' },
     { path: '/admin/photos', key: 'photos', icon: 'image' },
-    { path: '/admin/news', key: 'news', icon: 'news' },
     { path: '/admin/account', key: 'account', icon: 'users' },
   ];
 

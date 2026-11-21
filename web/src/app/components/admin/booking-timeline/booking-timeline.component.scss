@@ -2,17 +2,12 @@
   display: contents;
 }
 
-.scroll {
-  position: relative;
-  overflow-x: auto;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+.months {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
   transition: opacity 0.2s;
 }
-.scroll.is-loading {
+.months.is-loading {
   opacity: 0.6;
-}
-.cal {
-  min-width: 900px;
 }

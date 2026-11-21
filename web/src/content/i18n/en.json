@@ -60,7 +60,6 @@
     "availability": "Availability",
     "contact": "Contact",
     "book": "Book a stay",
-    "news": "News",
     "privacy": "Privacy policy",
     "commonRoom": "Common room",
     "facilities": "Facilities",
@@ -433,11 +432,6 @@
     "bookingHint": "Want to book straight away? It is quicker with the",
     "bookingHintLink": "booking form"
   },
-  "news": {
-    "title": "News",
-    "lead": "What is new at the Rychta.",
-    "empty": "There is no news yet."
-  },
   "privacy": {
     "title": "Privacy policy",
     "updated": "Effective from 20 November 2026",
@@ -707,7 +701,6 @@
       "messages": "Messages",
       "apartments": "Apartments",
       "photos": "Photos",
-      "news": "News",
       "account": "Account",
       "site": "View website",
       "logout": "Sign out"
@@ -812,7 +805,7 @@
     },
     "calendar": {
       "title": "Occupancy calendar",
-      "hint": "Click a booking to open it. Click a free day to create a new one."
+      "hint": "Click a booking to open it. Click a free day to create a new one, or drag over several days to set the whole stay."
     },
     "messages": {
       "title": "Messages from the contact form",
@@ -871,10 +864,14 @@
     "photos": {
       "title": "Photos",
       "lead": "Uploaded photos are resized for the web automatically.",
+      "size": "Tile size",
+      "sizes": {
+        "small": "Small tiles",
+        "medium": "Medium tiles",
+        "large": "Large tiles"
+      },
       "upload": "Upload photos",
       "uploading": "Uploading {n} of {total}",
-      "category": "Category",
-      "apartment": "Apartment",
       "altCs": "Description in Czech",
       "altEn": "Description in English",
       "save": "Save description",
@@ -883,22 +880,6 @@
       "empty": "There are no photos in this category.",
       "failed": "The file {name} could not be uploaded. We support JPEG and PNG up to 25 MB.",
       "edit": "Edit description"
-    },
-    "news": {
-      "title": "News",
-      "new": "New post",
-      "edit": "Edit post",
-      "titleCs": "Title in Czech",
-      "titleEn": "Title in English",
-      "bodyCs": "Text in Czech",
-      "bodyEn": "Text in English",
-      "date": "Date",
-      "published": "Publish on the website",
-      "draft": "draft",
-      "save": "Save post",
-      "delete": "Delete",
-      "deleteConfirm": "Really delete this post?",
-      "empty": "There is no news yet."
     },
     "account": {
       "title": "Account",

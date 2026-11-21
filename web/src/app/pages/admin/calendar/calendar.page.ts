@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BookingTimelineComponent } from '@components/admin/booking-timeline/booking-timeline.component';
 import { MonthSwitchComponent } from '@components/admin/month-switch/month-switch.component';
@@ -26,6 +33,8 @@ import { addDays, addMonths, startOfMonth, todayISO } from '@utils/dates.util';
 export class CalendarPage {
   protected readonly t = inject(I18nService).t;
   protected readonly month = signal(startOfMonth(todayISO()));
+  /** The chosen month between the one before and the one after. */
+  protected readonly months = computed(() => [-1, 0, 1].map((by) => addMonths(this.month(), by)));
   protected readonly apartments = signal<Apartment[]>([]);
   protected readonly bookings = signal<Booking[]>([]);
   protected readonly loading = signal(true);
@@ -40,18 +49,18 @@ export class CalendarPage {
       () => this.failed.set(true),
     );
     effect(() => {
-      const from = this.month();
+      const month = this.month();
       this.loading.set(true);
-      // One day either side, so stays crossing the month's edges are included.
+      // One day either side, so stays crossing the edges of the shown months are included.
       this.api
         .bookings({
           status: 'active',
-          from: addDays(from, -1),
-          to: addDays(addMonths(from, 1), 1),
+          from: addDays(addMonths(month, -1), -1),
+          to: addDays(addMonths(month, 2), 1),
         })
         .then(
           (list) => {
-            if (this.month() !== from) return;
+            if (this.month() !== month) return;
             this.bookings.set(list);
             this.loading.set(false);
           },

@@ -1,11 +1,3 @@
-<rc-photo-target
-  [(category)]="category"
-  [(apartmentId)]="apartmentId"
-  [apartments]="apartments()"
-  [progress]="progress()"
-  (files)="upload($event)"
-/>
-
 @if (problems().length) {
   <ul class="notice is-error problems" role="alert">
     @for (p of problems(); track p) {
@@ -14,18 +6,29 @@
   </ul>
 }
 
-@if (items(); as list) {
-  @if (list.length) {
-    <ul class="grid">
-      @for (p of list; track p.id) {
-        <li class="a-card">
-          <rc-photo-card [photo]="p" (saved)="replace($event)" (removed)="drop(p.id)" />
-        </li>
-      }
-    </ul>
-  } @else {
-    <p class="a-empty">{{ failed() ? t().common.loadFailed : t().admin.photos.empty }}</p>
-  }
+@if (photos()) {
+  <div class="sections" [attr.data-size]="size()">
+    @for (group of groups(); track group.key) {
+      <rc-photo-section
+        [key]="group.key"
+        [heading]="group.heading"
+        [photos]="group.photos"
+        [open]="!collapsed().includes(group.key)"
+        [progress]="uploading()?.key === group.key ? progress() : ''"
+        [busy]="!!uploading()"
+        (openChange)="setOpen(group.key, $event)"
+        (files)="upload(group, $event)"
+        (edit)="editing.set($event)"
+        (removed)="drop($event)"
+      />
+    }
+  </div>
+} @else if (failed()) {
+  <p class="a-empty">{{ t().common.loadFailed }}</p>
 } @else {
   <rc-spinner [label]="t().common.loading" />
+}
+
+@if (editing(); as photo) {
+  <rc-photo-editor [photo]="photo" (saved)="replace($event)" (closed)="editing.set(null)" />
 }

@@ -1,0 +1,60 @@
+:host {
+  display: contents;
+}
+
+dialog {
+  width: min(420px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  border: 0;
+  border-top: 5px solid var(--timber);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--slate);
+  box-shadow: 0 24px 64px rgb(35 42 48 / 40%);
+}
+dialog.wide {
+  width: min(640px, calc(100vw - 24px));
+}
+dialog[open] {
+  animation: rise 0.2s var(--ease);
+}
+dialog::backdrop {
+  background: rgb(35 42 48 / 55%);
+}
+/* The padding sits on an inner box, so a click on the dialog itself can only be the backdrop. */
+.window {
+  display: grid;
+  gap: 14px;
+  padding: 16px 18px 18px;
+}
+header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+.a-icon-btn {
+  flex: none;
+}
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+footer:empty {
+  display: none;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

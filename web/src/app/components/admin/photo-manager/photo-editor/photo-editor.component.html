@@ -1,0 +1,38 @@
+@let p = photo();
+<rc-modal [heading]="t().admin.photos.edit" size="wide" (closed)="closed.emit()">
+  <div class="layout">
+    <img
+      [src]="media.photoUrl(p, p.widths[0])"
+      [alt]="p.alt.cs"
+      [width]="p.width"
+      [height]="p.height"
+      [style.background-color]="p.color"
+    />
+    <form id="photo-editor-form" (submit)="save($event)">
+      <rc-text-field
+        key="photo-alt-cs"
+        lang="cs"
+        type="textarea"
+        [rows]="2"
+        [compact]="true"
+        [label]="t().admin.photos.altCs"
+        [(value)]="altCs"
+      />
+      <rc-text-field
+        key="photo-alt-en"
+        lang="en"
+        type="textarea"
+        [rows]="2"
+        [compact]="true"
+        [label]="t().admin.photos.altEn"
+        [(value)]="altEn"
+      />
+    </form>
+  </div>
+  <button modalActions type="button" class="btn btn-quiet" (click)="closed.emit()">
+    {{ t().admin.common.cancel }}
+  </button>
+  <button modalActions type="submit" form="photo-editor-form" class="btn" [disabled]="saving()">
+    {{ t().admin.photos.save }}
+  </button>
+</rc-modal>

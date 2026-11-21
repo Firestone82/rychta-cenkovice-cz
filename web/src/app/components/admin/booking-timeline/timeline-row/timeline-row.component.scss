@@ -26,6 +26,7 @@
 }
 .track {
   position: relative;
+  user-select: none;
   display: grid;
   grid-template-columns: repeat(calc(var(--days) * 2), minmax(0, 1fr));
   grid-auto-rows: 38px;
@@ -45,6 +46,32 @@
 }
 .cell:focus-visible {
   outline-offset: -3px;
+}
+/* The stay being dragged, in the shape of the bar it will become. */
+.pick {
+  grid-row: 1;
+  z-index: 4;
+  align-self: center;
+  height: 30px;
+  margin-inline: 2px;
+  display: flex;
+  align-items: center;
+  padding-left: 14px;
+  background: rgb(43 90 58 / 28%);
+  outline: 2px solid var(--spruce);
+  outline-offset: -2px;
+  color: var(--slate);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.pick.is-day {
+  height: auto;
+  align-self: stretch;
+  margin: 0;
+  clip-path: none;
 }
 .bar-item {
   grid-row: 1;

@@ -1,0 +1,20 @@
+<!-- Escape closes a dialog by itself; the click handler only catches the backdrop. -->
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+<dialog
+  #dialog
+  [class.wide]="size() === 'wide'"
+  [attr.aria-labelledby]="id"
+  (cancel)="cancel($event)"
+  (click)="backdrop($event)"
+>
+  <div class="window">
+    <header>
+      <h2 [id]="id">{{ heading() }}</h2>
+      <button type="button" class="a-icon-btn" (click)="closed.emit()">
+        <rc-icon name="close" /><span class="sr-only">{{ t().common.close }}</span>
+      </button>
+    </header>
+    <ng-content />
+    <footer><ng-content select="[modalActions]" /></footer>
+  </div>
+</dialog>

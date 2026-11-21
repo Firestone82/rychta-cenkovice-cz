@@ -3,7 +3,7 @@
   <span class="num">{{ a.number }}</span>
   <span>{{ i18n.count(a.beds, t().plural.beds) }}</span>
 </div>
-<div class="track">
+<div class="track" (pointerdown)="press($event)" (pointermove)="drag($event)">
   @for (d of days(); track d.iso; let i = $index) {
     <a
       class="cell"
@@ -13,7 +13,13 @@
       routerLink="/admin/bookings/new"
       [queryParams]="{ from: d.iso, a: a.number }"
       [attr.aria-label]="newLabel(d.iso)"
+      draggable="false"
     ></a>
+  }
+  @if (picked(); as pick) {
+    <div class="pick" [class.is-day]="pick.day" [style.grid-column]="pick.column">
+      <span>{{ pick.label }}</span>
+    </div>
   }
   @for (bar of bars(); track bar.booking.id) {
     @let caption = label(bar.booking);
@@ -23,6 +29,7 @@
       [style.grid-column]="bar.start + ' / ' + bar.end"
       [routerLink]="['/admin/bookings', bar.booking.id]"
       [title]="caption"
+      draggable="false"
     >
       <span>{{ bar.booking.name || t().admin.bookings.kind.block }}</span>
       <span class="sr-only">, {{ caption }}</span>

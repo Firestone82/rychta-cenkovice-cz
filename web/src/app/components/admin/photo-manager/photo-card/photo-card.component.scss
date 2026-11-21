@@ -7,16 +7,35 @@ img {
   height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  border-radius: var(--radius);
 }
 .alt {
   font-size: 0.8125rem;
   color: var(--slate-2);
   min-height: 2.8em;
+  overflow-wrap: anywhere;
 }
-form {
-  display: grid;
-  gap: 10px;
-}
-.a-actions {
+.actions {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 6px;
+}
+.edit {
+  min-width: 0;
+}
+.text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* On small tiles the pencil alone stands for "Edit description". */
+@container (max-width: 185px) {
+  .text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
 }

@@ -5,7 +5,6 @@ import type {
   Booking,
   Dashboard,
   Message,
-  NewsItem,
   Photo,
 } from '@models/api.model';
 import { ApiClient } from './api-client.service';
@@ -86,16 +85,5 @@ export class AdminApiService {
   }
   deletePhoto(id: number): Promise<void> {
     return this.client.invalidating(this.client.send<void>('DELETE', `/admin/photos/${id}`));
-  }
-  news(): Promise<NewsItem[]> {
-    return this.client.get<{ items: NewsItem[] }>('/admin/news').then((r) => r.items);
-  }
-  saveNews(item: Omit<NewsItem, 'id'> & { id?: number }): Promise<NewsItem> {
-    return item.id
-      ? this.client.send<NewsItem>('PATCH', `/admin/news/${item.id}`, item)
-      : this.client.send<NewsItem>('POST', '/admin/news', item);
-  }
-  deleteNews(id: number): Promise<void> {
-    return this.client.send<void>('DELETE', `/admin/news/${id}`);
   }
 }

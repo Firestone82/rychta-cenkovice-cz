@@ -1,0 +1,49 @@
+<section class="a-card">
+  <header>
+    <button
+      type="button"
+      class="toggle"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="'photos-' + key()"
+      (click)="open.set(!open())"
+    >
+      <rc-icon name="right" />
+      <span class="name">{{ heading() }}</span>
+      <span class="count">{{ photos().length }}</span>
+    </button>
+    <div class="upload">
+      <input
+        #file
+        [id]="'upload-' + key()"
+        class="sr-only"
+        type="file"
+        accept="image/jpeg,image/png"
+        multiple
+        (change)="pick(file)"
+        [disabled]="busy()"
+      />
+      <label
+        [for]="'upload-' + key()"
+        class="btn btn-small btn-quiet"
+        [attr.aria-disabled]="busy() ? 'true' : null"
+        ><rc-icon name="plus" /> {{ progress() || t().admin.photos.upload
+        }}<span class="sr-only">: {{ heading() }}</span></label
+      >
+    </div>
+  </header>
+  @if (open()) {
+    <div [id]="'photos-' + key()" class="body">
+      @if (photos().length) {
+        <ul class="grid">
+          @for (p of photos(); track p.id) {
+            <li>
+              <rc-photo-card [photo]="p" (edit)="edit.emit(p)" (removed)="removed.emit(p.id)" />
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="empty">{{ t().admin.photos.empty }}</p>
+      }
+    </div>
+  }
+</section>

@@ -10,6 +10,7 @@ import { MessageCardComponent } from '@components/admin/message-card/message-car
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
 import type { Message } from '@models/api.model';
+import { ConfirmService } from '@services/confirm.service';
 import { SeoService } from '@services/seo.service';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import { ToastService } from '@services/toast.service';
@@ -26,6 +27,7 @@ export class MessagesPage {
   protected readonly t = this.i18n.t;
   private readonly api = inject(AdminApiService);
   private readonly toasts = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
 
   protected readonly box = signal<'' | 'archived'>('');
   protected readonly items = signal<Message[] | null>(null);
@@ -64,7 +66,8 @@ export class MessagesPage {
   }
 
   protected async remove(m: Message): Promise<void> {
-    if (!confirm(this.t().admin.messages.deleteConfirm)) return;
+    const text = this.t().admin.messages;
+    if (!(await this.confirm.ask(text.deleteConfirm, text.delete))) return;
     try {
       await this.api.deleteMessage(m.id);
       this.load();

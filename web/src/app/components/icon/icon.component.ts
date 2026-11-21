@@ -30,7 +30,6 @@ const PATHS = {
   home: 'M3 11 12 3l9 8M5 9.5V20h14V9.5',
   image: 'M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M8.5 9.5a1 1 0 1 0 0-.010',
   key: 'M14.5 9.5a4 4 0 1 0-5 5L3 21h4v-3h3v-3l1.5-1.5a4 4 0 0 0 3-4zM16 8h.010',
-  news: 'M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2M8 9h5M8 13h5',
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
 } as const;
 

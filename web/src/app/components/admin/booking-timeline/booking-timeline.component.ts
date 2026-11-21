@@ -1,41 +1,53 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 import type { Apartment, Booking } from '@models/api.model';
-import { I18nService } from '@services/i18n.service';
 import { todayISO } from '@utils/dates.util';
-import { monthBars, monthDays } from '@utils/timeline.util';
-import { TimelineHeadComponent } from './timeline-head/timeline-head.component';
 import { TimelineLegendComponent } from './timeline-legend/timeline-legend.component';
-import { TimelineRowComponent } from './timeline-row/timeline-row.component';
+import { TimelineMonthComponent } from './timeline-month/timeline-month.component';
+import { TimelineSelectionStore } from './timeline-selection.store';
 
 /**
- * A month as a timeline: one row per apartment, bookings as bars from the afternoon of
- * arrival to the morning of departure. Bars open the booking, free days start a new one.
+ * Months as timelines: one row per apartment, bookings as bars from the afternoon of
+ * arrival to the morning of departure. Bars open the booking, a free day starts a new one,
+ * and dragging over several days starts a new one for that stay, also across months.
  */
 @Component({
   selector: 'rc-booking-timeline',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TimelineHeadComponent, TimelineRowComponent, TimelineLegendComponent],
+  imports: [TimelineMonthComponent, TimelineLegendComponent],
+  providers: [TimelineSelectionStore],
   templateUrl: './booking-timeline.component.html',
   styleUrl: './booking-timeline.component.scss',
+  host: {
+    '(document:pointerup)': 'finish()',
+    '(document:pointercancel)': 'cancel()',
+    '(document:keydown.escape)': 'cancel()',
+  },
 })
 export class BookingTimelineComponent {
-  /** First day of the shown month as an ISO date. */
-  readonly month = input.required<string>();
-  /** One row per apartment. */
+  /** First days of the shown months as ISO dates, in the order they are stacked. */
+  readonly months = input.required<string[]>();
+  /** One row per apartment in every month. */
   readonly apartments = input.required<Apartment[]>();
-  /** Active bookings overlapping the month. */
+  /** Active bookings overlapping the months. */
   readonly bookings = input.required<Booking[]>();
-  /** Dims the timeline while another month is being loaded. */
+  /** Dims the timelines while other months are being loaded. */
   readonly loading = input(false);
 
-  protected readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.t;
   protected readonly today = todayISO();
-  protected readonly days = computed(() => monthDays(this.month(), this.i18n.locale()));
-  protected readonly rows = computed(() =>
-    this.apartments().map((apartment) => ({
-      apartment,
-      bars: monthBars(this.bookings(), apartment.id, this.month()),
-    })),
-  );
+  private readonly picking = inject(TimelineSelectionStore);
+  private readonly router = inject(Router);
+
+  /** A drag that stayed on one day is left to the link of that day. */
+  protected finish(): void {
+    const picked = this.picking.finish();
+    if (!picked || picked.from === picked.to) return;
+    void this.router.navigate(['/admin/bookings/new'], {
+      queryParams: { from: picked.from, to: picked.to, a: picked.apartment.number },
+    });
+  }
+
+  protected cancel(): void {
+    this.picking.finish();
+  }
 }

@@ -91,14 +91,6 @@ export interface Message {
   booking_id: number | null;
 }
 
-export interface NewsItem {
-  id: number;
-  title: L10n;
-  body: L10n;
-  published: boolean;
-  published_at: string;
-}
-
 export interface Dashboard {
   pending_bookings: number;
   new_messages: number;

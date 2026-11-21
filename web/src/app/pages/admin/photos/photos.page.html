@@ -3,6 +3,9 @@
     <h1>{{ t().admin.photos.title }}</h1>
     <p>{{ t().admin.photos.lead }}</p>
   </div>
+  <div class="a-actions">
+    <rc-tile-size [size]="size()" (sizeChange)="setSize($event)" />
+  </div>
 </div>
 
-<rc-photo-manager />
+<rc-photo-manager [size]="size()" />

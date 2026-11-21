@@ -1,0 +1,26 @@
+:host {
+  display: contents;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+form {
+  display: grid;
+  gap: 12px;
+}
+@media (max-width: 560px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

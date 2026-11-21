@@ -20,7 +20,6 @@ const PAGE_COMPONENTS: Record<PageKey, () => Promise<Type<unknown>>> = {
     import('./pages/availability/availability.page').then((m) => m.AvailabilityPage),
   booking: () => import('./pages/booking/booking.page').then((m) => m.BookingPage),
   contact: () => import('./pages/contact/contact.page').then((m) => m.ContactPage),
-  news: () => import('./pages/news/news.page').then((m) => m.NewsPage),
   privacy: () => import('./pages/privacy/privacy.page').then((m) => m.PrivacyPage),
 };
 

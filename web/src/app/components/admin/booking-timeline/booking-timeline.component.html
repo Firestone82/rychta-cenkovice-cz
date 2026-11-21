@@ -1,20 +1,11 @@
-<div
-  class="scroll"
-  tabindex="0"
-  role="region"
-  [attr.aria-label]="t().admin.calendar.title"
-  [class.is-loading]="loading()"
->
-  <div class="cal" [style.--days]="days().length">
-    <rc-timeline-head [days]="days()" [today]="today" />
-    @for (row of rows(); track row.apartment.id) {
-      <rc-timeline-row
-        [apartment]="row.apartment"
-        [bars]="row.bars"
-        [days]="days()"
-        [today]="today"
-      />
-    }
-  </div>
+<div class="months" [class.is-loading]="loading()">
+  @for (month of months(); track month) {
+    <rc-timeline-month
+      [month]="month"
+      [apartments]="apartments()"
+      [bookings]="bookings()"
+      [today]="today"
+    />
+  }
 </div>
 <rc-timeline-legend />

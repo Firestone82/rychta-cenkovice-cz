@@ -11,11 +11,10 @@ import { addMonths, startOfMonth, todayISO } from '@utils/dates.util';
   styleUrl: './month-switch.component.scss',
 })
 export class MonthSwitchComponent {
-  /** First day of the shown month as an ISO date. */
+  /** First day of the chosen month as an ISO date. */
   readonly month = model.required<string>();
 
-  protected readonly i18n = inject(I18nService);
-  protected readonly t = this.i18n.t;
+  protected readonly t = inject(I18nService).t;
   protected readonly thisMonth = startOfMonth(todayISO());
 
   protected move(by: number): void {

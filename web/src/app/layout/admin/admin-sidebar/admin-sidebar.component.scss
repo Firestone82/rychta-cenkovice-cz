@@ -7,9 +7,10 @@
   top: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
   height: 100dvh;
-  padding: 16px 10px 14px;
+  padding: 18px 12px 16px;
+  font-size: 0.9375rem;
   background: var(--slate);
   color: var(--snow);
   overflow-y: auto;
@@ -25,14 +26,15 @@
 
 .a-nav {
   display: grid;
-  gap: 1px;
+  gap: 2px;
 
   a {
     display: flex;
     align-items: center;
-    gap: 10px;
-    min-height: 34px;
-    padding: 0 10px;
+    gap: 12px;
+    min-height: 40px;
+    padding: 0 12px;
+    --icon: 1.35em;
     border-radius: var(--radius);
     color: #cfd6da;
     font-weight: 500;
@@ -74,7 +76,7 @@
   align-items: center;
   gap: 2px 8px;
   margin-top: auto;
-  padding: 12px 8px 0;
+  padding: 14px 8px 0;
   border-top: 1px solid rgba(243, 245, 244, 0.18);
 }
 
@@ -120,7 +122,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 30px;
+  min-height: 34px;
   padding: 0;
   border: 0;
   background: none;

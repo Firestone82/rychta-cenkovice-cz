@@ -7,7 +7,6 @@ import { BookingsModule } from './bookings/bookings.module.js';
 import { appConfig } from './config/app.config.js';
 import { DatabaseModule } from './database/database.module.js';
 import { MessagesModule } from './messages/messages.module.js';
-import { NewsModule } from './news/news.module.js';
 import { PhotosModule } from './photos/photos.module.js';
 import { SeedModule } from './seed/seed.module.js';
 import { SiteModule } from './site/site.module.js';
@@ -23,7 +22,6 @@ import { SiteModule } from './site/site.module.js';
     BookingsModule,
     MessagesModule,
     PhotosModule,
-    NewsModule,
     SeedModule,
   ],
 })

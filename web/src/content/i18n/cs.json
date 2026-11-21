@@ -65,7 +65,6 @@
     "availability": "Obsazenost",
     "contact": "Kontakt",
     "book": "Rezervovat",
-    "news": "Novinky",
     "privacy": "Ochrana osobních údajů",
     "commonRoom": "Společenská místnost",
     "facilities": "Zázemí objektu",
@@ -438,11 +437,6 @@
     "bookingHint": "Chcete rovnou rezervovat? Rychlejší je",
     "bookingHintLink": "rezervační formulář"
   },
-  "news": {
-    "title": "Novinky",
-    "lead": "Co je na Rychtě nového.",
-    "empty": "Zatím tu žádné novinky nejsou."
-  },
   "privacy": {
     "title": "Zásady ochrany osobních údajů",
     "updated": "Platné od 20. 11. 2026",
@@ -712,7 +706,6 @@
       "messages": "Zprávy",
       "apartments": "Apartmány",
       "photos": "Fotografie",
-      "news": "Novinky",
       "account": "Účet",
       "site": "Zobrazit web",
       "logout": "Odhlásit se"
@@ -817,7 +810,7 @@
     },
     "calendar": {
       "title": "Kalendář obsazenosti",
-      "hint": "Kliknutím na rezervaci ji otevřete. Kliknutím na volný den založíte novou."
+      "hint": "Kliknutím na rezervaci ji otevřete. Kliknutím na volný den založíte novou, tažením přes více dní rovnou zadáte celý pobyt."
     },
     "messages": {
       "title": "Zprávy z kontaktního formuláře",
@@ -876,10 +869,14 @@
     "photos": {
       "title": "Fotografie",
       "lead": "Fotografie se po nahrání samy zmenší do velikostí pro web.",
+      "size": "Velikost náhledů",
+      "sizes": {
+        "small": "Malé náhledy",
+        "medium": "Střední náhledy",
+        "large": "Velké náhledy"
+      },
       "upload": "Nahrát fotografie",
       "uploading": "Nahrávání {n} z {total}",
-      "category": "Kategorie",
-      "apartment": "Apartmán",
       "altCs": "Popis česky",
       "altEn": "Popis anglicky",
       "save": "Uložit popis",
@@ -888,22 +885,6 @@
       "empty": "V této kategorii nejsou žádné fotografie.",
       "failed": "Soubor {name} se nepodařilo nahrát. Podporujeme JPEG a PNG do 25 MB.",
       "edit": "Upravit popis"
-    },
-    "news": {
-      "title": "Novinky",
-      "new": "Nová novinka",
-      "edit": "Upravit novinku",
-      "titleCs": "Nadpis česky",
-      "titleEn": "Nadpis anglicky",
-      "bodyCs": "Text česky",
-      "bodyEn": "Text anglicky",
-      "date": "Datum",
-      "published": "Zveřejnit na webu",
-      "draft": "koncept",
-      "save": "Uložit novinku",
-      "delete": "Smazat",
-      "deleteConfirm": "Opravdu novinku smazat?",
-      "empty": "Zatím tu nejsou žádné novinky."
     },
     "account": {
       "title": "Účet",

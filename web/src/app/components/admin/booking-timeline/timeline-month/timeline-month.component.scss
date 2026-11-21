@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+.title {
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  line-height: 1;
+  text-transform: capitalize;
+}
+.scroll {
+  position: relative;
+  overflow-x: auto;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.cal {
+  min-width: 900px;
+}

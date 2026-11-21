@@ -13,7 +13,7 @@ Visitors browse the apartments, the shared spaces, trips and the photo gallery, 
 occupancy calendar and send a booking request for the apartments that are free on their
 dates. A request holds the dates until the owner confirms or declines it. The owner
 confirms requests, enters bookings by hand (from a phone call or from a contact-form
-message), blocks dates, and edits apartments, prices, photos and news.
+message), blocks dates, and edits apartments, prices and photos.
 
 ## Run it locally
 
@@ -101,17 +101,17 @@ Every component input and output carries a one-line description.
 
 The files are compiled into the build, so a change takes a rebuild, and
 `app/config/content.spec.ts` fails the tests when a language misses a key or `site.json`
-has a wrong shape. Apartments, prices, photos and news are edited in the administration
+has a wrong shape. Apartments, prices and photos are edited in the administration
 and come from the API.
 
 To add a language: copy `content/i18n/en.json` and translate it, add the language to
 `languages` and to every entry of `routes` in `content/site.json`, to the `Lang` type in
 `app/models/i18n.model.ts` and to `app/config/languages.config.ts`. Texts stored in the
-API (apartment texts, labels, news, photo descriptions) are Czech and English only.
+API (apartment texts, labels, photo descriptions) are Czech and English only.
 
 ### API (`api/src`)
 
-One folder per feature (`apartments`, `bookings`, `photos`, `messages`, `news`, `auth`,
+One folder per feature (`apartments`, `bookings`, `photos`, `messages`, `auth`,
 `users`, `forms`, `mail`, `site`, `seed`), each a NestJS module with its entity, request
 schemas, service and controllers. `common/` has the error format, validation helpers and
 the rate limiter, `config/` the typed settings, `database/` the TypeORM setup and the
@@ -300,10 +300,9 @@ documentation at `/api/docs` (JSON at `/api/docs-json`).
 | `POST /bookings` | booking request (`captcha_token` when hCaptcha is on) |
 | `POST /contact` | contact form (`captcha_token` when hCaptcha is on) |
 | `GET /photos?category&apartment&offset&limit`, `GET /photos/covers` | gallery, paged |
-| `GET /news` | published news |
 | `POST /auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/change-password`, `GET /auth/me` | session |
 | `GET /admin/dashboard` | counts, arrivals, departures, pending requests |
-| `/admin/bookings`, `/admin/messages`, `/admin/apartments`, `/admin/photos`, `/admin/news` | management (Bearer token) |
+| `/admin/bookings`, `/admin/messages`, `/admin/apartments`, `/admin/photos` | management (Bearer token) |
 
 ## Things to finish before going live
 

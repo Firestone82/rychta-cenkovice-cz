@@ -1,0 +1,28 @@
+:host {
+  display: contents;
+}
+
+/* Four squares drawn at the size they stand for. */
+.glyph {
+  display: grid;
+  grid-template-columns: repeat(2, var(--dot));
+  gap: 2px;
+  place-content: center;
+  width: 18px;
+  height: 18px;
+
+  i {
+    width: var(--dot);
+    height: var(--dot);
+    background: currentColor;
+  }
+}
+.glyph[data-size='small'] {
+  --dot: 3px;
+}
+.glyph[data-size='medium'] {
+  --dot: 5px;
+}
+.glyph[data-size='large'] {
+  --dot: 8px;
+}

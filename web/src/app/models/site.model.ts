@@ -30,7 +30,6 @@ export type PageKey =
   | 'availability'
   | 'booking'
   | 'contact'
-  | 'news'
   | 'privacy';
 
 /** Shape of content/site.json. */

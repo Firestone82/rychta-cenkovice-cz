@@ -1,0 +1,15 @@
+<div class="a-seg" role="group" [attr.aria-label]="t().admin.photos.size">
+  @for (s of sizes; track s) {
+    <button
+      type="button"
+      [attr.aria-pressed]="size() === s"
+      [attr.aria-label]="t().admin.photos.sizes[s]"
+      [title]="t().admin.photos.sizes[s]"
+      (click)="size.set(s)"
+    >
+      <span class="glyph" [attr.data-size]="s" aria-hidden="true"
+        ><i></i><i></i><i></i><i></i
+      ></span>
+    </button>
+  }
+</div>

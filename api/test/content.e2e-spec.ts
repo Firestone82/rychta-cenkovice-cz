@@ -23,7 +23,7 @@ const image = (width: number, height: number) =>
     .png()
     .toBuffer();
 
-describe('Apartments, photos and news', () => {
+describe('Apartments and photos', () => {
   let t: TestApp;
   let mediaDir: string;
 
@@ -248,57 +248,6 @@ describe('Apartments, photos and news', () => {
       expect(existsSync(join(mediaDir, `${photo.file}-480.jpg`))).toBe(false);
       await t.agent.get(`/media/${photo.file}-480.jpg`).expect(404);
       await t.call('delete', `/admin/photos/${photo.id}`).expect(404);
-    });
-  });
-
-  describe('news', () => {
-    let id: number;
-
-    it('keeps a draft away from the website until it is published', async () => {
-      const draft = await t
-        .call('post', '/admin/news')
-        .send({
-          title: { cs: 'Sezóna začíná', en: '' },
-          body: { cs: 'Vleky jedou od soboty.', en: '' },
-        })
-        .expect(201);
-      id = (draft.body as { id: number }).id;
-      expect(draft.body).toMatchObject({ published: false });
-      expect(
-        ((await t.call('get', '/news').expect(200)).body as { items: unknown[] }).items,
-      ).toEqual([]);
-
-      const published = await t
-        .call('patch', `/admin/news/${id}`)
-        .send({
-          title: { cs: 'Sezóna začíná', en: 'The season starts' },
-          body: { cs: 'Vleky jedou od soboty.', en: 'Lifts run from Saturday.' },
-          published: true,
-          published_at: '2026-12-05',
-        })
-        .expect(200);
-      expect(published.body).toMatchObject({ published: true, published_at: '2026-12-05' });
-      const news = await t.stranger('get', '/news').expect(200);
-      expect((news.body as { items: unknown[] }).items).toEqual([published.body]);
-    });
-
-    it('needs a Czech title and text, and a real date', async () => {
-      const res = await t
-        .call('post', '/admin/news')
-        .send({ title: { cs: '', en: 'Only English' }, published_at: '5. 12. 2026' })
-        .expect(422);
-      expect(fields(res)).toEqual({
-        title_cs: 'required',
-        body_cs: 'required',
-        published_at: 'invalid',
-      });
-    });
-
-    it('deletes an item', async () => {
-      await t.call('delete', `/admin/news/${id}`).expect(204);
-      expect(
-        ((await t.call('get', '/admin/news').expect(200)).body as { items: unknown[] }).items,
-      ).toEqual([]);
     });
   });
 });

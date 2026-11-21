@@ -1,105 +1,130 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-  untracked,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
+import type { TileSize } from '@components/admin/tile-size/tile-size.component';
 import type { Apartment, Photo } from '@models/api.model';
-import type { PhotoCategory } from '@models/photo-category.model';
+import { PHOTO_CATEGORIES, type PhotoCategory } from '@models/photo-category.model';
 import { AdminApiService } from '@services/admin-api.service';
 import { I18nService } from '@services/i18n.service';
-import { PhotoCardComponent } from './photo-card/photo-card.component';
-import { PhotoTargetComponent } from './photo-target/photo-target.component';
+import { readStored, writeStored } from '@utils/storage.util';
+import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
+import { PhotoSectionComponent } from './photo-section/photo-section.component';
 
+/** A row of the page: one gallery category, or the photos of one apartment. */
+interface PhotoGroup {
+  key: string;
+  heading: string;
+  category: PhotoCategory;
+  apartmentId: number | null;
+  photos: Photo[];
+}
+
+const COLLAPSED_KEY = 'rc_admin_photo_rows';
+
+/**
+ * All photos of the site in collapsible rows, one per category and one per apartment.
+ * Each row uploads into itself; descriptions are edited in a window over the page.
+ */
 @Component({
   selector: 'rc-photo-manager',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpinnerComponent, PhotoTargetComponent, PhotoCardComponent],
+  imports: [SpinnerComponent, PhotoSectionComponent, PhotoEditorComponent],
   templateUrl: './photo-manager.component.html',
   styleUrl: './photo-manager.component.scss',
 })
 export class PhotoManagerComponent {
+  /** Size of the photo tiles. */
+  readonly size = input<TileSize>('medium');
+
   protected readonly i18n = inject(I18nService);
   protected readonly t = this.i18n.t;
-  protected readonly category = signal<PhotoCategory>('house');
-  protected readonly apartments = signal<Apartment[]>([]);
-  protected readonly apartmentId = signal(0);
-  protected readonly items = signal<Photo[] | null>(null);
+  protected readonly photos = signal<Photo[] | null>(null);
   protected readonly failed = signal(false);
   protected readonly problems = signal<string[]>([]);
+  protected readonly editing = signal<Photo | null>(null);
+  protected readonly collapsed = signal(readStored<string[]>(COLLAPSED_KEY, []));
+  protected readonly uploading = signal<{ key: string; n: number; total: number } | null>(null);
   protected readonly progress = computed(() => {
     const u = this.uploading();
     return u ? this.i18n.fill(this.t().admin.photos.uploading, u) : '';
   });
+  protected readonly groups = computed(() =>
+    PHOTO_CATEGORIES.flatMap((category) =>
+      category === 'apartment'
+        ? this.apartments().map((a) => this.group(category, a))
+        : [this.group(category, null)],
+    ),
+  );
 
   private readonly api = inject(AdminApiService);
-  private readonly uploading = signal<{ n: number; total: number } | null>(null);
+  private readonly apartments = signal<Apartment[]>([]);
 
   constructor() {
     this.api.apartments().then(
-      (list) => {
-        this.apartments.set(list);
-        if (list.length) this.apartmentId.set(list[0].id);
-      },
+      (list) => this.apartments.set(list),
       () => undefined,
     );
-    effect(() => {
-      this.category();
-      this.apartmentId();
-      untracked(() => this.load());
-    });
+    void this.load();
   }
 
-  protected async upload(files: File[]): Promise<void> {
-    const target = this.target();
+  protected setOpen(key: string, open: boolean): void {
+    this.collapsed.update((keys) => (open ? keys.filter((k) => k !== key) : [...keys, key]));
+    writeStored(COLLAPSED_KEY, this.collapsed());
+  }
+
+  protected async upload(group: PhotoGroup, files: File[]): Promise<void> {
     const problems: string[] = [];
     for (const [i, file] of files.entries()) {
-      this.uploading.set({ n: i + 1, total: files.length });
+      this.uploading.set({ key: group.key, n: i + 1, total: files.length });
       try {
-        await this.api.uploadPhoto(file, target.category, target.apartment ?? null);
+        await this.api.uploadPhoto(file, group.category, group.apartmentId);
       } catch {
         problems.push(this.i18n.fill(this.t().admin.photos.failed, { name: file.name }));
       }
     }
     this.uploading.set(null);
     this.problems.set(problems);
-    this.load();
+    await this.load();
   }
 
   protected replace(saved: Photo): void {
-    this.items.update((list) => (list ?? []).map((x) => (x.id === saved.id ? saved : x)));
+    this.photos.update((list) => (list ?? []).map((x) => (x.id === saved.id ? saved : x)));
+    this.editing.set(null);
   }
 
   protected drop(id: number): void {
-    this.items.update((list) => (list ?? []).filter((x) => x.id !== id));
+    this.photos.update((list) => (list ?? []).filter((x) => x.id !== id));
   }
 
-  private target(): { category: PhotoCategory; apartment: number | undefined } {
-    const category = this.category();
+  private group(category: PhotoCategory, apartment: Apartment | null): PhotoGroup {
+    const all = this.photos() ?? [];
     return {
+      key: apartment ? `apartment-${apartment.id}` : category,
+      heading: apartment
+        ? `${this.t().common.apartment} ${apartment.number}`
+        : this.t().gallery.categories[category],
       category,
-      apartment: category === 'apartment' ? this.apartmentId() || undefined : undefined,
+      apartmentId: apartment?.id ?? null,
+      photos: all.filter(
+        (p) => p.category === category && (!apartment || p.apartment_id === apartment.id),
+      ),
     };
   }
 
-  private load(): void {
-    const target = this.target();
-    if (target.category === 'apartment' && !target.apartment) return;
-    this.api.photos(target).then(
-      (page) => {
-        const now = this.target();
-        if (now.category !== target.category || now.apartment !== target.apartment) return;
-        this.failed.set(false);
-        this.items.set(page.items);
-      },
-      () => {
-        this.failed.set(true);
-        this.items.set([]);
-      },
-    );
+  /** The API hands the photos out in pages; the rows need all of them. */
+  private async load(): Promise<void> {
+    try {
+      const all: Photo[] = [];
+      let total = Infinity;
+      while (all.length < total) {
+        const page = await this.api.photos({ offset: all.length });
+        if (!page.items.length) break;
+        all.push(...page.items);
+        total = page.total;
+      }
+      this.photos.set(all);
+      this.failed.set(false);
+    } catch {
+      this.failed.set(true);
+    }
   }
 }
