@@ -47,6 +47,10 @@
     "widths": [480, 960],
     "height": 360
   },
+  "trip-castolovice": {
+    "widths": [480, 960],
+    "height": 360
+  },
   "trip-dolni-morava": {
     "widths": [480, 960],
     "height": 360
@@ -63,6 +67,10 @@
     "widths": [346],
     "height": 260
   },
+  "trip-krizova-hora": {
+    "widths": [177],
+    "height": 133
+  },
   "trip-litomysl": {
     "widths": [480, 960],
     "height": 360
@@ -74,6 +82,10 @@
   "trip-suchy-vrch": {
     "widths": [480, 960],
     "height": 360
+  },
+  "trip-zamberk": {
+    "widths": [194],
+    "height": 146
   },
   "trip-zemska-brana": {
     "widths": [480, 565],

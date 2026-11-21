@@ -27,10 +27,10 @@ def crop(img, ratio, fx=0.5, fy=0.5):
     y = min(max(int(h * fy - nh / 2), 0), h - nh)
     return img.crop((0, y, w, y + nh))
 
-def build(name, source, ratio, widths, fx=0.5, fy=0.5, quality=78):
+def build(name, source, ratio, widths, fx=0.5, fy=0.5, quality=78, min_width=320):
     img = ImageOps.exif_transpose(Image.open(SRC / source)).convert("RGB")
     img = crop(img, ratio, fx, fy)
-    if img.size[0] < 320:
+    if img.size[0] < min_width:
         print(f"skipped {name}: the original is only {img.size[0]} px wide")
         return
     for old in OUT.glob(f"{name}-*.webp"):
@@ -74,9 +74,18 @@ TRIPS = {
     "bukova-hora": "zima/zima-sjezdovky.jpg",
     "bouda": "vylety/bouda.jpg",
     "hurka": "hurka.jpg",
+    "castolovice": "vylety/castalovice-2.jpg",
 }
 for name, src in TRIPS.items():
     build(f"trip-{name}", src, 4 / 3, [480, 960])
+
+# The original site only has small versions of these, shown below their thumbnail size.
+SMALL_TRIPS = {
+    "krizova-hora": ("vylety/krizova-hora.jpg", 0.5),
+    "zamberk": ("vylety/zamberk-park.jpg", 0.72),
+}
+for name, (src, fy) in SMALL_TRIPS.items():
+    build(f"trip-{name}", src, 4 / 3, [480], fy=fy, min_width=160)
 
 # Wide images: the house from the air (video poster, social preview) and the village.
 build("house-aerial", "galerie/001.jpg", 16 / 9, [960, 1920])

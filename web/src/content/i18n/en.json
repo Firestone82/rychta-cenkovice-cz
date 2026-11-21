@@ -569,19 +569,23 @@
     {
       "name": "Křížová hora lookout tower",
       "km": 14,
+      "img": "krizova-hora",
       "text": "Above Červená Voda, about 19 minutes by car. A Way of the Cross and a concrete lookout tower."
     },
     {
       "name": "Val lookout tower",
-      "km": 18
+      "km": 18,
+      "text": "On Val hill by Dolní Hedeč, about 3 km from Králíky. A telecommunications tower with a viewing gallery 22 m up, reached by 102 steps. Open all year."
     },
     {
       "name": "Museum of Crafts, Letohrad",
-      "km": 18
+      "km": 18,
+      "text": "The largest crafts museum in Czechia, in the Nový dvůr farmstead from 1750. Dozens of workshops and trades from 1840 to 1930, a moving model with carved figures of craftsmen, a frame sawmill and an old school classroom. Craft Saturdays with demonstrations and children’s workshops in summer."
     },
     {
       "name": "Babiččin statek farm",
-      "km": 19
+      "km": 19,
+      "text": "A farm in Líšnice in the foothills of the Orlické hory. Farm animals, a nature trail and playgrounds for children. Open in season."
     },
     {
       "name": "Hora Matky Boží monastery (Hedeč)",
@@ -592,15 +596,18 @@
     {
       "name": "Žamberk",
       "km": 23,
+      "img": "zamberk",
       "text": "Outdoor pool, Museum of Steam Engines and Cars, castle park."
     },
     {
       "name": "Pastviny reservoir",
-      "km": 24
+      "km": 24,
+      "text": "A reservoir on the Divoká Orlice, built from 1932 to 1938, with one of the last hand-built stone dams in Bohemia. Free swimming in summer, with campsites and restaurants by the water."
     },
     {
       "name": "Klepáč lookout tower",
-      "km": 24
+      "km": 24,
+      "text": "The Three Seas summit (1,145 m) on the Polish border, where the Baltic, North Sea and Black Sea watersheds meet. The lookout tower, built in 2009 and 2010 with a platform 22 m up, stands a few metres inside Poland."
     },
     {
       "name": "Dolní Morava",
@@ -635,6 +642,12 @@
       "name": "Nové Hrady château near Litomyšl",
       "km": null,
       "text": "Nicknamed the Czech Versailles. A château tour, gardens with mazes and a garden theatre, the Museum of Cycling and the Museum of Hats."
+    },
+    {
+      "name": "Častolovice château",
+      "km": null,
+      "img": "castolovice",
+      "text": "A Renaissance château still lived in by the Sternberg family. Guided tours of the interiors in season. A park in the Bělá valley, open all year, where white fallow deer roam freely, and an animal enclosure with llamas, alpacas and ponies."
     }
   ],
   "resorts": [
@@ -660,11 +673,13 @@
     {
       "name": "Hůrka fortress",
       "km": 16,
-      "img": "hurka"
+      "img": "hurka",
+      "text": "An artillery fortress on the northern edge of Králíky, built from 1935 to 1938 and open to the public since 2008. Guided tours only; the main underground route is about 1.4 km long and takes over an hour. Includes an exhibition on Czechoslovak paratroopers."
     },
     {
       "name": "Military Museum Králíky",
-      "km": 17
+      "km": 17,
+      "text": "In Prostřední Lipka near Králíky. An exhibition hall on the history of the Czechoslovak army from the First World War to today: tanks, self-propelled and field guns, infantry fighting vehicles and a replica of an interwar army barrack room. Tank rides in summer."
     },
     {
       "name": "Dolní Morava",
@@ -680,7 +695,8 @@
     {
       "name": "3D map of the bike region",
       "km": null,
-      "url": "https://www.bikeregion.cz/3d-mapa/"
+      "url": "https://www.bikeregion.cz/3d-mapa/",
+      "text": "An interactive 3D map of the bike routes and trails around. Handy for planning a ride."
     }
   ],
   "admin": {

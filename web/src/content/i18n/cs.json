@@ -574,19 +574,23 @@
     {
       "name": "Rozhledna Křížová hora",
       "km": 14,
+      "img": "krizova-hora",
       "text": "Nad Červenou Vodou, autem asi 19 minut. Křížová cesta a betonová rozhledna."
     },
     {
       "name": "Rozhledna Val",
-      "km": 18
+      "km": 18,
+      "text": "Na vrchu Val u Dolní Hedeče, asi 3 km od Králík. Telekomunikační věž s vyhlídkovým ochozem ve výšce 22 metrů, nahoru vede 102 schodů. Volně přístupná celý rok."
     },
     {
       "name": "Muzeum řemesel Letohrad",
-      "km": 18
+      "km": 18,
+      "text": "Největší muzeum řemesel v Česku, v areálu Nový dvůr z roku 1750. Desítky dílen a provozů z let 1840 až 1930, pohyblivý model s vyřezávanými figurkami řemeslníků, pila s katry a stará školní třída. V létě řemeslné soboty s ukázkami a dílnami pro děti."
     },
     {
       "name": "Babiččin statek",
-      "km": 19
+      "km": 19,
+      "text": "Statek v Líšnici v podhůří Orlických hor. Domácí zvířata, naučná stezka a hřiště pro děti. Otevřeno v sezóně."
     },
     {
       "name": "Klášter Hora Matky Boží (Hedeč)",
@@ -597,15 +601,18 @@
     {
       "name": "Žamberk",
       "km": 23,
+      "img": "zamberk",
       "text": "Koupaliště, Muzeum parních strojů a aut, zámecký park."
     },
     {
       "name": "Přehrada Pastviny",
-      "km": 24
+      "km": 24,
+      "text": "Přehrada na Divoké Orlici z let 1932 až 1938 s jednou z posledních ručně stavěných kamenných hrází v Čechách. V létě koupání zdarma, u vody kempy a restaurace."
     },
     {
       "name": "Rozhledna Klepáč",
-      "km": 24
+      "km": 24,
+      "text": "Trojmořský vrch (1 145 m) na hranici s Polskem, kde se dělí povodí Baltského, Severního a Černého moře. Rozhledna z let 2009 až 2010 s vyhlídkou ve 22 metrech stojí pár metrů za hranicí na polské straně."
     },
     {
       "name": "Dolní Morava",
@@ -640,6 +647,12 @@
       "name": "Zámek Nové Hrady u Litomyšle",
       "km": null,
       "text": "Přezdívá se mu České Versailles. Prohlídka zámku, zahrady s labyrinty a zahradním divadlem, Muzeum cyklistiky a Muzeum klobouků."
+    },
+    {
+      "name": "Zámek Častolovice",
+      "km": null,
+      "img": "castolovice",
+      "text": "Renesanční zámek, který dodnes obývá rodina Šternberků. V sezóně prohlídky interiérů s průvodcem. Celoročně otevřený park v údolí Bělé, kde volně žijí bílí daňci, a zvěřinec s lamami, alpakami a poníky."
     }
   ],
   "resorts": [
@@ -665,11 +678,13 @@
     {
       "name": "Tvrz Hůrka",
       "km": 16,
-      "img": "hurka"
+      "img": "hurka",
+      "text": "Dělostřelecká tvrz na severním okraji Králík z let 1935 až 1938, veřejnosti otevřená od roku 2008. Prohlídky jen s průvodcem, hlavní okruh podzemím měří asi 1,4 km a trvá přes hodinu. Součástí je expozice o československých parašutistech."
     },
     {
       "name": "Vojenské muzeum Králíky",
-      "km": 17
+      "km": 17,
+      "text": "V Prostřední Lipce u Králík. Výstavní hala o historii československé armády od 1. světové války po současnost: tanky, samohybná a polní děla, bojová vozidla pěchoty a replika prvorepublikové vojenské ubikace. V létě jízdy tankem."
     },
     {
       "name": "Dolní Morava",
@@ -685,7 +700,8 @@
     {
       "name": "3D mapa cykloregionu",
       "km": null,
-      "url": "https://www.bikeregion.cz/3d-mapa/"
+      "url": "https://www.bikeregion.cz/3d-mapa/",
+      "text": "Interaktivní mapa cyklotras a trailů v okolí v 3D. Hodí se k naplánování výletu na kole."
     }
   ],
   "admin": {
